@@ -1,0 +1,436 @@
+{
+  "name": "palmclaw-synthetic-memory",
+  "version": "1.0.0",
+  "description": "Synthetic and non-identifying Phase 5 memory, retrieval, conflict, and privacy cases.",
+  "cases": [
+    {
+      "id": "editor_preference",
+      "tags": ["extraction", "retrieval", "global"],
+      "transcript": [
+        {"role": "user", "content": "I prefer Neovim as my editor."}
+      ],
+      "candidates": [
+        {
+          "subject": "user",
+          "predicate": "preferred_editor",
+          "value": "Neovim",
+          "scope": "global",
+          "memory_type": "preference",
+          "confidence": 0.97,
+          "sensitivity": "low",
+          "evidence": [
+            {
+              "message_index": 0,
+              "quote": "I prefer Neovim as my editor."
+            }
+          ]
+        }
+      ],
+      "initial_memories": [],
+      "gold_memories": [
+        {
+          "subject": "user",
+          "predicate": "preferred_editor",
+          "value": "Neovim",
+          "scope": "global"
+        }
+      ],
+      "candidate_expectations": [
+        {
+          "subject": "user",
+          "predicate": "preferred_editor",
+          "decision": "accept"
+        }
+      ],
+      "query": "Which editor do I prefer, Neovim or Emacs?",
+      "relevant_facts": [
+        {"subject": "user", "predicate": "preferred_editor"}
+      ],
+      "privacy_spans": []
+    },
+    {
+      "id": "project_decision",
+      "tags": ["extraction", "retrieval", "session"],
+      "transcript": [
+        {
+          "role": "user",
+          "content": "For project Apollo, we decided to use SQLite."
+        }
+      ],
+      "candidates": [
+        {
+          "subject": "project_apollo",
+          "predicate": "database",
+          "value": "SQLite",
+          "scope": "session",
+          "memory_type": "decision",
+          "confidence": 0.96,
+          "sensitivity": "low",
+          "evidence": [
+            {
+              "message_index": 0,
+              "quote": "For project Apollo, we decided to use SQLite."
+            }
+          ]
+        }
+      ],
+      "initial_memories": [],
+      "gold_memories": [
+        {
+          "subject": "project_apollo",
+          "predicate": "database",
+          "value": "SQLite",
+          "scope": "session"
+        }
+      ],
+      "candidate_expectations": [
+        {
+          "subject": "project_apollo",
+          "predicate": "database",
+          "decision": "accept"
+        }
+      ],
+      "query": "What database did project Apollo choose?",
+      "relevant_facts": [
+        {"subject": "project_apollo", "predicate": "database"}
+      ],
+      "privacy_spans": []
+    },
+    {
+      "id": "unsupported_hallucination",
+      "tags": ["gate", "unsupported"],
+      "transcript": [
+        {"role": "user", "content": "I enjoy hiking every weekend."}
+      ],
+      "candidates": [
+        {
+          "subject": "user",
+          "predicate": "outdoor_activity",
+          "value": "hiking",
+          "scope": "global",
+          "memory_type": "preference",
+          "confidence": 0.94,
+          "sensitivity": "low",
+          "evidence": [
+            {
+              "message_index": 0,
+              "quote": "I enjoy hiking every weekend."
+            }
+          ]
+        },
+        {
+          "subject": "user",
+          "predicate": "favorite_food",
+          "value": "sushi",
+          "scope": "global",
+          "memory_type": "preference",
+          "confidence": 0.91,
+          "sensitivity": "low",
+          "evidence": [
+            {
+              "message_index": 0,
+              "quote": "I enjoy hiking every weekend."
+            }
+          ]
+        }
+      ],
+      "initial_memories": [],
+      "gold_memories": [
+        {
+          "subject": "user",
+          "predicate": "outdoor_activity",
+          "value": "hiking",
+          "scope": "global"
+        }
+      ],
+      "candidate_expectations": [
+        {
+          "subject": "user",
+          "predicate": "outdoor_activity",
+          "decision": "accept"
+        },
+        {
+          "subject": "user",
+          "predicate": "favorite_food",
+          "decision": "reject"
+        }
+      ],
+      "query": "What outdoor activity do I enjoy?",
+      "relevant_facts": [
+        {"subject": "user", "predicate": "outdoor_activity"}
+      ],
+      "privacy_spans": []
+    },
+    {
+      "id": "unresolved_conflict",
+      "tags": ["gate", "conflict", "review"],
+      "transcript": [
+        {"role": "user", "content": "I prefer VS Code as my editor."}
+      ],
+      "candidates": [
+        {
+          "subject": "user",
+          "predicate": "preferred_editor",
+          "value": "VS Code",
+          "scope": "global",
+          "memory_type": "preference",
+          "confidence": 0.95,
+          "sensitivity": "low",
+          "evidence": [
+            {
+              "message_index": 0,
+              "quote": "I prefer VS Code as my editor."
+            }
+          ]
+        }
+      ],
+      "initial_memories": [
+        {
+          "subject": "user",
+          "predicate": "preferred_editor",
+          "value": "Neovim",
+          "scope": "global",
+          "memory_type": "preference",
+          "confidence": 0.98,
+          "sensitivity": "low"
+        }
+      ],
+      "gold_memories": [
+        {
+          "subject": "user",
+          "predicate": "preferred_editor",
+          "value": "Neovim",
+          "scope": "global"
+        }
+      ],
+      "candidate_expectations": [
+        {
+          "subject": "user",
+          "predicate": "preferred_editor",
+          "decision": "review"
+        }
+      ],
+      "query": "Which editor preference is currently verified?",
+      "relevant_facts": [
+        {"subject": "user", "predicate": "preferred_editor"}
+      ],
+      "privacy_spans": []
+    },
+    {
+      "id": "explicit_update",
+      "tags": ["gate", "conflict", "supersede"],
+      "transcript": [
+        {
+          "role": "user",
+          "content": "I changed my preferred editor to VS Code."
+        }
+      ],
+      "candidates": [
+        {
+          "subject": "user",
+          "predicate": "preferred_editor",
+          "value": "VS Code",
+          "scope": "global",
+          "memory_type": "preference",
+          "confidence": 0.97,
+          "sensitivity": "low",
+          "evidence": [
+            {
+              "message_index": 0,
+              "quote": "I changed my preferred editor to VS Code."
+            }
+          ]
+        }
+      ],
+      "initial_memories": [
+        {
+          "subject": "user",
+          "predicate": "preferred_editor",
+          "value": "Neovim",
+          "scope": "global",
+          "memory_type": "preference",
+          "confidence": 0.98,
+          "sensitivity": "low"
+        }
+      ],
+      "gold_memories": [
+        {
+          "subject": "user",
+          "predicate": "preferred_editor",
+          "value": "VS Code",
+          "scope": "global"
+        }
+      ],
+      "candidate_expectations": [
+        {
+          "subject": "user",
+          "predicate": "preferred_editor",
+          "decision": "supersede"
+        }
+      ],
+      "query": "Which editor do I prefer now?",
+      "relevant_facts": [
+        {"subject": "user", "predicate": "preferred_editor"}
+      ],
+      "privacy_spans": []
+    },
+    {
+      "id": "synthetic_contact_pii",
+      "tags": ["privacy", "review"],
+      "transcript": [
+        {
+          "role": "user",
+          "content": "My synthetic test email is alice@example.test."
+        }
+      ],
+      "candidates": [
+        {
+          "subject": "user",
+          "predicate": "contact_email",
+          "value": "alice@example.test",
+          "scope": "global",
+          "memory_type": "profile",
+          "confidence": 0.99,
+          "sensitivity": "high",
+          "evidence": [
+            {
+              "message_index": 0,
+              "quote": "My synthetic test email is alice@example.test."
+            }
+          ]
+        }
+      ],
+      "initial_memories": [],
+      "gold_memories": [],
+      "candidate_expectations": [
+        {
+          "subject": "user",
+          "predicate": "contact_email",
+          "decision": "review"
+        }
+      ],
+      "query": "What contact information is stored?",
+      "relevant_facts": [],
+      "privacy_spans": [
+        {
+          "message_index": 0,
+          "category": "email",
+          "text": "alice@example.test"
+        }
+      ]
+    },
+    {
+      "id": "retrieval_distractors",
+      "tags": ["retrieval", "top-k"],
+      "transcript": [
+        {"role": "user", "content": "My coding language is Python."},
+        {"role": "user", "content": "My favorite food is sushi."},
+        {"role": "user", "content": "My outdoor activity is hiking."}
+      ],
+      "candidates": [
+        {
+          "subject": "user",
+          "predicate": "coding_language",
+          "value": "Python",
+          "scope": "global",
+          "memory_type": "preference",
+          "confidence": 0.96,
+          "sensitivity": "low",
+          "evidence": [
+            {
+              "message_index": 0,
+              "quote": "My coding language is Python."
+            }
+          ]
+        },
+        {
+          "subject": "user",
+          "predicate": "favorite_food",
+          "value": "sushi",
+          "scope": "global",
+          "memory_type": "preference",
+          "confidence": 0.96,
+          "sensitivity": "low",
+          "evidence": [
+            {
+              "message_index": 1,
+              "quote": "My favorite food is sushi."
+            }
+          ]
+        },
+        {
+          "subject": "user",
+          "predicate": "outdoor_activity",
+          "value": "hiking",
+          "scope": "global",
+          "memory_type": "preference",
+          "confidence": 0.96,
+          "sensitivity": "low",
+          "evidence": [
+            {
+              "message_index": 2,
+              "quote": "My outdoor activity is hiking."
+            }
+          ]
+        }
+      ],
+      "initial_memories": [],
+      "gold_memories": [
+        {
+          "subject": "user",
+          "predicate": "coding_language",
+          "value": "Python",
+          "scope": "global"
+        },
+        {
+          "subject": "user",
+          "predicate": "favorite_food",
+          "value": "sushi",
+          "scope": "global"
+        },
+        {
+          "subject": "user",
+          "predicate": "outdoor_activity",
+          "value": "hiking",
+          "scope": "global"
+        }
+      ],
+      "candidate_expectations": [
+        {
+          "subject": "user",
+          "predicate": "coding_language",
+          "decision": "accept"
+        },
+        {
+          "subject": "user",
+          "predicate": "favorite_food",
+          "decision": "accept"
+        },
+        {
+          "subject": "user",
+          "predicate": "outdoor_activity",
+          "decision": "accept"
+        }
+      ],
+      "query": "Which coding language do I use for Python projects?",
+      "relevant_facts": [
+        {"subject": "user", "predicate": "coding_language"}
+      ],
+      "privacy_spans": []
+    },
+    {
+      "id": "transient_request",
+      "tags": ["negative", "no-memory"],
+      "transcript": [
+        {"role": "user", "content": "What time is it right now?"}
+      ],
+      "candidates": [],
+      "initial_memories": [],
+      "gold_memories": [],
+      "candidate_expectations": [],
+      "query": "What durable preference was stated?",
+      "relevant_facts": [],
+      "privacy_spans": []
+    }
+  ]
+}

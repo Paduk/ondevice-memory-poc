@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "palmclaw-ubuntu"
+version = "0.1.0"
+description = "Ubuntu CLI research runtime derived from PalmClaw's agent architecture"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = { text = "AGPL-3.0-only" }
+dependencies = [
+    "httpx>=0.28,<1",
+    "jsonschema>=4.23,<5",
+    "openai>=2,<3",
+    "pydantic>=2,<3",
+    "tiktoken>=0.9,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8,<10",
+    "pytest-cov>=6,<8",
+    "ruff>=0.12,<1",
+]
+
+[project.scripts]
+palmclaw = "palmclaw_ubuntu.cli:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+palmclaw_ubuntu = [
+    "builtin_skills/*/SKILL.md",
+    "evaluation_datasets/*.json",
+    "migrations/*.sql",
+    "vehicle_bench/data/*.json",
+]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]

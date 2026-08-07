@@ -1,0 +1,61 @@
+{
+  "version": "vehiclemembench-ontology-matcher-labels-v1",
+  "benchmark": {
+    "dataset_sha256": "d745b359794da1540431d05bcf6ea6ff4d75308dfa4f672e51875deb731cf88c",
+    "tool_schema_sha256": "e3cdccaae3745495c74635c758833b330ba341e9ba52c8f9fd3abe472197cf83",
+    "ontology_sha256": "702d797805809b906f8b612549e78c0995c7bc70a543f4b177c4691eb7276eb1"
+  },
+  "scenario_index": 6,
+  "cases": [
+    {
+      "task_id": "vehicle-06-00",
+      "evidence_quote": "I need to focus on this presentation, keep the music low. Setting the volume to 15.",
+      "expected_tool_name": "carcontrol_music_set_volume"
+    },
+    {
+      "task_id": "vehicle-06-01",
+      "evidence_quote": "Sure, let me increase the brightness to ninety. There we go—much better.",
+      "expected_tool_name": "carcontrol_centerInformationDisplay_set_brightness"
+    },
+    {
+      "task_id": "vehicle-06-02",
+      "evidence_quote": "When I'm brainstorming creative ideas, I need the ambient light to be Purple. It stimulates my imagination.",
+      "expected_tool_name": "carcontrol_light_set_ambient_color"
+    },
+    {
+      "task_id": "vehicle-06-03",
+      "evidence_quote": "Whenever we are on these dirt roads, we must use Inside circulation to keep the dust out.",
+      "expected_tool_name": "carcontrol_airConditioner_set_circulation"
+    },
+    {
+      "task_id": "vehicle-06-04",
+      "evidence_quote": "I prefer the map in 2D mode to see the field boundaries clearly.",
+      "expected_tool_name": "carcontrol_navigation_set_map_view"
+    },
+    {
+      "task_id": "vehicle-06-05",
+      "evidence_quote": "I want to watch the drone footage of the farm. High definition is a waste of data out here, just use 480p.",
+      "expected_tool_name": "carcontrol_video_set_quality"
+    },
+    {
+      "task_id": "vehicle-06-06",
+      "evidence_quote": "When I'm backing up the trailer, I need the left mirror to tilt down so I can see the tires.",
+      "expected_tool_name": "carcontrol_rearviewMirror_set_auto_reverse_tilt"
+    },
+    {
+      "task_id": "vehicle-06-07",
+      "evidence_quote": "I usually keep the AC at 21 degrees.",
+      "expected_tool_name": "carcontrol_airConditioner_set_temperature"
+    },
+    {
+      "task_id": "vehicle-06-08",
+      "evidence_quote": "I like maximum airflow, so I set the fan to 10.",
+      "expected_tool_name": "carcontrol_airConditioner_set_fan_speed"
+    },
+    {
+      "task_id": "vehicle-06-09",
+      "evidence_quote": "When I drive at night, I want the Instrument Panel brightness at 2 so it doesn't hurt my eyes.",
+      "expected_tool_name": "carcontrol_instrumentPanel_set_brightness"
+    }
+  ]
+}

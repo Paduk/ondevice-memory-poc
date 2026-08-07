@@ -1,0 +1,65 @@
+# Android / Gradle
+.gradle/
+.gradle-user-home/
+.kotlin/
+build/
+app/build/
+app/release/
+docs/assets/promo
+
+
+# Local machine config
+local.properties
+signing.properties
+keystore.properties
+.codex
+.conda/
+*.jks
+*.keystore
+*.p12
+*.pfx
+
+# Local secrets / environment overrides
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+credentials*.json
+secrets*.json
+
+# Python / Ubuntu runtime
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+*.egg-info/
+ubuntu/.data/
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+ubuntu/evaluation/vehiclemembench/
+ubuntu/evaluation/vehiclemembench-memory/
+ubuntu/evaluation/results/
+ubuntu/evaluation/vehiclemembench-joint-planning-audit/
+ubuntu/evaluation/vehiclemembench-ontology-matcher/
+ubuntu/evaluation/vehiclemembench-oracle/
+evaluation/vehiclemembench-memory/
+*.log
+
+# IDE
+.idea/
+*.iml
+
+# Temp / generated
+tmp/
+
+# OS files
+.DS_Store
+Thumbs.db

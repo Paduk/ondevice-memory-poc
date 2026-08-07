@@ -1,0 +1,378 @@
+{
+  "version": "vehiclemembench-oracle-stage-facts-v1",
+  "benchmark": {
+    "dataset_sha256": "d745b359794da1540431d05bcf6ea6ff4d75308dfa4f672e51875deb731cf88c",
+    "tool_schema_sha256": "e3cdccaae3745495c74635c758833b330ba341e9ba52c8f9fd3abe472197cf83"
+  },
+  "scenario_indices": [
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "gate_only_tasks": [
+    "vehicle-07-00"
+  ],
+  "structure_facts": [
+    {
+      "fact_id": "structure-s06-jonathan-fan-10",
+      "task_ids": ["vehicle-06-08"],
+      "candidate_sha256": "726a5f6b3ba36a6b63f1162147c2b7260d8ccd9a0e46de879b592bbdbc5291ed",
+      "entity_id": "jonathan_williams",
+      "predicate": "cabin_fan_speed",
+      "value": 10,
+      "identity_conditions": {},
+      "applicability": {},
+      "memory_type": "preference",
+      "capability_hints": ["cabin_fan_control", "climate_control"],
+      "evidence_quotes": [
+        "I like maximum airflow, so I set the fan to 10."
+      ]
+    },
+    {
+      "fact_id": "structure-s06-michael-night-panel-brightness-2",
+      "task_ids": ["vehicle-06-09"],
+      "candidate_sha256": "7e2c60ed6f8c322063bc1cb354f8da58c2b539bd8efcd8c3a9e531ee7752c539",
+      "entity_id": "michael_davis",
+      "predicate": "instrument_panel_brightness",
+      "value": 2,
+      "identity_conditions": {},
+      "applicability": {"situation": "night_driving"},
+      "memory_type": "preference",
+      "capability_hints": ["instrument_panel", "display_brightness"],
+      "evidence_quotes": [
+        "When I drive at night, I want the Instrument Panel brightness at 2 so it doesn't hurt my eyes."
+      ]
+    },
+    {
+      "fact_id": "structure-s07-david-auto-headlights-enabled",
+      "task_ids": ["vehicle-07-04"],
+      "candidate_sha256": "a0673a569fb620d4d4c4da2d805c6df8c7294ae259085cdcb3a895b51c3f91e1",
+      "entity_id": "david_thomas",
+      "predicate": "automatic_headlights_enabled",
+      "value": true,
+      "identity_conditions": {},
+      "applicability": {},
+      "memory_type": "state",
+      "capability_hints": ["automatic_headlights", "lighting_settings"],
+      "evidence_quotes": [
+        "Auto headlights are enabled—good."
+      ]
+    },
+    {
+      "fact_id": "structure-s08-charles-standard-window-auto-close",
+      "task_ids": ["vehicle-08-06"],
+      "candidate_sha256": "6d6bc0d8617d88afec4576785a634b0dbaf83f08c874788a1dffd45788cd3c70",
+      "entity_id": "charles_rodriguez",
+      "predicate": "automatic_window_closure_when_parked",
+      "value": {"enabled": true},
+      "identity_conditions": {},
+      "applicability": {"situation": "standard_parking"},
+      "memory_type": "preference",
+      "capability_hints": ["vehicle_parking_automation", "window_control"],
+      "evidence_quotes": [
+        "When I park, I want the windows to close automatically."
+      ]
+    },
+    {
+      "fact_id": "structure-s09-susan-child-lock-enabled",
+      "task_ids": ["vehicle-09-04"],
+      "candidate_sha256": "84ba9a80897ee66cf25ddae4175b95a1b7130db89fe9859d6028e9b8b9d0908d",
+      "entity_id": "susan_evans",
+      "predicate": "child_lock_status",
+      "value": {"status": true},
+      "identity_conditions": {},
+      "applicability": {"passenger": "child"},
+      "memory_type": "state",
+      "capability_hints": ["child_safety_locks"],
+      "evidence_quotes": [
+        "I turned on the child lock just in case."
+      ]
+    },
+    {
+      "fact_id": "structure-s09-susan-mirror-horizontal-84",
+      "task_ids": ["vehicle-09-06"],
+      "candidate_sha256": "ac10a0e2f2f9eacad62946938946bcb34ea3d4f47b8fa8b7131d0e78dc6e38b8",
+      "entity_id": "susan_evans",
+      "predicate": "mirror_horizontal_position",
+      "value": {"position": 84},
+      "identity_conditions": {},
+      "applicability": {},
+      "memory_type": "preference",
+      "capability_hints": ["side_mirror_adjustment"],
+      "evidence_quotes": [
+        "horizontal position at 84"
+      ]
+    }
+  ],
+  "extraction_facts": [
+    {
+      "fact_id": "extraction-s06-samuel-work-volume-15",
+      "task_ids": ["vehicle-06-00"],
+      "entity_id": "samuel_evans",
+      "predicate": "music_volume",
+      "value": 15,
+      "identity_conditions": {},
+      "applicability": {"situation": "focused_work"},
+      "memory_type": "preference",
+      "capability_hints": ["music_volume", "audio_control"],
+      "evidence_quotes": [
+        "I need to focus on this presentation, keep the music low. Setting the volume to 15."
+      ]
+    },
+    {
+      "fact_id": "extraction-s06-samuel-daylight-display-brightness-90",
+      "task_ids": ["vehicle-06-01"],
+      "entity_id": "samuel_evans",
+      "predicate": "center_display_brightness",
+      "value": 90,
+      "identity_conditions": {},
+      "applicability": {"lighting": "bright_daylight"},
+      "memory_type": "preference",
+      "capability_hints": ["center_display", "display_brightness"],
+      "evidence_quotes": [
+        "Sure, let me increase the brightness to ninety. There we go—much better."
+      ]
+    },
+    {
+      "fact_id": "extraction-s06-michael-brainstorming-light-purple",
+      "task_ids": ["vehicle-06-02"],
+      "entity_id": "michael_davis",
+      "predicate": "ambient_light_color",
+      "value": "purple",
+      "identity_conditions": {},
+      "applicability": {"situation": "creative_brainstorming"},
+      "memory_type": "preference",
+      "capability_hints": ["ambient_lighting", "light_color"],
+      "evidence_quotes": [
+        "When I'm brainstorming creative ideas, I need the ambient light to be Purple. It stimulates my imagination."
+      ]
+    },
+    {
+      "fact_id": "extraction-s06-jonathan-survey-map-view-2d",
+      "task_ids": ["vehicle-06-04"],
+      "entity_id": "jonathan_williams",
+      "predicate": "navigation_map_view",
+      "value": "2d",
+      "identity_conditions": {},
+      "applicability": {"situation": "field_survey"},
+      "memory_type": "preference",
+      "capability_hints": ["navigation", "map_view"],
+      "evidence_quotes": [
+        "I prefer the map in 2D mode to see the field boundaries clearly."
+      ]
+    },
+    {
+      "fact_id": "extraction-s06-michael-field-video-quality-480p",
+      "task_ids": ["vehicle-06-05"],
+      "entity_id": "michael_davis",
+      "predicate": "video_quality",
+      "value": "480p",
+      "identity_conditions": {},
+      "applicability": {"situation": "field_drone_footage"},
+      "memory_type": "preference",
+      "capability_hints": ["video_playback", "video_quality"],
+      "evidence_quotes": [
+        "I want to watch the drone footage of the farm. High definition is a waste of data out here, just use 480p."
+      ]
+    },
+    {
+      "fact_id": "extraction-s06-samuel-standard-ac-temperature-21",
+      "task_ids": ["vehicle-06-07"],
+      "entity_id": "samuel_evans",
+      "predicate": "cabin_temperature",
+      "value": 21,
+      "identity_conditions": {},
+      "applicability": {"situation": "standard"},
+      "memory_type": "preference",
+      "capability_hints": ["air_conditioner", "cabin_temperature"],
+      "evidence_quotes": [
+        "I usually keep the AC at 21 degrees."
+      ]
+    },
+    {
+      "fact_id": "extraction-s07-jacob-hot-weather-ac-temperature-18",
+      "task_ids": ["vehicle-07-06", "vehicle-07-07"],
+      "entity_id": "jacob_lopez",
+      "predicate": "cabin_temperature",
+      "value": 18,
+      "identity_conditions": {},
+      "applicability": {"weather": "hot"},
+      "memory_type": "preference",
+      "capability_hints": ["air_conditioner", "cabin_temperature"],
+      "evidence_quotes": [
+        "Cool it down quickly!",
+        "I set the AC to 18°C."
+      ]
+    },
+    {
+      "fact_id": "extraction-s08-jeffrey-driver-massage-enabled",
+      "task_ids": ["vehicle-08-03"],
+      "entity_id": "jeffrey_parker",
+      "predicate": "seat_massage_enabled",
+      "value": true,
+      "identity_conditions": {"seat": "driver"},
+      "applicability": {"situation": "back_pain"},
+      "memory_type": "preference",
+      "capability_hints": ["driver_seat", "seat_massage"],
+      "evidence_quotes": [
+        "My back is acting up. I need the massage function on."
+      ]
+    },
+    {
+      "fact_id": "extraction-s09-christopher-focus-light-green",
+      "task_ids": ["vehicle-09-00"],
+      "entity_id": "christopher_nguyen",
+      "predicate": "ambient_light_color",
+      "value": "green",
+      "identity_conditions": {},
+      "applicability": {"situation": "focused_work"},
+      "memory_type": "preference",
+      "capability_hints": ["ambient_lighting", "light_color"],
+      "evidence_quotes": [
+        "I really need to keep my mind clear today—let's go with green lighting. Always helps me focus."
+      ]
+    },
+    {
+      "fact_id": "extraction-s09-eric-fieldwork-panel-theme-map",
+      "task_ids": ["vehicle-09-01"],
+      "entity_id": "eric_parker",
+      "predicate": "instrument_panel_theme",
+      "value": "map",
+      "identity_conditions": {},
+      "applicability": {"situation": "terrain_fieldwork"},
+      "memory_type": "preference",
+      "capability_hints": ["instrument_panel", "map_theme"],
+      "evidence_quotes": [
+        "Map theme on the panel looks good—much better for spotting those low-lying floodplain areas."
+      ]
+    },
+    {
+      "fact_id": "extraction-s09-susan-focused-radio-volume-1",
+      "task_ids": ["vehicle-09-02"],
+      "entity_id": "susan_evans",
+      "predicate": "radio_volume",
+      "value": 1,
+      "identity_conditions": {},
+      "applicability": {"situation": "focused_driving"},
+      "memory_type": "preference",
+      "capability_hints": ["radio", "audio_volume"],
+      "evidence_quotes": [
+        "*sets the radio volume to 1*"
+      ]
+    },
+    {
+      "fact_id": "extraction-s09-christopher-massage-level-1",
+      "task_ids": ["vehicle-09-03"],
+      "entity_id": "christopher_nguyen",
+      "predicate": "seat_massage_level",
+      "value": 1,
+      "identity_conditions": {"seat": "driver"},
+      "applicability": {"situation": "back_pain"},
+      "memory_type": "preference",
+      "capability_hints": ["driver_seat", "seat_massage"],
+      "evidence_quotes": [
+        "My chiropractor said to take it easy on the massage intensity for a while. Level 3 is too strong, let's stick to level 1 for now."
+      ]
+    },
+    {
+      "fact_id": "extraction-s09-christopher-reading-light-7",
+      "task_ids": ["vehicle-09-07"],
+      "entity_id": "christopher_nguyen",
+      "predicate": "reading_light_brightness",
+      "value": 7,
+      "identity_conditions": {},
+      "applicability": {"situation": "reading"},
+      "memory_type": "preference",
+      "capability_hints": ["reading_light", "interior_lighting"],
+      "evidence_quotes": [
+        "It's getting dark, turn the reading light to 7."
+      ]
+    },
+    {
+      "fact_id": "extraction-s09-susan-radio-station-local-news",
+      "task_ids": ["vehicle-09-09"],
+      "entity_id": "susan_evans",
+      "predicate": "radio_station",
+      "value": "local news station",
+      "identity_conditions": {},
+      "applicability": {},
+      "memory_type": "preference",
+      "capability_hints": ["radio", "radio_station"],
+      "evidence_quotes": [
+        "I want to listen to the local news station. Let me turn on the radio."
+      ]
+    },
+    {
+      "fact_id": "extraction-s10-jack-navigation-map-north-up",
+      "task_ids": ["vehicle-10-00"],
+      "entity_id": "jack_hall",
+      "predicate": "navigation_map_view",
+      "value": "north_up",
+      "identity_conditions": {},
+      "applicability": {},
+      "memory_type": "preference",
+      "capability_hints": ["navigation", "map_view"],
+      "evidence_quotes": [
+        "I'm switching the map to 'north_up.' I need to see the layout relative to the cardinal directions for the site survey."
+      ]
+    },
+    {
+      "fact_id": "extraction-s10-christine-overhead-brightness-1",
+      "task_ids": ["vehicle-10-03"],
+      "entity_id": "christine_moore",
+      "predicate": "overhead_screen_brightness",
+      "value": 1,
+      "identity_conditions": {},
+      "applicability": {"situation": "report_analysis"},
+      "memory_type": "preference",
+      "capability_hints": ["overhead_screen", "display_brightness"],
+      "evidence_quotes": [
+        "I just need to set the overhead screen brightness to 1—I need it dim to analyze these dark-web screenshots without eye strain."
+      ]
+    },
+    {
+      "fact_id": "extraction-s10-jack-steering-wheel-heating-2",
+      "task_ids": ["vehicle-10-04"],
+      "entity_id": "jack_hall",
+      "predicate": "steering_wheel_heating_level",
+      "value": 2,
+      "identity_conditions": {},
+      "applicability": {},
+      "memory_type": "preference",
+      "capability_hints": ["steering_wheel", "heating_level"],
+      "evidence_quotes": [
+        "Whoa, that's burning! I meant just a little warmth. Level 2 is enough."
+      ]
+    },
+    {
+      "fact_id": "extraction-s10-jack-airflow-feet-window",
+      "task_ids": ["vehicle-10-05"],
+      "entity_id": "jack_hall",
+      "predicate": "air_conditioner_direction",
+      "value": "feet_window",
+      "identity_conditions": {"zone": "driver"},
+      "applicability": {},
+      "memory_type": "preference",
+      "capability_hints": ["air_conditioner", "air_direction"],
+      "evidence_quotes": [
+        "let me just set the AC to blow on my feet and window"
+      ]
+    },
+    {
+      "fact_id": "extraction-s10-brenda-lyrics-display-enabled",
+      "task_ids": ["vehicle-10-09"],
+      "entity_id": "brenda_rivera",
+      "predicate": "lyrics_display_enabled",
+      "value": true,
+      "identity_conditions": {},
+      "applicability": {"situation": "sing_along"},
+      "memory_type": "preference",
+      "capability_hints": ["music", "lyrics_display"],
+      "evidence_quotes": [
+        "When I listen to the Internationale, I want to see the words. There—lyrics display on."
+      ]
+    }
+  ]
+}

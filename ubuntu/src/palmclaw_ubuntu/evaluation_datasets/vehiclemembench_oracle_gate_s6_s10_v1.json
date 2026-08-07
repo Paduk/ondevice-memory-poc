@@ -1,0 +1,73 @@
+{
+  "version": "vehiclemembench-oracle-gate-v1",
+  "benchmark": {
+    "dataset_sha256": "d745b359794da1540431d05bcf6ea6ff4d75308dfa4f672e51875deb731cf88c",
+    "tool_schema_sha256": "e3cdccaae3745495c74635c758833b330ba341e9ba52c8f9fd3abe472197cf83"
+  },
+  "scenario_indices": [6, 7, 8, 9, 10],
+  "review_policy": {
+    "source": "VehicleMemBench Gold Memory and frozen Fact candidate events",
+    "gate_recoverable": "A rejected or review candidate already contains the durable fact required by the task. Oracle Gate may only change its disposition to ACCEPT.",
+    "not_gate_recoverable": "No rejected or review candidate contains the durable fact required by the task. Applied, NOOP, wrong-structure, and missing candidates are not Gate recoverable."
+  },
+  "gate_recoverable": [
+    {
+      "task_id": "vehicle-07-00",
+      "candidate_sha256": "30a25c155ec8183585cc0340e495d08b5d3a7a70ba35bdca7c2aa93916f07990",
+      "original_status": "review",
+      "validation_code": "semantic_review",
+      "relation": "The candidate records the user's morning preference for muted voice guidance."
+    }
+  ],
+  "not_gate_recoverable": [
+    "vehicle-06-00",
+    "vehicle-06-01",
+    "vehicle-06-02",
+    "vehicle-06-03",
+    "vehicle-06-04",
+    "vehicle-06-05",
+    "vehicle-06-06",
+    "vehicle-06-07",
+    "vehicle-06-08",
+    "vehicle-06-09",
+    "vehicle-07-01",
+    "vehicle-07-02",
+    "vehicle-07-03",
+    "vehicle-07-04",
+    "vehicle-07-05",
+    "vehicle-07-06",
+    "vehicle-07-07",
+    "vehicle-07-08",
+    "vehicle-07-09",
+    "vehicle-08-00",
+    "vehicle-08-01",
+    "vehicle-08-02",
+    "vehicle-08-03",
+    "vehicle-08-04",
+    "vehicle-08-05",
+    "vehicle-08-06",
+    "vehicle-08-07",
+    "vehicle-08-08",
+    "vehicle-08-09",
+    "vehicle-09-00",
+    "vehicle-09-01",
+    "vehicle-09-02",
+    "vehicle-09-03",
+    "vehicle-09-04",
+    "vehicle-09-05",
+    "vehicle-09-06",
+    "vehicle-09-07",
+    "vehicle-09-08",
+    "vehicle-09-09",
+    "vehicle-10-00",
+    "vehicle-10-01",
+    "vehicle-10-02",
+    "vehicle-10-03",
+    "vehicle-10-04",
+    "vehicle-10-05",
+    "vehicle-10-06",
+    "vehicle-10-07",
+    "vehicle-10-08",
+    "vehicle-10-09"
+  ]
+}
