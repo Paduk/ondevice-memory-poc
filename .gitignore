@@ -51,6 +51,16 @@ ubuntu/evaluation/vehiclemembench-joint-planning-audit/
 ubuntu/evaluation/vehiclemembench-ontology-matcher/
 ubuntu/evaluation/vehiclemembench-oracle/
 evaluation/vehiclemembench-memory/
+
+# Local evaluation workspace links
+evaluation/vehiclemembench
+evaluation/vehiclemembench-memory
+ubuntu/evaluation/results
+ubuntu/evaluation/vehiclemembench
+ubuntu/evaluation/vehiclemembench-joint-planning-audit
+ubuntu/evaluation/vehiclemembench-memory
+ubuntu/evaluation/vehiclemembench-ontology-matcher
+ubuntu/evaluation/vehiclemembench-oracle
 *.log
 
 # IDE

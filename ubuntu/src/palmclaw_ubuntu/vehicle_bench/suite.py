@@ -28,6 +28,18 @@ from palmclaw_ubuntu.vehicle_bench.runner import (
     write_vehicle_report_artifacts,
 )
 
+_EMBEDDING_PROVIDER_ROLES = frozenset(
+    {
+        "embedding",
+        "tool_memory_embedding",
+        "tool_schema_embedding",
+        "fact_memory_embedding",
+        "fact_tool_schema_embedding",
+        "amem_embedding",
+        "amem_retrieval_embedding",
+    }
+)
+
 
 @dataclass(frozen=True)
 class VehicleSuiteResult:
@@ -272,6 +284,10 @@ def run_vehicle_evaluation_suite(
             for index in scenarios
         ]
     )
+    workflow_stages = _suite_workflow_stages(
+        metrics["profiles"],
+        provider_usage=provider_usage,
+    )
     amem_usage = _sum_amem_usage(
         [
             manifest["scenarios"][str(index)].get("amem_usage")
@@ -284,6 +300,7 @@ def run_vehicle_evaluation_suite(
             "scenario_count": len(scenarios),
             "unique_task_count": len({str(record["task_id"]) for record in records}),
             "provider_usage": provider_usage,
+            "workflow_stages": workflow_stages,
             "dataset_privacy_audit": _dataset_privacy_audit(dataset),
             "estimated_total_cost_usd": round(
                 provider_usage["estimated_cost_usd"]
@@ -401,6 +418,40 @@ def summarize_provider_calls(
             memory_output_cost_per_million=memory_output_cost_per_million,
             embedding_input_cost_per_million=(embedding_input_cost_per_million),
         ),
+        "workflow_stages": {
+            "idle_memory_llm": _provider_call_totals(
+                [
+                    call
+                    for call in generation
+                    if not _is_embedding_provider_call(call)
+                ],
+                memory_input_cost_per_million=memory_input_cost_per_million,
+                memory_output_cost_per_million=memory_output_cost_per_million,
+                embedding_input_cost_per_million=(
+                    embedding_input_cost_per_million
+                ),
+            ),
+            "idle_memory_embedding": _provider_call_totals(
+                [
+                    call
+                    for call in generation
+                    if _is_embedding_provider_call(call)
+                ],
+                memory_input_cost_per_million=memory_input_cost_per_million,
+                memory_output_cost_per_million=memory_output_cost_per_million,
+                embedding_input_cost_per_million=(
+                    embedding_input_cost_per_million
+                ),
+            ),
+            "online_memory_retrieval": _provider_call_totals(
+                retrieval,
+                memory_input_cost_per_million=memory_input_cost_per_million,
+                memory_output_cost_per_million=memory_output_cost_per_million,
+                embedding_input_cost_per_million=(
+                    embedding_input_cost_per_million
+                ),
+            ),
+        },
     }
     result["estimated_cost_usd"] = round(
         float(result["generation"]["estimated_cost_usd"])
@@ -408,6 +459,10 @@ def summarize_provider_calls(
         8,
     )
     return result
+
+
+def _is_embedding_provider_call(call: dict[str, Any]) -> bool:
+    return str(call.get("role", "unknown")) in _EMBEDDING_PROVIDER_ROLES
 
 
 def _provider_call_totals(
@@ -525,7 +580,126 @@ def _sum_provider_usage(items: Sequence[dict[str, Any]]) -> dict[str, Any]:
         sum(float(result[section]["estimated_cost_usd"]) for section in sections),
         8,
     )
+    stage_names = (
+        "idle_memory_llm",
+        "idle_memory_embedding",
+        "online_memory_retrieval",
+    )
+    result["workflow_stages"] = {
+        stage: _sum_provider_sections(
+            [item.get("workflow_stages", {}).get(stage, {}) for item in items]
+        )
+        for stage in stage_names
+    }
     return result
+
+
+def _sum_provider_sections(rows: Sequence[dict[str, Any]]) -> dict[str, Any]:
+    role_counts: Counter[str] = Counter()
+    category_counts: Counter[str] = Counter()
+    for row in rows:
+        role_counts.update(row.get("roles", {}))
+        category_counts.update(row.get("privacy_categories", {}))
+    result = {
+        key: sum(float(row.get(key, 0)) for row in rows)
+        for key in (
+            "calls",
+            "failed_calls",
+            "latency_ms",
+            "input_tokens",
+            "output_tokens",
+            "estimated_cost_usd",
+            "cloud_transmitted_characters",
+            "cloud_detected_sensitive_spans",
+            "cloud_redacted_sensitive_spans",
+            "cloud_sensitive_characters_before",
+            "cloud_sensitive_characters_after",
+        )
+    }
+    result["estimated_cost_usd"] = round(
+        float(result["estimated_cost_usd"]),
+        8,
+    )
+    result["roles"] = dict(sorted(role_counts.items()))
+    result["privacy_categories"] = dict(sorted(category_counts.items()))
+    before = float(result["cloud_sensitive_characters_before"])
+    after = float(result["cloud_sensitive_characters_after"])
+    result["cloud_exposed_character_rate"] = after / before if before else 0.0
+    return result
+
+
+def _suite_workflow_stages(
+    profiles: dict[str, dict[str, Any]],
+    *,
+    provider_usage: dict[str, Any],
+) -> dict[str, Any]:
+    provider_stages = provider_usage.get("workflow_stages", {})
+    online_profiles = [
+        values.get("workflow_stages", {}).get(
+            "online_memory_retrieval",
+            {},
+        )
+        for values in profiles.values()
+    ]
+    quiz_profiles = [
+        values.get("workflow_stages", {}).get("quiz_agent", {})
+        for values in profiles.values()
+    ]
+    online_provider = dict(
+        provider_stages.get("online_memory_retrieval", {})
+    )
+    online_provider.update(
+        {
+            "base_context_tokens": sum(
+                int(item.get("base_context_tokens", 0))
+                for item in online_profiles
+            ),
+            "wiki_read_context_tokens": sum(
+                int(item.get("wiki_read_context_tokens", 0))
+                for item in online_profiles
+            ),
+            "observed_context_tokens": sum(
+                int(item.get("observed_context_tokens", 0))
+                for item in online_profiles
+            ),
+            "observed_latency_ms": sum(
+                int(item.get("observed_latency_ms", 0))
+                for item in online_profiles
+            ),
+            "wiki_tool_calls": sum(
+                int(item.get("wiki_tool_calls", 0))
+                for item in online_profiles
+            ),
+            "context_tokens_are_non_additive_to_agent_input": True,
+        }
+    )
+    quiz_input = sum(int(item.get("input_tokens", 0)) for item in quiz_profiles)
+    quiz_output = sum(
+        int(item.get("output_tokens", 0)) for item in quiz_profiles
+    )
+    return {
+        "idle_memory_llm": dict(provider_stages.get("idle_memory_llm", {})),
+        "idle_memory_embedding": dict(
+            provider_stages.get("idle_memory_embedding", {})
+        ),
+        "online_memory_retrieval": online_provider,
+        "quiz_agent": {
+            "input_tokens": quiz_input,
+            "output_tokens": quiz_output,
+            "total_tokens": quiz_input + quiz_output,
+            "model_latency_ms": sum(
+                int(item.get("model_latency_ms", 0))
+                for item in quiz_profiles
+            ),
+            "estimated_cost_usd": round(
+                sum(
+                    float(item.get("estimated_cost_usd", 0.0))
+                    for item in quiz_profiles
+                ),
+                8,
+            ),
+        },
+    }
 
 
 def _sum_amem_usage(

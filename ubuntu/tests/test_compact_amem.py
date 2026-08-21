@@ -161,6 +161,34 @@ def test_compact_graph_persists_sources_filters_empty_and_resumes(settings):
         assert len(compact.requests) == 2
 
 
+def test_compact_graph_canonicalizes_source_ids_to_episode_order(settings):
+    settings.ensure_directories()
+    episode = build_compact_amem_episodes(
+        (_entry(1, minutes=0), _entry(2, minutes=1))
+    )[0]
+    compact = FakeCompactAMemModel(
+        (
+            CompactAMemResponse(
+                notes=(_draft("quiet cabin", (2, 1)),)
+            ),
+        )
+    )
+
+    with SQLiteRepository(settings.database_path) as repository:
+        session = repository.create_session("Compact A-MEM source order")
+        result = CompactAMemGraphEngine(
+            repository,
+            compact,
+            FakeAMemModel(),
+            FakeEmbeddingModel(8),
+        ).ingest(session.id, (episode,))
+
+        assert repository.compact_amem_note_sources(result.notes[0].id) == (
+            1,
+            2,
+        )
+
+
 def test_compact_graph_links_deterministically_and_evolves_only_correction(
     settings,
 ):

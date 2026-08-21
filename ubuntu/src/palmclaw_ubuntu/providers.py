@@ -50,6 +50,7 @@ from palmclaw_ubuntu.privacy import (
     inspect_data_privacy,
     redact_data_for_cloud,
 )
+from palmclaw_ubuntu.tokens import TokenCounter
 from palmclaw_ubuntu.tool_memory_schema import (
     ToolMemoryOntology,
     normalize_identifier,
@@ -203,6 +204,209 @@ RECURSIVE_SUMMARY_UPDATE_TOOL: dict[str, Any] = {
     "strict": True,
 }
 
+RECURSIVE_SUMMARY_PATCH_TOOL: dict[str, Any] = {
+    "type": "function",
+    "name": "memory_patch",
+    "description": (
+        "Apply only the minimal changes supported by today's conversation to "
+        "the current vehicle-preference memory. Do not call this tool when no "
+        "update is needed."
+    ),
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "operations": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 32,
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "op": {
+                            "type": "string",
+                            "enum": ["add", "replace", "delete"],
+                        },
+                        "target": {
+                            "type": "string",
+                            "description": (
+                                "An exact complete line or contiguous block "
+                                "from Current Memory. For add, insert after "
+                                "this block; use an empty string only to append "
+                                "a new user block."
+                            ),
+                        },
+                        "content": {
+                            "type": "string",
+                            "description": (
+                                "Complete Markdown line(s) to insert or use as "
+                                "the replacement. Use an empty string for delete."
+                            ),
+                        },
+                    },
+                    "required": ["op", "target", "content"],
+                    "additionalProperties": False,
+                },
+            }
+        },
+        "required": ["operations"],
+        "additionalProperties": False,
+    },
+    "strict": True,
+}
+
+RECURSIVE_SUMMARY_TEMPORAL_PATCH_TOOL: dict[str, Any] = {
+    "type": "function",
+    "name": "memory_patch",
+    "description": (
+        "Apply minimal temporal-aware changes to the current vehicle memory. "
+        "Keep durable baselines when adding or ending temporary overrides."
+    ),
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "operations": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 32,
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "op": {
+                            "type": "string",
+                            "enum": ["add", "replace", "delete"],
+                        },
+                        "target": {"type": "string"},
+                        "content": {"type": "string"},
+                        "identity_key": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 160,
+                            "description": (
+                                "Stable subject.setting key shared by the "
+                                "durable baseline and its temporary override."
+                            ),
+                        },
+                        "temporal_action": {
+                            "type": "string",
+                            "enum": [
+                                "non_temporal",
+                                "durable_upsert",
+                                "current_upsert",
+                                "temporary_override",
+                                "end_temporary",
+                                "conditional_upsert",
+                            ],
+                        },
+                        "temporal_cue": {
+                            "type": "string",
+                            "description": (
+                                "Exact source phrase proving a temporary "
+                                "override or its end; otherwise empty."
+                            ),
+                        },
+                    },
+                    "required": [
+                        "op",
+                        "target",
+                        "content",
+                        "identity_key",
+                        "temporal_action",
+                        "temporal_cue",
+                    ],
+                    "additionalProperties": False,
+                },
+            }
+        },
+        "required": ["operations"],
+        "additionalProperties": False,
+    },
+    "strict": True,
+}
+
+
+def prepare_temporal_summary_patch_operations(
+    operations: Any,
+    *,
+    source_history: str,
+) -> tuple[list[dict[str, str]], dict[str, Any]]:
+    if not isinstance(operations, list) or not operations:
+        raise ValueError("temporal memory_patch operations must be non-empty")
+    prepared: list[dict[str, str]] = []
+    action_counts = {
+        "non_temporal": 0,
+        "durable_upsert": 0,
+        "current_upsert": 0,
+        "temporary_override": 0,
+        "end_temporary": 0,
+        "conditional_upsert": 0,
+    }
+    required = {
+        "op",
+        "target",
+        "content",
+        "identity_key",
+        "temporal_action",
+        "temporal_cue",
+    }
+    for index, operation in enumerate(operations):
+        if not isinstance(operation, Mapping) or set(operation) != required:
+            raise ValueError(
+                f"temporal patch operation {index} does not match schema"
+            )
+        if any(not isinstance(operation[key], str) for key in required):
+            raise ValueError(
+                f"temporal patch operation {index} fields must be strings"
+            )
+        op = operation["op"]
+        action = operation["temporal_action"]
+        identity_key = operation["identity_key"].strip()
+        cue = operation["temporal_cue"].strip()
+        if op not in {"add", "replace", "delete"} or action not in action_counts:
+            raise ValueError(f"temporal patch operation {index} is invalid")
+        if not identity_key or len(identity_key) > 160:
+            raise ValueError(
+                f"temporal patch operation {index} identity_key is invalid"
+            )
+        if action == "temporary_override" and op != "add":
+            raise ValueError("temporary_override must add without replacing baseline")
+        if action == "end_temporary" and op != "delete":
+            raise ValueError("end_temporary must delete only the temporary override")
+        if action in {
+            "durable_upsert",
+            "current_upsert",
+            "conditional_upsert",
+        } and op == "delete":
+            raise ValueError(f"{action} cannot delete memory")
+        if action in {"temporary_override", "end_temporary"}:
+            if not cue or cue not in source_history:
+                raise ValueError(
+                    f"{action} requires an exact temporal cue from the source"
+                )
+        elif cue:
+            raise ValueError(
+                f"temporal patch operation {index} must leave temporal_cue empty"
+            )
+        action_counts[action] += 1
+        prepared.append(
+            {
+                "op": op,
+                "target": operation["target"],
+                "content": operation["content"],
+            }
+        )
+    return prepared, {
+        "temporal_operation_count": len(prepared),
+        "temporal_non_temporal_count": action_counts["non_temporal"],
+        "temporal_durable_upsert_count": action_counts["durable_upsert"],
+        "temporal_current_upsert_count": action_counts["current_upsert"],
+        "temporal_temporary_override_count": action_counts[
+            "temporary_override"
+        ],
+        "temporal_end_temporary_count": action_counts["end_temporary"],
+        "temporal_conditional_upsert_count": action_counts[
+            "conditional_upsert"
+        ],
+    }
 
 def truncate_recursive_summary(
     content: str,
@@ -224,6 +428,186 @@ def _normalize_recursive_summary(content: str) -> str:
     return "\n".join(
         line.rstrip() for line in content.replace("\r\n", "\n").splitlines()
     ).strip()
+
+
+def _normalize_recursive_summary_patch_fragment(content: str) -> str:
+    """Normalize a patch fragment without removing meaningful indentation."""
+    lines = [
+        line.rstrip()
+        for line in content.replace("\r\n", "\n").replace("\r", "\n").split("\n")
+    ]
+    while lines and not lines[0]:
+        lines.pop(0)
+    while lines and not lines[-1]:
+        lines.pop()
+    return "\n".join(lines)
+
+
+def _starts_recursive_summary_user_block(content: str) -> bool:
+    lines = content.splitlines()
+    if not lines:
+        return False
+    first = lines[0]
+    if first.startswith("### ") or (
+        first.startswith("**") and first.rstrip(":").endswith("**")
+    ):
+        return True
+    return bool(
+        first.startswith("- ")
+        and first.endswith(":")
+        and any(line.startswith(("  ", "\t")) for line in lines[1:])
+    )
+
+
+def _recursive_summary_patch_repair_guidance(reason: str) -> str:
+    if "occur exactly once" in reason:
+        return (
+            "The target is missing or repeated. For a repeated preference "
+            "bullet, copy one contiguous block beginning at the relevant "
+            "user's heading and ending at the target line, and return the "
+            "corresponding complete replacement block."
+        )
+    if "cover complete lines" in reason:
+        return (
+            "Copy the target with its exact Markdown prefix and indentation "
+            "so it begins and ends on line boundaries."
+        )
+    if "new user block must be appended" in reason:
+        return "Use add with an empty target to append the complete new user block."
+    return (
+        "Copy every target verbatim, including its Markdown prefix and "
+        "indentation, and cover only complete lines. If target text repeats, "
+        "use a longer contiguous block that occurs exactly once."
+    )
+
+
+def apply_recursive_summary_patch(
+    previous_memory: str,
+    operations: Sequence[Mapping[str, Any]],
+) -> tuple[str, dict[str, int]]:
+    """Validate and deterministically apply exact-block summary operations."""
+    if not isinstance(operations, Sequence) or isinstance(
+        operations,
+        (str, bytes),
+    ):
+        raise ValueError("Recursive summary patch operations must be a sequence")
+    if not 1 <= len(operations) <= 32:
+        raise ValueError(
+            "Recursive summary patch must contain between 1 and 32 operations"
+        )
+
+    current = _normalize_recursive_summary(previous_memory)
+    inserted_characters = 0
+    deleted_characters = 0
+    operation_counts = {"add": 0, "replace": 0, "delete": 0}
+
+    for index, raw in enumerate(operations):
+        if not isinstance(raw, Mapping) or set(raw) != {
+            "op",
+            "target",
+            "content",
+        }:
+            raise ValueError(
+                f"Recursive summary patch operation {index} has invalid fields"
+            )
+        op = raw["op"]
+        target = raw["target"]
+        content = raw["content"]
+        if op not in operation_counts:
+            raise ValueError(
+                f"Recursive summary patch operation {index} has invalid op"
+            )
+        if not isinstance(target, str) or not isinstance(content, str):
+            raise ValueError(
+                f"Recursive summary patch operation {index} must use strings"
+            )
+        target = _normalize_recursive_summary_patch_fragment(target)
+        content = _normalize_recursive_summary_patch_fragment(content)
+        if op == "add":
+            if not content:
+                raise ValueError(f"Recursive summary add operation {index} is empty")
+            if target and _starts_recursive_summary_user_block(content):
+                raise ValueError(
+                    "Recursive summary new user block must be appended with "
+                    f"an empty target: operation={index}"
+                )
+            if target:
+                start, end = _unique_complete_summary_block(
+                    current,
+                    target,
+                    operation_index=index,
+                )
+                del start
+                current = current[:end] + "\n" + content + current[end:]
+            else:
+                current = f"{current}\n\n{content}" if current else content
+            inserted_characters += len(content)
+        elif op == "replace":
+            if not target or not content:
+                raise ValueError(
+                    f"Recursive summary replace operation {index} is incomplete"
+                )
+            start, end = _unique_complete_summary_block(
+                current,
+                target,
+                operation_index=index,
+            )
+            current = current[:start] + content + current[end:]
+            deleted_characters += len(target)
+            inserted_characters += len(content)
+        else:
+            if not target or content:
+                raise ValueError(
+                    f"Recursive summary delete operation {index} is invalid"
+                )
+            start, end = _unique_complete_summary_block(
+                current,
+                target,
+                operation_index=index,
+            )
+            if end < len(current):
+                current = current[:start] + current[end + 1 :]
+            elif start > 0:
+                current = current[: start - 1]
+            else:
+                current = ""
+            deleted_characters += len(target)
+        operation_counts[op] += 1
+
+    content = _normalize_recursive_summary(current)
+    if content == _normalize_recursive_summary(previous_memory):
+        raise ValueError("Recursive summary patch made no change")
+    return content, {
+        "operation_count": len(operations),
+        "add_count": operation_counts["add"],
+        "replace_count": operation_counts["replace"],
+        "delete_count": operation_counts["delete"],
+        "inserted_characters": inserted_characters,
+        "deleted_characters": deleted_characters,
+    }
+
+
+def _unique_complete_summary_block(
+    memory: str,
+    target: str,
+    *,
+    operation_index: int,
+) -> tuple[int, int]:
+    start = memory.find(target)
+    if start < 0 or memory.find(target, start + 1) >= 0:
+        raise ValueError(
+            "Recursive summary patch target must occur exactly once: "
+            f"operation={operation_index}"
+        )
+    end = start + len(target)
+    if (start > 0 and memory[start - 1] != "\n") or (
+        end < len(memory) and memory[end] != "\n"
+    ):
+        raise ValueError(
+            "Recursive summary patch target must cover complete lines: "
+            f"operation={operation_index}"
+        )
+    return start, end
 
 
 class ScriptedAgentModel:
@@ -537,9 +921,7 @@ class ScriptedFactMemoryModel:
             )
         )
         if not self._semantic_responses:
-            raise RuntimeError(
-                "ScriptedFactMemoryModel has no semantic response left"
-            )
+            raise RuntimeError("ScriptedFactMemoryModel has no semantic response left")
         response = self._semantic_responses.popleft()
         if isinstance(response, BaseException):
             raise response
@@ -1190,13 +1572,12 @@ class OpenAICompactAMemModel:
                 raise ValueError(
                     "Compact A-MEM note references a source outside the episode"
                 )
-            if note.source_message_ids != sorted(
-                note.source_message_ids,
-                key=source_order.__getitem__,
-            ):
-                raise ValueError(
-                    "Compact A-MEM note source IDs must be chronological"
+            chronological_sources = tuple(
+                sorted(
+                    note.source_message_ids,
+                    key=source_order.__getitem__,
                 )
+            )
             notes.append(
                 CompactAMemNoteDraft(
                     content=note.content,
@@ -1204,7 +1585,7 @@ class OpenAICompactAMemModel:
                     keywords=tuple(note.keywords),
                     tags=tuple(note.tags),
                     memory_kind=note.memory_kind,
-                    source_message_ids=tuple(note.source_message_ids),
+                    source_message_ids=chronological_sources,
                 )
             )
         return CompactAMemResponse(
@@ -1236,10 +1617,7 @@ class OpenAICompactAMemModel:
     def _require_completed(response: Any) -> None:
         status = getattr(response, "status", None)
         if status in {"failed", "incomplete", "cancelled"}:
-            raise RuntimeError(
-                "Compact A-MEM provider returned "
-                f"status {status}"
-            )
+            raise RuntimeError(f"Compact A-MEM provider returned status {status}")
 
 
 class FakeEmbeddingModel:
@@ -1486,6 +1864,7 @@ class OpenAIRecursiveSummaryMemoryModel:
         prompt_version: str = "vehicle-recursive-summary-v1",
         max_output_tokens: int = 2_048,
         max_memory_chars: int = 8_192,
+        update_cadence: str = "calendar_day",
         reasoning_effort: str = "low",
         redact_pii: bool = True,
         pii_allowlist: tuple[str, ...] = (),
@@ -1497,11 +1876,14 @@ class OpenAIRecursiveSummaryMemoryModel:
             raise ValueError("Recursive summary instructions are required")
         if max_memory_chars < 1:
             raise ValueError("Recursive summary character limit must be positive")
+        if update_cadence not in {"calendar_day", "history_entry"}:
+            raise ValueError("Invalid recursive summary update cadence")
         self.model_id = model_id
         self.instructions = instructions
         self.prompt_version = prompt_version
         self.max_output_tokens = max_output_tokens
         self.max_memory_chars = max_memory_chars
+        self.update_cadence = update_cadence
         self.reasoning_effort = reasoning_effort
         self.redact_pii = redact_pii
         self.pii_allowlist = pii_allowlist
@@ -1518,12 +1900,24 @@ class OpenAIRecursiveSummaryMemoryModel:
         date: str,
         daily_history: str,
     ) -> MemoryResponse:
+        turnwise = self.update_cadence == "history_entry"
+        memory_label = (
+            "**Current Memory (before this turn):**"
+            if turnwise
+            else "**Current Memory (from previous days):**"
+        )
+        history_label = (
+            "**New Conversation Turn:**"
+            if turnwise
+            else f"**Today's Conversation ({date}):**"
+        )
+        source_label = "turn" if turnwise else "conversation"
         provider_input, privacy = redact_data_for_cloud(
             (
-                "**Current Memory (from previous days):**\n"
+                f"{memory_label}\n"
                 f"{previous_memory or '(empty: no vehicle preferences recorded)'}"
-                f"\n\n**Today's Conversation ({date}):**\n{daily_history}\n\n"
-                "If the conversation contains new or changed vehicle-related "
+                f"\n\n{history_label}\n{daily_history}\n\n"
+                f"If the {source_label} contains new or changed vehicle-related "
                 "information, call memory_update with the complete updated "
                 "memory. Otherwise, do not call any tool."
             ),
@@ -1558,6 +1952,7 @@ class OpenAIRecursiveSummaryMemoryModel:
                 metadata={
                     "status": provider_status,
                     "update_status": "noop",
+                    "update_mode": "full_rewrite",
                     "date": date,
                     "truncated": False,
                     "previous_memory_chars": len(previous_memory),
@@ -1569,8 +1964,7 @@ class OpenAIRecursiveSummaryMemoryModel:
         if len(calls) != 1 or getattr(calls[0], "name", None) != "memory_update":
             names = [str(getattr(item, "name", "")) for item in calls]
             raise RuntimeError(
-                "Recursive summary model returned an invalid Tool call set: "
-                f"{names}"
+                f"Recursive summary model returned an invalid Tool call set: {names}"
             )
         raw_arguments = getattr(calls[0], "arguments", "") or ""
         try:
@@ -1600,6 +1994,7 @@ class OpenAIRecursiveSummaryMemoryModel:
             metadata={
                 "status": provider_status,
                 "update_status": "updated",
+                "update_mode": "full_rewrite",
                 "date": date,
                 "truncated": truncated,
                 "previous_memory_chars": len(previous_memory),
@@ -1607,6 +2002,567 @@ class OpenAIRecursiveSummaryMemoryModel:
                 "memory_chars": len(content),
                 "privacy": privacy.as_dict(destination="cloud"),
             },
+        )
+
+
+class OpenAIRecursiveSummaryPatchMemoryModel(OpenAIRecursiveSummaryMemoryModel):
+    """Recursive Summary variant that decodes a patch and applies it locally."""
+
+    schema_version = "recursive-summary-patch-repair-v1"
+    patch_tool = RECURSIVE_SUMMARY_PATCH_TOOL
+    update_mode = "deterministic_patch"
+
+    def __init__(
+        self,
+        model_id: str,
+        *,
+        timeout_seconds: float,
+        instructions: str,
+        prompt_version: str = "vehicle-recursive-summary-patch-v4-repair-v1",
+        max_output_tokens: int = 2_048,
+        max_memory_chars: int = 8_192,
+        max_patch_generation_attempts: int = 3,
+        update_cadence: str = "calendar_day",
+        reasoning_effort: str = "low",
+        redact_pii: bool = True,
+        pii_allowlist: tuple[str, ...] = (),
+        client: Any | None = None,
+    ):
+        super().__init__(
+            model_id,
+            timeout_seconds=timeout_seconds,
+            instructions=instructions,
+            prompt_version=prompt_version,
+            max_output_tokens=max_output_tokens,
+            max_memory_chars=max_memory_chars,
+            update_cadence=update_cadence,
+            reasoning_effort=reasoning_effort,
+            redact_pii=redact_pii,
+            pii_allowlist=pii_allowlist,
+            client=client,
+        )
+        if max_patch_generation_attempts < 1:
+            raise ValueError("Patch generation attempts must be positive")
+        self.max_patch_generation_attempts = max_patch_generation_attempts
+
+    def _prepare_patch_operations(
+        self,
+        operations: Any,
+        *,
+        source_history: str,
+    ) -> tuple[Any, dict[str, Any]]:
+        return operations, {}
+
+    def _postprocess_patched_memory(
+        self,
+        *,
+        previous_memory: str,
+        patched: str,
+        patch_stats: Mapping[str, int],
+    ) -> tuple[str, bool, ModelUsage, dict[str, Any]]:
+        content, truncated = truncate_recursive_summary(
+            patched,
+            max_chars=self.max_memory_chars,
+        )
+        return content, truncated, ModelUsage(), {}
+
+    def update(
+        self,
+        *,
+        previous_memory: str,
+        date: str,
+        daily_history: str,
+    ) -> MemoryResponse:
+        turnwise = self.update_cadence == "history_entry"
+        memory_label = (
+            "**Current Memory (before this turn):**"
+            if turnwise
+            else "**Current Memory (from previous days):**"
+        )
+        history_label = (
+            "**New Conversation Turn:**"
+            if turnwise
+            else f"**Today's Conversation ({date}):**"
+        )
+        source_label = "turn" if turnwise else "conversation"
+        provider_input, privacy = redact_data_for_cloud(
+            (
+                f"{memory_label}\n"
+                f"{previous_memory or '(empty: no vehicle preferences recorded)'}"
+                f"\n\n{history_label}\n{daily_history}\n\n"
+                f"If the {source_label} contains new or changed vehicle-related "
+                "information, call memory_patch with only the minimal exact-block "
+                "changes. Otherwise, do not call any tool."
+            ),
+            include_pii=self.redact_pii,
+            allowlist=self.pii_allowlist,
+        )
+        previous_normalized = _normalize_recursive_summary(previous_memory)
+        previous_sha256 = hashlib.sha256(
+            previous_normalized.encode("utf-8")
+        ).hexdigest()
+        usage = ModelUsage()
+        repair_reason: str | None = None
+        patch_apply_latency_ms = 0
+        for generation_attempt in range(
+            1,
+            self.max_patch_generation_attempts + 1,
+        ):
+            attempt_input = provider_input
+            if repair_reason is not None:
+                repair_guidance = _recursive_summary_patch_repair_guidance(
+                    repair_reason
+                )
+                attempt_input += (
+                    "\n\n**Patch Repair Required:** The previous generated "
+                    f"patch was rejected: {repair_reason}. Generate the patch "
+                    f"again from Current Memory. {repair_guidance} Do not omit "
+                    "a real update merely because the previous patch was invalid."
+                )
+            response = self._client.responses.create(
+                model=self.model_id,
+                instructions=self.instructions,
+                input=attempt_input,
+                tools=[self.patch_tool],
+                tool_choice="auto",
+                max_output_tokens=self.max_output_tokens,
+                reasoning={"effort": self.reasoning_effort},
+                store=False,
+            )
+            usage = _merge_model_usage(usage, _response_usage(response))
+            provider_status = getattr(response, "status", None)
+            if provider_status in {"failed", "incomplete", "cancelled"}:
+                raise RuntimeError(
+                    "Recursive summary patch provider returned status "
+                    f"{provider_status}"
+                )
+            calls = [
+                item
+                for item in (getattr(response, "output", ()) or ())
+                if getattr(item, "type", None) == "function_call"
+            ]
+            if not calls:
+                if repair_reason is not None:
+                    repair_reason = "repair response omitted memory_patch"
+                    continue
+                return MemoryResponse(
+                    content="",
+                    usage=usage,
+                    response_id=getattr(response, "id", None),
+                    metadata={
+                        "status": provider_status,
+                        "update_status": "noop",
+                        "update_mode": self.update_mode,
+                        "date": date,
+                        "truncated": False,
+                        "previous_memory_chars": len(previous_memory),
+                        "memory_chars_before_limit": len(previous_memory),
+                        "memory_chars": len(previous_memory),
+                        "memory_sha256_before": previous_sha256,
+                        "memory_sha256_after": previous_sha256,
+                        "patch_generation_attempts": generation_attempt,
+                        "patch_rejection_count": generation_attempt - 1,
+                        "patch_operation_count": 0,
+                        "patch_add_count": 0,
+                        "patch_replace_count": 0,
+                        "patch_delete_count": 0,
+                        "patch_inserted_characters": 0,
+                        "patch_deleted_characters": 0,
+                        "patch_apply_latency_ms": patch_apply_latency_ms,
+                        "privacy": privacy.as_dict(destination="cloud"),
+                    },
+                )
+            if len(calls) != 1 or getattr(calls[0], "name", None) != "memory_patch":
+                repair_reason = "invalid Tool call set"
+                continue
+            raw_arguments = getattr(calls[0], "arguments", "") or ""
+            try:
+                arguments = json.loads(raw_arguments)
+            except (TypeError, json.JSONDecodeError):
+                repair_reason = "memory_patch arguments were invalid JSON"
+                continue
+            if not isinstance(arguments, dict) or set(arguments) != {"operations"}:
+                repair_reason = "memory_patch arguments did not match schema"
+                continue
+            apply_started = time.monotonic()
+            try:
+                prepared_operations, operation_metadata = (
+                    self._prepare_patch_operations(
+                        arguments["operations"],
+                        source_history=daily_history,
+                    )
+                )
+                patched, patch_stats = apply_recursive_summary_patch(
+                    previous_memory,
+                    prepared_operations,
+                )
+            except (TypeError, ValueError) as exc:
+                patch_apply_latency_ms += max(
+                    0,
+                    int((time.monotonic() - apply_started) * 1_000),
+                )
+                repair_reason = str(exc)
+                continue
+            patch_apply_latency_ms += max(
+                0,
+                int((time.monotonic() - apply_started) * 1_000),
+            )
+            break
+        else:
+            raise RuntimeError(
+                "Recursive summary memory_patch remained invalid after "
+                f"{self.max_patch_generation_attempts} attempts: {repair_reason}"
+            )
+        content, truncated, postprocess_usage, postprocess_metadata = (
+            self._postprocess_patched_memory(
+                previous_memory=previous_memory,
+                patched=patched,
+                patch_stats=patch_stats,
+            )
+        )
+        usage = _merge_model_usage(usage, postprocess_usage)
+        if not content:
+            raise RuntimeError("Recursive summary memory_patch produced empty memory")
+        memory_sha256 = hashlib.sha256(content.encode("utf-8")).hexdigest()
+        return MemoryResponse(
+            content=content,
+            usage=usage,
+            response_id=getattr(response, "id", None),
+            metadata={
+                "status": provider_status,
+                "update_status": "updated",
+                "update_mode": self.update_mode,
+                "date": date,
+                "truncated": truncated,
+                "previous_memory_chars": len(previous_memory),
+                "memory_chars_before_limit": len(patched),
+                "memory_chars": len(content),
+                "memory_sha256_before": previous_sha256,
+                "memory_sha256_after": memory_sha256,
+                "patch_sha256": hashlib.sha256(
+                    raw_arguments.encode("utf-8")
+                ).hexdigest(),
+                "patch_generated_characters": len(raw_arguments),
+                "patch_generation_attempts": generation_attempt,
+                "patch_rejection_count": generation_attempt - 1,
+                "patch_operation_count": patch_stats["operation_count"],
+                "patch_add_count": patch_stats["add_count"],
+                "patch_replace_count": patch_stats["replace_count"],
+                "patch_delete_count": patch_stats["delete_count"],
+                "patch_inserted_characters": patch_stats["inserted_characters"],
+                "patch_deleted_characters": patch_stats["deleted_characters"],
+                "patch_apply_latency_ms": patch_apply_latency_ms,
+                "privacy": privacy.as_dict(destination="cloud"),
+                **operation_metadata,
+                **postprocess_metadata,
+            },
+        )
+
+
+class OpenAITemporalAwareRecursiveSummaryPatchMemoryModel(
+    OpenAIRecursiveSummaryPatchMemoryModel
+):
+    """Conservative Patch variant that preserves durable baselines."""
+
+    schema_version = "recursive-summary-temporal-patch-v1"
+    patch_tool = RECURSIVE_SUMMARY_TEMPORAL_PATCH_TOOL
+    update_mode = "deterministic_temporal_patch"
+
+    def __init__(
+        self,
+        model_id: str,
+        *,
+        timeout_seconds: float,
+        instructions: str,
+        prompt_version: str = "vehicle-turnwise-recursive-summary-temporal-patch-v1",
+        **kwargs: Any,
+    ):
+        super().__init__(
+            model_id,
+            timeout_seconds=timeout_seconds,
+            instructions=instructions,
+            prompt_version=prompt_version,
+            **kwargs,
+        )
+
+    def _prepare_patch_operations(
+        self,
+        operations: Any,
+        *,
+        source_history: str,
+    ) -> tuple[list[dict[str, str]], dict[str, Any]]:
+        return prepare_temporal_summary_patch_operations(
+            operations,
+            source_history=source_history,
+        )
+
+
+class OpenAICompactingRecursiveSummaryPatchMemoryModel(
+    OpenAIRecursiveSummaryPatchMemoryModel
+):
+    """Turn-wise Patch with an occasional validated full-memory compaction."""
+
+    schema_version = "recursive-summary-patch-periodic-compaction-v3-soft-target"
+    update_mode = "deterministic_patch_with_periodic_compaction"
+
+    def __init__(
+        self,
+        model_id: str,
+        *,
+        timeout_seconds: float,
+        instructions: str,
+        prompt_version: str = (
+            "vehicle-turnwise-recursive-summary-patch-compact-v3-soft-target"
+        ),
+        compaction_instructions: str,
+        compaction_add_threshold: int = 64,
+        compaction_token_threshold: int = 1_000,
+        compaction_target_ratio: float = 0.70,
+        max_compaction_attempts: int = 2,
+        **kwargs: Any,
+    ):
+        super().__init__(
+            model_id,
+            timeout_seconds=timeout_seconds,
+            instructions=instructions,
+            prompt_version=prompt_version,
+            **kwargs,
+        )
+        if compaction_add_threshold < 1:
+            raise ValueError("Compaction add threshold must be positive")
+        if compaction_token_threshold < 2:
+            raise ValueError("Compaction token threshold must be at least 2")
+        if not 0 < compaction_target_ratio < 1:
+            raise ValueError("Compaction target ratio must be between 0 and 1")
+        if max_compaction_attempts < 1:
+            raise ValueError("Compaction attempts must be positive")
+        if not compaction_instructions.strip():
+            raise ValueError("Compaction instructions are required")
+        self.compaction_add_threshold = compaction_add_threshold
+        self.compaction_token_threshold = compaction_token_threshold
+        self.compaction_target_ratio = compaction_target_ratio
+        self.max_compaction_attempts = max_compaction_attempts
+        self.compaction_instructions = compaction_instructions
+        self._patch_add_count_since_compaction = 0
+        self._token_counter = TokenCounter()
+
+    def set_compaction_state(self, *, patch_add_count: int) -> None:
+        if patch_add_count < 0:
+            raise ValueError("Patch add count cannot be negative")
+        self._patch_add_count_since_compaction = patch_add_count
+
+    def update(
+        self,
+        *,
+        previous_memory: str,
+        date: str,
+        daily_history: str,
+    ) -> MemoryResponse:
+        response = super().update(
+            previous_memory=previous_memory,
+            date=date,
+            daily_history=daily_history,
+        )
+        if response.metadata.get("update_status") != "noop":
+            return response
+        return replace(
+            response,
+            metadata={
+                **response.metadata,
+                "update_mode": self.update_mode,
+                "compaction_triggered": False,
+                "compaction_reason": [],
+                "patch_add_count_since_compaction": (
+                    self._patch_add_count_since_compaction
+                ),
+                "compaction_latency_ms": 0,
+                "compaction_attempts": 0,
+            },
+        )
+
+    def _postprocess_patched_memory(
+        self,
+        *,
+        previous_memory: str,
+        patched: str,
+        patch_stats: Mapping[str, int],
+    ) -> tuple[str, bool, ModelUsage, dict[str, Any]]:
+        patched = _normalize_recursive_summary(patched)
+        previous_tokens = self._token_counter.count(previous_memory)
+        patched_tokens = self._token_counter.count(patched)
+        adds_before = self._patch_add_count_since_compaction
+        adds_after_patch = adds_before + int(patch_stats.get("add_count", 0))
+        reasons = []
+        if adds_after_patch >= self.compaction_add_threshold:
+            reasons.append("add_threshold")
+        if (
+            previous_tokens < self.compaction_token_threshold
+            <= patched_tokens
+        ):
+            reasons.append("token_threshold")
+        if len(patched) > self.max_memory_chars:
+            reasons.append("character_limit")
+        if not reasons:
+            self._patch_add_count_since_compaction = adds_after_patch
+            return (
+                patched,
+                False,
+                ModelUsage(),
+                {
+                    "update_mode": self.update_mode,
+                    "compaction_triggered": False,
+                    "compaction_reason": [],
+                    "patch_add_count_since_compaction_before": adds_before,
+                    "patch_add_count_since_compaction": adds_after_patch,
+                    "compaction_tokens_before": patched_tokens,
+                    "compaction_tokens_after": patched_tokens,
+                    "compaction_latency_ms": 0,
+                    "compaction_attempts": 0,
+                },
+            )
+
+        provider_input, privacy = redact_data_for_cloud(
+            (
+                "**Accumulated Patch Memory:**\n"
+                f"{patched}\n\n"
+                "This is a required maintenance rewrite. Apply the supplied "
+                "Recursive Summary rules to the complete memory and call "
+                "memory_update exactly once. Preserve every exact value, "
+                "owner, condition, and time scope while merging redundancy. "
+                "When it is safe, aim to return no more than "
+                f"{max(1, int(patched_tokens * self.compaction_target_ratio))} "
+                "tokens."
+            ),
+            include_pii=self.redact_pii,
+            allowlist=self.pii_allowlist,
+        )
+        usage = ModelUsage()
+        started = time.monotonic()
+        rejection_reason = ""
+        compaction_response_id: str | None = None
+        compaction_target_tokens = max(
+            1,
+            int(patched_tokens * self.compaction_target_ratio),
+        )
+        for _attempt in range(1, self.max_compaction_attempts + 1):
+            attempt_input = provider_input
+            if rejection_reason:
+                attempt_input += (
+                    "\n\nThe previous compaction was rejected because "
+                    f"{rejection_reason}. Return a shorter complete memory."
+                )
+            response = self._client.responses.create(
+                model=self.model_id,
+                instructions=self.compaction_instructions,
+                input=attempt_input,
+                tools=[RECURSIVE_SUMMARY_UPDATE_TOOL],
+                tool_choice={"type": "function", "name": "memory_update"},
+                max_output_tokens=self.max_output_tokens,
+                reasoning={"effort": self.reasoning_effort},
+                store=False,
+            )
+            usage = _merge_model_usage(usage, _response_usage(response))
+            compaction_response_id = getattr(response, "id", None)
+            status = getattr(response, "status", None)
+            if status in {"failed", "incomplete", "cancelled"}:
+                rejection_reason = f"provider status was {status}"
+                continue
+            calls = [
+                item
+                for item in (getattr(response, "output", ()) or ())
+                if getattr(item, "type", None) == "function_call"
+            ]
+            if (
+                len(calls) != 1
+                or getattr(calls[0], "name", None) != "memory_update"
+            ):
+                rejection_reason = "memory_update was not called exactly once"
+                continue
+            try:
+                arguments = json.loads(getattr(calls[0], "arguments", "") or "")
+            except (TypeError, json.JSONDecodeError):
+                rejection_reason = "memory_update arguments were invalid JSON"
+                continue
+            if (
+                not isinstance(arguments, dict)
+                or set(arguments) != {"new_memory"}
+                or not isinstance(arguments["new_memory"], str)
+            ):
+                rejection_reason = "memory_update arguments did not match schema"
+                continue
+            compacted = _normalize_recursive_summary(arguments["new_memory"])
+            compacted_tokens = self._token_counter.count(compacted)
+            if not compacted:
+                rejection_reason = "the memory was empty"
+                continue
+            if len(compacted) > self.max_memory_chars:
+                rejection_reason = "the memory exceeded the character limit"
+                continue
+            compaction_applied = compacted_tokens < patched_tokens
+            if not compaction_applied:
+                compacted = patched
+                compacted_tokens = patched_tokens
+            break
+        else:
+            raise RuntimeError(
+                "Recursive summary patch compaction remained invalid after "
+                f"{self.max_compaction_attempts} attempts: {rejection_reason}"
+            )
+        latency_ms = max(0, int((time.monotonic() - started) * 1_000))
+        self._patch_add_count_since_compaction = 0
+        return (
+            compacted,
+            False,
+            usage,
+            {
+                "update_mode": self.update_mode,
+                "compaction_triggered": True,
+                "compaction_reason": reasons,
+                "patch_add_count_since_compaction_before": adds_before,
+                "patch_add_count_since_compaction": 0,
+                "compaction_tokens_before": patched_tokens,
+                "compaction_tokens_after": compacted_tokens,
+                "compaction_target_ratio": self.compaction_target_ratio,
+                "compaction_target_tokens": compaction_target_tokens,
+                "compaction_achieved_ratio": (
+                    compacted_tokens / patched_tokens
+                ),
+                "compaction_target_met": (
+                    compacted_tokens <= compaction_target_tokens
+                ),
+                "compaction_applied": compaction_applied,
+                "compaction_characters_before": len(patched),
+                "compaction_characters_after": len(compacted),
+                "compaction_latency_ms": latency_ms,
+                "compaction_attempts": _attempt,
+                "compaction_input_tokens": usage.input_tokens,
+                "compaction_output_tokens": usage.output_tokens,
+                "compaction_response_id": compaction_response_id,
+                "compaction_privacy": privacy.as_dict(destination="cloud"),
+            },
+        )
+
+
+class OpenAICompactingTemporalAwareRecursiveSummaryPatchMemoryModel(
+    OpenAICompactingRecursiveSummaryPatchMemoryModel
+):
+    """Temporal Patch with an occasional semantics-preserving compaction."""
+
+    schema_version = (
+        "recursive-summary-temporal-patch-periodic-compaction-v1-soft-target"
+    )
+    patch_tool = RECURSIVE_SUMMARY_TEMPORAL_PATCH_TOOL
+    update_mode = "deterministic_temporal_patch_with_periodic_compaction"
+
+    def _prepare_patch_operations(
+        self,
+        operations: Any,
+        *,
+        source_history: str,
+    ) -> tuple[list[dict[str, str]], dict[str, Any]]:
+        return prepare_temporal_summary_patch_operations(
+            operations,
+            source_history=source_history,
         )
 
 
@@ -1753,14 +2709,17 @@ class _ToolMemoryPatchPayload(BaseModel):
     operation: Literal["ADD", "UPDATE", "MERGE", "DELETE"]
     identity: _PatchIdentityPayload | None
     value_json: str
-    memory_type: Literal[
-        "constraint",
-        "decision",
-        "fact",
-        "policy",
-        "preference",
-        "state",
-    ] | None
+    memory_type: (
+        Literal[
+            "constraint",
+            "decision",
+            "fact",
+            "policy",
+            "preference",
+            "state",
+        ]
+        | None
+    )
     confidence: float = Field(ge=0, le=1)
     evidence: list[_PatchEvidencePayload]
     target_record_id: str | None
@@ -2003,19 +2962,11 @@ class OpenAIFactMemoryModel:
                 "privacy": privacy.as_dict(destination="cloud"),
                 "tool_ontology_included": False,
                 "active_record_count": len(active_records),
-                "auxiliary_context_included": (
-                    self.auxiliary_context is not None
-                ),
-                "auxiliary_context_sha256": (
-                    self.auxiliary_context_sha256
-                ),
-                "recursive_assisted": (
-                    self.auxiliary_context is not None
-                ),
+                "auxiliary_context_included": (self.auxiliary_context is not None),
+                "auxiliary_context_sha256": (self.auxiliary_context_sha256),
+                "recursive_assisted": (self.auxiliary_context is not None),
                 "assisted_candidate_count": (
-                    len(parsed.candidates)
-                    if self.auxiliary_context is not None
-                    else 0
+                    len(parsed.candidates) if self.auxiliary_context is not None else 0
                 ),
             },
         )
@@ -2051,9 +3002,7 @@ class OpenAIFactMemoryModel:
         )
         parsed = response.output_parsed
         if parsed is None:
-            raise RuntimeError(
-                "Fact semantic MemoryModel returned no parsed output"
-            )
+            raise RuntimeError("Fact semantic MemoryModel returned no parsed output")
         return FactMemorySemanticReviewResponse(
             decisions=tuple(
                 FactMemorySemanticDecision(
@@ -2208,9 +3157,7 @@ class OpenAISchemaInformedFactMemoryModel(OpenAIFactMemoryModel):
                 "Schema-informed Fact MemoryModel returned no parsed output"
             )
         assessment_counts = self._validate_assessments(messages, parsed)
-        selected_predicates = {
-            item.storage_predicate for item in match_result.matches
-        }
+        selected_predicates = {item.storage_predicate for item in match_result.matches}
         message_speakers = {
             message.id: speaker
             for message in messages
@@ -2225,9 +3172,7 @@ class OpenAISchemaInformedFactMemoryModel(OpenAIFactMemoryModel):
                 self._canonical_evidence_entity(candidate, message_speakers)
             )
             if entity_rejection is not None:
-                rejections.append(
-                    {"candidate_index": index, "code": entity_rejection}
-                )
+                rejections.append({"candidate_index": index, "code": entity_rejection})
                 continue
             if entity_resolved:
                 speaker_entity_resolution_count += 1
@@ -2256,9 +3201,7 @@ class OpenAISchemaInformedFactMemoryModel(OpenAIFactMemoryModel):
                 "assessment_counts": assessment_counts,
                 "entity_resolution_version": self.entity_resolution_version,
                 "linking_policy_version": self.linking_policy_version,
-                "speaker_entity_resolution_count": (
-                    speaker_entity_resolution_count
-                ),
+                "speaker_entity_resolution_count": (speaker_entity_resolution_count),
                 "ontology_rejections": rejections,
                 "ontology_match": dict(match_result.metadata),
                 "ontology_embedding_usage": {
@@ -2308,9 +3251,7 @@ class OpenAISchemaInformedFactMemoryModel(OpenAIFactMemoryModel):
                     "candidate index"
                 )
             if assessment.status == "candidate" and not indexes:
-                raise RuntimeError(
-                    "Candidate assessment requires a candidate index"
-                )
+                raise RuntimeError("Candidate assessment requires a candidate index")
             if assessment.status != "candidate" and indexes:
                 raise RuntimeError(
                     "Non-candidate assessment cannot reference candidates"
@@ -2323,9 +3264,7 @@ class OpenAISchemaInformedFactMemoryModel(OpenAIFactMemoryModel):
                 }
                 for index in indexes
             ):
-                raise RuntimeError(
-                    "Candidate assessment must match candidate evidence"
-                )
+                raise RuntimeError("Candidate assessment must match candidate evidence")
             referenced.update(indexes)
         if referenced != set(range(candidate_count)):
             raise RuntimeError(
@@ -2351,8 +3290,7 @@ class OpenAISchemaInformedFactMemoryModel(OpenAIFactMemoryModel):
         message_speakers: Mapping[int, str],
     ) -> tuple[str, str | None, bool]:
         evidence_speakers = [
-            message_speakers.get(evidence.message_id)
-            for evidence in candidate.evidence
+            message_speakers.get(evidence.message_id) for evidence in candidate.evidence
         ]
         if not evidence_speakers or any(
             speaker is None for speaker in evidence_speakers
@@ -2387,9 +3325,10 @@ class OpenAISchemaInformedFactMemoryModel(OpenAIFactMemoryModel):
             explicit_target=(str(raw_target) if raw_target is not None else None),
             supported_targets=(concrete_targets if raw_target is None else ()),
         )
-        if target == "other" and not str(
-            identity_conditions.get("raw_target", "")
-        ).strip():
+        if (
+            target == "other"
+            and not str(identity_conditions.get("raw_target", "")).strip()
+        ):
             return None, "other_target_requires_raw_target"
         identity_conditions["target"] = target
         if not self._value_is_valid(capability.id, target, candidate.value):
@@ -2508,8 +3447,7 @@ class OpenAIPostNormalizedFactMemoryModel(OpenAIFactMemoryModel):
         self.minimum_match_margin = minimum_match_margin
         self.minimum_lexical_score = minimum_lexical_score
         self.canonical_predicate_allowlist = frozenset(
-            capability.id.replace(".", "_")
-            for capability in ontology.capabilities
+            capability.id.replace(".", "_") for capability in ontology.capabilities
         )
         self.matcher = VehicleFactOntologyMatcher(
             ontology,
@@ -2552,8 +3490,7 @@ class OpenAIPostNormalizedFactMemoryModel(OpenAIFactMemoryModel):
             message.id: speaker
             for message in messages
             if (
-                speaker
-                := OpenAISchemaInformedFactMemoryModel._history_speaker(
+                speaker := OpenAISchemaInformedFactMemoryModel._history_speaker(
                     message.content
                 )
             )
@@ -2587,9 +3524,7 @@ class OpenAIPostNormalizedFactMemoryModel(OpenAIFactMemoryModel):
                 speaker_entity_resolution_count += 1
                 candidate = replace(candidate, entity_id=entity_id)
             matches = (
-                match_result.matches[index]
-                if index < len(match_result.matches)
-                else ()
+                match_result.matches[index] if index < len(match_result.matches) else ()
             )
             normalized, fallback_reason = self._post_normalize_candidate(
                 candidate,
@@ -2611,19 +3546,13 @@ class OpenAIPostNormalizedFactMemoryModel(OpenAIFactMemoryModel):
                 "canonical_ontology_post_normalized": True,
                 "canonical_ontology_version": self.ontology.schema_version,
                 "canonical_ontology_sha256": self.ontology.ontology_sha256,
-                "normalization_policy_version": (
-                    self.normalization_policy_version
-                ),
+                "normalization_policy_version": (self.normalization_policy_version),
                 "entity_resolution_version": self.entity_resolution_version,
                 "linking_policy_version": self.linking_policy_version,
-                "speaker_entity_resolution_count": (
-                    speaker_entity_resolution_count
-                ),
+                "speaker_entity_resolution_count": (speaker_entity_resolution_count),
                 "speaker_rejection_count": speaker_rejection_count,
                 "post_normalization_input_count": len(extracted.candidates),
-                "post_normalization_canonicalized_count": (
-                    canonicalized_count
-                ),
+                "post_normalization_canonicalized_count": (canonicalized_count),
                 "post_normalization_fallback_count": (
                     len(normalized_candidates) - canonicalized_count
                 ),
@@ -2732,9 +3661,7 @@ class OpenAIPostNormalizedFactMemoryModel(OpenAIFactMemoryModel):
             return None if resolved == "other" else resolved
         descriptor_tokens = self._descriptor_tokens(candidate)
         matched_targets = [
-            target
-            for target in concrete
-            if set(target.split("_")) <= descriptor_tokens
+            target for target in concrete if set(target.split("_")) <= descriptor_tokens
         ]
         if len(matched_targets) == 1:
             return matched_targets[0]
@@ -2762,9 +3689,7 @@ class OpenAIPostNormalizedFactMemoryModel(OpenAIFactMemoryModel):
         mapped_options: dict[str, tuple[dict[str, Any], dict[str, Any]]] = {}
         for binding in bindings:
             value_arguments = tuple(
-                argument
-                for argument in binding.arguments
-                if argument.role == "value"
+                argument for argument in binding.arguments if argument.role == "value"
             )
             if not value_arguments:
                 continue
@@ -2782,9 +3707,7 @@ class OpenAIPostNormalizedFactMemoryModel(OpenAIFactMemoryModel):
                 if missing_required:
                     if len(value_arguments) != 1 or len(value) != 1:
                         continue
-                    present = {
-                        value_arguments[0].name: next(iter(value.values()))
-                    }
+                    present = {value_arguments[0].name: next(iter(value.values()))}
                 mapped = present
             elif len(value_arguments) == 1:
                 mapped = {value_arguments[0].name: value}
@@ -3249,9 +4172,7 @@ def _fact_memory_semantic_input(
                 "entity_id": case.candidate.entity_id,
                 "predicate": case.candidate.predicate,
                 "value": case.candidate.value,
-                "identity_conditions": dict(
-                    case.candidate.identity_conditions
-                ),
+                "identity_conditions": dict(case.candidate.identity_conditions),
                 "applicability": dict(case.candidate.applicability),
                 "memory_type": case.candidate.memory_type,
                 "confidence": case.candidate.confidence,
@@ -3349,9 +4270,7 @@ def _payload_fact_candidate(
         field_name="applicability_json",
     )
     if not isinstance(identity_conditions, dict):
-        raise RuntimeError(
-            "Fact identity_conditions_json must decode to an object"
-        )
+        raise RuntimeError("Fact identity_conditions_json must decode to an object")
     if not isinstance(applicability, dict):
         raise RuntimeError("Fact applicability_json must decode to an object")
     return FactMemoryCandidate(
@@ -3381,9 +4300,7 @@ def _decode_patch_json(raw: str, *, field_name: str) -> Any:
     try:
         return json.loads(raw)
     except json.JSONDecodeError as exc:
-        raise RuntimeError(
-            f"PatchMemoryModel returned invalid {field_name}"
-        ) from exc
+        raise RuntimeError(f"PatchMemoryModel returned invalid {field_name}") from exc
 
 
 def _structured_schema() -> dict[str, Any]:
@@ -3479,6 +4396,15 @@ def _response_usage(response: Any) -> ModelUsage:
         output_tokens=output_tokens,
         total_tokens=total_tokens,
         cached_tokens=cached_tokens,
+    )
+
+
+def _merge_model_usage(left: ModelUsage, right: ModelUsage) -> ModelUsage:
+    return ModelUsage(
+        input_tokens=left.input_tokens + right.input_tokens,
+        output_tokens=left.output_tokens + right.output_tokens,
+        total_tokens=left.total_tokens + right.total_tokens,
+        cached_tokens=left.cached_tokens + right.cached_tokens,
     )
 
 

@@ -1,0 +1,57 @@
+{
+  "version": "vehiclemembench-turnwise-gold-alignment-v1",
+  "dataset_sha256": "d745b359794da1540431d05bcf6ea6ff4d75308dfa4f672e51875deb731cf88c",
+  "scenario_index": 1,
+  "reviewed_alignments": [
+    {
+      "event_id": "s01-09-00-db59224bee67",
+      "turn_index": 157,
+      "note": "The official event is paraphrased two minutes later by Gary with the HUD value and daytime condition."
+    },
+    {
+      "event_id": "s01-09-00-4a474588eaf9",
+      "turn_index": 510,
+      "note": "The turn explicitly sets HUD brightness to 4."
+    },
+    {
+      "event_id": "s01-04-00-6cbb81ff2fcd",
+      "turn_index": 620,
+      "note": "The turn explicitly records muted navigation."
+    },
+    {
+      "event_id": "s01-05-00-92f6c224bedd",
+      "turn_index": 747,
+      "note": "The dialogue includes the omitted level-3 value from the event summary."
+    },
+    {
+      "event_id": "s01-05-01-c3bd10f93c27",
+      "turn_index": 753,
+      "note": "The correction turn explicitly lowers ventilation to level 2."
+    },
+    {
+      "event_id": "s01-00-00-608e99ff0b35",
+      "turn_index": 946,
+      "note": "The turn explicitly sets the panel to blue."
+    },
+    {
+      "event_id": "s01-08-00-9cea533a8ba0",
+      "turn_index": 1093,
+      "note": "Gary explicitly associates the green vehicle light with comfort and focus."
+    },
+    {
+      "event_id": "s01-02-00-207b34b660f4",
+      "turn_index": 678,
+      "note": "The prior complaint starts the event, but this turn explicitly records auto-brightness as on."
+    },
+    {
+      "event_id": "s01-03-00-7de09eea12ec",
+      "turn_index": 1190,
+      "note": "The quoted event opener omits the color; this turn explicitly states Gary's green-light preference."
+    },
+    {
+      "event_id": "s01-06-00-27763ffde55b",
+      "turn_index": 1500,
+      "note": "The setting action occurs one minute after the event-level timestamp."
+    }
+  ]
+}

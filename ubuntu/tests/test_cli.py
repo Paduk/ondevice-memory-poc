@@ -1,10 +1,46 @@
 from __future__ import annotations
 
 import json
+import os
 
-from palmclaw_ubuntu.cli import _amem_dry_run_report, build_parser, main
+import pytest
+
+from palmclaw_ubuntu.cli import (
+    DEFAULT_ARTIFACT_ROOT,
+    _amem_dry_run_report,
+    _artifact_root,
+    _configure_evaluation_tempdir,
+    _evaluation_artifact_root,
+    build_parser,
+    main,
+)
 from palmclaw_ubuntu.models import ToolMemoryIdentity
 from palmclaw_ubuntu.storage import SQLiteRepository
+
+
+def test_evaluation_artifacts_default_to_large_volume(monkeypatch):
+    monkeypatch.delenv("PALMCLAW_ARTIFACT_ROOT", raising=False)
+
+    assert _artifact_root() == DEFAULT_ARTIFACT_ROOT
+    assert _evaluation_artifact_root() == (
+        DEFAULT_ARTIFACT_ROOT / "evaluation"
+    )
+
+
+def test_evaluation_artifact_root_and_tempdir_are_configurable(
+    tmp_path,
+    monkeypatch,
+):
+    artifact_root = tmp_path / "artifacts"
+    monkeypatch.setenv("PALMCLAW_ARTIFACT_ROOT", str(artifact_root))
+    monkeypatch.delenv("TMPDIR", raising=False)
+
+    _configure_evaluation_tempdir()
+
+    assert _artifact_root() == artifact_root
+    assert _evaluation_artifact_root() == artifact_root / "evaluation"
+    assert artifact_root.joinpath("tmp").is_dir()
+    assert os.environ["TMPDIR"] == str(artifact_root / "tmp")
 
 
 def test_vehicle_cli_accepts_amem_profile_and_debug_limits():
@@ -51,6 +87,94 @@ def test_vehicle_cli_accepts_amem_style_threshold():
 
     assert args.profiles == "cloud_amem_style"
     assert args.amem_style_evolution_threshold == 0.82
+
+
+def test_vehicle_cli_accepts_compact_amem_profile_and_episode_settings():
+    args = build_parser().parse_args(
+        [
+            "eval",
+            "vehicle",
+            "--benchmark-root",
+            "/tmp/VehicleMemBench",
+            "--mode",
+            "live",
+            "--profiles",
+            "cloud_compact_amem_style",
+            "--compact-amem-episode-max-entries",
+            "12",
+            "--compact-amem-episode-max-chars",
+            "6000",
+            "--compact-amem-episode-max-gap-seconds",
+            "7200",
+            "--compact-amem-link-threshold",
+            "0.8",
+        ]
+    )
+
+    assert args.profiles == "cloud_compact_amem_style"
+    assert args.compact_amem_episode_max_entries == 12
+    assert args.compact_amem_episode_max_chars == 6000
+    assert args.compact_amem_episode_max_gap_seconds == 7200
+    assert args.compact_amem_link_threshold == 0.8
+
+
+def test_vehicle_cli_accepts_recursive_summary_patch_profile():
+    args = build_parser().parse_args(
+        [
+            "eval",
+            "vehicle",
+            "--benchmark-root",
+            "/tmp/VehicleMemBench",
+            "--mode",
+            "live",
+            "--profiles",
+            "cloud_recursive_summary_patch",
+        ]
+    )
+
+    assert args.profiles == "cloud_recursive_summary_patch"
+
+
+@pytest.mark.parametrize(
+    "profile",
+    (
+        "cloud_turnwise_recursive_summary",
+        "cloud_turnwise_recursive_summary_patch",
+        "cloud_turnwise_recursive_summary_patch_compact",
+        "cloud_turnwise_recursive_summary_patch_temporal",
+        "cloud_turnwise_recursive_summary_patch_temporal_compact",
+    ),
+)
+def test_vehicle_cli_accepts_turnwise_recursive_profiles(profile):
+    args = build_parser().parse_args(
+        [
+            "eval",
+            "vehicle",
+            "--benchmark-root",
+            "/tmp/VehicleMemBench",
+            "--mode",
+            "live",
+            "--profiles",
+            profile,
+            "--history-entry-limit",
+            "50",
+            "--recursive-summary-max-memory-chars",
+            "16384",
+            "--recursive-summary-compaction-adds",
+            "32",
+            "--recursive-summary-compaction-tokens",
+            "900",
+            "--recursive-summary-compaction-target-ratio",
+            "0.7",
+        ]
+    )
+
+    assert args.profiles == profile
+    assert args.history_entry_limit == 50
+    assert args.recursive_summary_max_memory_chars == 16_384
+    assert args.recursive_summary_compaction_adds == 32
+    assert args.recursive_summary_compaction_tokens == 900
+    assert args.recursive_summary_compaction_target_ratio == 0.7
 
 
 def test_amem_dry_run_report_fixes_calls_token_and_cost_contract():

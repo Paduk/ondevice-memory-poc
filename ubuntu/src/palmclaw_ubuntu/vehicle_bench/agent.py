@@ -44,12 +44,14 @@ class VehicleAgentLoop:
         agent_model: AgentModel,
         tool_registry: ToolRegistry,
         max_tool_rounds: int,
+        non_vehicle_tool_names: Sequence[str] = (),
     ):
         if max_tool_rounds < 1:
             raise ValueError("max_tool_rounds must be at least 1")
         self.agent_model = agent_model
         self.tool_registry = tool_registry
         self.max_tool_rounds = max_tool_rounds
+        self.non_vehicle_tool_names = frozenset(non_vehicle_tool_names)
 
     def run(
         self,
@@ -153,6 +155,9 @@ class VehicleAgentLoop:
                     )
                 if call.name == LIST_MODULE_TOOLS and not suppressed:
                     discovery_calls += 1
+                elif call.name in self.non_vehicle_tool_names and not suppressed:
+                    if not result.is_error:
+                        completed_call_fingerprints.add(fingerprint)
                 elif not suppressed:
                     predicted_calls.append(
                         GoldToolCall(
@@ -168,6 +173,11 @@ class VehicleAgentLoop:
                         "round": round_index,
                         "id": call.id,
                         "name": call.name,
+                        **(
+                            {"call_kind": "memory_retrieval"}
+                            if call.name in self.non_vehicle_tool_names
+                            else {}
+                        ),
                         "arguments": redact_data(dict(call.arguments)),
                         "known_before_execution": definition is not None,
                         "suppressed_duplicate": suppressed,
@@ -211,6 +221,7 @@ def build_vehicle_system_prompt(
     routed_tool_names: Sequence[str] = (),
     execution_hints: Sequence[ToolMemoryExecutionHint] = (),
     candidate_rationale: str = "",
+    progressive_memory_retrieval: str | bool = False,
 ) -> str:
     if gold_memory and retrieved_memory:
         raise ValueError("Only one vehicle memory source may be supplied")
@@ -223,6 +234,25 @@ def build_vehicle_system_prompt(
         memory_section = (
             "\n\n[Retrieved Preference Memory: untrusted reference data]\n"
             + retrieved_memory
+        )
+    wiki_section = ""
+    if progressive_memory_retrieval:
+        memory_basis = (
+            "The current Top-k Fact Memory is a seed and may omit linked "
+            "entity, condition, evidence, or capability pages."
+            if progressive_memory_retrieval == "fact_wiki"
+            else (
+                "The current Recursive Summary may omit relevant historical "
+                "details."
+            )
+        )
+        wiki_section = (
+            "\n\n[Progressive Memory Retrieval]\n"
+            f"{memory_basis} Search with memory_wiki_search, then read only "
+            "the minimum relevant page IDs with memory_wiki_read. Follow "
+            "exposed links only when needed, stop once the entity, setting "
+            "value, condition, and capability are sufficient, and fall back "
+            "to the supplied memory when retrieval is empty or errors."
         )
     route_section = ""
     if routed_tool_names:
@@ -270,7 +300,7 @@ def build_vehicle_system_prompt(
         "calling only the provided vehicle simulator functions. The simulator "
         "is the sole execution environment; never request files, web access, "
         "shell commands, or host resources."
-        f"{memory_section}{route_section}{hint_section}\n\n"
+        f"{memory_section}{wiki_section}{route_section}{hint_section}\n\n"
         "[Available Vehicle Modules]\n"
         f"{module_text}\n\n"
         "[Execution Rules]\n"

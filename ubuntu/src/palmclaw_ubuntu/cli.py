@@ -14,6 +14,33 @@ from palmclaw_ubuntu.config import Settings
 from palmclaw_ubuntu.skills import SkillsLoader
 from palmclaw_ubuntu.storage import SQLiteRepository
 
+DEFAULT_ARTIFACT_ROOT = Path("/mnt/data/hj153lee/PalmClaw")
+
+
+def _artifact_root() -> Path:
+    """Return the large-volume root used by evaluation artifacts by default."""
+
+    configured = os.getenv("PALMCLAW_ARTIFACT_ROOT")
+    return (
+        Path(configured).expanduser()
+        if configured
+        else DEFAULT_ARTIFACT_ROOT
+    )
+
+
+def _evaluation_artifact_root() -> Path:
+    return _artifact_root() / "evaluation"
+
+
+def _configure_evaluation_tempdir() -> None:
+    """Keep evaluation temporary files off the system/root filesystem."""
+
+    if os.getenv("TMPDIR"):
+        return
+    temporary_root = _artifact_root() / "tmp"
+    temporary_root.mkdir(parents=True, exist_ok=True)
+    os.environ["TMPDIR"] = str(temporary_root)
+
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
@@ -288,12 +315,21 @@ def build_parser() -> argparse.ArgumentParser:
         "--profiles",
         help=(
             "Comma-separated live profiles: no_memory, gold_memory, "
-            "cloud_amem, cloud_amem_style, cloud_summary, "
+            "cloud_amem, cloud_amem_style, cloud_compact_amem_style, "
+            "cloud_summary, "
             "cloud_recursive_summary, "
+            "cloud_recursive_summary_patch, "
+            "cloud_turnwise_recursive_summary, "
+            "cloud_turnwise_recursive_summary_patch, "
+            "cloud_turnwise_recursive_summary_patch_compact, "
+            "cloud_turnwise_recursive_summary_patch_temporal, "
+            "cloud_turnwise_recursive_summary_patch_temporal_compact, "
+            "cloud_recursive_summary_gated_wiki, "
             "cloud_fact_recursive_hybrid, "
             "cloud_recursive_assisted_fact_patch, "
             "cloud_schema_informed_recursive_assisted_fact_patch, "
             "cloud_joint_planned_fact_patch, "
+            "cloud_post_normalized_fact_wiki, "
             "cloud_structured_bm25, "
             "cloud_structured_embedding, cloud_structured_hybrid, "
             "cloud_schema_patch, cloud_fact_patch, "
@@ -346,6 +382,35 @@ def build_parser() -> argparse.ArgumentParser:
         type=int,
         default=8_000,
     )
+    evaluation_vehicle.add_argument(
+        "--history-entry-limit",
+        type=int,
+        help="Use only the first N chronological history entries (smoke tests only)",
+    )
+    evaluation_vehicle.add_argument(
+        "--recursive-summary-max-memory-chars",
+        type=int,
+        default=8_192,
+        help="Maximum retained Recursive Summary characters",
+    )
+    evaluation_vehicle.add_argument(
+        "--recursive-summary-compaction-adds",
+        type=int,
+        default=64,
+        help="Patch adds accumulated before periodic compaction",
+    )
+    evaluation_vehicle.add_argument(
+        "--recursive-summary-compaction-tokens",
+        type=int,
+        default=1_000,
+        help="Patch-memory tokens that trigger periodic compaction",
+    )
+    evaluation_vehicle.add_argument(
+        "--recursive-summary-compaction-target-ratio",
+        type=float,
+        default=0.70,
+        help="Maximum compacted-memory/input token ratio (0-1)",
+    )
     evaluation_vehicle.add_argument("--patch-batch-turns", type=int)
     evaluation_vehicle.add_argument("--patch-batch-tokens", type=int)
     evaluation_vehicle.add_argument("--memory-top-k", type=int)
@@ -361,8 +426,7 @@ def build_parser() -> argparse.ArgumentParser:
         type=float,
         default=0.75,
         help=(
-            "cloud_amem_style top-candidate cosine threshold for evolution "
-            "(-1 to 1)"
+            "cloud_amem_style top-candidate cosine threshold for evolution (-1 to 1)"
         ),
     )
     evaluation_vehicle.add_argument(
@@ -370,6 +434,30 @@ def build_parser() -> argparse.ArgumentParser:
         type=int,
         default=10,
         help="A-MEM embedding seed count (1-10)",
+    )
+    evaluation_vehicle.add_argument(
+        "--compact-amem-episode-max-entries",
+        type=int,
+        default=16,
+        help="Compact A-MEM maximum source entries per episode",
+    )
+    evaluation_vehicle.add_argument(
+        "--compact-amem-episode-max-chars",
+        type=int,
+        default=8_000,
+        help="Compact A-MEM maximum rendered characters per episode",
+    )
+    evaluation_vehicle.add_argument(
+        "--compact-amem-episode-max-gap-seconds",
+        type=int,
+        default=21_600,
+        help="Compact A-MEM time-gap boundary between source entries",
+    )
+    evaluation_vehicle.add_argument(
+        "--compact-amem-link-threshold",
+        type=float,
+        default=0.75,
+        help="Compact A-MEM deterministic link cosine threshold (-1 to 1)",
     )
     evaluation_vehicle.add_argument(
         "--amem-note-limit",
@@ -417,9 +505,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--allow-unpinned",
         action="store_true",
     )
-    evaluation_vehicle_matcher.set_defaults(
-        handler=_evaluation_vehicle_matcher
-    )
+    evaluation_vehicle_matcher.set_defaults(handler=_evaluation_vehicle_matcher)
     evaluation_vehicle_r0 = evaluation_subparsers.add_parser(
         "vehicle-r0",
         help="Replay frozen VehicleMemBench patch and routing diagnostics offline",
@@ -554,9 +640,7 @@ def _doctor(args: argparse.Namespace) -> int:
         "patch_memory_user_id": settings.patch_memory_user_id,
         "patch_memory_batch_size": settings.patch_memory_batch_size,
         "patch_memory_batch_tokens": settings.patch_memory_batch_tokens,
-        "tool_memory_retrieval_enabled": (
-            settings.tool_memory_retrieval_enabled
-        ),
+        "tool_memory_retrieval_enabled": (settings.tool_memory_retrieval_enabled),
         "tool_memory_retrieval_mode": settings.tool_memory_retrieval_mode,
         "tool_memory_top_k": settings.tool_memory_top_k,
         "tool_memory_context_tokens": settings.tool_memory_context_tokens,
@@ -886,9 +970,7 @@ def _memory_fact_show(args: argparse.Namespace) -> int:
             payload.append(
                 {
                     "record": asdict(detail["record"]),
-                    "sources": [
-                        asdict(source) for source in detail["sources"]
-                    ],
+                    "sources": [asdict(source) for source in detail["sources"]],
                     "status_events": detail["status_events"],
                 }
             )
@@ -965,6 +1047,7 @@ def _evaluation_profiles(args: argparse.Namespace) -> int:
 def _evaluation_run(args: argparse.Namespace) -> int:
     from palmclaw_ubuntu.evaluation import EvaluationRunner
 
+    _configure_evaluation_tempdir()
     settings = _settings(args)
     settings.ensure_directories()
     selected_profiles = tuple(
@@ -981,7 +1064,7 @@ def _evaluation_run(args: argparse.Namespace) -> int:
             execution_mode=args.mode,
             repetitions=args.repetitions,
             seed=args.seed,
-            output_root=args.output_dir,
+            output_root=args.output_dir or (_evaluation_artifact_root() / "results"),
             name=args.name,
             case_limit=args.case_limit,
         )
@@ -1018,9 +1101,7 @@ def _amem_dry_run_report(
     scenarios = []
     for scenario_index, entry_count in scenario_note_counts:
         selected_count = (
-            min(entry_count, note_limit)
-            if note_limit is not None
-            else entry_count
+            min(entry_count, note_limit) if note_limit is not None else entry_count
         )
         expected_calls = estimate_amem_generation_calls(selected_count)
         scenario = {
@@ -1038,9 +1119,7 @@ def _amem_dry_run_report(
         if profile == "cloud_amem_style":
             scenario["minimum_generation_calls"] = selected_count
         scenarios.append(scenario)
-    expected_calls = sum(
-        item["expected_generation_calls"] for item in scenarios
-    )
+    expected_calls = sum(item["expected_generation_calls"] for item in scenarios)
     maximum_output_tokens = sum(
         item["maximum_generation_output_tokens"] for item in scenarios
     )
@@ -1052,9 +1131,7 @@ def _amem_dry_run_report(
         "maximum_generation_output_tokens": maximum_output_tokens,
         "maximum_generation_output_cost_usd": (
             round(
-                maximum_output_tokens
-                * output_cost_per_million
-                / 1_000_000,
+                maximum_output_tokens * output_cost_per_million / 1_000_000,
                 8,
             )
             if output_cost_per_million
@@ -1076,9 +1153,7 @@ def _amem_dry_run_report(
         ),
         **(
             {
-                "evolution_similarity_threshold": (
-                    evolution_similarity_threshold
-                ),
+                "evolution_similarity_threshold": (evolution_similarity_threshold),
                 "minimum_generation_calls": sum(
                     item["minimum_generation_calls"] for item in scenarios
                 ),
@@ -1104,6 +1179,8 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
         VEHICLE_RECURSIVE_ASSISTED_FACT_INSTRUCTIONS,
         VEHICLE_RECURSIVE_ASSISTED_FACT_PROMPT_VERSION,
         VEHICLE_RECURSIVE_SUMMARY_INSTRUCTIONS,
+        VEHICLE_RECURSIVE_SUMMARY_PATCH_INSTRUCTIONS,
+        VEHICLE_RECURSIVE_SUMMARY_PATCH_PROMPT_VERSION,
         VEHICLE_RECURSIVE_SUMMARY_PROMPT_VERSION,
         VEHICLE_SCHEMA_INFORMED_FACT_INSTRUCTIONS,
         VEHICLE_SCHEMA_INFORMED_FACT_PROMPT_VERSION,
@@ -1112,6 +1189,15 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
         VEHICLE_STRUCTURED_PROMPT_VERSION,
         VEHICLE_SUMMARY_INSTRUCTIONS,
         VEHICLE_SUMMARY_PROMPT_VERSION,
+        VEHICLE_TURNWISE_RECURSIVE_SUMMARY_INSTRUCTIONS,
+        VEHICLE_TURNWISE_RECURSIVE_SUMMARY_PATCH_COMPACT_PROMPT_VERSION,
+        VEHICLE_TURNWISE_RECURSIVE_SUMMARY_PATCH_INSTRUCTIONS,
+        VEHICLE_TURNWISE_RECURSIVE_SUMMARY_PATCH_PROMPT_VERSION,
+        VEHICLE_TURNWISE_RECURSIVE_SUMMARY_PROMPT_VERSION,
+        VEHICLE_TURNWISE_RECURSIVE_SUMMARY_TEMPORAL_PATCH_INSTRUCTIONS,
+        VEHICLE_TURNWISE_RECURSIVE_SUMMARY_TEMPORAL_COMPACTION_INSTRUCTIONS,
+        VEHICLE_TURNWISE_RECURSIVE_SUMMARY_TEMPORAL_COMPACT_PROMPT_VERSION,
+        VEHICLE_TURNWISE_RECURSIVE_SUMMARY_TEMPORAL_PATCH_PROMPT_VERSION,
         VehicleMemoryBuilder,
         load_oracle_gate_annotations,
         load_oracle_retrieval_annotations,
@@ -1152,9 +1238,7 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
     if args.amem_dry_run:
         dry_settings = _settings(args)
         profiles = tuple(
-            item.strip()
-            for item in (args.profiles or "").split(",")
-            if item.strip()
+            item.strip() for item in (args.profiles or "").split(",") if item.strip()
         )
         amem_profiles = tuple(
             profile
@@ -1162,9 +1246,7 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
             if profile in {"cloud_amem", "cloud_amem_style"}
         )
         if len(amem_profiles) != 1:
-            raise RuntimeError(
-                "--amem-dry-run requires exactly one A-MEM profile"
-            )
+            raise RuntimeError("--amem-dry-run requires exactly one A-MEM profile")
         if args.scenario_limit < 1:
             raise ValueError("--scenario-limit must be at least 1")
         if args.amem_note_limit is not None and args.amem_note_limit < 1:
@@ -1177,9 +1259,7 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
                             scenario_index,
                             len(
                                 parse_vehicle_history(
-                                    dataset.scenario(
-                                        scenario_index
-                                    ).history_path
+                                    dataset.scenario(scenario_index).history_path
                                 )
                             ),
                         )
@@ -1189,9 +1269,7 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
                         )
                     ),
                     note_limit=args.amem_note_limit,
-                    max_output_tokens_per_call=(
-                        dry_settings.memory_max_output_tokens
-                    ),
+                    max_output_tokens_per_call=(dry_settings.memory_max_output_tokens),
                     output_cost_per_million=(
                         dry_settings.memory_output_cost_per_million
                     ),
@@ -1208,15 +1286,28 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
 
     from palmclaw_ubuntu.providers import (
         OpenAIAMemModel,
+        OpenAICompactAMemModel,
+        OpenAICompactingRecursiveSummaryPatchMemoryModel,
+        OpenAICompactingTemporalAwareRecursiveSummaryPatchMemoryModel,
         OpenAIEmbeddingModel,
         OpenAIFactMemoryModel,
         OpenAIMemoryModel,
         OpenAIPatchMemoryModel,
         OpenAIPostNormalizedFactMemoryModel,
         OpenAIRecursiveSummaryMemoryModel,
+        OpenAIRecursiveSummaryPatchMemoryModel,
         OpenAIResponsesAgentModel,
         OpenAISchemaInformedFactMemoryModel,
         OpenAIStructuredMemoryModel,
+        OpenAITemporalAwareRecursiveSummaryPatchMemoryModel,
+    )
+    from palmclaw_ubuntu.vehicle_fact_wiki import (
+        FACT_WIKI_EXPANSION_POLICY_VERSION,
+        FACT_WIKI_PROJECTION_POLICY_VERSION,
+    )
+    from palmclaw_ubuntu.vehicle_summary_wiki import (
+        SUMMARY_WIKI_GATE_POLICY_VERSION,
+        SUMMARY_WIKI_RUNTIME_POLICY_VERSION,
     )
 
     settings = _settings(args)
@@ -1229,14 +1320,53 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
         item.strip() for item in (args.profiles or "").split(",") if item.strip()
     )
     profiles = selected_profiles or VEHICLE_BASELINE_PROFILES
+    recursive_patch_conflicts = set(profiles) & {
+        "cloud_recursive_summary",
+        "cloud_recursive_summary_gated_wiki",
+        "cloud_fact_recursive_hybrid",
+        "cloud_recursive_assisted_fact_patch",
+        "cloud_schema_informed_recursive_assisted_fact_patch",
+        "cloud_joint_planned_fact_patch",
+        "cloud_post_normalized_fact_wiki",
+    }
+    recursive_patch_selected = "cloud_recursive_summary_patch" in profiles
+    if recursive_patch_selected and recursive_patch_conflicts:
+        raise RuntimeError(
+            "Recursive Summary Patch and other Recursive Summary consumers "
+            "require separate runs"
+        )
+    turnwise_profiles = {
+        "cloud_turnwise_recursive_summary",
+        "cloud_turnwise_recursive_summary_patch",
+        "cloud_turnwise_recursive_summary_patch_compact",
+        "cloud_turnwise_recursive_summary_patch_temporal",
+        "cloud_turnwise_recursive_summary_patch_temporal_compact",
+    }
+    selected_turnwise_profiles = set(profiles) & turnwise_profiles
+    other_recursive_profiles = set(profiles) & {
+        "cloud_recursive_summary",
+        "cloud_recursive_summary_patch",
+        "cloud_recursive_summary_gated_wiki",
+        "cloud_fact_recursive_hybrid",
+        "cloud_recursive_assisted_fact_patch",
+        "cloud_schema_informed_recursive_assisted_fact_patch",
+        "cloud_joint_planned_fact_patch",
+        "cloud_post_normalized_fact_wiki",
+    }
+    if len(selected_turnwise_profiles) > 1 or (
+        selected_turnwise_profiles and other_recursive_profiles
+    ):
+        raise RuntimeError(
+            "Turn-wise Recursive Summary profiles and other Recursive "
+            "Summary consumers require separate runs"
+        )
     schema_informed_profiles = {
         "cloud_schema_informed_fact_patch",
         "cloud_schema_informed_recursive_assisted_fact_patch",
         "cloud_joint_planned_fact_patch",
+        "cloud_post_normalized_fact_wiki",
     }
-    selected_schema_informed_profiles = (
-        set(profiles) & schema_informed_profiles
-    )
+    selected_schema_informed_profiles = set(profiles) & schema_informed_profiles
     if selected_schema_informed_profiles:
         other_fact_profiles = (
             set(profiles) & set(VEHICLE_FACT_PATCH_PROFILES)
@@ -1245,18 +1375,12 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
             other_fact_profiles.update(selected_schema_informed_profiles)
         if other_fact_profiles:
             raise RuntimeError(
-                "Schema-informed Fact and other Fact profiles require "
-                "separate runs"
+                "Schema-informed Fact and other Fact profiles require separate runs"
             )
     oracle_retrieval_annotations = None
-    if any(
-        profile in VEHICLE_FACT_ORACLE_ANNOTATION_PROFILES
-        for profile in profiles
-    ):
+    if any(profile in VEHICLE_FACT_ORACLE_ANNOTATION_PROFILES for profile in profiles):
         if args.oracle_annotations is None:
-            raise RuntimeError(
-                "Fact Oracle profiles require --oracle-annotations"
-            )
+            raise RuntimeError("Fact Oracle profiles require --oracle-annotations")
         oracle_retrieval_annotations = load_oracle_retrieval_annotations(
             args.oracle_annotations,
             dataset=dataset,
@@ -1267,19 +1391,13 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
         for profile in profiles
     ):
         if args.oracle_gate_annotations is None:
-            raise RuntimeError(
-                "Oracle Gate profiles require --oracle-gate-annotations"
-            )
+            raise RuntimeError("Oracle Gate profiles require --oracle-gate-annotations")
         oracle_gate_annotations = load_oracle_gate_annotations(
             args.oracle_gate_annotations,
             dataset=dataset,
         )
     requested_oracle_stages = {
-        (
-            "structure"
-            if profile.startswith("oracle_structure_")
-            else "extraction"
-        )
+        ("structure" if profile.startswith("oracle_structure_") else "extraction")
         for profile in profiles
         if profile in VEHICLE_STAGE_FACT_ORACLE_PROFILES
     }
@@ -1287,13 +1405,10 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
         requested_oracle_stages.add("full")
     if len(requested_oracle_stages) > 1:
         raise RuntimeError(
-            "Structure, Extraction, and Full Oracle profiles require "
-            "separate runs"
+            "Structure, Extraction, and Full Oracle profiles require separate runs"
         )
     oracle_stage = (
-        next(iter(requested_oracle_stages))
-        if requested_oracle_stages
-        else None
+        next(iter(requested_oracle_stages)) if requested_oracle_stages else None
     )
     oracle_stage_fact_annotations = None
     if oracle_stage is not None:
@@ -1319,8 +1434,9 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
         redact_pii=settings.cloud_pii_redaction,
         pii_allowlist=settings.pii_allowlist,
     )
+    _configure_evaluation_tempdir()
     output_root = args.output_dir or (
-        Path(__file__).resolve().parents[2] / "evaluation" / "vehiclemembench"
+        _evaluation_artifact_root() / "vehiclemembench"
     )
     strategies = required_memory_strategies(profiles)
     summary_model = None
@@ -1330,6 +1446,12 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
     patch_model = None
     fact_model = None
     amem_model = None
+    compact_amem_model = None
+    recursive_patch_enabled = False
+    recursive_compact_patch_enabled = False
+    recursive_temporal_patch_enabled = False
+    recursive_temporal_compact_patch_enabled = False
+    recursive_turnwise_enabled = False
     if strategies:
         memory_model_id = (args.memory_model or settings.memory_model or "").strip()
         embedding_model_id = (
@@ -1350,17 +1472,120 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
             prompt_version=VEHICLE_SUMMARY_PROMPT_VERSION,
         )
         if "recursive_summary" in strategies:
-            recursive_summary_model = OpenAIRecursiveSummaryMemoryModel(
-                memory_model_id,
+            recursive_compact_patch_enabled = (
+                "cloud_turnwise_recursive_summary_patch_compact" in profiles
+            )
+            recursive_temporal_patch_enabled = (
+                "cloud_turnwise_recursive_summary_patch_temporal" in profiles
+            )
+            recursive_temporal_compact_patch_enabled = (
+                "cloud_turnwise_recursive_summary_patch_temporal_compact"
+                in profiles
+            )
+            recursive_patch_enabled = (
+                "cloud_recursive_summary_patch" in profiles
+                or "cloud_turnwise_recursive_summary_patch" in profiles
+                or recursive_compact_patch_enabled
+                or recursive_temporal_patch_enabled
+                or recursive_temporal_compact_patch_enabled
+            )
+            recursive_turnwise_enabled = bool(selected_turnwise_profiles)
+            recursive_summary_model_class = (
+                OpenAICompactingTemporalAwareRecursiveSummaryPatchMemoryModel
+                if recursive_temporal_compact_patch_enabled
+                else (
+                    OpenAICompactingRecursiveSummaryPatchMemoryModel
+                    if recursive_compact_patch_enabled
+                    else (
+                        OpenAITemporalAwareRecursiveSummaryPatchMemoryModel
+                        if recursive_temporal_patch_enabled
+                        else (
+                            OpenAIRecursiveSummaryPatchMemoryModel
+                            if recursive_patch_enabled
+                            else OpenAIRecursiveSummaryMemoryModel
+                        )
+                    )
+                )
+            )
+            recursive_model_kwargs = dict(
+                model_id=memory_model_id,
                 timeout_seconds=settings.model_timeout_seconds,
                 max_output_tokens=settings.memory_max_output_tokens,
+                max_memory_chars=args.recursive_summary_max_memory_chars,
                 reasoning_effort=settings.memory_reasoning_effort,
                 redact_pii=settings.cloud_pii_redaction,
                 pii_allowlist=settings.pii_allowlist,
-                instructions=VEHICLE_RECURSIVE_SUMMARY_INSTRUCTIONS,
-                prompt_version=(
-                    VEHICLE_RECURSIVE_SUMMARY_PROMPT_VERSION
+                instructions=(
+                    (
+                        VEHICLE_TURNWISE_RECURSIVE_SUMMARY_TEMPORAL_PATCH_INSTRUCTIONS
+                        if (
+                            recursive_temporal_patch_enabled
+                            or recursive_temporal_compact_patch_enabled
+                        )
+                        else (
+                            VEHICLE_TURNWISE_RECURSIVE_SUMMARY_PATCH_INSTRUCTIONS
+                            if recursive_patch_enabled
+                            else VEHICLE_TURNWISE_RECURSIVE_SUMMARY_INSTRUCTIONS
+                        )
+                    )
+                    if recursive_turnwise_enabled
+                    else (
+                        VEHICLE_RECURSIVE_SUMMARY_PATCH_INSTRUCTIONS
+                        if recursive_patch_enabled
+                        else VEHICLE_RECURSIVE_SUMMARY_INSTRUCTIONS
+                    )
                 ),
+                prompt_version=(
+                    (
+                        VEHICLE_TURNWISE_RECURSIVE_SUMMARY_TEMPORAL_PATCH_PROMPT_VERSION
+                        if (
+                            recursive_temporal_patch_enabled
+                            or recursive_temporal_compact_patch_enabled
+                        )
+                        else (
+                            VEHICLE_TURNWISE_RECURSIVE_SUMMARY_PATCH_PROMPT_VERSION
+                            if recursive_patch_enabled
+                            else VEHICLE_TURNWISE_RECURSIVE_SUMMARY_PROMPT_VERSION
+                        )
+                    )
+                    if recursive_turnwise_enabled
+                    else (
+                        VEHICLE_RECURSIVE_SUMMARY_PATCH_PROMPT_VERSION
+                        if recursive_patch_enabled
+                        else VEHICLE_RECURSIVE_SUMMARY_PROMPT_VERSION
+                    )
+                ),
+                update_cadence=(
+                    "history_entry" if recursive_turnwise_enabled else "calendar_day"
+                ),
+            )
+            if (
+                recursive_compact_patch_enabled
+                or recursive_temporal_compact_patch_enabled
+            ):
+                recursive_model_kwargs.update(
+                    compaction_add_threshold=(
+                        args.recursive_summary_compaction_adds
+                    ),
+                    compaction_token_threshold=(
+                        args.recursive_summary_compaction_tokens
+                    ),
+                    compaction_target_ratio=(
+                        args.recursive_summary_compaction_target_ratio
+                    ),
+                    compaction_instructions=(
+                        VEHICLE_TURNWISE_RECURSIVE_SUMMARY_TEMPORAL_COMPACTION_INSTRUCTIONS
+                        if recursive_temporal_compact_patch_enabled
+                        else VEHICLE_TURNWISE_RECURSIVE_SUMMARY_INSTRUCTIONS
+                    ),
+                    prompt_version=(
+                        VEHICLE_TURNWISE_RECURSIVE_SUMMARY_TEMPORAL_COMPACT_PROMPT_VERSION
+                        if recursive_temporal_compact_patch_enabled
+                        else VEHICLE_TURNWISE_RECURSIVE_SUMMARY_PATCH_COMPACT_PROMPT_VERSION
+                    ),
+                )
+            recursive_summary_model = recursive_summary_model_class(
+                **recursive_model_kwargs
             )
         structured_model = OpenAIStructuredMemoryModel(
             memory_model_id,
@@ -1379,8 +1604,17 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
             redact_pii=settings.cloud_pii_redaction,
             pii_allowlist=settings.pii_allowlist,
         )
-        if {"amem", "amem_style"} & set(strategies):
+        if {"amem", "amem_style", "compact_amem"} & set(strategies):
             amem_model = OpenAIAMemModel(
+                memory_model_id,
+                timeout_seconds=settings.model_timeout_seconds,
+                max_output_tokens=settings.memory_max_output_tokens,
+                reasoning_effort=settings.memory_reasoning_effort,
+                redact_pii=settings.cloud_pii_redaction,
+                pii_allowlist=settings.pii_allowlist,
+            )
+        if "compact_amem" in strategies:
+            compact_amem_model = OpenAICompactAMemModel(
                 memory_model_id,
                 timeout_seconds=settings.model_timeout_seconds,
                 max_output_tokens=settings.memory_max_output_tokens,
@@ -1403,12 +1637,11 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
             if set(profiles) & {
                 "cloud_schema_informed_recursive_assisted_fact_patch",
                 "cloud_joint_planned_fact_patch",
+                "cloud_post_normalized_fact_wiki",
             }:
                 fact_model = OpenAIPostNormalizedFactMemoryModel(
                     memory_model_id,
-                    ontology=load_vehicle_fact_ontology_v1(
-                        dataset.tool_schemas
-                    ),
+                    ontology=load_vehicle_fact_ontology_v1(dataset.tool_schemas),
                     embedding_model=embedding_model,
                     timeout_seconds=settings.model_timeout_seconds,
                     max_output_tokens=max(
@@ -1424,9 +1657,7 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
             elif selected_schema_informed_profiles:
                 fact_model = OpenAISchemaInformedFactMemoryModel(
                     memory_model_id,
-                    ontology=load_vehicle_fact_ontology_v1(
-                        dataset.tool_schemas
-                    ),
+                    ontology=load_vehicle_fact_ontology_v1(dataset.tool_schemas),
                     embedding_model=embedding_model,
                     timeout_seconds=settings.model_timeout_seconds,
                     max_output_tokens=max(
@@ -1437,9 +1668,7 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
                     redact_pii=settings.cloud_pii_redaction,
                     pii_allowlist=settings.pii_allowlist,
                     instructions=VEHICLE_SCHEMA_INFORMED_FACT_INSTRUCTIONS,
-                    prompt_version=(
-                        VEHICLE_SCHEMA_INFORMED_FACT_PROMPT_VERSION
-                    ),
+                    prompt_version=(VEHICLE_SCHEMA_INFORMED_FACT_PROMPT_VERSION),
                 )
             else:
                 fact_model = OpenAIFactMemoryModel(
@@ -1455,7 +1684,9 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
                     instructions=VEHICLE_FACT_INSTRUCTIONS,
                     prompt_version=VEHICLE_FACT_PROMPT_VERSION,
                 )
-    cache_root = args.memory_cache_dir or (settings.data_dir / "vehiclemembench-memory")
+    cache_root = args.memory_cache_dir or (
+        _evaluation_artifact_root() / "vehiclemembench-memory"
+    )
 
     def snapshot_factory(scenario_index: int):
         if not strategies:
@@ -1471,6 +1702,7 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
             patch_model=patch_model,
             fact_model=fact_model,
             amem_model=amem_model,
+            compact_amem_model=compact_amem_model,
             batch_token_limit=args.memory_batch_tokens,
             retrieval_top_k=(
                 args.memory_top_k
@@ -1483,6 +1715,7 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
                 else settings.memory_context_tokens
             ),
             model_timeout_seconds=settings.model_timeout_seconds,
+            history_entry_limit=args.history_entry_limit,
             patch_user_id=f"vehicle_scenario_{scenario_index}",
             patch_batch_size=(
                 args.patch_batch_turns
@@ -1505,28 +1738,28 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
             embedding_input_cost_per_million=(
                 settings.embedding_input_cost_per_million
             ),
-            semantic_routing_enabled=(
-                settings.tool_memory_semantic_routing_enabled
-            ),
+            semantic_routing_enabled=(settings.tool_memory_semantic_routing_enabled),
             oracle_gate_annotations=oracle_gate_annotations,
             oracle_stage_fact_annotations=oracle_stage_fact_annotations,
             oracle_stage=oracle_stage,
             amem_link_candidates=args.amem_link_candidates,
-            amem_style_evolution_threshold=(
-                args.amem_style_evolution_threshold
-            ),
+            amem_style_evolution_threshold=(args.amem_style_evolution_threshold),
             amem_retrieval_top_k=args.amem_retrieval_top_k,
             amem_note_limit=args.amem_note_limit,
+            compact_amem_episode_max_entries=(args.compact_amem_episode_max_entries),
+            compact_amem_episode_max_chars=(args.compact_amem_episode_max_chars),
+            compact_amem_episode_max_gap_seconds=(
+                args.compact_amem_episode_max_gap_seconds
+            ),
+            compact_amem_link_threshold=args.compact_amem_link_threshold,
         )
         recursive_assisted_profiles = set(profiles) & {
             "cloud_recursive_assisted_fact_patch",
             "cloud_schema_informed_recursive_assisted_fact_patch",
             "cloud_joint_planned_fact_patch",
+            "cloud_post_normalized_fact_wiki",
         }
-        if (
-            "cloud_fact_recursive_hybrid" in profiles
-            and recursive_assisted_profiles
-        ):
+        if "cloud_fact_recursive_hybrid" in profiles and recursive_assisted_profiles:
             raise RuntimeError(
                 "Fact + Recursive Hybrid and Recursive-assisted Fact "
                 "require separate runs"
@@ -1543,9 +1776,7 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
                 )
             return builder.build_fact_recursive_hybrid()
         if recursive_assisted_profiles:
-            recursive_assisted_profile = next(
-                iter(recursive_assisted_profiles)
-            )
+            recursive_assisted_profile = next(iter(recursive_assisted_profiles))
             unsupported = set(strategies) - {
                 "fact_patch",
                 "recursive_summary",
@@ -1563,12 +1794,11 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
                 if recursive_assisted_profile in {
                     "cloud_schema_informed_recursive_assisted_fact_patch",
                     "cloud_joint_planned_fact_patch",
+                    "cloud_post_normalized_fact_wiki",
                 }:
                     return OpenAIPostNormalizedFactMemoryModel(
                         memory_model_id,
-                        ontology=load_vehicle_fact_ontology_v1(
-                            dataset.tool_schemas
-                        ),
+                        ontology=load_vehicle_fact_ontology_v1(dataset.tool_schemas),
                         embedding_model=embedding_model,
                         timeout_seconds=settings.model_timeout_seconds,
                         max_output_tokens=max(
@@ -1578,12 +1808,8 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
                         reasoning_effort=settings.memory_reasoning_effort,
                         redact_pii=settings.cloud_pii_redaction,
                         pii_allowlist=settings.pii_allowlist,
-                        instructions=(
-                            VEHICLE_RECURSIVE_ASSISTED_FACT_INSTRUCTIONS
-                        ),
-                        prompt_version=(
-                            VEHICLE_RECURSIVE_ASSISTED_FACT_PROMPT_VERSION
-                        ),
+                        instructions=(VEHICLE_RECURSIVE_ASSISTED_FACT_INSTRUCTIONS),
+                        prompt_version=(VEHICLE_RECURSIVE_ASSISTED_FACT_PROMPT_VERSION),
                         auxiliary_context={
                             "recursive_summary": recursive_summary,
                             "evidence_policy": (
@@ -1602,12 +1828,8 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
                     reasoning_effort=settings.memory_reasoning_effort,
                     redact_pii=settings.cloud_pii_redaction,
                     pii_allowlist=settings.pii_allowlist,
-                    instructions=(
-                        VEHICLE_RECURSIVE_ASSISTED_FACT_INSTRUCTIONS
-                    ),
-                    prompt_version=(
-                        VEHICLE_RECURSIVE_ASSISTED_FACT_PROMPT_VERSION
-                    ),
+                    instructions=(VEHICLE_RECURSIVE_ASSISTED_FACT_INSTRUCTIONS),
+                    prompt_version=(VEHICLE_RECURSIVE_ASSISTED_FACT_PROMPT_VERSION),
                     auxiliary_context={
                         "recursive_summary": recursive_summary,
                         "evidence_policy": (
@@ -1660,7 +1882,33 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
                         "embedding_dimensions": settings.embedding_dimensions,
                         "summary_prompt_version": (VEHICLE_SUMMARY_PROMPT_VERSION),
                         "recursive_summary_prompt_version": (
-                            VEHICLE_RECURSIVE_SUMMARY_PROMPT_VERSION
+                            recursive_summary_model.prompt_version
+                            if recursive_summary_model is not None
+                            else None
+                        ),
+                        "recursive_summary_update_mode": (
+                            "deterministic_patch_with_periodic_compaction"
+                            if recursive_compact_patch_enabled
+                            else (
+                                "deterministic_temporal_patch_with_periodic_compaction"
+                                if recursive_temporal_compact_patch_enabled
+                                else (
+                                    "deterministic_temporal_patch"
+                                    if recursive_temporal_patch_enabled
+                                    else (
+                                        "deterministic_patch"
+                                        if recursive_patch_enabled
+                                        else "full_rewrite"
+                                    )
+                                )
+                            )
+                        ),
+                        "recursive_summary_update_cadence": (
+                            getattr(
+                                recursive_summary_model,
+                                "update_cadence",
+                                None,
+                            )
                             if recursive_summary_model is not None
                             else None
                         ),
@@ -1672,6 +1920,35 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
                         "recursive_summary_max_memory_chars": (
                             recursive_summary_model.max_memory_chars
                             if recursive_summary_model is not None
+                            else None
+                        ),
+                        **(
+                            {
+                                "recursive_summary_compaction_add_threshold": (
+                                    recursive_summary_model.compaction_add_threshold
+                                ),
+                                "recursive_summary_compaction_token_threshold": (
+                                    recursive_summary_model.compaction_token_threshold
+                                ),
+                                "recursive_summary_compaction_target_ratio": (
+                                    recursive_summary_model.compaction_target_ratio
+                                ),
+                            }
+                            if (
+                                recursive_compact_patch_enabled
+                                or recursive_temporal_compact_patch_enabled
+                            )
+                            and recursive_summary_model is not None
+                            else {}
+                        ),
+                        "summary_wiki_gate_policy": (
+                            SUMMARY_WIKI_GATE_POLICY_VERSION
+                            if "cloud_recursive_summary_gated_wiki" in profiles
+                            else None
+                        ),
+                        "summary_wiki_runtime_policy": (
+                            SUMMARY_WIKI_RUNTIME_POLICY_VERSION
+                            if "cloud_recursive_summary_gated_wiki" in profiles
                             else None
                         ),
                         "structured_prompt_version": (
@@ -1693,11 +1970,11 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
                             & {
                                 "cloud_schema_informed_recursive_assisted_fact_patch",
                                 "cloud_joint_planned_fact_patch",
+                                "cloud_post_normalized_fact_wiki",
                             }
                             else (
                                 VEHICLE_RECURSIVE_ASSISTED_FACT_PROMPT_VERSION
-                                if "cloud_recursive_assisted_fact_patch"
-                                in profiles
+                                if "cloud_recursive_assisted_fact_patch" in profiles
                                 else None
                             )
                         ),
@@ -1706,7 +1983,18 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
                             if fact_model is not None
                             else None
                         ),
+                        "fact_wiki_projection_policy": (
+                            FACT_WIKI_PROJECTION_POLICY_VERSION
+                            if "cloud_post_normalized_fact_wiki" in profiles
+                            else None
+                        ),
+                        "fact_wiki_expansion_policy": (
+                            FACT_WIKI_EXPANSION_POLICY_VERSION
+                            if "cloud_post_normalized_fact_wiki" in profiles
+                            else None
+                        ),
                         "batch_tokens": args.memory_batch_tokens,
+                        "history_entry_limit": args.history_entry_limit,
                         "patch_batch_turns": (
                             args.patch_batch_turns
                             if args.patch_batch_turns is not None
@@ -1722,13 +2010,9 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
                     if strategies
                     else None
                 ),
-                oracle_retrieval_annotations=(
-                    oracle_retrieval_annotations
-                ),
+                oracle_retrieval_annotations=(oracle_retrieval_annotations),
                 oracle_gate_annotations=oracle_gate_annotations,
-                oracle_stage_fact_annotations=(
-                    oracle_stage_fact_annotations
-                ),
+                oracle_stage_fact_annotations=(oracle_stage_fact_annotations),
             )
         print(json.dumps(suite_result.as_dict(), ensure_ascii=False, indent=2))
         return int(suite_result.status != "completed")
@@ -1759,9 +2043,7 @@ def _evaluation_vehicle(args: argparse.Namespace) -> int:
             provider_usage = summarize_provider_calls(
                 calls_before,
                 snapshot.provider_calls(),
-                memory_input_cost_per_million=(
-                    settings.memory_input_cost_per_million
-                ),
+                memory_input_cost_per_million=(settings.memory_input_cost_per_million),
                 memory_output_cost_per_million=(
                     settings.memory_output_cost_per_million
                 ),
@@ -1832,10 +2114,9 @@ def _evaluation_vehicle_matcher(args: argparse.Namespace) -> int:
         redact_pii=settings.cloud_pii_redaction,
         pii_allowlist=settings.pii_allowlist,
     )
+    _configure_evaluation_tempdir()
     output_root = args.output_dir or (
-        Path(__file__).resolve().parents[2]
-        / "evaluation"
-        / "vehiclemembench-ontology-matcher"
+        _evaluation_artifact_root() / "vehiclemembench-ontology-matcher"
     )
     result = run_vehicle_ontology_matcher_evaluation(
         dataset,
@@ -1876,10 +2157,9 @@ def _evaluation_vehicle_oracle_audit(args: argparse.Namespace) -> int:
         args.benchmark_root,
         expected_commit=expected_commit,
     )
+    _configure_evaluation_tempdir()
     output_root = args.output_dir or (
-        Path(__file__).resolve().parents[2]
-        / "evaluation"
-        / "vehiclemembench-oracle"
+        _evaluation_artifact_root() / "vehiclemembench-oracle"
     )
     result = run_oracle_contract_audit(
         dataset,

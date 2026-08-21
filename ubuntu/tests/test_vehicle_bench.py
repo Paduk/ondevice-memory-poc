@@ -35,6 +35,8 @@ from palmclaw_ubuntu.vehicle_bench import (
 from palmclaw_ubuntu.vehicle_bench.dataset import VehicleBenchValidationError
 from palmclaw_ubuntu.vehicle_bench.runner import (
     _aggregate_fact_quality,
+    _aggregate_online_memory_retrieval,
+    _aggregate_wiki_traversal,
     _artifact_privacy_audit,
     _safe_artifact,
     _task_diagnostics,
@@ -42,6 +44,7 @@ from palmclaw_ubuntu.vehicle_bench.runner import (
 from palmclaw_ubuntu.vehicle_bench.suite import (
     _read_json,
     _sum_amem_usage,
+    _sum_provider_usage,
     _write_json,
 )
 
@@ -1266,6 +1269,152 @@ def test_vehicle_provider_usage_separates_generation_and_retrieval_cost():
     assert report["retrieval"]["calls"] == 1
     assert report["retrieval"]["estimated_cost_usd"] == 0.00005
     assert report["estimated_cost_usd"] == 0.00033
+
+
+def test_vehicle_provider_usage_reports_workflow_stages():
+    memory_llm = {
+        "id": "memory-llm",
+        "role": "memory",
+        "consolidation_run_id": "run-1",
+        "memory_patch_run_id": None,
+        "latency_ms": 10,
+        "usage": {"input_tokens": 100, "output_tokens": 20},
+        "metadata": {},
+        "error": None,
+    }
+    memory_embedding = {
+        "id": "memory-embedding",
+        "role": "embedding",
+        "consolidation_run_id": "run-1",
+        "memory_patch_run_id": None,
+        "latency_ms": 3,
+        "usage": {"input_tokens": 60, "output_tokens": 0},
+        "metadata": {},
+        "error": None,
+    }
+    online_embedding = {
+        "id": "online-embedding",
+        "role": "fact_memory_embedding",
+        "consolidation_run_id": None,
+        "memory_patch_run_id": None,
+        "latency_ms": 5,
+        "usage": {"input_tokens": 50, "output_tokens": 0},
+        "metadata": {},
+        "error": None,
+    }
+
+    report = summarize_provider_calls(
+        (memory_llm, memory_embedding),
+        (memory_llm, memory_embedding, online_embedding),
+        memory_input_cost_per_million=2,
+        memory_output_cost_per_million=4,
+        embedding_input_cost_per_million=1,
+    )
+    stages = report["workflow_stages"]
+
+    assert report["generation"]["calls"] == 2
+    assert stages["idle_memory_llm"]["roles"] == {"memory": 1}
+    assert stages["idle_memory_llm"]["estimated_cost_usd"] == 0.00028
+    assert stages["idle_memory_embedding"]["roles"] == {"embedding": 1}
+    assert stages["idle_memory_embedding"]["estimated_cost_usd"] == 0.00006
+    assert stages["online_memory_retrieval"]["roles"] == {
+        "fact_memory_embedding": 1
+    }
+    assert stages["online_memory_retrieval"]["estimated_cost_usd"] == 0.00005
+
+    aggregate = _sum_provider_usage((report, report))
+    assert aggregate["workflow_stages"]["idle_memory_llm"]["calls"] == 2
+    assert aggregate["workflow_stages"]["idle_memory_embedding"][
+        "input_tokens"
+    ] == 120
+    assert aggregate["workflow_stages"]["online_memory_retrieval"][
+        "latency_ms"
+    ] == 10
+
+
+def test_vehicle_wiki_workflow_metrics_aggregate_traversal_and_stage_costs():
+    records = [
+        {
+            "context": {
+                "retrieval_metadata": {
+                    "summary_wiki_gate_open": False,
+                    "recursive_summary_tokens": 10,
+                }
+            },
+            "memory_trace": {
+                "summary_wiki": {"traversal": None, "fallback_used": False}
+            },
+            "tool_trace": [],
+        },
+        {
+            "context": {
+                "retrieval_metadata": {
+                    "summary_wiki_gate_open": True,
+                    "recursive_summary_tokens": 12,
+                    "summary_wiki_termination_reason": "evidence_sufficient",
+                }
+            },
+            "memory_trace": {
+                "summary_wiki": {
+                    "traversal": {
+                        "steps": [
+                            {"action": "search"},
+                            {"action": "read"},
+                        ],
+                        "termination_reason": "evidence_sufficient",
+                        "search_count": 1,
+                        "read_count": 2,
+                        "hop_count": 1,
+                        "empty_search_count": 0,
+                        "selected_page_ids": ["page-1", "page-2"],
+                        "rendered_tokens": 20,
+                        "fallback_used": False,
+                    }
+                }
+            },
+            "tool_trace": [
+                {
+                    "call_kind": "memory_retrieval",
+                    "duration_ms": 3,
+                    "is_error": False,
+                },
+                {
+                    "call_kind": "memory_retrieval",
+                    "duration_ms": 4,
+                    "is_error": False,
+                },
+            ],
+        },
+    ]
+
+    traversal = _aggregate_wiki_traversal(records)
+    assert traversal is not None
+    assert traversal["applicable_tasks"] == 2
+    assert traversal["gate_open_tasks"] == 1
+    assert traversal["traversal_tasks"] == 1
+    assert traversal["search_calls"] == 1
+    assert traversal["read_calls"] == 1
+    assert traversal["read_pages"] == 2
+    assert traversal["selected_pages"] == 2
+    assert traversal["rendered_tokens"] == 20
+    assert traversal["hop_count_max"] == 1
+    assert traversal["sufficiency_rate"] == 1
+    assert traversal["termination_reasons"] == {
+        "evidence_sufficient": 1,
+        "not_started_gate_closed": 1,
+    }
+    assert traversal["tool_latency_ms"] == 7
+
+    online = _aggregate_online_memory_retrieval(
+        records,
+        wiki_traversal=traversal,
+    )
+    assert online["base_context_tokens"] == 22
+    assert online["wiki_read_context_tokens"] == 20
+    assert online["observed_context_tokens"] == 42
+    assert online["wiki_tool_calls"] == 2
+    assert online["observed_latency_ms"] == 7
+    assert online["context_tokens_are_non_additive_to_agent_input"] is True
 
 
 def test_vehicle_amem_usage_excludes_partial_history_from_formal_aggregate():

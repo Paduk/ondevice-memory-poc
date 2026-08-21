@@ -366,6 +366,11 @@ PALMCLAW_MEMORY_STRATEGY=summary palmclaw ask "message"
 
 ## Phase 5 evaluation
 
+Evaluation results, VehicleMemBench memory caches, and evaluation temporary
+files default to `/mnt/data/hj153lee/PalmClaw/{evaluation,tmp}` so large runs do
+not fill the system filesystem. Set `PALMCLAW_ARTIFACT_ROOT` to move the whole
+artifact tree, or use `--output-dir`/`--memory-cache-dir` for one run.
+
 List profiles and run the deterministic, network-free reference evaluation:
 
 ```bash
@@ -461,7 +466,7 @@ evaluation loop. `no_memory` receives only the task query; `gold_memory`
 receives the benchmark gold memory and query.
 
 Each live run writes `manifest.json`, `metrics.json`, and `cases.jsonl` under
-`evaluation/vehiclemembench/RUN_ID/`. Cases include model/Tool traces, official
+`/mnt/data/hj153lee/PalmClaw/evaluation/vehiclemembench/RUN_ID/`. Cases include model/Tool traces, official
 scorer inputs, final simulator states, token/latency usage, and explicit
 isolation flags. The Phase V2 reference run completed all 20 tasks with
 `gpt-5.6-terra`: No Memory ESM was 0.30 and Gold Memory ESM was 0.90.
@@ -478,8 +483,7 @@ palmclaw eval vehicle \
   --profiles cloud_summary,cloud_structured_bm25,cloud_structured_embedding,cloud_structured_hybrid \
   --scenario 1 \
   --task-limit 10 \
-  --memory-batch-tokens 10000 \
-  --memory-cache-dir ./evaluation/vehiclemembench-memory
+  --memory-batch-tokens 10000
 ```
 
 The history parser preserves dates, speakers, timestamps, and the original
@@ -506,7 +510,6 @@ palmclaw eval vehicle \
   --scenario 1 \
   --task-limit 10 \
   --memory-batch-tokens 10000 \
-  --memory-cache-dir ./evaluation/vehiclemembench-memory \
   --resume-run RUN_ID
 ```
 
@@ -526,8 +529,7 @@ palmclaw eval vehicle \
   --scenario 1 \
   --scenario-limit 5 \
   --task-limit 10 \
-  --memory-batch-tokens 10000 \
-  --memory-cache-dir ./evaluation/vehiclemembench-memory
+  --memory-batch-tokens 10000
 ```
 
 The suite checkpoints each scenario and task, stores all 200 profile-task cases
@@ -570,8 +572,7 @@ palmclaw eval vehicle \
   --mode live \
   --profiles no_memory,gold_memory,cloud_structured_hybrid,cloud_schema_patch,cloud_fact_patch \
   --scenario 1 \
-  --task-limit 10 \
-  --memory-cache-dir ./evaluation/vehiclemembench-memory
+  --task-limit 10
 ```
 
 For `cloud_schema_patch`, every chronological history line becomes one
@@ -606,6 +607,17 @@ vehicle-preference summary; no Tool call advances the day as a no-op. The final
 summary is capped at 8,192 characters and injected in full for every task, so
 BM25, embedding retrieval, Tool routing, and execution hints are not used.
 Reports render Retrieval Recall@k as `N/A`.
+
+`cloud_recursive_summary_patch` keeps the same daily input, final Markdown
+memory, and query-time Agent path, but replaces `memory_update(new_memory)`
+with minimal exact-block `add`, `replace`, and `delete` operations. The runtime
+validates every target and applies all operations locally as one deterministic
+update; a missing, ambiguous, malformed, empty, or no-change patch is rejected
+and retried. A missing Tool call remains a no-op. Patch counts, hashes, and
+local apply latency are recorded without storing raw Patch text. Its prompt and
+schema versions produce an independent cache. Run it separately from other
+Recursive Summary consumers so the full-rewrite and Patch variants remain a
+clean ablation.
 
 ## A-MEM VehicleMemBench baseline
 
@@ -653,8 +665,7 @@ palmclaw eval vehicle \
   --amem-note-limit 100 \
   --amem-link-candidates 5 \
   --amem-retrieval-top-k 10 \
-  --memory-token-budget 2000 \
-  --memory-cache-dir ./evaluation/vehiclemembench-memory
+  --memory-token-budget 2000
 ```
 
 `--amem-note-limit` is debug-only. Its manifest is marked
@@ -715,8 +726,8 @@ or embedding model:
 
 ```bash
 palmclaw eval vehicle-r0 \
-  --run-dir ./evaluation/vehiclemembench/RUN_ID \
-  --memory-cache-dir ./evaluation/vehiclemembench-memory
+  --run-dir /mnt/data/hj153lee/PalmClaw/evaluation/vehiclemembench/RUN_ID \
+  --memory-cache-dir /mnt/data/hj153lee/PalmClaw/evaluation/vehiclemembench-memory
 ```
 
 The command opens each source `memory.db` in SQLite read-only mode and writes a

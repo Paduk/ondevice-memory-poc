@@ -31,15 +31,21 @@ from palmclaw_ubuntu.providers import (
     LocalStructuredMemoryModel,
     OpenAIAMemModel,
     OpenAICompactAMemModel,
+    OpenAICompactingRecursiveSummaryPatchMemoryModel,
+    OpenAICompactingTemporalAwareRecursiveSummaryPatchMemoryModel,
     OpenAIEmbeddingModel,
     OpenAIFactMemoryModel,
     OpenAIMemoryModel,
     OpenAIPatchMemoryModel,
     OpenAIPostNormalizedFactMemoryModel,
     OpenAIRecursiveSummaryMemoryModel,
+    OpenAIRecursiveSummaryPatchMemoryModel,
     OpenAIResponsesAgentModel,
     OpenAISchemaInformedFactMemoryModel,
     OpenAIStructuredMemoryModel,
+    OpenAITemporalAwareRecursiveSummaryPatchMemoryModel,
+    apply_recursive_summary_patch,
+    prepare_temporal_summary_patch_operations,
     truncate_recursive_summary,
 )
 from palmclaw_ubuntu.tool_memory_schema import build_tool_memory_ontology
@@ -61,6 +67,16 @@ class FakeResponses:
     def parse(self, **kwargs):
         self.requests.append(kwargs)
         return self.response
+
+
+class FakeSequenceResponses:
+    def __init__(self, responses):
+        self.responses = iter(responses)
+        self.requests = []
+
+    def create(self, **kwargs):
+        self.requests.append(kwargs)
+        return next(self.responses)
 
 
 class FakeEmbeddings:
@@ -237,12 +253,7 @@ def test_openai_recursive_summary_uses_memory_update_tool():
                 call_id="memory-call",
                 name="memory_update",
                 arguments=json.dumps(
-                    {
-                        "new_memory": (
-                            "**Gary**  \r\n"
-                            "- hud_brightness: 8  \r\n"
-                        )
-                    }
+                    {"new_memory": ("**Gary**  \r\n- hud_brightness: 8  \r\n")}
                 ),
             )
         ],
@@ -294,9 +305,36 @@ def test_openai_recursive_summary_no_tool_call_is_noop():
 
     assert result.content == ""
     assert result.metadata["update_status"] == "noop"
-    assert result.metadata["memory_chars"] == len(
-        "**Gary**\n- hud_brightness: 8"
+    assert result.metadata["memory_chars"] == len("**Gary**\n- hud_brightness: 8")
+
+
+def test_openai_turnwise_recursive_summary_labels_single_turn_input():
+    response = SimpleNamespace(
+        id="turnwise-noop",
+        status="completed",
+        output_text="",
+        usage=_usage(),
+        output=[],
     )
+    client = FakeClient(response)
+    model = OpenAIRecursiveSummaryMemoryModel(
+        "memory-model",
+        timeout_seconds=1,
+        instructions="Turn-wise vehicle summary instructions",
+        update_cadence="history_entry",
+        client=client,
+    )
+
+    model.update(
+        previous_memory="**Gary**\n- hud_brightness: 8",
+        date="2025-01-02",
+        daily_history="[VehicleMemBench history turn=1]\nJustin: Nice weather.",
+    )
+
+    request_input = client.responses.requests[0]["input"]
+    assert "Current Memory (before this turn)" in request_input
+    assert "New Conversation Turn" in request_input
+    assert "Today's Conversation" not in request_input
 
 
 def test_openai_recursive_summary_rejects_malformed_tool_arguments():
@@ -340,6 +378,572 @@ def test_recursive_summary_truncates_at_complete_line_boundary():
     assert was_truncated is True
     assert truncated == "**Gary**"
     assert len(truncated) <= 35
+
+
+def test_recursive_summary_patch_applies_add_replace_delete_in_order():
+    content, stats = apply_recursive_summary_patch(
+        (
+            "**Gary**\n"
+            "- hud_brightness: 6\n"
+            "- map_orientation: heading_up\n\n"
+            "**Ana**\n"
+            "- seat_heat: 2"
+        ),
+        [
+            {
+                "op": "add",
+                "target": "**Gary**",
+                "content": "- audio_volume: 4",
+            },
+            {
+                "op": "replace",
+                "target": "- map_orientation: heading_up",
+                "content": "- map_orientation: north_up",
+            },
+            {
+                "op": "delete",
+                "target": "**Ana**\n- seat_heat: 2",
+                "content": "",
+            },
+        ],
+    )
+
+    assert content == (
+        "**Gary**\n- audio_volume: 4\n- hud_brightness: 6\n- map_orientation: north_up"
+    )
+    assert stats["operation_count"] == 3
+    assert stats["add_count"] == 1
+    assert stats["replace_count"] == 1
+    assert stats["delete_count"] == 1
+
+
+def test_recursive_summary_patch_rejects_missing_or_ambiguous_target():
+    with pytest.raises(ValueError, match="exactly once"):
+        apply_recursive_summary_patch(
+            "**Gary**\n- level: 1\n- level: 1",
+            [{"op": "replace", "target": "- level: 1", "content": "- level: 2"}],
+        )
+    with pytest.raises(ValueError, match="exactly once"):
+        apply_recursive_summary_patch(
+            "**Gary**\n- level: 1",
+            [{"op": "delete", "target": "- missing: 1", "content": ""}],
+        )
+
+
+def test_recursive_summary_patch_preserves_indented_fragments():
+    content, stats = apply_recursive_summary_patch(
+        "- Patricia Garcia:\n  - Prefers detailed navigation.",
+        [
+            {
+                "op": "add",
+                "target": "  - Prefers detailed navigation.",
+                "content": "  - Prefers 2D maps at industrial sites.",
+            }
+        ],
+    )
+
+    assert content == (
+        "- Patricia Garcia:\n"
+        "  - Prefers detailed navigation.\n"
+        "  - Prefers 2D maps at industrial sites."
+    )
+    assert stats["add_count"] == 1
+
+
+def test_recursive_summary_patch_requires_new_user_block_append():
+    with pytest.raises(ValueError, match="new user block must be appended"):
+        apply_recursive_summary_patch(
+            "### Gary\n- map: north_up",
+            [
+                {
+                    "op": "add",
+                    "target": "### Gary",
+                    "content": "### Ana\n- seat_heat: 2",
+                }
+            ],
+        )
+
+
+def test_recursive_summary_patch_is_atomic_when_later_operation_fails():
+    previous = "**Gary**\n- level: 1"
+    operations = [
+        {"op": "replace", "target": "- level: 1", "content": "- level: 2"},
+        {"op": "delete", "target": "- missing: 1", "content": ""},
+    ]
+
+    with pytest.raises(ValueError, match="exactly once"):
+        apply_recursive_summary_patch(previous, operations)
+    assert previous == "**Gary**\n- level: 1"
+
+
+def test_temporal_patch_preserves_baseline_during_temporary_override_cycle():
+    baseline = "### Thomas Carter\n- Usual seat backrest: 10 degrees."
+    temporary = "- Temporary seat backrest while recovering: 30 degrees."
+    prepared, metadata = prepare_temporal_summary_patch_operations(
+        [
+            {
+                "op": "add",
+                "target": "- Usual seat backrest: 10 degrees.",
+                "content": temporary,
+                "identity_key": "thomas_carter.seat_backrest",
+                "temporal_action": "temporary_override",
+                "temporal_cue": "for a few weeks",
+            }
+        ],
+        source_history="I need 30 degrees for a few weeks while I recover.",
+    )
+    with_override, _ = apply_recursive_summary_patch(baseline, prepared)
+    prepared_end, end_metadata = prepare_temporal_summary_patch_operations(
+        [
+            {
+                "op": "delete",
+                "target": temporary,
+                "content": "",
+                "identity_key": "thomas_carter.seat_backrest",
+                "temporal_action": "end_temporary",
+                "temporal_cue": "100% healed",
+            }
+        ],
+        source_history="My back is finally 100% healed.",
+    )
+    restored, _ = apply_recursive_summary_patch(with_override, prepared_end)
+
+    assert "10 degrees" in with_override
+    assert "30 degrees" in with_override
+    assert restored == baseline
+    assert metadata["temporal_temporary_override_count"] == 1
+    assert end_metadata["temporal_end_temporary_count"] == 1
+
+
+def test_temporal_patch_rejects_override_that_replaces_durable_baseline():
+    with pytest.raises(ValueError, match="must add"):
+        prepare_temporal_summary_patch_operations(
+            [
+                {
+                    "op": "replace",
+                    "target": "- Usual seat: 10",
+                    "content": "- Temporary seat: 30",
+                    "identity_key": "thomas.seat_backrest",
+                    "temporal_action": "temporary_override",
+                    "temporal_cue": "for a few weeks",
+                }
+            ],
+            source_history="Use 30 for a few weeks.",
+        )
+
+
+def test_openai_recursive_summary_patch_returns_applied_full_memory():
+    response = SimpleNamespace(
+        id="recursive-patch-response",
+        status="completed",
+        output_text="",
+        usage=_usage(),
+        output=[
+            SimpleNamespace(
+                type="function_call",
+                call_id="memory-patch-call",
+                name="memory_patch",
+                arguments=json.dumps(
+                    {
+                        "operations": [
+                            {
+                                "op": "replace",
+                                "target": "- map_orientation: heading_up",
+                                "content": "- map_orientation: north_up",
+                            }
+                        ]
+                    }
+                ),
+            )
+        ],
+    )
+    client = FakeClient(response)
+    model = OpenAIRecursiveSummaryPatchMemoryModel(
+        "memory-model",
+        timeout_seconds=1,
+        instructions="Vehicle summary patch instructions",
+        client=client,
+    )
+
+    result = model.update(
+        previous_memory="**Gary**\n- map_orientation: heading_up",
+        date="2025-01-02",
+        daily_history="Gary changed the map orientation to north up.",
+    )
+
+    request = client.responses.requests[0]
+    assert request["tools"][0]["name"] == "memory_patch"
+    assert request["tool_choice"] == "auto"
+    assert result.content == "**Gary**\n- map_orientation: north_up"
+    assert result.metadata["update_status"] == "updated"
+    assert result.metadata["update_mode"] == "deterministic_patch"
+    assert result.metadata["patch_operation_count"] == 1
+    assert result.metadata["patch_replace_count"] == 1
+    assert "operations" not in result.metadata
+
+
+def test_openai_temporal_patch_uses_extended_schema_and_tracks_override():
+    response = SimpleNamespace(
+        id="temporal-patch-response",
+        status="completed",
+        output_text="",
+        usage=_usage(),
+        output=[
+            SimpleNamespace(
+                type="function_call",
+                name="memory_patch",
+                arguments=json.dumps(
+                    {
+                        "operations": [
+                            {
+                                "op": "add",
+                                "target": "- Usual seat: 10 degrees.",
+                                "content": "- Temporary seat: 30 degrees.",
+                                "identity_key": "thomas.seat_backrest",
+                                "temporal_action": "temporary_override",
+                                "temporal_cue": "for a few weeks",
+                            }
+                        ]
+                    }
+                ),
+            )
+        ],
+    )
+    client = FakeClient(response)
+    model = OpenAITemporalAwareRecursiveSummaryPatchMemoryModel(
+        "memory-model",
+        timeout_seconds=1,
+        instructions="Temporal-aware patch instructions",
+        client=client,
+    )
+
+    result = model.update(
+        previous_memory="### Thomas\n- Usual seat: 10 degrees.",
+        date="2025-04-01",
+        daily_history="Use 30 degrees for a few weeks.",
+    )
+
+    operation_schema = client.responses.requests[0]["tools"][0]["parameters"][
+        "properties"
+    ]["operations"]["items"]["properties"]
+    assert "temporal_action" in operation_schema
+    assert "identity_key" in operation_schema
+    assert "Usual seat: 10" in result.content
+    assert "Temporary seat: 30" in result.content
+    assert result.metadata["update_mode"] == "deterministic_temporal_patch"
+    assert result.metadata["temporal_temporary_override_count"] == 1
+
+
+def test_openai_recursive_summary_patch_repairs_rejected_target():
+    def patch_response(response_id, target):
+        return SimpleNamespace(
+            id=response_id,
+            status="completed",
+            output_text="",
+            usage=_usage(),
+            output=[
+                SimpleNamespace(
+                    type="function_call",
+                    call_id=f"{response_id}-call",
+                    name="memory_patch",
+                    arguments=json.dumps(
+                        {
+                            "operations": [
+                                {
+                                    "op": "replace",
+                                    "target": target,
+                                    "content": "- map_orientation: north_up",
+                                }
+                            ]
+                        }
+                    ),
+                )
+            ],
+        )
+
+    responses = FakeSequenceResponses(
+        [
+            patch_response("invalid", "map_orientation: heading_up"),
+            patch_response("repaired", "- map_orientation: heading_up"),
+        ]
+    )
+    client = SimpleNamespace(responses=responses)
+    model = OpenAIRecursiveSummaryPatchMemoryModel(
+        "memory-model",
+        timeout_seconds=1,
+        instructions="Vehicle summary patch instructions",
+        client=client,
+    )
+
+    result = model.update(
+        previous_memory="**Gary**\n- map_orientation: heading_up",
+        date="2025-01-02",
+        daily_history="Gary changed the map orientation to north up.",
+    )
+
+    assert result.content == "**Gary**\n- map_orientation: north_up"
+    assert result.usage.input_tokens == 20
+    assert result.usage.output_tokens == 8
+    assert result.usage.total_tokens == 28
+    assert result.usage.cached_tokens == 4
+    assert result.metadata["patch_generation_attempts"] == 2
+    assert result.metadata["patch_rejection_count"] == 1
+    assert "Patch Repair Required" in responses.requests[1]["input"]
+    assert "exact Markdown prefix and indentation" in responses.requests[1]["input"]
+
+
+def test_openai_recursive_summary_patch_defaults_to_patch_cache_versions():
+    response = SimpleNamespace(
+        id="recursive-patch-defaults",
+        status="completed",
+        output_text="",
+        usage=_usage(),
+        output=[],
+    )
+    model = OpenAIRecursiveSummaryPatchMemoryModel(
+        "memory-model",
+        timeout_seconds=1,
+        instructions="Vehicle summary patch instructions",
+        client=FakeClient(response),
+    )
+
+    assert model.prompt_version == "vehicle-recursive-summary-patch-v4-repair-v1"
+    assert model.schema_version == "recursive-summary-patch-repair-v1"
+
+
+def test_compacting_recursive_summary_patch_compacts_after_add_threshold():
+    patch_response = SimpleNamespace(
+        id="patch-response",
+        status="completed",
+        output_text="",
+        usage=_usage(),
+        output=[
+            SimpleNamespace(
+                type="function_call",
+                name="memory_patch",
+                arguments=json.dumps(
+                    {
+                        "operations": [
+                            {
+                                "op": "add",
+                                "target": "**Gary**",
+                                "content": "- audio volume preference is exactly 4",
+                            }
+                        ]
+                    }
+                ),
+            )
+        ],
+    )
+    compacted = "**Gary**\n- audio: 4\n- hud: 8\n- map: north_up"
+    compaction_response = SimpleNamespace(
+        id="compaction-response",
+        status="completed",
+        output_text="",
+        usage=_usage(),
+        output=[
+            SimpleNamespace(
+                type="function_call",
+                name="memory_update",
+                arguments=json.dumps({"new_memory": compacted}),
+            )
+        ],
+    )
+    responses = FakeSequenceResponses([patch_response, compaction_response])
+    model = OpenAICompactingRecursiveSummaryPatchMemoryModel(
+        "memory-model",
+        timeout_seconds=1,
+        instructions="Vehicle summary patch instructions",
+        compaction_instructions="Canonical recursive summary instructions",
+        compaction_add_threshold=64,
+        compaction_token_threshold=1_000,
+        compaction_target_ratio=0.01,
+        client=SimpleNamespace(responses=responses),
+    )
+    model.set_compaction_state(patch_add_count=63)
+
+    result = model.update(
+        previous_memory=(
+            "**Gary**\n"
+            "- HUD brightness preference is exactly level 8\n"
+            "- map orientation preference is always north up"
+        ),
+        date="2025-01-02",
+        daily_history="Gary prefers audio volume 4.",
+    )
+
+    assert result.content == compacted
+    assert result.usage.input_tokens == 20
+    assert result.usage.output_tokens == 8
+    assert result.metadata["update_mode"] == (
+        "deterministic_patch_with_periodic_compaction"
+    )
+    assert result.metadata["compaction_triggered"] is True
+    assert result.metadata["compaction_reason"] == ["add_threshold"]
+    assert result.metadata["patch_add_count_since_compaction"] == 0
+    assert result.metadata["compaction_input_tokens"] == 10
+    assert result.metadata["compaction_output_tokens"] == 4
+    assert result.metadata["compaction_target_ratio"] == 0.01
+    assert result.metadata["compaction_target_tokens"] > 0
+    assert result.metadata["compaction_achieved_ratio"] > 0.01
+    assert result.metadata["compaction_target_met"] is False
+    assert result.metadata["compaction_applied"] is True
+    assert responses.requests[1]["tools"][0]["name"] == "memory_update"
+    assert responses.requests[1]["instructions"] == (
+        "Canonical recursive summary instructions"
+    )
+    assert "target about" not in responses.requests[1]["input"]
+    assert responses.requests[1]["tool_choice"] == {
+        "type": "function",
+        "name": "memory_update",
+    }
+
+
+def test_compacting_recursive_summary_patch_skips_compaction_below_thresholds():
+    response = SimpleNamespace(
+        id="patch-response",
+        status="completed",
+        output_text="",
+        usage=_usage(),
+        output=[
+            SimpleNamespace(
+                type="function_call",
+                name="memory_patch",
+                arguments=json.dumps(
+                    {
+                        "operations": [
+                            {
+                                "op": "add",
+                                "target": "**Gary**",
+                                "content": "- audio: 4",
+                            }
+                        ]
+                    }
+                ),
+            )
+        ],
+    )
+    client = FakeClient(response)
+    model = OpenAICompactingRecursiveSummaryPatchMemoryModel(
+        "memory-model",
+        timeout_seconds=1,
+        instructions="Vehicle summary patch instructions",
+        compaction_instructions="Canonical recursive summary instructions",
+        compaction_token_threshold=2,
+        client=client,
+    )
+
+    result = model.update(
+        previous_memory="**Gary**\n- hud: 8",
+        date="2025-01-02",
+        daily_history="Gary prefers audio volume 4.",
+    )
+
+    assert len(client.responses.requests) == 1
+    assert result.metadata["compaction_triggered"] is False
+    # The prior memory was already above the token threshold, so this update
+    # must not trigger another token-based compaction.
+    assert result.metadata["compaction_reason"] == []
+    assert result.metadata["patch_add_count_since_compaction"] == 1
+    assert result.metadata["truncated"] is False
+
+
+def test_compacting_temporal_patch_preserves_schema_and_compacts():
+    patch_response = SimpleNamespace(
+        id="temporal-patch",
+        status="completed",
+        output_text="",
+        usage=_usage(),
+        output=[
+            SimpleNamespace(
+                type="function_call",
+                name="memory_patch",
+                arguments=json.dumps(
+                    {
+                        "operations": [
+                            {
+                                "op": "add",
+                                "target": "- Usual seat: 10 degrees.",
+                                "content": "- Temporary seat: 30 degrees.",
+                                "identity_key": "thomas.seat_backrest",
+                                "temporal_action": "temporary_override",
+                                "temporal_cue": "for a few weeks",
+                            }
+                        ]
+                    }
+                ),
+            )
+        ],
+    )
+    compacted = "### Thomas\n- Usual seat: 10 degrees.\n- Temporary seat: 30 degrees."
+    compact_response = SimpleNamespace(
+        id="temporal-compaction",
+        status="completed",
+        output_text="",
+        usage=_usage(),
+        output=[
+            SimpleNamespace(
+                type="function_call",
+                name="memory_update",
+                arguments=json.dumps({"new_memory": compacted}),
+            )
+        ],
+    )
+    responses = FakeSequenceResponses([patch_response, compact_response])
+    model = OpenAICompactingTemporalAwareRecursiveSummaryPatchMemoryModel(
+        "memory-model",
+        timeout_seconds=1,
+        instructions="Temporal patch instructions",
+        compaction_instructions="Temporal compaction instructions",
+        compaction_add_threshold=1,
+        compaction_target_ratio=0.70,
+        client=SimpleNamespace(responses=responses),
+    )
+
+    result = model.update(
+        previous_memory=(
+            "### Thomas\n- Usual seat: 10 degrees.\n"
+            "- Preserve this unrelated but verbose preference exactly."
+        ),
+        date="2025-04-01",
+        daily_history="Use 30 degrees for a few weeks.",
+    )
+
+    schema = responses.requests[0]["tools"][0]["parameters"]["properties"]
+    assert "temporal_action" in schema["operations"]["items"]["properties"]
+    assert result.content == compacted
+    assert result.metadata["update_mode"] == (
+        "deterministic_temporal_patch_with_periodic_compaction"
+    )
+    assert result.metadata["temporal_temporary_override_count"] == 1
+    assert result.metadata["compaction_triggered"] is True
+
+
+def test_openai_recursive_summary_patch_no_tool_call_is_noop():
+    response = SimpleNamespace(
+        id="recursive-patch-noop",
+        status="completed",
+        output_text="No update needed.",
+        usage=_usage(),
+        output=[],
+    )
+    model = OpenAIRecursiveSummaryPatchMemoryModel(
+        "memory-model",
+        timeout_seconds=1,
+        instructions="Vehicle summary patch instructions",
+        client=FakeClient(response),
+    )
+
+    result = model.update(
+        previous_memory="**Gary**\n- hud_brightness: 8",
+        date="2025-01-02",
+        daily_history="Justin: Nice weather.",
+    )
+
+    assert result.content == ""
+    assert result.metadata["update_status"] == "noop"
+    assert result.metadata["update_mode"] == "deterministic_patch"
+    assert result.metadata["patch_operation_count"] == 0
 
 
 def test_openai_agent_model_replays_provider_continuation_items():
@@ -778,13 +1382,54 @@ def test_openai_compact_amem_uses_strict_schema_and_source_evidence():
     assert result.notes[0].memory_kind == "preference"
     assert result.usage.total_tokens == 14
     assert result.response_id == "compact-amem-response"
-    assert result.metadata["prompt_version"] == (
-        COMPACT_AMEM_COMPACTION_PROMPT_VERSION
-    )
-    assert result.metadata["schema_version"] == (
-        COMPACT_AMEM_COMPACTION_SCHEMA_VERSION
-    )
+    assert result.metadata["prompt_version"] == (COMPACT_AMEM_COMPACTION_PROMPT_VERSION)
+    assert result.metadata["schema_version"] == (COMPACT_AMEM_COMPACTION_SCHEMA_VERSION)
     assert result.metadata["privacy"]["detected_count"] == 1
+
+
+def test_openai_compact_amem_canonicalizes_source_order():
+    response = SimpleNamespace(
+        id="compact-amem-source-order",
+        status="completed",
+        output_parsed={
+            "notes": [
+                {
+                    "content": "The user prefers a quiet cabin.",
+                    "contextual_description": "Durable cabin preference.",
+                    "keywords": ["quiet cabin"],
+                    "tags": ["preference"],
+                    "memory_kind": "preference",
+                    "source_message_ids": [11, 10],
+                }
+            ]
+        },
+        usage=_usage(),
+    )
+    model = OpenAICompactAMemModel(
+        "compact-model",
+        timeout_seconds=3,
+        client=FakeClient(response),
+    )
+    episode = build_compact_amem_episodes(
+        (
+            AMemHistoryEntry(
+                10,
+                "2026-03-01T10:00:00+00:00",
+                "user",
+                "I prefer a quiet cabin.",
+            ),
+            AMemHistoryEntry(
+                11,
+                "2026-03-01T10:01:00+00:00",
+                "assistant",
+                "Preference acknowledged.",
+            ),
+        )
+    )[0]
+
+    result = model.compact_episode(episode)
+
+    assert result.notes[0].source_message_ids == (10, 11)
 
 
 def test_openai_compact_amem_rejects_source_outside_episode():
@@ -884,10 +1529,7 @@ def test_openai_patch_memory_model_uses_strict_schema_and_redacted_turn():
             MemoryMessage(
                 id=42,
                 role="user",
-                content=(
-                    "Always save reports to notes.txt; "
-                    "email alice@example.com"
-                ),
+                content=("Always save reports to notes.txt; email alice@example.com"),
             )
         ],
         ontology,
@@ -940,9 +1582,7 @@ def test_openai_fact_memory_model_excludes_tool_ontology():
     model = OpenAIFactMemoryModel(
         "memory-model",
         timeout_seconds=1,
-        auxiliary_context={
-            "recursive_summary": "Patricia prefers headrest height 44"
-        },
+        auxiliary_context={"recursive_summary": "Patricia prefers headrest height 44"},
         client=client,
     )
 
@@ -952,8 +1592,7 @@ def test_openai_fact_memory_model_excludes_tool_ontology():
                 id=42,
                 role="user",
                 content=(
-                    "Patricia prefers headrest height 44; "
-                    "email alice@example.com"
+                    "Patricia prefers headrest height 44; email alice@example.com"
                 ),
             )
         ],
@@ -1048,9 +1687,7 @@ def test_schema_informed_fact_model_retrieves_and_validates_canonical_fact():
         timeout_seconds=1,
         instructions="schema-informed test",
         prompt_version="schema-informed-test-v1",
-        recursive_summary=(
-            "**Samuel Evans**\n- radio volume 20 while working"
-        ),
+        recursive_summary=("**Samuel Evans**\n- radio volume 20 while working"),
         client=client,
     )
 
@@ -1071,9 +1708,7 @@ def test_schema_informed_fact_model_retrieves_and_validates_canonical_fact():
     )
 
     request = client.responses.requests[0]
-    assert request["text_format"].__name__ == (
-        "_SchemaInformedFactMemoryBatchPayload"
-    )
+    assert request["text_format"].__name__ == ("_SchemaInformedFactMemoryBatchPayload")
     assert "no_durable_vehicle_fact" not in json.dumps(
         request["text_format"].model_json_schema()
     )
@@ -1324,9 +1959,7 @@ def test_post_normalized_fact_model_keeps_unmappable_candidate_unchanged():
 
     assert len(result.candidates) == 1
     assert result.candidates[0].predicate == "preferred_scenic_route"
-    assert result.candidates[0].value == {
-        "reasons": ["trees", "fewer trucks"]
-    }
+    assert result.candidates[0].value == {"reasons": ["trees", "fewer trucks"]}
     assert result.metadata["post_normalization_canonicalized_count"] == 0
     assert result.metadata["post_normalization_fallback_count"] == 1
 
@@ -1414,10 +2047,7 @@ def test_openai_fact_memory_model_batches_semantic_reviews():
             MemoryMessage(
                 id=42,
                 role="user",
-                content=(
-                    "Gary wants a calming cabin glow. "
-                    "Contact alice@example.com."
-                ),
+                content=("Gary wants a calming cabin glow. Contact alice@example.com."),
             )
         ],
         [],
@@ -1426,9 +2056,7 @@ def test_openai_fact_memory_model_batches_semantic_reviews():
     )
 
     request = client.responses.requests[0]
-    assert request["text_format"].__name__ == (
-        "_FactMemorySemanticBatchPayload"
-    )
+    assert request["text_format"].__name__ == ("_FactMemorySemanticBatchPayload")
     assert '"uncertain_candidates":' in request["input"]
     assert '"sequence_index":3' in request["input"]
     assert "tool_ontology" not in request["input"]

@@ -8,7 +8,7 @@ import statistics
 import uuid
 from collections import Counter
 from collections.abc import Callable, Sequence
-from dataclasses import dataclass, replace
+from dataclasses import asdict, dataclass, replace
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -66,6 +66,9 @@ from palmclaw_ubuntu.vehicle_bench.tools import (
     build_oracle_vehicle_tool_registry,
     build_vehicle_tool_registry,
     vehicle_tool_definitions,
+)
+from palmclaw_ubuntu.vehicle_summary_wiki import (
+    register_vehicle_wiki_tools,
 )
 
 _OPAQUE_UUID_PATTERN = re.compile(
@@ -303,11 +306,7 @@ def run_agent_evaluation(
     effective_memory_manifest = {
         **dict(memory_manifest or {}),
         **(
-            {
-                "oracle_retrieval_annotations": (
-                    oracle_retrieval_annotations.manifest()
-                )
-            }
+            {"oracle_retrieval_annotations": (oracle_retrieval_annotations.manifest())}
             if oracle_retrieval_annotations is not None
             else {}
         ),
@@ -366,13 +365,9 @@ def run_agent_evaluation(
                     max_tool_rounds=max_tool_rounds,
                     max_tool_result_chars=max_tool_result_chars,
                     memory_resolver=memory_resolver,
-                    oracle_retrieval_annotations=(
-                        oracle_retrieval_annotations
-                    ),
+                    oracle_retrieval_annotations=(oracle_retrieval_annotations),
                     oracle_gate_annotations=oracle_gate_annotations,
-                    oracle_stage_fact_annotations=(
-                        oracle_stage_fact_annotations
-                    ),
+                    oracle_stage_fact_annotations=(oracle_stage_fact_annotations),
                 )
                 records_by_key[key] = record
                 if artifact_dir is not None:
@@ -512,8 +507,7 @@ def _run_agent_task(
                     or oracle_retrieval_annotations is None
                 ):
                     raise RuntimeError(
-                        "Oracle Stage Fact and Retrieval annotations are "
-                        "required"
+                        "Oracle Stage Fact and Retrieval annotations are required"
                     )
                 stage = (
                     "structure"
@@ -537,15 +531,11 @@ def _run_agent_task(
                 if oracle_gate_annotations is None:
                     raise RuntimeError("Oracle Gate annotations are required")
                 kwargs: dict[str, Any] = {
-                    "oracle_gate_label": oracle_gate_annotations.require(
-                        task.id
-                    )
+                    "oracle_gate_label": oracle_gate_annotations.require(task.id)
                 }
                 if profile in VEHICLE_FACT_ORACLE_ANNOTATION_PROFILES:
                     if oracle_retrieval_annotations is None:
-                        raise RuntimeError(
-                            "Oracle Retrieval annotations are required"
-                        )
+                        raise RuntimeError("Oracle Retrieval annotations are required")
                     kwargs["oracle_retrieval_label"] = (
                         oracle_retrieval_annotations.require(task.id)
                     )
@@ -556,9 +546,7 @@ def _run_agent_task(
                 )
             elif profile in VEHICLE_FACT_ORACLE_ANNOTATION_PROFILES:
                 if oracle_retrieval_annotations is None:
-                    raise RuntimeError(
-                        "Oracle Retrieval annotations are required"
-                    )
+                    raise RuntimeError("Oracle Retrieval annotations are required")
                 memory_context = memory_resolver(
                     profile,
                     task.query,
@@ -588,7 +576,15 @@ def _run_agent_task(
                     query=task.query,
                     routed_tools=routed_tool_names(memory_context.metadata),
                 )
-                if profile == "cloud_joint_planned_fact_patch":
+                if profile in {
+                    "cloud_joint_planned_fact_patch",
+                    "cloud_post_normalized_fact_wiki",
+                } and not bool(
+                    memory_context.metadata.get(
+                        "fact_wiki_fallback_used",
+                        False,
+                    )
+                ):
                     plan = None
                     plan_error = None
                     try:
@@ -600,15 +596,11 @@ def _run_agent_task(
                             ),
                             definitions=definitions,
                             query_context=memory_context.fact_query_context,
-                            routed_tools=routed_tool_names(
-                                memory_context.metadata
-                            ),
+                            routed_tools=routed_tool_names(memory_context.metadata),
                             current_state=runtime.state(predicted_world),
                         )
                     except Exception as exc:
-                        plan_error = redact_data(
-                            f"{type(exc).__name__}: {exc}"
-                        )
+                        plan_error = redact_data(f"{type(exc).__name__}: {exc}")
                     planned_hint_result = (
                         plan.as_hint_result() if plan is not None else None
                     )
@@ -618,19 +610,13 @@ def _run_agent_task(
                     )
                     if plan is not None:
                         joint_candidate_rationale = (
-                            render_joint_tool_candidate_rationale(
-                                plan.candidates
-                            )
+                            render_joint_tool_candidate_rationale(plan.candidates)
                         )
                     memory_context = replace(
                         memory_context,
                         metadata={
                             **dict(memory_context.metadata),
-                            **(
-                                plan.as_metadata()
-                                if plan is not None
-                                else {}
-                            ),
+                            **(plan.as_metadata() if plan is not None else {}),
                             "memory_tool_plan_fallback": bool(
                                 hint_result is fallback_hint_result
                             ),
@@ -714,6 +700,7 @@ def _run_agent_task(
                 "cloud_recursive_assisted_fact_patch",
                 "cloud_schema_informed_recursive_assisted_fact_patch",
                 "cloud_joint_planned_fact_patch",
+                "cloud_post_normalized_fact_wiki",
                 "oracle_retrieval_fact_patch",
                 "oracle_binding_fact_patch",
                 "oracle_retrieval_binding_fact_patch",
@@ -726,10 +713,11 @@ def _run_agent_task(
                 "oracle_full_memory_fact_patch",
                 "oracle_full_pipeline_fact_patch",
             }:
-                selector_tool_names = routed_tool_names(
-                    memory_context.metadata
-                )
-                if profile == "cloud_joint_planned_fact_patch":
+                selector_tool_names = routed_tool_names(memory_context.metadata)
+                if profile in {
+                    "cloud_joint_planned_fact_patch",
+                    "cloud_post_normalized_fact_wiki",
+                }:
                     joint_names = tuple(
                         str(item.get("tool_name"))
                         for item in memory_context.metadata.get(
@@ -765,6 +753,12 @@ def _run_agent_task(
                 preload_tool_names=preloaded_tool_names,
             )
             loaded_modules = ()
+        wiki_tool_names: tuple[str, ...] = ()
+        if memory_context is not None and memory_context.wiki_traversal is not None:
+            wiki_tool_names = register_vehicle_wiki_tools(
+                registry,
+                memory_context.wiki_traversal,
+            )
         system_prompt = build_vehicle_system_prompt(
             runtime.modules,
             gold_memory=gold_memory,
@@ -773,17 +767,61 @@ def _run_agent_task(
             routed_tool_names=selector_tool_names,
             execution_hints=hint_result.hints,
             candidate_rationale=joint_candidate_rationale,
+            progressive_memory_retrieval=(
+                memory_context.wiki_kind
+                if memory_context is not None and wiki_tool_names
+                else False
+            ),
         )
         loop = VehicleAgentLoop(
             agent_model=agent_model,
             tool_registry=registry,
             max_tool_rounds=max_tool_rounds,
+            non_vehicle_tool_names=wiki_tool_names,
         )
         agent_result = loop.run(
             task_id=f"{profile}-{task.id}",
             query=task.query,
             system_prompt=system_prompt,
         )
+        if memory_context is not None and memory_context.wiki_traversal is not None:
+            wiki_session = memory_context.wiki_traversal
+            wiki_kind = memory_context.wiki_kind or "summary_wiki"
+            wiki_result = wiki_session.finish(
+                evidence_sufficient=bool(
+                    wiki_session.trace.selected_page_ids and not wiki_session.terminated
+                ),
+                fallback_content=memory_context.content,
+            )
+            wiki_trace = dict(memory_context.trace.get(wiki_kind, {}))
+            wiki_trace.update(
+                {
+                    "traversal": asdict(wiki_result.trace),
+                    "fallback_used": wiki_result.fallback_used,
+                    "error": wiki_result.error,
+                }
+            )
+            memory_context = replace(
+                memory_context,
+                metadata={
+                    **dict(memory_context.metadata),
+                    f"{wiki_kind}_tool_call_count": sum(
+                        item.get("call_kind") == "memory_retrieval"
+                        for item in agent_result.tool_trace
+                    ),
+                    f"{wiki_kind}_selected_page_count": len(
+                        wiki_result.trace.selected_page_ids
+                    ),
+                    f"{wiki_kind}_fallback_used": wiki_result.fallback_used,
+                    f"{wiki_kind}_termination_reason": (
+                        wiki_result.trace.termination_reason
+                    ),
+                },
+                trace={
+                    **dict(memory_context.trace),
+                    wiki_kind: wiki_trace,
+                },
+            )
         reference_state = runtime.state(reference_world)
         predicted_state = runtime.state(predicted_world)
         score = runtime.score(
@@ -825,9 +863,7 @@ def _run_agent_task(
             ],
             "reference_calls": [call.as_official() for call in task.gold_calls],
             "discovery_calls": agent_result.discovery_calls,
-            "suppressed_duplicate_calls": (
-                agent_result.suppressed_duplicate_calls
-            ),
+            "suppressed_duplicate_calls": (agent_result.suppressed_duplicate_calls),
             "loaded_modules": (
                 list(loaded_modules)
                 if oracle_tool_boundary
@@ -864,16 +900,18 @@ def _run_agent_task(
                 "initial_tools": (
                     list(dict.fromkeys(oracle_tool_names))
                     if oracle_tool_boundary
-                    else ["list_module_tools", *preloaded_tool_names]
+                    else [
+                        "list_module_tools",
+                        *wiki_tool_names,
+                        *preloaded_tool_names,
+                    ]
                 ),
                 **(
                     {}
                     if oracle_tool_boundary
                     else {
                         "router_preloaded_tools": list(preloaded_tool_names),
-                        "router_preloaded_modules": sorted(
-                            discovery.preloaded_modules
-                        ),
+                        "router_preloaded_modules": sorted(discovery.preloaded_modules),
                     }
                 ),
                 "host_tools_available": False,
@@ -1014,6 +1052,19 @@ def vehicle_agent_metrics(
             for record in selected
         ]
         privacy = _agent_privacy_metrics(selected)
+        wiki_traversal = _aggregate_wiki_traversal(selected)
+        online_retrieval = _aggregate_online_memory_retrieval(
+            selected,
+            wiki_traversal=wiki_traversal,
+        )
+        estimated_agent_cost_usd = round(
+            (
+                usage_input * agent_input_cost_per_million
+                + usage_output * agent_output_cost_per_million
+            )
+            / 1_000_000,
+            8,
+        )
         profile_metrics = {
             "tasks": len(selected),
             "completion_rate": _mean(
@@ -1068,8 +1119,7 @@ def vehicle_agent_metrics(
                 for record in selected
             ),
             "argument_exact_match": _mean(
-                bool(record.get("argument_exact_match"))
-                for record in selected
+                bool(record.get("argument_exact_match")) for record in selected
             ),
             "retrieval_recall_at_k": _mean(
                 float(
@@ -1262,8 +1312,7 @@ def vehicle_agent_metrics(
                 for record in selected
             ),
             "suppressed_duplicate_calls": sum(
-                int(record.get("suppressed_duplicate_calls", 0))
-                for record in selected
+                int(record.get("suppressed_duplicate_calls", 0)) for record in selected
             ),
             "extra_discovery_calls": sum(
                 int(
@@ -1292,20 +1341,34 @@ def vehicle_agent_metrics(
             "model_latency_ms": sum(latencies),
             "model_latency_ms_mean": _mean(latencies),
             "model_latency_ms_p95": _percentile(latencies, 0.95),
-            "estimated_agent_cost_usd": round(
-                (
-                    usage_input * agent_input_cost_per_million
-                    + usage_output * agent_output_cost_per_million
-                )
-                / 1_000_000,
-                8,
-            ),
+            "estimated_agent_cost_usd": estimated_agent_cost_usd,
             "cost_rates_configured": bool(
                 agent_input_cost_per_million or agent_output_cost_per_million
             ),
+            "workflow_stages": {
+                "online_memory_retrieval": online_retrieval,
+                "quiz_agent": {
+                    "input_tokens": usage_input,
+                    "output_tokens": usage_output,
+                    "total_tokens": usage_input + usage_output,
+                    "model_latency_ms": sum(latencies),
+                    "estimated_cost_usd": estimated_agent_cost_usd,
+                },
+            },
             **privacy,
         }
-        if profile == "cloud_recursive_summary":
+        if wiki_traversal is not None:
+            profile_metrics["wiki_traversal"] = wiki_traversal
+        if profile in {
+            "cloud_recursive_summary",
+            "cloud_recursive_summary_patch",
+            "cloud_turnwise_recursive_summary",
+            "cloud_turnwise_recursive_summary_patch",
+            "cloud_turnwise_recursive_summary_patch_compact",
+            "cloud_turnwise_recursive_summary_patch_temporal",
+            "cloud_turnwise_recursive_summary_patch_temporal_compact",
+            "cloud_recursive_summary_gated_wiki",
+        }:
             profile_metrics.update(
                 {
                     "retrieval_recall_at_k": None,
@@ -1349,14 +1412,203 @@ def vehicle_agent_metrics(
     return metrics
 
 
+def _aggregate_wiki_traversal(
+    records: Sequence[dict[str, Any]],
+) -> dict[str, Any] | None:
+    applicable_tasks = 0
+    gate_open_tasks = 0
+    available_tasks = 0
+    traversal_tasks = 0
+    tool_invoked_tasks = 0
+    fallback_tasks = 0
+    search_calls = 0
+    read_calls = 0
+    read_pages = 0
+    selected_pages = 0
+    rendered_tokens = 0
+    empty_searches = 0
+    tool_calls = 0
+    successful_steps = 0
+    tool_errors = 0
+    tool_latency_ms = 0
+    hop_counts: list[int] = []
+    termination_reasons: Counter[str] = Counter()
+    wiki_kinds: Counter[str] = Counter()
+
+    for record in records:
+        metadata = record.get("context", {}).get("retrieval_metadata", {}) or {}
+        memory_trace = record.get("memory_trace") or {}
+        wiki_kind = next(
+            (
+                kind
+                for kind in ("summary_wiki", "fact_wiki")
+                if kind in memory_trace
+                or any(key.startswith(f"{kind}_") for key in metadata)
+            ),
+            None,
+        )
+        if wiki_kind is None:
+            continue
+        applicable_tasks += 1
+        wiki_kinds[wiki_kind] += 1
+        if bool(metadata.get("summary_wiki_gate_open", False)):
+            gate_open_tasks += 1
+        if bool(metadata.get("fact_wiki_available", False)):
+            available_tasks += 1
+
+        wiki_trace = memory_trace.get(wiki_kind) or {}
+        traversal = wiki_trace.get("traversal")
+        if not isinstance(traversal, dict):
+            reason = (
+                "not_started_gate_closed"
+                if wiki_kind == "summary_wiki"
+                and not bool(metadata.get("summary_wiki_gate_open", False))
+                else "not_started_projection_fallback"
+            )
+            termination_reasons[reason] += 1
+            if bool(
+                metadata.get(
+                    f"{wiki_kind}_fallback_used",
+                    wiki_trace.get("fallback_used", False),
+                )
+            ):
+                fallback_tasks += 1
+            continue
+
+        traversal_tasks += 1
+        steps = traversal.get("steps") or ()
+        successful_steps += len(steps)
+        search_calls += int(traversal.get("search_count", 0))
+        read_pages += int(traversal.get("read_count", 0))
+        read_calls += sum(
+            str(step.get("action", "")) == "read"
+            for step in steps
+            if isinstance(step, dict)
+        )
+        selected_pages += len(traversal.get("selected_page_ids") or ())
+        rendered_tokens += int(traversal.get("rendered_tokens", 0))
+        empty_searches += int(traversal.get("empty_search_count", 0))
+        hop_counts.append(int(traversal.get("hop_count", 0)))
+        fallback_tasks += int(bool(traversal.get("fallback_used", False)))
+        reason = str(
+            traversal.get("termination_reason")
+            or metadata.get(f"{wiki_kind}_termination_reason")
+            or "unknown"
+        )
+        termination_reasons[reason] += 1
+
+        wiki_tool_trace = [
+            item
+            for item in record.get("tool_trace", ())
+            if item.get("call_kind") == "memory_retrieval"
+        ]
+        tool_calls += len(wiki_tool_trace)
+        tool_invoked_tasks += int(bool(wiki_tool_trace))
+        tool_latency_ms += sum(
+            int(item.get("duration_ms", 0)) for item in wiki_tool_trace
+        )
+        tool_errors += sum(bool(item.get("is_error")) for item in wiki_tool_trace)
+
+    if not applicable_tasks:
+        return None
+    sufficient_tasks = int(termination_reasons.get("evidence_sufficient", 0))
+    return {
+        "applicable_tasks": applicable_tasks,
+        "wiki_kinds": dict(sorted(wiki_kinds.items())),
+        "gate_open_tasks": gate_open_tasks,
+        "available_tasks": available_tasks,
+        "traversal_tasks": traversal_tasks,
+        "tool_invoked_tasks": tool_invoked_tasks,
+        "fallback_tasks": fallback_tasks,
+        "tool_calls": tool_calls,
+        "successful_steps": successful_steps,
+        "search_calls": search_calls,
+        "read_calls": read_calls,
+        "read_pages": read_pages,
+        "selected_pages": selected_pages,
+        "rendered_tokens": rendered_tokens,
+        "rendered_tokens_mean": (
+            rendered_tokens / traversal_tasks if traversal_tasks else 0.0
+        ),
+        "hop_count_mean": _mean(hop_counts),
+        "hop_count_max": max(hop_counts, default=0),
+        "empty_searches": empty_searches,
+        "evidence_sufficient_tasks": sufficient_tasks,
+        "sufficiency_rate": (
+            sufficient_tasks / traversal_tasks if traversal_tasks else 0.0
+        ),
+        "termination_reasons": dict(sorted(termination_reasons.items())),
+        "tool_errors": tool_errors,
+        "tool_latency_ms": tool_latency_ms,
+    }
+
+
+def _aggregate_online_memory_retrieval(
+    records: Sequence[dict[str, Any]],
+    *,
+    wiki_traversal: dict[str, Any] | None,
+) -> dict[str, Any]:
+    base_context_tokens = 0
+    base_retrieval_latency_ms = 0
+    retrieval_tasks = 0
+    for record in records:
+        quality = record.get("retrieval_quality") or {}
+        metadata = record.get("context", {}).get("retrieval_metadata", {}) or {}
+        context_tokens = int(
+            next(
+                (
+                    metadata[key]
+                    for key in (
+                        "fact_memory_retrieval_tokens",
+                        "tool_memory_retrieval_tokens",
+                        "retrieval_selected_tokens",
+                        "retrieval_tokens",
+                        "recursive_summary_tokens",
+                    )
+                    if key in metadata
+                ),
+                quality.get("context_tokens", 0),
+            )
+        )
+        latency_ms = int(
+            next(
+                (
+                    metadata[key]
+                    for key in (
+                        "fact_memory_retrieval_latency_ms",
+                        "tool_memory_retrieval_latency_ms",
+                        "retrieval_latency_ms",
+                    )
+                    if key in metadata
+                ),
+                quality.get("latency_ms", 0),
+            )
+        )
+        base_context_tokens += context_tokens
+        base_retrieval_latency_ms += latency_ms
+        retrieval_tasks += int(bool(context_tokens or latency_ms))
+
+    wiki_tokens = int((wiki_traversal or {}).get("rendered_tokens", 0))
+    wiki_latency_ms = int((wiki_traversal or {}).get("tool_latency_ms", 0))
+    return {
+        "tasks_with_base_retrieval": retrieval_tasks,
+        "base_context_tokens": base_context_tokens,
+        "wiki_read_context_tokens": wiki_tokens,
+        "observed_context_tokens": base_context_tokens + wiki_tokens,
+        "base_retrieval_latency_ms": base_retrieval_latency_ms,
+        "wiki_tool_latency_ms": wiki_latency_ms,
+        "observed_latency_ms": base_retrieval_latency_ms + wiki_latency_ms,
+        "wiki_tool_calls": int((wiki_traversal or {}).get("tool_calls", 0)),
+        "context_tokens_are_non_additive_to_agent_input": True,
+    }
+
+
 def _aggregate_recursive_summary(
     records: Sequence[dict[str, Any]],
 ) -> dict[str, Any] | None:
     snapshots: dict[str, dict[str, Any]] = {}
     for record in records:
-        metadata = (
-            record.get("context", {}).get("retrieval_metadata", {}) or {}
-        )
+        metadata = record.get("context", {}).get("retrieval_metadata", {}) or {}
         if metadata.get("memory_strategy") not in {
             "recursive_summary",
             "fact_recursive_hybrid",
@@ -1371,25 +1623,189 @@ def _aggregate_recursive_summary(
     if not snapshots:
         return None
     characters = [
-        int(item.get("recursive_summary_characters", 0))
-        for item in snapshots.values()
+        int(item.get("recursive_summary_characters", 0)) for item in snapshots.values()
     ]
     tokens = [
-        int(item.get("recursive_summary_tokens", 0))
-        for item in snapshots.values()
+        int(item.get("recursive_summary_tokens", 0)) for item in snapshots.values()
     ]
+    total_steps = sum(
+        int(item.get("recursive_summary_total_step_count", 0))
+        for item in snapshots.values()
+    )
+    total_updates = sum(
+        int(item.get("recursive_summary_update_count", 0))
+        for item in snapshots.values()
+    )
+    total_noops = sum(
+        int(item.get("recursive_summary_noop_count", 0)) for item in snapshots.values()
+    )
+    status_usage: dict[str, dict[str, int]] = {}
+    for item in snapshots.values():
+        for status, usage in dict(
+            item.get("recursive_summary_status_usage", {})
+        ).items():
+            bucket = status_usage.setdefault(
+                str(status),
+                {
+                    "calls": 0,
+                    "input_tokens": 0,
+                    "output_tokens": 0,
+                    "latency_ms": 0,
+                },
+            )
+            for key in bucket:
+                bucket[key] += int(dict(usage).get(key, 0))
+    patch_operations = sum(
+        int(item.get("recursive_summary_patch_operation_count", 0))
+        for item in snapshots.values()
+    )
+    patch_adds = sum(
+        int(item.get("recursive_summary_patch_add_count", 0))
+        for item in snapshots.values()
+    )
+    patch_replaces = sum(
+        int(item.get("recursive_summary_patch_replace_count", 0))
+        for item in snapshots.values()
+    )
+    patch_deletes = sum(
+        int(item.get("recursive_summary_patch_delete_count", 0))
+        for item in snapshots.values()
+    )
     return {
         "snapshot_count": len(snapshots),
-        "update_count": sum(
-            int(item.get("recursive_summary_update_count", 0))
+        "total_step_count": total_steps,
+        "update_count": total_updates,
+        "noop_count": total_noops,
+        "update_ratio": total_updates / total_steps if total_steps else 0.0,
+        "noop_ratio": total_noops / total_steps if total_steps else 0.0,
+        "failed_attempt_count": sum(
+            int(item.get("recursive_summary_failed_attempt_count", 0))
             for item in snapshots.values()
         ),
-        "noop_count": sum(
-            int(item.get("recursive_summary_noop_count", 0))
+        "status_usage": status_usage,
+        "redundant_update_count": sum(
+            int(item.get("recursive_summary_redundant_update_count", 0))
             for item in snapshots.values()
+        ),
+        "redundant_update_ratio": (
+            sum(
+                int(item.get("recursive_summary_redundant_update_count", 0))
+                for item in snapshots.values()
+            )
+            / total_steps
+            if total_steps
+            else 0.0
+        ),
+        "update_cadences": sorted(
+            {
+                str(
+                    item.get(
+                        "recursive_summary_update_cadence",
+                        "calendar_day",
+                    )
+                )
+                for item in snapshots.values()
+            }
         ),
         "truncation_count": sum(
             int(item.get("recursive_summary_truncation_count", 0))
+            for item in snapshots.values()
+        ),
+        "update_modes": sorted(
+            {
+                str(item.get("recursive_summary_update_mode", "full_rewrite"))
+                for item in snapshots.values()
+            }
+        ),
+        "patch_operation_count": patch_operations,
+        "patch_add_count": patch_adds,
+        "patch_replace_count": patch_replaces,
+        "patch_delete_count": patch_deletes,
+        "patch_add_ratio": patch_adds / patch_operations if patch_operations else 0.0,
+        "patch_replace_ratio": (
+            patch_replaces / patch_operations if patch_operations else 0.0
+        ),
+        "patch_delete_ratio": (
+            patch_deletes / patch_operations if patch_operations else 0.0
+        ),
+        "patch_generation_attempt_count": sum(
+            int(
+                item.get(
+                    "recursive_summary_patch_generation_attempt_count",
+                    0,
+                )
+            )
+            for item in snapshots.values()
+        ),
+        "patch_rejection_count": sum(
+            int(item.get("recursive_summary_patch_rejection_count", 0))
+            for item in snapshots.values()
+        ),
+        "patch_apply_latency_ms": sum(
+            int(item.get("recursive_summary_patch_apply_latency_ms", 0))
+            for item in snapshots.values()
+        ),
+        "compaction_count": sum(
+            int(item.get("recursive_summary_compaction_count", 0))
+            for item in snapshots.values()
+        ),
+        "compaction_attempt_count": sum(
+            int(item.get("recursive_summary_compaction_attempt_count", 0))
+            for item in snapshots.values()
+        ),
+        "compaction_latency_ms": sum(
+            int(item.get("recursive_summary_compaction_latency_ms", 0))
+            for item in snapshots.values()
+        ),
+        "compaction_input_tokens": sum(
+            int(item.get("recursive_summary_compaction_input_tokens", 0))
+            for item in snapshots.values()
+        ),
+        "compaction_output_tokens": sum(
+            int(item.get("recursive_summary_compaction_output_tokens", 0))
+            for item in snapshots.values()
+        ),
+        "temporal_operation_count": sum(
+            int(item.get("recursive_summary_temporal_operation_count", 0))
+            for item in snapshots.values()
+        ),
+        "temporal_non_temporal_count": sum(
+            int(item.get("recursive_summary_temporal_non_temporal_count", 0))
+            for item in snapshots.values()
+        ),
+        "temporal_durable_upsert_count": sum(
+            int(
+                item.get(
+                    "recursive_summary_temporal_durable_upsert_count",
+                    0,
+                )
+            )
+            for item in snapshots.values()
+        ),
+        "temporal_current_upsert_count": sum(
+            int(item.get("recursive_summary_temporal_current_upsert_count", 0))
+            for item in snapshots.values()
+        ),
+        "temporal_temporary_override_count": sum(
+            int(
+                item.get(
+                    "recursive_summary_temporal_temporary_override_count",
+                    0,
+                )
+            )
+            for item in snapshots.values()
+        ),
+        "temporal_end_temporary_count": sum(
+            int(item.get("recursive_summary_temporal_end_temporary_count", 0))
+            for item in snapshots.values()
+        ),
+        "temporal_conditional_upsert_count": sum(
+            int(
+                item.get(
+                    "recursive_summary_temporal_conditional_upsert_count",
+                    0,
+                )
+            )
             for item in snapshots.values()
         ),
         "final_characters_mean": _mean(characters),
@@ -1404,9 +1820,7 @@ def _aggregate_fact_quality(
 ) -> dict[str, Any] | None:
     snapshots: dict[str, dict[str, Any]] = {}
     for record in records:
-        metadata = (
-            record.get("context", {}).get("retrieval_metadata", {}) or {}
-        )
+        metadata = record.get("context", {}).get("retrieval_metadata", {}) or {}
         quality = metadata.get("fact_quality")
         if not quality:
             continue
@@ -1444,17 +1858,13 @@ def _aggregate_fact_quality(
         counts: Counter[str] = Counter()
         for item in snapshots.values():
             counts.update(
-                {
-                    str(name): int(value)
-                    for name, value in (item.get(key) or {}).items()
-                }
+                {str(name): int(value) for name, value in (item.get(key) or {}).items()}
             )
         aggregate[key] = dict(sorted(counts.items()))
     for key in usage_keys:
         aggregate[key] = {
             field: sum(
-                int((item.get(key) or {}).get(field, 0))
-                for item in snapshots.values()
+                int((item.get(key) or {}).get(field, 0)) for item in snapshots.values()
             )
             for field in (
                 "input_tokens",
@@ -1464,9 +1874,7 @@ def _aggregate_fact_quality(
             )
         }
     candidate_count = int(aggregate["candidate_count"])
-    applied_count = int(
-        aggregate["candidate_status_counts"].get("applied", 0)
-    )
+    applied_count = int(aggregate["candidate_status_counts"].get("applied", 0))
     resolved_count = applied_count + int(
         aggregate["candidate_status_counts"].get("noop", 0)
     )
@@ -1490,12 +1898,8 @@ def _task_diagnostics(record: dict[str, Any]) -> dict[str, Any]:
         if str(call.get("name", "")).count("_") >= 2
     }
     discovery_calls = int(record.get("discovery_calls", 0))
-    reference_tool_names = {
-        str(call.get("name", "")) for call in reference_calls
-    }
-    predicted_tool_names = {
-        str(call.get("name", "")) for call in predicted_calls
-    }
+    reference_tool_names = {str(call.get("name", "")) for call in reference_calls}
+    predicted_tool_names = {str(call.get("name", "")) for call in predicted_calls}
     codes: list[str] = []
     if record.get("status") == "failed":
         codes.append("execution_error")
@@ -1520,10 +1924,7 @@ def _task_diagnostics(record: dict[str, Any]) -> dict[str, Any]:
     if (
         record.get("profile") in VEHICLE_MEMORY_PROFILES
         and retrieval_selected_count == 0
-        and (
-            not score
-            or not bool(score.get("exact_state_match"))
-        )
+        and (not score or not bool(score.get("exact_state_match")))
     ):
         codes.append("retrieval_empty")
     elif (
@@ -1532,9 +1933,7 @@ def _task_diagnostics(record: dict[str, Any]) -> dict[str, Any]:
         and not bool(score.get("exact_state_match"))
     ):
         codes.append("memory_or_retrieval_mismatch")
-    selector_names = {
-        str(name) for name in context.get("selector_tool_names", ())
-    }
+    selector_names = {str(name) for name in context.get("selector_tool_names", ())}
     selector_misses = sorted(reference_tool_names - selector_names)
     state_failed = not score or not bool(score.get("exact_state_match"))
     if (
@@ -1547,14 +1946,13 @@ def _task_diagnostics(record: dict[str, Any]) -> dict[str, Any]:
             "cloud_recursive_assisted_fact_patch",
             "cloud_schema_informed_recursive_assisted_fact_patch",
             "cloud_joint_planned_fact_patch",
+            "cloud_post_normalized_fact_wiki",
         }
         and selector_misses
         and state_failed
     ):
         codes.append("tool_selector_miss")
-    hint_rejections = int(
-        context.get("tool_memory_execution_hint_rejection_count", 0)
-    )
+    hint_rejections = int(context.get("tool_memory_execution_hint_rejection_count", 0))
     if hint_rejections and state_failed:
         codes.append("memory_argument_mapping_rejection")
     if reference_calls and not predicted_calls:
@@ -1573,6 +1971,7 @@ def _task_diagnostics(record: dict[str, Any]) -> dict[str, Any]:
                 "cloud_recursive_assisted_fact_patch",
                 "cloud_schema_informed_recursive_assisted_fact_patch",
                 "cloud_joint_planned_fact_patch",
+                "cloud_post_normalized_fact_wiki",
             }
             or not selector_misses
         ):
@@ -1614,18 +2013,12 @@ def _task_diagnostics(record: dict[str, Any]) -> dict[str, Any]:
         "unnecessary_vehicle_calls": int(tool_score.get("fp", 0)),
         "missing_vehicle_calls": int(tool_score.get("fn", 0)),
         "extra_discovery_calls": extra_discovery,
-        "suppressed_duplicate_calls": int(
-            record.get("suppressed_duplicate_calls", 0)
-        ),
+        "suppressed_duplicate_calls": int(record.get("suppressed_duplicate_calls", 0)),
         "selector_missing_reference_tools": selector_misses,
         "hint_rejection_count": hint_rejections,
         "retrieval_run_id": retrieval.get("retrieval_run_id"),
-        "tool_memory_retrieval_run_id": retrieval.get(
-            "tool_memory_retrieval_run_id"
-        ),
-        "fact_memory_retrieval_run_id": retrieval.get(
-            "fact_memory_retrieval_run_id"
-        ),
+        "tool_memory_retrieval_run_id": retrieval.get("tool_memory_retrieval_run_id"),
+        "fact_memory_retrieval_run_id": retrieval.get("fact_memory_retrieval_run_id"),
         "memory_fingerprint": retrieval.get("memory_fingerprint"),
     }
 
@@ -1700,20 +2093,15 @@ def _gold_binding_hints(
     """Build evaluation-only exact Tool hints for a retrieved reviewed Fact."""
 
     if not record_ids:
-        raise ValueError(
-            f"Oracle Binding requires a selected Fact record: {task.id}"
-        )
+        raise ValueError(f"Oracle Binding requires a selected Fact record: {task.id}")
     tools = {
-        tool.tool_name: tool
-        for tool in build_tool_memory_ontology(definitions).tools
+        tool.tool_name: tool for tool in build_tool_memory_ontology(definitions).tools
     }
     hints = []
     for index, call in enumerate(task.gold_calls):
         tool = tools.get(call.name)
         if tool is None:
-            raise ValueError(
-                f"Oracle Binding references an unknown Tool: {call.name}"
-            )
+            raise ValueError(f"Oracle Binding references an unknown Tool: {call.name}")
         hints.append(
             ToolMemoryExecutionHint(
                 record_id=record_ids[min(index, len(record_ids) - 1)],
@@ -1785,9 +2173,7 @@ def _retrieval_quality(
         "pipeline_recall_at_k": (
             len(pipeline_matched) / len(leaves) if leaves else 1.0
         ),
-        "all_gold_arguments_available_to_agent": (
-            len(pipeline_matched) == len(leaves)
-        ),
+        "all_gold_arguments_available_to_agent": (len(pipeline_matched) == len(leaves)),
         "selected_count": selected_count,
         "context_tokens": int(
             metadata.get(
@@ -1809,15 +2195,9 @@ def _retrieval_quality(
 
 def _argument_leaves(value: Any) -> tuple[str, ...]:
     if isinstance(value, dict):
-        return tuple(
-            leaf
-            for item in value.values()
-            for leaf in _argument_leaves(item)
-        )
+        return tuple(leaf for item in value.values() for leaf in _argument_leaves(item))
     if isinstance(value, (list, tuple)):
-        return tuple(
-            leaf for item in value for leaf in _argument_leaves(item)
-        )
+        return tuple(leaf for item in value for leaf in _argument_leaves(item))
     if value is None:
         return ("null",)
     if isinstance(value, bool):
@@ -2199,8 +2579,7 @@ def _write_vehicle_markdown(path: Path, metrics: dict[str, Any]) -> None:
         "",
         "| Profile | Tasks | ESM | State P/R/F1 | Value F1 | Tool F1 | "
         "Arg Exact | Recall@k | Context tokens | Extra calls | Cloud exposure |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | "
-        "---: | ---: | ---: |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for profile, values in metrics["profiles"].items():
         recall = values["retrieval_recall_at_k"]
@@ -2219,6 +2598,58 @@ def _write_vehicle_markdown(path: Path, metrics: dict[str, Any]) -> None:
             f"| {values['unnecessary_vehicle_calls']} "
             f"| {values['cloud_exposed_character_rate']:.3f} |"
         )
+    lines.extend(
+        [
+            "",
+            "## Workflow stages",
+            "",
+            "Retrieved context tokens below are diagnostic and are already "
+            "reflected in later Agent input; do not add them to billed Agent "
+            "tokens.",
+            "",
+            "| Profile | Base context | Wiki context | Online retrieval "
+            "latency (ms) | Agent tokens | Agent latency (ms) |",
+            "| --- | ---: | ---: | ---: | ---: | ---: |",
+        ]
+    )
+    for profile, values in metrics["profiles"].items():
+        stages = values.get("workflow_stages", {})
+        online = stages.get("online_memory_retrieval", {})
+        agent = stages.get("quiz_agent", {})
+        lines.append(
+            f"| {profile} "
+            f"| {int(online.get('base_context_tokens', 0))} "
+            f"| {int(online.get('wiki_read_context_tokens', 0))} "
+            f"| {int(online.get('observed_latency_ms', 0))} "
+            f"| {int(agent.get('total_tokens', 0))} "
+            f"| {int(agent.get('model_latency_ms', 0))} |"
+        )
+    suite_stages = metrics.get("workflow_stages")
+    if suite_stages:
+        lines.extend(
+            [
+                "",
+                "### Suite provider stages",
+                "",
+                "| Stage | Calls | Input tokens | Output tokens | "
+                "Provider latency (ms) | Estimated cost (USD) |",
+                "| --- | ---: | ---: | ---: | ---: | ---: |",
+            ]
+        )
+        for stage in (
+            "idle_memory_llm",
+            "idle_memory_embedding",
+            "online_memory_retrieval",
+        ):
+            values = suite_stages.get(stage, {})
+            lines.append(
+                f"| {stage} "
+                f"| {int(values.get('calls', 0))} "
+                f"| {int(values.get('input_tokens', 0))} "
+                f"| {int(values.get('output_tokens', 0))} "
+                f"| {int(values.get('latency_ms', 0))} "
+                f"| {float(values.get('estimated_cost_usd', 0.0)):.8f} |"
+            )
     lines.extend(["", "## Failure taxonomy", ""])
     for profile, values in metrics["profiles"].items():
         taxonomy = ", ".join(
@@ -2312,9 +2743,7 @@ def _artifact_privacy_audit(artifact_dir: Path) -> dict[str, Any]:
             ]
         else:
             payload = text
-        reports.append(
-            inspect_data_privacy(_mask_opaque_identifiers(payload))
-        )
+        reports.append(inspect_data_privacy(_mask_opaque_identifiers(payload)))
     categories: Counter[str] = Counter()
     for report in reports:
         categories.update(report.category_counts)
@@ -2331,10 +2760,7 @@ def _artifact_privacy_audit(artifact_dir: Path) -> dict[str, Any]:
 
 def _mask_opaque_identifiers(value: Any) -> Any:
     if isinstance(value, dict):
-        return {
-            key: _mask_opaque_identifiers(item)
-            for key, item in value.items()
-        }
+        return {key: _mask_opaque_identifiers(item) for key, item in value.items()}
     if isinstance(value, list):
         return [_mask_opaque_identifiers(item) for item in value]
     if isinstance(value, tuple):

@@ -31,7 +31,7 @@ DEFAULT_COMPACT_AMEM_EPISODE_MAX_ENTRIES = 16
 DEFAULT_COMPACT_AMEM_EPISODE_MAX_CHARS = 8_000
 DEFAULT_COMPACT_AMEM_EPISODE_MAX_GAP_SECONDS = 6 * 60 * 60
 DEFAULT_COMPACT_AMEM_LINK_THRESHOLD = 0.75
-COMPACT_AMEM_GRAPH_POLICY_VERSION = "compact-amem-graph-v1"
+COMPACT_AMEM_GRAPH_POLICY_VERSION = "compact-amem-graph-source-order-v2"
 COMPACT_AMEM_NOTE_SEQUENCE_WIDTH = 16
 _COMPACT_AMEM_MEMORY_KINDS = {
     "preference",
@@ -533,10 +533,9 @@ class CompactAMemGraphEngine(AMemEngine):
                 raise ValueError("Compact A-MEM note contains duplicate sources")
             if set(draft.source_message_ids) - set(source_order):
                 raise ValueError("Compact A-MEM note references an outside source")
-            if draft.source_message_ids != tuple(
+            chronological_sources = tuple(
                 sorted(draft.source_message_ids, key=source_order.__getitem__)
-            ):
-                raise ValueError("Compact A-MEM note sources must be chronological")
+            )
             context, keywords, tags = cls._validate_metadata(
                 context=draft.context,
                 keywords=draft.keywords,
@@ -549,6 +548,7 @@ class CompactAMemGraphEngine(AMemEngine):
                     context=context,
                     keywords=keywords,
                     tags=tags,
+                    source_message_ids=chronological_sources,
                 )
             )
         return tuple(validated)

@@ -1,6 +1,6 @@
 # Compact A-MEM-style 개념 및 구현 계획
 
-상태: 2회차 완료 · 3회차 전
+상태: 4회차 구현·Scenario 6 검증 완료
 
 ## 1. 짧은 개념
 
@@ -72,16 +72,43 @@ History
 
 ### 3회차 — VehicleMemBench 통합
 
-- `cloud_compact_amem_style` profile과 CLI 설정을 추가한다.
-- 기존 A-MEM linked retrieval을 재사용한다.
-- manifest에 raw line 수, episode 수, compact note 수, evolution 수와 비용을 기록한다.
-- Fake Scenario E2E와 privacy/no-Gold-leak 검증을 추가한다.
+- [완료] `cloud_compact_amem_style` profile과 CLI 설정을 추가했다.
+- [완료] 전용 session에서 기존 A-MEM linked retrieval을 재사용한다.
+- [완료] manifest에 raw/selected line 수, episode 수, compact note 수,
+  압축률, evolution/link 수와 provider usage·비용을 기록한다.
+- [완료] Fake Scenario E2E, privacy/no-Gold-leak와 episode 단위 cache resume를
+  검증한다.
+
+확정 CLI 설정:
+
+- `--compact-amem-episode-max-entries` (기본 16)
+- `--compact-amem-episode-max-chars` (기본 8,000)
+- `--compact-amem-episode-max-gap-seconds` (기본 21,600)
+- `--compact-amem-link-threshold` (기본 0.75)
+- `--amem-note-limit`은 compact profile에서도 debug용 partial-history 제한으로만
+  사용
+
+검증 결과: Ruff 전체 통과, Ubuntu 테스트 300개 수집 중 299 passed·1 skipped.
 
 ### 4회차 — Scenario 6 검증
 
-- 100-line smoke에서 압축률, 호출 수, latency와 retrieval 내용을 점검한다.
-- 통과 후 Scenario 6 전체 cache와 10-task E2E를 실행한다.
-- `cloud_amem_style` 대비 ESM, State/Tool F1, 호출 수, token과 시간을 비교한다.
+- [완료] 100-line smoke에서 7 episode, 29 note, 7 compaction call과
+  privacy/retrieval 경로를 확인했다.
+- [완료] Scenario 6 전체 2,698줄을 190 episode와 522 note로 구축하고 동일
+  cache에서 10-task E2E를 실행했다.
+- [완료] ESM `0.60`, State/Value F1 `0.776`, Tool F1 `0.633`, retrieval
+  recall@k `0.75`를 확인했다.
+- [완료] 모델이 evidence ID 집합을 비순차 배열로 반환하는 실전 오류를 발견해,
+  episode 밖·중복 ID는 거부하면서 episode 순서로만 canonicalize하도록 graph
+  policy v2와 회귀 테스트를 추가했다.
+- [제한] 기존 `cloud_amem_style` Scenario 6 실측 artifact는 없다. 따라서 정확도
+  직접 비교는 하지 않았고 dry-run 호출량과 비교했다. Compact의 정상
+  compaction 190회는 line별 방식의 최소 2,698회 대비 92.96%, 보수적 최대
+  5,395회 대비 96.48% 적다.
+
+상세 결과와 재현 경로는
+[Compact A-MEM-style Scenario 6 결과](compact-amem-style-s6-results.md)에
+기록한다.
 
 ## 4. 완료 기준
 
