@@ -1,0 +1,27 @@
+name: palmclaw-memory-sft
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip>=25
+  - pytorch=2.5.1
+  - pytorch-cuda=12.1
+  - pip:
+      - transformers>=5.1,<6
+      - accelerate>=1.10,<2
+      - peft>=0.17,<1
+      - trl>=0.23,<1
+      - datasets>=4,<5
+      - sentencepiece>=0.2,<1
+      - safetensors>=0.6,<1
+      - huggingface-hub>=0.34,<2
+      - mlflow>=3,<4
+      - fastapi>=0.116,<1
+      - uvicorn[standard]>=0.35,<1
+      - httpx>=0.28,<1
+      - psutil>=7,<8
+      - nvidia-ml-py>=13,<14
+      - pytest>=8,<10
+      - ruff>=0.12,<1

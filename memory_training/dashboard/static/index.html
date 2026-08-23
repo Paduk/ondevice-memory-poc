@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PalmClaw · Memory Training</title>
+  <link rel="stylesheet" href="/static/styles.css?v=20260823a">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">PC</div>
+      <div><strong>PalmClaw</strong><span>Memory Training Lab</span></div>
+    </div>
+    <div class="top-actions">
+      <span id="last-updated" class="muted">Waiting for runs…</span>
+      <button id="refresh-button" class="button secondary">Refresh</button>
+      <span class="live-dot"><i></i> 10s live</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">ON-DEVICE MEMORY · EXPERIMENT CONTROL PLANE</p>
+        <h1>See the whole matrix.<br><em>Inspect every trajectory.</em></h1>
+        <p class="hero-copy">Monitor concurrent model × method runs, compare checkpoints, and archive finished or failed experiments without permanently deleting evidence.</p>
+      </div>
+      <div class="hero-meta">
+        <span>Workspace</span>
+        <code id="runs-root">—</code>
+      </div>
+    </section>
+
+    <section id="stats" class="stats"></section>
+
+    <section class="panel matrix-panel">
+      <div class="section-heading">
+        <div><p class="eyebrow">OVERVIEW</p><h2>Model × method matrix</h2></div>
+        <p>Each cell shows the latest run. A corner count indicates repeated runs.</p>
+      </div>
+      <div id="matrix" class="matrix"></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading run-heading">
+        <div><p class="eyebrow">RUNS</p><h2>Concurrent activity</h2></div>
+        <div class="filters">
+          <input id="search" type="search" placeholder="Search run, model, method…">
+          <select id="state-filter"><option value="">All states</option><option>RUNNING</option><option>COMPLETED</option><option>FAILED</option><option>QUEUED</option></select>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th class="select-cell"></th><th>Run</th><th>Model / Method</th><th>Status / Manage</th><th>Progress</th><th>Loss</th><th>State F1</th><th>Speed</th><th>ETA</th></tr></thead>
+          <tbody id="run-table"></tbody>
+        </table>
+      </div>
+      <div id="empty-runs" class="empty hidden">No runs match these filters.</div>
+    </section>
+
+    <section id="comparison-panel" class="panel comparison-panel">
+      <div class="section-heading">
+        <div><p class="eyebrow">COMPARISON</p><h2>Selected runs</h2></div>
+        <div class="compare-controls">
+          <select id="metric-select">
+            <option value="train.loss">Train loss</option>
+            <option value="validation.teacher_forced_loss">Validation loss</option>
+            <option value="validation.closed_loop_state_f1">Closed-loop State F1</option>
+            <option value="validation.closed_loop_final_state_f1">Final State F1</option>
+            <option value="train.target_tokens_per_second">Target token/s</option>
+            <option value="train.peak_cuda_memory_mib">GPU memory</option>
+          </select>
+          <button id="clear-selection" class="button ghost">Clear</button>
+        </div>
+      </div>
+      <div id="selection-chips" class="chips"><span class="muted">Select runs using the checkboxes above.</span></div>
+      <div id="comparison-chart" class="chart-shell"></div>
+      <div id="comparison-table" class="comparison-grid"></div>
+    </section>
+  </main>
+
+  <aside id="detail-drawer" class="drawer" aria-hidden="true">
+    <div class="drawer-backdrop" data-close></div>
+    <div class="drawer-card">
+      <button class="drawer-close" data-close aria-label="Close">×</button>
+      <div id="detail-content" class="detail-content"></div>
+    </div>
+  </aside>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="/static/app.js?v=20260823a" defer></script>
+</body>
+</html>
