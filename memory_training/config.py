@@ -19,12 +19,27 @@ DEFAULT_DATA_ROOT = (
 class TargetModel:
     key: str
     family: str
-    parameters_b: int
+    parameters_b: float
     hf_id: str
     ollama_tag: str
 
 
 TARGET_MODELS = (
+    TargetModel(
+        "granite4-350m",
+        "granite4",
+        0.35,
+        "ibm-granite/granite-4.0-350m",
+        "granite4:350m",
+    ),
+    TargetModel(
+        "granite4-1b",
+        "granite4",
+        1,
+        "ibm-granite/granite-4.0-1b",
+        "granite4:1b",
+    ),
+    TargetModel("qwen3.5-2b", "qwen3.5", 2, "Qwen/Qwen3.5-2B", "qwen3.5:2b"),
     TargetModel("qwen3.5-4b", "qwen3.5", 4, "Qwen/Qwen3.5-4B", "qwen3.5:4b"),
     TargetModel("qwen3.5-9b", "qwen3.5", 9, "Qwen/Qwen3.5-9B", "qwen3.5:9b"),
     TargetModel(
@@ -60,8 +75,30 @@ WORKSPACE_DIRECTORIES = (
 
 
 def split_for_scenario(scenario_index: int) -> str:
+    # S1-S100 are the original Hybrid V2 scenarios.  T1-T20 are stored in the
+    # same indexed files as 101-120 so the integer catalog remains backwards
+    # compatible while the two scenario families never collide.
+    if 101 <= scenario_index <= 110:
+        return "train"
+    if scenario_index == 111:
+        return "validation"
+    if 112 <= scenario_index <= 120:
+        return "test"
+    # Original VehicleMemBench V1 scenarios used only as auxiliary training
+    # data are encoded as 201-250 to avoid colliding with Hybrid V2 S1-S100.
+    # They intentionally have no validation/test partition in this pipeline.
+    if 201 <= scenario_index <= 250:
+        return "train"
+    # Training-only V1-style structural clones.  These keep the original
+    # V1 source split disjoint from the generated S301-S320 identities.
+    if 301 <= scenario_index <= 320:
+        return "train"
     if not 1 <= scenario_index <= 100:
-        raise ValueError(f"scenario_index must be 1..100: {scenario_index}")
+        raise ValueError(
+            "scenario_index must be S1-S100, encoded T1-T20, "
+            "training-only encoded V1 S1-S50, or V1-style S301-S320: "
+            f"{scenario_index}"
+        )
     if scenario_index <= 80:
         return "train"
     if scenario_index <= 90:

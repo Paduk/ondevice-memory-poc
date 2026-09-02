@@ -114,6 +114,7 @@ from palmclaw_ubuntu.vehicle_bench.suite import (
 from palmclaw_ubuntu.vehicle_bench.v1_generation import (
     V1_DEFAULT_GENERATION_MODEL,
     V1_EVENT_CHAIN_PROMPT_VERSION,
+    V1_EVENT_CHAIN_STATE_EVOLUTION_PROMPT_VERSION,
     V1_PERSONA_PROMPT_VERSION,
     V1_PUBLISHED_REASONING_COUNTS,
     V1_SHARED_VEHICLE_SUBJECT_ID,
@@ -128,6 +129,7 @@ from palmclaw_ubuntu.vehicle_bench.v1_generation import (
     V1PersonaSeed,
     V1Stage2Artifact,
     V1Stage2Audit,
+    V1StateEvolutionCoverage,
     V1VehicleAttribute,
     build_persona_seed_groups,
     build_reasoning_type_plan,
@@ -137,6 +139,7 @@ from palmclaw_ubuntu.vehicle_bench.v1_generation import (
     load_persona_seeds,
     validate_stage2_contract,
     validate_stage2_simulator_arguments,
+    validate_state_evolution_coverage,
     write_stage2_artifact,
 )
 from palmclaw_ubuntu.vehicle_bench.v1_persona_source import (
@@ -382,6 +385,7 @@ __all__ = [
     "V1_BACKGROUND_DIALOGUE_TURNS",
     "V1_DIALOGUE_PROMPT_VERSION",
     "V1_EVENT_CHAIN_PROMPT_VERSION",
+    "V1_EVENT_CHAIN_STATE_EVOLUTION_PROMPT_VERSION",
     "V1_FINAL_QUIZ_PROMPT_VERSION",
     "V1_PERSONA_PROMPT_VERSION",
     "V1_PUBLISHED_REASONING_COUNTS",
@@ -464,6 +468,7 @@ __all__ = [
     "V1SpecDecision",
     "V1Stage2Artifact",
     "V1Stage2Audit",
+    "V1StateEvolutionCoverage",
     "V1Stage3Artifact",
     "V1Stage3Audit",
     "V1ToolCallDraft",
@@ -517,6 +522,7 @@ __all__ = [
     "vehicle_tool_schema_sha256",
     "validate_stage2_contract",
     "validate_stage2_simulator_arguments",
+    "validate_state_evolution_coverage",
     "validate_dialogue_payload",
     "validate_public_v1_payload",
     "write_stage2_artifact",

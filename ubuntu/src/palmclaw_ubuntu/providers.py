@@ -8,7 +8,7 @@ import time
 from collections import deque
 from collections.abc import Mapping, Sequence
 from dataclasses import replace
-from typing import Annotated, Any, Literal
+from typing import TYPE_CHECKING, Annotated, Any, Literal
 from urllib.parse import urlparse
 
 import httpx
@@ -55,10 +55,10 @@ from palmclaw_ubuntu.tool_memory_schema import (
     ToolMemoryOntology,
     normalize_identifier,
 )
-from palmclaw_ubuntu.vehicle_bench.vehicle_fact_ontology import (
-    VehicleFactOntology,
-    VehicleFactOntologyMatcher,
-)
+if TYPE_CHECKING:
+    from palmclaw_ubuntu.vehicle_bench.vehicle_fact_ontology import (
+        VehicleFactOntology,
+    )
 
 STRUCTURED_MEMORY_INSTRUCTIONS = (
     "Extract only durable user facts, preferences, decisions, "
@@ -369,8 +369,19 @@ def prepare_temporal_summary_patch_operations(
             )
         if action == "temporary_override" and op != "add":
             raise ValueError("temporary_override must add without replacing baseline")
-        if action == "end_temporary" and op != "delete":
-            raise ValueError("end_temporary must delete only the temporary override")
+        if action == "end_temporary" and op not in {"delete", "replace"}:
+            raise ValueError(
+                "end_temporary must delete the temporary override or replace a "
+                "combined baseline/override block"
+            )
+        if action == "end_temporary" and op == "replace":
+            target = operation["target"].strip()
+            content = operation["content"].strip()
+            if not target or not content or len(content) >= len(target):
+                raise ValueError(
+                    "end_temporary replacement must shorten a non-empty combined "
+                    "block while preserving its durable baseline"
+                )
         if action in {
             "durable_upsert",
             "current_upsert",
@@ -430,6 +441,23 @@ def _normalize_recursive_summary(content: str) -> str:
     ).strip()
 
 
+def _compact_recursive_summary_format(content: str) -> str:
+    """Remove presentation-only Markdown without dropping memory text."""
+    compacted: list[str] = []
+    for raw_line in _normalize_recursive_summary(content).splitlines():
+        line = raw_line.rstrip()
+        if not line.strip():
+            continue
+        stripped = line.lstrip()
+        indentation = line[: len(line) - len(stripped)]
+        heading = re.fullmatch(r"#{1,6}\s+(.+?)\s*", stripped)
+        if heading:
+            line = f"{indentation}{heading.group(1).rstrip(':')}:"
+        line = line.replace("**", "").replace("__", "")
+        compacted.append(line)
+    return "\n".join(compacted).strip()
+
+
 def _normalize_recursive_summary_patch_fragment(content: str) -> str:
     """Normalize a patch fragment without removing meaningful indentation."""
     lines = [
@@ -460,17 +488,46 @@ def _starts_recursive_summary_user_block(content: str) -> bool:
 
 
 def _recursive_summary_patch_repair_guidance(reason: str) -> str:
+    if "end_temporary must delete" in reason or (
+        "end_temporary replacement must shorten" in reason
+    ):
+        return (
+            'For temporal_action "end_temporary", use delete with empty content '
+            "when the override is its own exact block. If baseline and override "
+            "share one block, use replace with a shorter complete block that keeps "
+            "the durable baseline and removes only the ended override. If this turn "
+            "does not explicitly end an override, use a non-ending action instead."
+        )
+    if "temporary_override must add" in reason:
+        return (
+            'When temporal_action is "temporary_override", op must be "add" '
+            "so the durable baseline remains present. Otherwise use the temporal "
+            "action that matches the intended replacement."
+        )
+    if "requires an exact temporal cue" in reason:
+        return (
+            "For a temporary override or its explicit end, copy temporal_cue "
+            "verbatim from New Conversation Turn. If no exact supporting phrase "
+            "exists, do not use a temporary temporal_action."
+        )
     if "occur exactly once" in reason:
         return (
             "The target is missing or repeated. For a repeated preference "
             "bullet, copy one contiguous block beginning at the relevant "
             "user's heading and ending at the target line, and return the "
-            "corresponding complete replacement block."
+            "corresponding complete replacement block. If the memory is a "
+            "flat bullet list without user headings, include exact complete "
+            "neighboring lines before or after the target until the block "
+            "occurs exactly once, then replace that complete block."
         )
     if "cover complete lines" in reason:
         return (
-            "Copy the target with its exact Markdown prefix and indentation "
-            "so it begins and ends on line boundaries."
+            "Copy the target as one or more complete lines, including the exact "
+            "Markdown prefix and indentation. The first target character must "
+            "be at the start of Current Memory or immediately after a newline; "
+            "the final target character must be immediately before a newline "
+            "or at the end of Current Memory. For replace, content must likewise "
+            "contain the complete replacement line or block, not just changed words."
         )
     if "new user block must be appended" in reason:
         return "Use add with an empty target to append the complete new user block."
@@ -565,12 +622,19 @@ def apply_recursive_summary_patch(
                 target,
                 operation_index=index,
             )
-            if end < len(current):
-                current = current[:start] + current[end + 1 :]
-            elif start > 0:
-                current = current[: start - 1]
+            prefix = current[:start]
+            suffix = current[end:]
+            if prefix and suffix:
+                left_newlines = len(prefix) - len(prefix.rstrip("\n"))
+                right_newlines = len(suffix) - len(suffix.lstrip("\n"))
+                separator = "\n" * max(1, left_newlines, right_newlines)
+                current = (
+                    prefix.rstrip("\n")
+                    + separator
+                    + suffix.lstrip("\n")
+                )
             else:
-                current = ""
+                current = (prefix or suffix).strip("\n")
             deleted_characters += len(target)
         operation_counts[op] += 1
 
@@ -2142,9 +2206,6 @@ class OpenAIRecursiveSummaryPatchMemoryModel(OpenAIRecursiveSummaryMemoryModel):
                 if getattr(item, "type", None) == "function_call"
             ]
             if not calls:
-                if repair_reason is not None:
-                    repair_reason = "repair response omitted memory_patch"
-                    continue
                 return MemoryResponse(
                     content="",
                     usage=usage,
@@ -2429,7 +2490,11 @@ class OpenAICompactingRecursiveSummaryPatchMemoryModel(
                 "Recursive Summary rules to the complete memory and call "
                 "memory_update exactly once. Preserve every exact value, "
                 "owner, condition, and time scope while merging redundancy. "
-                "When it is safe, aim to return no more than "
+                "The returned new_memory must be no more than "
+                f"{max(1, int(self.max_memory_chars * 0.90))} characters "
+                f"(the runtime rejects anything above {self.max_memory_chars}; "
+                "the lower requested limit is a mandatory safety margin). "
+                "Within that hard limit, when it is safe, aim to return no more than "
                 f"{max(1, int(patched_tokens * self.compaction_target_ratio))} "
                 "tokens."
             ),
@@ -2440,12 +2505,23 @@ class OpenAICompactingRecursiveSummaryPatchMemoryModel(
         started = time.monotonic()
         rejection_reason = ""
         compaction_response_id: str | None = None
+        format_compaction_applied = False
+        retry_compaction_memory: str | None = None
         compaction_target_tokens = max(
             1,
             int(patched_tokens * self.compaction_target_ratio),
         )
         for _attempt in range(1, self.max_compaction_attempts + 1):
             attempt_input = provider_input
+            if retry_compaction_memory is not None:
+                attempt_input = (
+                    "**Previous Near-limit Compaction Candidate:**\n"
+                    f"{retry_compaction_memory}\n\n"
+                    "Rewrite this candidate without dropping any fact, owner, "
+                    "condition, exact value, or time scope. Merge wording and "
+                    "call memory_update exactly once with no more than "
+                    f"{max(1, int(self.max_memory_chars * 0.90))} characters."
+                )
             if rejection_reason:
                 attempt_input += (
                     "\n\nThe previous compaction was rejected because "
@@ -2496,12 +2572,29 @@ class OpenAICompactingRecursiveSummaryPatchMemoryModel(
                 rejection_reason = "the memory was empty"
                 continue
             if len(compacted) > self.max_memory_chars:
-                rejection_reason = "the memory exceeded the character limit"
+                format_compacted = _compact_recursive_summary_format(compacted)
+                if len(format_compacted) < len(compacted):
+                    compacted = format_compacted
+                    compacted_tokens = self._token_counter.count(compacted)
+                    format_compaction_applied = True
+            if len(compacted) > self.max_memory_chars:
+                retry_compaction_memory = compacted
+                rejection_reason = (
+                    f"new_memory had {len(compacted)} characters but the hard "
+                    f"maximum is {self.max_memory_chars} characters"
+                )
                 continue
             compaction_applied = compacted_tokens < patched_tokens
             if not compaction_applied:
+                if len(patched) > self.max_memory_chars:
+                    rejection_reason = (
+                        "new_memory fit the character limit but did not reduce "
+                        "the over-limit accumulated memory"
+                    )
+                    continue
                 compacted = patched
                 compacted_tokens = patched_tokens
+                format_compaction_applied = False
             break
         else:
             raise RuntimeError(
@@ -2531,6 +2624,7 @@ class OpenAICompactingRecursiveSummaryPatchMemoryModel(
                     compacted_tokens <= compaction_target_tokens
                 ),
                 "compaction_applied": compaction_applied,
+                "compaction_format_normalized": format_compaction_applied,
                 "compaction_characters_before": len(patched),
                 "compaction_characters_after": len(compacted),
                 "compaction_latency_ms": latency_ms,
@@ -3050,6 +3144,10 @@ class OpenAISchemaInformedFactMemoryModel(OpenAIFactMemoryModel):
         recursive_summary: str | None = None,
         client: Any | None = None,
     ):
+        from palmclaw_ubuntu.vehicle_bench.vehicle_fact_ontology import (
+            VehicleFactOntologyMatcher,
+        )
+
         super().__init__(
             model_id,
             timeout_seconds=timeout_seconds,
@@ -3421,6 +3519,10 @@ class OpenAIPostNormalizedFactMemoryModel(OpenAIFactMemoryModel):
         minimum_lexical_score: float = 4.0,
         client: Any | None = None,
     ):
+        from palmclaw_ubuntu.vehicle_bench.vehicle_fact_ontology import (
+            VehicleFactOntologyMatcher,
+        )
+
         super().__init__(
             model_id,
             timeout_seconds=timeout_seconds,

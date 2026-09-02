@@ -1,0 +1,59 @@
+{
+  "schema_version": "palmclaw-memory-canary-split-v1",
+  "purpose": "Fast seed-variance and model-scale checks with a fixed operation-matched subset.",
+  "data_root": "/mnt/data/hj153lee/PalmClaw/evaluation/vehiclemembench-v2-training/grouped-s1-s100-plus-temporal-t1-t20-plus-v1-10-v2",
+  "selection_policy": {
+    "fixed_across_runs": true,
+    "training_data_seed": 45,
+    "vary_only_training_seed": true,
+    "target_update_fraction": 0.12,
+    "source_groups": {
+      "v2": [15, 31, 43, 51, 53, 66, 73, 80],
+      "temporal": [102],
+      "v1_style": [217, 232]
+    }
+  },
+  "train_scenarios": [15, 31, 43, 51, 53, 66, 73, 80, 102, 217, 232],
+  "operation_audit": {
+    "full_training_pool": {
+      "updates": 1641,
+      "operations": 1707,
+      "add": 1365,
+      "replace": 261,
+      "delete": 81,
+      "ratios": {
+        "add": 0.7996485062,
+        "replace": 0.1528998243,
+        "delete": 0.0474516696
+      }
+    },
+    "canary_training_pool": {
+      "updates": 198,
+      "update_fraction": 0.1206581353,
+      "operations": 206,
+      "add": 165,
+      "replace": 31,
+      "delete": 10,
+      "ratios": {
+        "add": 0.8009708738,
+        "replace": 0.1504854369,
+        "delete": 0.0485436893
+      },
+      "by_source": {
+        "v2": {"updates": 108, "add": 88, "replace": 20, "delete": 8},
+        "temporal": {"updates": 21, "add": 15, "replace": 5, "delete": 1},
+        "v1_style": {"updates": 69, "add": 62, "replace": 6, "delete": 1}
+      }
+    }
+  },
+  "validation": {
+    "scenarios": [81, 82, 83, 84, 85, 111],
+    "teacher_forced_rows": 100,
+    "one_step_rows": 100,
+    "closed_loop_full_scenarios": [83],
+    "closed_loop_sparse_scenarios": [111],
+    "quiz_rows_per_scenario": 2,
+    "gold_quiz_rows": 10,
+    "intended_use": "Divergence and seed-variance monitoring only; rerun full validation for final checkpoint selection."
+  }
+}

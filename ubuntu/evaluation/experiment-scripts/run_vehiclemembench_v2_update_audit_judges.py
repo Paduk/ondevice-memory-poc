@@ -274,7 +274,11 @@ def _ready_cases(args: argparse.Namespace) -> tuple[EventAuditCase, ...]:
     cases: dict[str, EventAuditCase] = {}
     output_root = args.output_root.expanduser().resolve()
     expansions = _load_no_op_expansions(output_root)
-    for paths in default_update_audit_artifact_paths(args.evaluation_root):
+    scenario_indices = tuple(args.scenarios) if args.scenarios else None
+    for paths in default_update_audit_artifact_paths(
+        args.evaluation_root,
+        scenario_indices=scenario_indices,
+    ):
         if args.methods and paths.method not in args.methods:
             continue
         if args.scenarios and paths.scenario_index not in args.scenarios:

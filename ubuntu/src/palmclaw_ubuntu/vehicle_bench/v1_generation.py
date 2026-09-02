@@ -27,6 +27,9 @@ V1_PERSONA_PROMPT_VERSION = "vehiclemembench-v1-persona-paper-stage1-rebuilt-v2"
 V1_EVENT_CHAIN_PROMPT_VERSION = (
     "vehiclemembench-v1-event-chain-paper-appendix-g-rebuilt-v6"
 )
+V1_EVENT_CHAIN_STATE_EVOLUTION_PROMPT_VERSION = (
+    "vehiclemembench-v1-event-chain-paper-appendix-g-state-evolution-v1"
+)
 
 # Appendix B, Table 4. These are used only to create a deterministic target mix.
 V1_PUBLISHED_REASONING_COUNTS = {
@@ -95,6 +98,29 @@ Reconstructed output constraints:
   circulation uses inside/outside; do not emit cabin, fresh_air, or
   front_passenger as executable arguments.
 - Do not generate natural dialogue or final benchmark answers in this stage.
+""".strip()
+
+V1_EVENT_CHAIN_STATE_EVOLUTION_INSTRUCTIONS = f"""
+{V1_EVENT_CHAIN_INSTRUCTIONS}
+
+Project-defined V2 state-evolution extension (required for S21 and later):
+- Keep one initial preference update in each of the 10 vehicle chains. Across
+  the scenario these initial updates must have distinct memory identities
+  (subject, attribute, selector context, and condition), yielding at least 10
+  deterministic ADD operations.
+- Add at least two later updates that change the value of an existing identity.
+  Preserve subject_id, attribute_path, context_arguments, and condition; set
+  previous_value to the prior value and supersedes_event_id to the prior source
+  event. These updates must yield deterministic REPLACE operations.
+- Add at least one explicit withdrawal or correction of an earlier scoped
+  preference. Point supersedes_event_id to the withdrawn source event, retain
+  its previous_value, and use a genuinely corrected context or condition. The
+  schema represents this as deterministic DELETE followed by ADD.
+- State changes must be motivated in the event descriptions and later dialogue,
+  not attached as artificial metadata. The delayed query must remain answerable
+  from the latest valid state after all replacements and withdrawals.
+- Never mark an initial fact as superseding another event. Never reference a
+  future or unrelated event in supersedes_event_id.
 """.strip()
 
 
@@ -216,6 +242,16 @@ class V1Stage2Audit(_StrictModel):
     passed: bool
 
 
+class V1StateEvolutionCoverage(_StrictModel):
+    initial_identity_count: int = Field(ge=0)
+    add_count: int = Field(ge=0)
+    replace_count: int = Field(ge=0)
+    delete_count: int = Field(ge=0)
+    duplicate_count: int = Field(ge=0)
+    explicit_supersession_count: int = Field(ge=0)
+    passed: bool
+
+
 class V1Stage2Artifact(_StrictModel):
     schema_version: str = V1_STAGE2_SCHEMA_VERSION
     scenario_candidate_id: str = Field(min_length=1)
@@ -334,6 +370,7 @@ class OpenAIV1EventChainGenerationModel:
         temperature: float | None = None,
         reasoning_effort: str | None = "medium",
         max_output_tokens: int = 32_768,
+        state_evolution: bool = False,
         client: Any | None = None,
     ) -> None:
         if not model_id.strip():
@@ -342,6 +379,7 @@ class OpenAIV1EventChainGenerationModel:
         self.temperature = temperature
         self.reasoning_effort = reasoning_effort
         self.max_output_tokens = max_output_tokens
+        self.state_evolution = state_evolution
         if client is None:
             from openai import OpenAI
 
@@ -364,7 +402,11 @@ class OpenAIV1EventChainGenerationModel:
         )
         request: dict[str, Any] = {
             "model": self.model_id,
-            "instructions": V1_EVENT_CHAIN_INSTRUCTIONS,
+            "instructions": (
+                V1_EVENT_CHAIN_STATE_EVOLUTION_INSTRUCTIONS
+                if self.state_evolution
+                else V1_EVENT_CHAIN_INSTRUCTIONS
+            ),
             "input": provider_input,
             "text_format": V1EventChainPayload,
             "max_output_tokens": self.max_output_tokens,
@@ -385,7 +427,11 @@ class OpenAIV1EventChainGenerationModel:
             planned_reasoning_types=tuple(reasoning_types),
             payload=payload,
             model_id=self.model_id,
-            prompt_version=V1_EVENT_CHAIN_PROMPT_VERSION,
+            prompt_version=(
+                V1_EVENT_CHAIN_STATE_EVOLUTION_PROMPT_VERSION
+                if self.state_evolution
+                else V1_EVENT_CHAIN_PROMPT_VERSION
+            ),
             input_sha256=canonical_json_sha256(json.loads(provider_input)),
             vehicle_catalog_sha256=canonical_json_sha256(catalog_payload),
             response_id=getattr(response, "id", None),
@@ -453,7 +499,12 @@ def _vehicle_argument_validation_hints(
 ) -> tuple[str, ...]:
     """Expose simulator selector conventions omitted by generated JSON schemas."""
 
-    del tool_name
+    exact_domains = {
+        (
+            "carcontrol_airConditioner_set_air_direction",
+            "direction",
+        ): "face|feet|window|face_feet|face_window|feet_window|face_feet_window",
+    }
     scopes = {
         "zone": "driver|passenger|rear_left|rear_right|front|rear|all",
         "seat": "driver|passenger|rear_left|rear_right",
@@ -462,7 +513,7 @@ def _vehicle_argument_validation_hints(
         "door": "driver|passenger|rear_left|rear_right|front|rear|all",
         "circulation": "inside|outside",
     }
-    hint = scopes.get(argument_name)
+    hint = exact_domains.get((tool_name, argument_name), scopes.get(argument_name))
     return (f"allowed values: {hint}",) if hint is not None else ()
 
 
@@ -740,6 +791,143 @@ def validate_stage2_contract(
     )
 
 
+def validate_state_evolution_coverage(
+    event_payload: V1EventChainPayload,
+    *,
+    minimum_add_count: int = 10,
+    minimum_replace_count: int = 2,
+    minimum_delete_count: int = 1,
+) -> V1StateEvolutionCoverage:
+    """Validate S21+ state transitions using the Hybrid identity semantics."""
+
+    if min(minimum_add_count, minimum_replace_count, minimum_delete_count) < 0:
+        raise ValueError("state-evolution minimums cannot be negative")
+
+    initial_updates = []
+    for chain in event_payload.vehicle_chains:
+        first = next(
+            (
+                update
+                for event in chain.events
+                for update in event.preference_updates
+            ),
+            None,
+        )
+        if first is None:
+            raise ValueError(f"state evolution chain {chain.chain_id} has no update")
+        if first.previous_value is not None or first.supersedes_event_id is not None:
+            raise ValueError(
+                f"state evolution chain {chain.chain_id} must begin with a new fact"
+            )
+        initial_updates.append(first)
+    initial_identity_count = len(
+        {_state_evolution_identity(update) for update in initial_updates}
+    )
+    if initial_identity_count != len(event_payload.vehicle_chains):
+        raise ValueError(
+            "state-evolution vehicle chains need distinct initial identities"
+        )
+
+    # identity -> (current value, source event ID)
+    state: dict[str, tuple[JsonValue, str]] = {}
+    add_count = replace_count = delete_count = duplicate_count = 0
+    supersession_count = 0
+    timeline = interleave_event_chains(event_payload.all_chains)
+    for item in timeline:
+        event = item.event
+        for update in event.preference_updates:
+            identity = _state_evolution_identity(update)
+            superseded: list[tuple[str, JsonValue]] = []
+            if update.supersedes_event_id is not None:
+                supersession_count += 1
+                superseded = [
+                    (key, value)
+                    for key, (value, source_event_id) in state.items()
+                    if source_event_id == update.supersedes_event_id
+                ]
+                if not superseded:
+                    raise ValueError(
+                        f"state evolution {event.event_id} supersedes an inactive "
+                        f"or unknown event: {update.supersedes_event_id}"
+                    )
+                prior_values = {value for _, value in superseded}
+                if update.previous_value not in prior_values:
+                    raise ValueError(
+                        f"state evolution {event.event_id} previous_value does not "
+                        "match its superseded state"
+                    )
+                for obsolete_identity, _ in superseded:
+                    if obsolete_identity != identity:
+                        del state[obsolete_identity]
+                        delete_count += 1
+
+            existing = state.get(identity)
+            if existing is None:
+                if (
+                    update.supersedes_event_id is None
+                    and update.previous_value is not None
+                ):
+                    raise ValueError(
+                        f"state evolution {event.event_id} has a dangling "
+                        "previous_value"
+                    )
+                state[identity] = (update.new_value, event.event_id)
+                add_count += 1
+            elif existing[0] == update.new_value:
+                # This semantic audit treats a repeated value as duplicate even
+                # though the rendered memory line includes a new timestamp.
+                duplicate_count += 1
+            else:
+                if update.supersedes_event_id is None:
+                    raise ValueError(
+                        f"state evolution {event.event_id} changes an existing "
+                        "identity without supersedes_event_id"
+                    )
+                if update.previous_value != existing[0]:
+                    raise ValueError(
+                        f"state evolution {event.event_id} previous_value does not "
+                        "match the current identity value"
+                    )
+                state[identity] = (update.new_value, event.event_id)
+                replace_count += 1
+
+    coverage = V1StateEvolutionCoverage(
+        initial_identity_count=initial_identity_count,
+        add_count=add_count,
+        replace_count=replace_count,
+        delete_count=delete_count,
+        duplicate_count=duplicate_count,
+        explicit_supersession_count=supersession_count,
+        passed=(
+            add_count >= minimum_add_count
+            and replace_count >= minimum_replace_count
+            and delete_count >= minimum_delete_count
+        ),
+    )
+    if not coverage.passed:
+        raise ValueError(
+            "state-evolution coverage is below minimum: "
+            f"add={add_count}/{minimum_add_count}, "
+            f"replace={replace_count}/{minimum_replace_count}, "
+            f"delete={delete_count}/{minimum_delete_count}"
+        )
+    return coverage
+
+
+def _state_evolution_identity(update: Any) -> str:
+    payload = {
+        "subject_id": update.subject_id,
+        "attribute_path": update.attribute_path,
+        "condition": update.condition,
+        "context_arguments": [
+            argument.model_dump(mode="json")
+            for argument in update.context_arguments
+            if not update.attribute_path.endswith(f".{argument.name}")
+        ],
+    }
+    return canonical_json_sha256(payload)
+
+
 def validate_stage2_simulator_arguments(
     event_payload: V1EventChainPayload,
     *,
@@ -782,6 +970,7 @@ def generate_stage2_artifact(
     vehicle_attributes: Sequence[V1VehicleAttribute],
     persona_model: V1PersonaGenerationModel,
     event_model: V1EventChainGenerationModel,
+    require_state_evolution: bool = False,
 ) -> V1Stage2Artifact:
     persona_group = persona_model.generate(
         seeds,
@@ -799,6 +988,8 @@ def generate_stage2_artifact(
         planned_reasoning_types=reasoning_types,
         vehicle_attributes=vehicle_attributes,
     )
+    if require_state_evolution:
+        validate_state_evolution_coverage(event_chains.payload)
     timeline = interleave_event_chains(event_chains.payload.all_chains)
     body = {
         "schema_version": V1_STAGE2_SCHEMA_VERSION,

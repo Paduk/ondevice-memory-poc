@@ -11,7 +11,6 @@ from typing import Any, Literal, Protocol
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
-from palmclaw_ubuntu.providers import apply_recursive_summary_patch
 from palmclaw_ubuntu.vehicle_bench.v1_generation import (
     V1_DEFAULT_GENERATION_MODEL,
     V1Stage2Artifact,
@@ -33,8 +32,12 @@ V2_HYBRID_ALIGNMENT_PROMPT_VERSION = (
 )
 
 HybridDecision = Literal["NO_OP", "UPDATE"]
+HybridReasonProfile = Literal["legacy", "state_evolution"]
 HybridReasonCode = Literal[
     "NO_NEW_VEHICLE_FACT",
+    "BACKGROUND",
+    "NOT_CONFIRMED_YET",
+    "NO_NEW_FACT",
     "NEW_VEHICLE_MEMORY",
     "UPDATED_VEHICLE_MEMORY",
     "DUPLICATE_ALREADY_STORED",
@@ -141,6 +144,11 @@ class V2HybridTurnLabel(_StrictModel):
     @model_validator(mode="after")
     def validate_decision_shape(self) -> V2HybridTurnLabel:
         if self.decision == "NO_OP":
+            if self.reason_code in {
+                "NEW_VEHICLE_MEMORY",
+                "UPDATED_VEHICLE_MEMORY",
+            }:
+                raise ValueError("Hybrid NO_OP requires a NO_OP reason code")
             if self.source_update_indexes or self.evidence or self.operations:
                 raise ValueError("Hybrid NO_OP cannot contain an update payload")
             if self.after_memory is not None:
@@ -148,6 +156,11 @@ class V2HybridTurnLabel(_StrictModel):
             if self.before_memory_sha256 != self.after_memory_sha256:
                 raise ValueError("Hybrid NO_OP must preserve the memory hash")
             return self
+        if self.reason_code not in {
+            "NEW_VEHICLE_MEMORY",
+            "UPDATED_VEHICLE_MEMORY",
+        }:
+            raise ValueError("Hybrid UPDATE requires an UPDATE reason code")
         if not self.source_update_indexes or not self.evidence or not self.operations:
             raise ValueError("Hybrid UPDATE requires source, evidence, and Patch")
         if self.after_memory is None:
@@ -235,13 +248,21 @@ class OpenAIV2HybridEventAlignmentModel:
         timeout_seconds: float,
         reasoning_effort: str | None = "medium",
         max_output_tokens: int = 4_096,
+        additional_instructions: str | None = None,
+        prompt_version: str = V2_HYBRID_ALIGNMENT_PROMPT_VERSION,
+        normalize_earlier_confirmation: bool = True,
         client: Any | None = None,
     ) -> None:
         if not model_id.strip():
             raise ValueError("Hybrid alignment model ID is required")
+        if not prompt_version.strip():
+            raise ValueError("Hybrid alignment prompt version is required")
         self.model_id = model_id
         self.reasoning_effort = reasoning_effort
         self.max_output_tokens = max_output_tokens
+        self.additional_instructions = (additional_instructions or "").strip()
+        self.prompt_version = prompt_version
+        self.normalize_earlier_confirmation = normalize_earlier_confirmation
         if client is None:
             from openai import OpenAI
 
@@ -260,9 +281,12 @@ class OpenAIV2HybridEventAlignmentModel:
             dialogue_turns,
             previous_memory=previous_memory,
         )
+        instructions = V2_HYBRID_ALIGNMENT_INSTRUCTIONS
+        if self.additional_instructions:
+            instructions += "\n\n" + self.additional_instructions
         request: dict[str, Any] = {
             "model": self.model_id,
-            "instructions": V2_HYBRID_ALIGNMENT_INSTRUCTIONS,
+            "instructions": instructions,
             "input": provider_input,
             "text_format": V2HybridEventAlignmentPayload,
             "max_output_tokens": self.max_output_tokens,
@@ -279,11 +303,14 @@ class OpenAIV2HybridEventAlignmentModel:
         raw_payload = V2HybridEventAlignmentPayload.model_validate(
             getattr(response, "output_parsed", None)
         )
-        payload, normalization_notes = normalize_hybrid_alignment(
-            event,
-            dialogue_turns,
-            raw_payload,
-        )
+        if self.normalize_earlier_confirmation:
+            payload, normalization_notes = normalize_hybrid_alignment(
+                event,
+                dialogue_turns,
+                raw_payload,
+            )
+        else:
+            payload, normalization_notes = raw_payload, ()
         validate_hybrid_alignment(event, dialogue_turns, payload)
         return V2GeneratedHybridEventAlignment(
             event_id=event.event_id,
@@ -292,7 +319,7 @@ class OpenAIV2HybridEventAlignmentModel:
             before_memory_sha256=text_sha256(previous_memory),
             payload=payload,
             model_id=self.model_id,
-            prompt_version=V2_HYBRID_ALIGNMENT_PROMPT_VERSION,
+            prompt_version=self.prompt_version,
             input_sha256=canonical_json_sha256(json.loads(provider_input)),
             response_id=getattr(response, "id", None),
             usage={**_response_usage(response), "latency_ms": latency_ms},
@@ -429,7 +456,14 @@ def build_hybrid_event_checkpoint(
     previous_entries: Sequence[V2HybridMemoryEntry],
     personas: Sequence[V1PersonaRecord],
     global_turn_offset: int,
+    chain_kind: Literal["background", "vehicle"] | None = None,
+    reason_profile: HybridReasonProfile = "legacy",
+    temporal_transitions_by_update: Mapping[int, Mapping[str, Any]] | None = None,
 ) -> V2HybridEventCheckpoint:
+    # Import lazily because providers imports the vehicle_bench package while it
+    # registers its ontology-backed implementations.
+    from palmclaw_ubuntu.providers import apply_recursive_summary_patch
+
     previous_memory = render_hybrid_memory(previous_entries)
     _validate_generated_alignment(
         event,
@@ -459,13 +493,23 @@ def build_hybrid_event_checkpoint(
             key=lambda item: item.source_update_index,
         ):
             update = event.preference_updates[alignment.source_update_index]
-            update_ops, changed_existing = build_hybrid_update_operations(
-                entries,
-                event,
-                alignment.source_update_index,
-                update,
-                persona_names=persona_names,
+            transition = (temporal_transitions_by_update or {}).get(
+                alignment.source_update_index
             )
+            if transition is not None and transition.get("temporal_action") == (
+                "end_temporary"
+            ):
+                update_ops, changed_existing = (
+                    build_hybrid_end_temporary_operations(entries, update)
+                )
+            else:
+                update_ops, changed_existing = build_hybrid_update_operations(
+                    entries,
+                    event,
+                    alignment.source_update_index,
+                    update,
+                    persona_names=persona_names,
+                )
             operations.extend(update_ops)
             source_indexes.append(alignment.source_update_index)
             reasons.append(alignment.reason)
@@ -506,22 +550,33 @@ def build_hybrid_event_checkpoint(
                 after_memory=memory,
             )
         else:
+            if reason_profile == "state_evolution":
+                reason_code, reason = _state_evolution_no_op_reason(
+                    source_indexes=source_indexes,
+                    chain_kind=chain_kind,
+                    has_pending_alignment=any(
+                        index > event_turn_index for index in alignments_by_turn
+                    ),
+                )
+            else:
+                reason_code = (
+                    "DUPLICATE_ALREADY_STORED"
+                    if source_indexes
+                    else "NO_NEW_VEHICLE_FACT"
+                )
+                reason = (
+                    "The aligned preference is already present in memory."
+                    if source_indexes
+                    else "This turn adds no new structured vehicle-memory fact."
+                )
             label = V2HybridTurnLabel(
                 global_turn_index=global_turn_offset + event_turn_index,
                 event_turn_index=event_turn_index,
                 turn_id=turn.turn_id,
                 source_event_id=event.event_id,
                 decision="NO_OP",
-                reason_code=(
-                    "DUPLICATE_ALREADY_STORED"
-                    if source_indexes
-                    else "NO_NEW_VEHICLE_FACT"
-                ),
-                reason=(
-                    "The aligned preference is already present in memory."
-                    if source_indexes
-                    else "This turn adds no new structured vehicle-memory fact."
-                ),
+                reason_code=reason_code,
+                reason=reason,
                 source_update_indexes=(),
                 evidence=(),
                 operations=(),
@@ -545,6 +600,35 @@ def build_hybrid_event_checkpoint(
     return V2HybridEventCheckpoint(
         **body,
         checkpoint_sha256=canonical_json_sha256(body),
+    )
+
+
+def _state_evolution_no_op_reason(
+    *,
+    source_indexes: Sequence[int],
+    chain_kind: Literal["background", "vehicle"] | None,
+    has_pending_alignment: bool,
+) -> tuple[HybridReasonCode, str]:
+    """Produce prefix-safe deterministic S21+ NO_OP supervision."""
+
+    if source_indexes:
+        return (
+            "DUPLICATE_ALREADY_STORED",
+            "The supported vehicle fact is already represented in memory.",
+        )
+    if chain_kind == "background":
+        return (
+            "BACKGROUND",
+            "This background turn contains no vehicle-memory fact.",
+        )
+    if has_pending_alignment:
+        return (
+            "NOT_CONFIRMED_YET",
+            "The current prefix does not yet confirm a durable vehicle-memory fact.",
+        )
+    return (
+        "NO_NEW_FACT",
+        "This turn adds no new durable vehicle-memory fact.",
     )
 
 
@@ -812,6 +896,42 @@ def build_hybrid_update_operations(
         update,
         persona_names=persona_names,
     )
+
+
+def build_hybrid_end_temporary_operations(
+    entries: list[V2HybridMemoryEntry],
+    update: V1PreferenceUpdate,
+) -> tuple[list[V2HybridPatchOperation], bool]:
+    """Remove an explicit temporary override without rewriting its baseline."""
+
+    if not update.supersedes_event_id:
+        raise ValueError("end_temporary requires a superseded temporary event")
+    baseline_identity = hybrid_memory_identity(update)
+    baseline = next(
+        (entry for entry in entries if entry.identity_key == baseline_identity),
+        None,
+    )
+    if baseline is None:
+        raise ValueError("end_temporary cannot restore a missing durable baseline")
+    temporary_entries = [
+        entry
+        for entry in entries
+        if entry.source_event_id == update.supersedes_event_id
+        and entry.identity_key != baseline_identity
+    ]
+    if not temporary_entries:
+        raise ValueError("end_temporary cannot find its active temporary override")
+    operations = []
+    for entry in temporary_entries:
+        entries.remove(entry)
+        operations.append(
+            V2HybridPatchOperation(
+                op="delete",
+                target=entry.memory_line,
+                content="",
+            )
+        )
+    return operations, True
 
 
 def _validate_generated_alignment(

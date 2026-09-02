@@ -52,6 +52,17 @@ def create_app(
         except KeyError as exc:
             raise HTTPException(status_code=404, detail="Unknown run") from exc
 
+    @app.get("/api/evaluations")
+    def evaluations() -> dict[str, Any]:
+        return repository.evaluations()
+
+    @app.get("/api/evaluations/{run_id}/{evaluation_name}")
+    def evaluation_detail(run_id: str, evaluation_name: str) -> dict[str, Any]:
+        try:
+            return repository.evaluation_detail(run_id, evaluation_name)
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail="Unknown evaluation") from exc
+
     @app.delete("/api/runs/{run_id}")
     def archive_run(
         run_id: str,

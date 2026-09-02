@@ -6,9 +6,16 @@ import pytest
 
 from memory_training.methods import (
     DeltaMethod,
+    DeltaV2Method,
     PatchMethod,
+    SummaryBatchMethod,
     SummaryMethod,
     SummaryReasonMethod,
+)
+from memory_training.validation import (
+    row_with_runtime_state,
+    state_from_input,
+    state_to_input,
 )
 
 
@@ -79,6 +86,31 @@ def test_summary_update_replaces_whole_memory() -> None:
     assert method.apply_output("- old", output) == "- old\n\n- new"
 
 
+def test_summary_batch_formats_all_turns_and_runtime_state_preserves_them() -> None:
+    method = SummaryBatchMethod()
+    row = {
+        "scenario_index": 81,
+        "turn_id": "batch:2026-01-01",
+        "batch_date": "2026-01-01",
+        "input": {
+            "previous_memory": "- old",
+            "turns": [
+                {
+                    "turn_id": "turn-1",
+                    "timestamp": "2026-01-01T00:00",
+                    "speaker_name": "Alex",
+                    "text": "Set it to 3.",
+                }
+            ],
+        },
+        "target": {"decision": "NO_OP", "next_memory": "- old"},
+    }
+    assert '"turns"' in method.format_input(row)
+    replay = row_with_runtime_state(row, method, "- corrected")
+    assert replay["input"]["previous_memory"] == "- corrected"
+    assert replay["input"]["turns"] == row["input"]["turns"]
+
+
 def test_patch_add_replace_delete_and_strict_schema() -> None:
     method = PatchMethod()
     state = "- a\n\n- b"
@@ -119,3 +151,117 @@ def test_delta_compacts_after_interval() -> None:
     assert state.updates_since_compaction == 0
     assert state.pending_deltas == ()
     assert state.base_summary == "- b"
+
+
+def test_delta_v2_compact_operations_and_compaction() -> None:
+    method = DeltaV2Method(compaction_interval=2)
+    row = {
+        **_row(view="patch", previous="", decision="UPDATE"),
+        "input": {"base_summary": "", "pending_updates": []},
+        "target": {
+            "decision": "UPDATE",
+            "operations": [["add", "- a"]],
+        },
+    }
+    assert "\n" not in method.format_input(row)
+    assert method.format_target(row) == (
+        '{"decision":"UPDATE","operations":[["add","- a"]]}'
+    )
+    state = method.apply_output(
+        method.initial_state(), method.parse_output(method.format_target(row))
+    )
+    assert len(state.pending_updates) == 1
+    assert method.materialize_memory(state) == "- a"
+
+    positioned = method.parse_output(
+        '{"decision":"UPDATE","operations":'
+        '[["add","- a","- b"],["replace","- b","- bb"]]}'
+    )
+    state = method.apply_output(state, positioned)
+    assert state.pending_updates == ()
+    assert state.base_summary == "- a\n- bb"
+
+
+def test_delta_v2_delete_noop_and_strict_compact_schema() -> None:
+    method = DeltaV2Method()
+    deleted = method.parse_output(
+        '{"decision":"UPDATE","operations":[["delete","- old"]]}'
+    )
+    assert deleted.payload["operations"] == (
+        {"op": "delete", "target": "- old", "content": ""},
+    )
+    assert method.parse_output('{"decision":"NO_OP"}').decision == "NO_OP"
+    with pytest.raises(ValueError, match="invalid arity"):
+        method.parse_output(
+            '{"decision":"UPDATE","operations":[["delete","- old","extra"]]}'
+        )
+    with pytest.raises(ValueError, match="fields differ"):
+        method.parse_output('{"decision":"NO_OP","operations":[]}')
+
+
+def test_delta_v2_rejects_five_pending_updates_in_input() -> None:
+    method = DeltaV2Method()
+    row = {
+        **_row(view="patch", previous="", decision="NO_OP"),
+        "input": {
+            "base_summary": "",
+            "pending_updates": [[["add", f"- fact {index}"]] for index in range(5)],
+        },
+    }
+    with pytest.raises(ValueError, match="compacted before the next turn"):
+        method.format_input(row)
+
+
+def test_delta_v2_runtime_state_round_trip_preserves_pending_updates() -> None:
+    method = DeltaV2Method()
+    canonical = {
+        **_row(view="patch", previous="", decision="NO_OP"),
+        "input": {
+            "base_summary": "- old  ",
+            "pending_updates": [
+                [["add", "- new"]],
+                [["replace", "- old", "- current"]],
+            ],
+        },
+    }
+
+    state = state_from_input(method, canonical["input"])
+    assert state.base_summary == "- old"
+    assert method.materialize_memory(state) == "- current\n\n- new"
+
+    replay = row_with_runtime_state(canonical, method, state)
+    assert replay["input"] == {
+        "base_summary": "- old",
+        "pending_updates": [
+            [["add", "- new"]],
+            [["replace", "- old", "- current"]],
+        ],
+    }
+    assert state_from_input(method, state_to_input(method, state)) == state
+
+    updated = method.apply_output(
+        state,
+        method.parse_output('{"decision":"UPDATE","operations":[["delete","- new"]]}'),
+    )
+    next_row = row_with_runtime_state(canonical, method, updated)
+    assert next_row["input"]["pending_updates"][-1] == [["delete", "- new"]]
+
+
+def test_delta_v2_rejects_invalid_target_before_deferring_update() -> None:
+    method = DeltaV2Method()
+    state = method.apply_output(
+        method.initial_state(),
+        method.parse_output(
+            '{"decision":"UPDATE","operations":[["add","- existing"]]}'
+        ),
+    )
+
+    invalid = method.parse_output(
+        '{"decision":"UPDATE","operations":'
+        '[["replace","- missing","- replacement"]]}'
+    )
+    with pytest.raises(ValueError, match="target must occur exactly once"):
+        method.apply_output(state, invalid)
+
+    assert method.materialize_memory(state) == "- existing"
+    assert len(state.pending_updates) == 1

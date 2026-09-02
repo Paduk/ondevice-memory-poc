@@ -18,6 +18,8 @@ This directory is the public engineering knowledge base for PalmClaw. It records
 - [Ubuntu Agent Runtime implementation plan](ubuntu-agent-runtime-implementation-plan.md): compact phase-by-phase implementation sequence and acceptance criteria.
 - [Ubuntu Agent Runtime PoC detailed plan](ubuntu-agent-runtime-poc-plan.md): detailed runtime port, memory research, security, and evaluation design.
 - [VehicleMemBench integration plan](vehiclemembench-integration-plan.md): benchmark adapter phases, evaluation isolation rules, and acceptance criteria.
+- [VehicleMemBench V2 Hybrid generation paper framing](vehiclemembench-v2-hybrid-generation-paper-framing.md): origin, three-way construction methodology, hypothetical 50-scenario interpretation, related work, and defensible paper claims.
+- [On-device Memory method and dataset training guide](on-device-memory-method-dataset-training-guide.md): method outputs, dataset variants, sampling, Validation/Test scenario policy, and Run management.
 - [VehicleMemBench V4 method examples](vehiclemembench-v4-method-examples.md): concise examples of the four memory profiles and State/Tool F1 interpretation.
 - [Fact-first incremental memory methodology](tool-schema-on-device-memory-methodology.md): high-recall Fact extraction, bounded patch operations, and late Tool binding.
 - [Fact-first incremental memory implementation plan](tool-schema-on-device-memory-implementation-plan.md): Cloud PoC redesign followed by Local SLM and Android validation.

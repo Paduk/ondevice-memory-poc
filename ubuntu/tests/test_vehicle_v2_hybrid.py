@@ -18,6 +18,7 @@ from palmclaw_ubuntu.vehicle_bench.v2_hybrid import (
     V2HybridEventAlignmentPayload,
     V2HybridUpdateAlignment,
     build_hybrid_event_checkpoint,
+    deterministic_empty_alignment,
     dialogue_sha256,
     event_sha256,
     normalize_hybrid_alignment,
@@ -162,6 +163,64 @@ def test_hybrid_checkpoint_adds_then_replaces_at_evidence_turn() -> None:
     assert "value=9" in second.after_memory
     assert "value=7" not in second.after_memory
     assert second.before_memory_sha256 == first.after_memory_sha256
+
+
+def test_state_evolution_profile_emits_prefix_safe_no_op_reasons() -> None:
+    event = _event("vehicle-e1", 7)
+    turns = _turns(event, 7)
+    checkpoint = build_hybrid_event_checkpoint(
+        event=event,
+        timeline_index=0,
+        dialogue_turns=turns,
+        generated_alignment=_alignment(
+            event,
+            turns,
+            previous_memory="",
+            value=7,
+        ),
+        previous_entries=(),
+        personas=_personas(),
+        global_turn_offset=0,
+        chain_kind="vehicle",
+        reason_profile="state_evolution",
+    )
+
+    assert checkpoint.turn_labels[0].reason_code == "NOT_CONFIRMED_YET"
+    assert "current prefix" in checkpoint.turn_labels[0].reason
+
+    background = V1EventRecord(
+        event_id="background-e1",
+        timestamp="2025-02-02T10:00",
+        description="Two occupants discuss a film.",
+        participant_ids=("p0", "p1"),
+    )
+    background_turns = (
+        V1DialogueTurnRecord(
+            turn_id="background-e1-turn-001",
+            source_event_id=background.event_id,
+            timestamp=background.timestamp,
+            speaker_id="p0",
+            speaker_name="Person 0",
+            text="That film was memorable.",
+        ),
+    )
+    background_checkpoint = build_hybrid_event_checkpoint(
+        event=background,
+        timeline_index=1,
+        dialogue_turns=background_turns,
+        generated_alignment=deterministic_empty_alignment(
+            background,
+            background_turns,
+            previous_memory="",
+        ),
+        previous_entries=(),
+        personas=_personas(),
+        global_turn_offset=2,
+        chain_kind="background",
+        reason_profile="state_evolution",
+    )
+
+    assert background_checkpoint.turn_labels[0].reason_code == "BACKGROUND"
 
 
 def test_alignment_rejects_missing_update_and_future_quote() -> None:

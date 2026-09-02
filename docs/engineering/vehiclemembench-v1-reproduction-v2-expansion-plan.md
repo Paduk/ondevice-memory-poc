@@ -7,16 +7,15 @@ V1 생성 파이프라인을 먼저 재현하되, 신규 100개를 모두 만든
 진행한다. 그래야 V1 호환성을 먼저 확인하면서도 V2에 필요한 turn 원천 정보가 소실되지
 않는다.
 
-현재 상태: **S1 Hybrid 전체 파일럿과 시나리오당 30개 Turn Quiz 생성 완료** — Dialogue,
-최종 Quiz, 공개 V1 serializer와 VehicleWorld 실행 검증에 더해 event-batched dialogue를
-turn-wise memory label로 확정하는 Hybrid 경로와 UPDATE 직후 V1-style Quiz 경로를
-구현했다. S1은 2,642 turn, 11 UPDATE와 2,631 NO_OP을 생성했고, Turn Quiz는
-Immediate 11 + Delayed 11 + Composite 8개로 구성했다. V1의 마지막
-`recorded/saved` event에만 있던 preference update는 원본
-Stage 2를 변경하지 않고, Terra가 고른 최초 causal evidence event로 옮긴 V2 전용
-anchored Stage 2 복사본으로 실행한다. 최종 V1 Quiz 10개와 Turn Quiz 30개는 모두
-공식 Tool schema와 simulator 검증을 통과했다. 3-way 5-scenario parity pilot과 Human
-Review는 아직 scale gate로 남아 있다.
+현재 상태: **Hybrid V2 S1–S100 생성·평가 및 on-device 학습 view 변환 완료**. Canonical
+turn trajectory로부터 추가 LLM 호출 없이 매 Turn 전체 메모리를 출력하는 `Summary`,
+전체 memory 기반 `Patch Baseline`, 누적 Patch 기반 `Appended Delta`, UPDATE 5회마다
+누적 Delta를 전체 메모리로 합치는 `Compaction` 데이터를 만들었다. 총 276,938 Turn, UPDATE 1,308건,
+operation 1,398건과 compaction 291건이며 deterministic replay와 hash-chain 검증을
+통과했다. 산출물은
+`/mnt/data/hj153lee/PalmClaw/evaluation/vehiclemembench-v2-training/hybrid-s1-s100-summary-patch-delta-v2`
+에 저장한다. 상세 schema와 학습 split은
+`vehiclemembench-v2-hybrid-s1-s100-training-data-guide.md`를 따른다.
 
 ## 고정 목표
 
@@ -161,6 +160,39 @@ VehicleWorld 실행 검증과 공개 V1 serializer는 기존 구현을 재사용
 
 같은 persona 또는 event chain의 변형은 반드시 동일 split에 묶어 leakage를 막는다.
 
+#### S21 이후 state-evolution coverage
+
+S1–S20은 `ADD/NO_OP` 중심 pilot로 보존하고 다시 만들지 않는다. S21부터는 Patch
+operation을 대화 생성 뒤에 임의로 붙이지 않고, **Stage 2 structured event chain에서
+상태 변화의 원인을 먼저 설계**한다. 이후 Hybrid의 결정론적 변환기가 다음 operation을
+만들게 한다.
+
+| Stage 2 변화 유형 | scenario당 최소 목표 | 결정론적 Patch 결과 |
+| --- | ---: | --- |
+| 새로운 사람·설정·조건의 최초 선호 | 10건(각 vehicle chain의 기본 update) | `add` |
+| 동일 identity의 값·현재 상태 변경 | 2건 | `replace` |
+| 이전 조건/기록의 명시적 철회·교정 | 1건 | `delete` 또는 `delete + add` |
+
+- 목표는 raw operation의 인위적 균등 분포가 아니라, 최소한의 state-evolution 학습
+  coverage를 확보하는 것이다.
+- `previous_value`, `supersedes_event_id`, 동일한 subject/attribute/context/condition을
+  일관되게 기록하고, validator가 위 최소 coverage를 통과한 scenario만 승인한다.
+- reasoning type 분포와 Tool/simulator 유효성은 기존 V1 조건을 그대로 유지한다.
+- 모든 turn은 `decision`, `reason_code`, **짧은 한 문장 reason**을 갖는다. UPDATE reason은
+  최초 causal evidence를 설명하고, NO_OP reason은 `background`, `not-confirmed-yet`,
+  `duplicate/already-stored`, `no-new-fact`처럼 결정론적으로 판별 가능한 범주를 우선
+  사용한다. 모호한 NO_OP마다 별도 LLM을 호출하지 않는다.
+
+실제 적용 지점은 다음 세 곳이다.
+
+1. `v1_generation.py`: Stage 2 event-chain prompt/version에 state-evolution 목표 추가
+2. `v1_generation.py`: 생성 후 scenario-level operation coverage validator 추가
+3. `v2_hybrid.py`: 기존 결정론적 ADD/REPLACE/DELETE 변환은 유지하고 NO_OP reason
+   code/sentence를 세분화
+
+S21–S25를 canary로 생성해 operation 분포, evidence audit, answerability와 downstream
+Quiz 성능을 확인한 뒤 S26 이상으로 확대한다.
+
 ## 구현 회차
 
 1. **완료** — V1 schema·provenance manifest와 공개 50개 분석기
@@ -169,7 +201,12 @@ VehicleWorld 실행 검증과 공개 V1 serializer는 기존 구현을 재사용
 4. **완료** — Hybrid turn-wise memory·reason/evidence와 prefix-evidence 검증
 5. **완료** — Immediate/Delayed/Composite Turn Quiz 30개와 최종 V1 Quiz 생성
 6. **완료** — causal memory anchor를 포함한 Hybrid S1 전체 80-event 파일럿
-7. 품질 dashboard·resume/controller 후 신규 100개 생성
+7. **S1–S20 완료** — 품질 dashboard·resume/controller를 포함한 Hybrid scale pilot
+8. **구현 완료** — S21+ state-evolution 생성 프로필·coverage validator·turn reason
+   세분화 및 별도 audit artifact
+9. **완료** — S21–S100 state-evolution Hybrid 생성·자동 평가
+10. **완료** — S1–S100 Summary/Appended Delta/5-UPDATE compaction 학습 view 생성 및 replay 검증
+11. **다음 단계** — Train NO_OP sampling 정책을 고정하고 동일 조건의 Summary/Delta 모델 학습
 
 ## 4회차 산출물
 

@@ -5,14 +5,17 @@ from __future__ import annotations
 
 import argparse
 import json
+from collections import Counter
 from pathlib import Path
 from typing import Any
 
 from palmclaw_ubuntu.vehicle_bench.v1_generation import (
     V1_DEFAULT_GENERATION_MODEL,
+    V1_EVENT_CHAIN_STATE_EVOLUTION_PROMPT_VERSION,
     V1Stage2Artifact,
 )
 from palmclaw_ubuntu.vehicle_bench.v1_stage3 import (
+    V1_DIALOGUE_PROMPT_VERSION,
     OpenAIV1DialogueGenerationModel,
     V1GeneratedEventDialogue,
     build_dialogue_generation_contexts,
@@ -20,6 +23,7 @@ from palmclaw_ubuntu.vehicle_bench.v1_stage3 import (
     validate_dialogue_payload,
 )
 from palmclaw_ubuntu.vehicle_bench.v2_hybrid import (
+    V2_HYBRID_ALIGNMENT_PROMPT_VERSION,
     OpenAIV2HybridEventAlignmentModel,
     V2HybridEventCheckpoint,
     build_hybrid_artifact,
@@ -28,6 +32,24 @@ from palmclaw_ubuntu.vehicle_bench.v2_hybrid import (
     event_dialogue_turns,
     event_sha256,
     write_hybrid_artifact,
+)
+from palmclaw_ubuntu.vehicle_bench.v2_temporal_anchor import (
+    build_deterministic_anchor_alignment,
+    load_temporal_anchor_plan,
+    validate_dialogue_contains_anchors,
+)
+from palmclaw_ubuntu.vehicle_bench.v2_temporal_hybrid_validation import (
+    validate_temporal_hybrid_run,
+)
+from palmclaw_ubuntu.vehicle_bench.v2_temporal_scenario import (
+    V2_TEMPORAL_ALIGNMENT_INSTRUCTIONS,
+    V2_TEMPORAL_ALIGNMENT_PROMPT_VERSION,
+    V2_TEMPORAL_DIALOGUE_INSTRUCTIONS,
+    V2_TEMPORAL_DIALOGUE_PROMPT_VERSION,
+    V2_TEMPORAL_EVENT_PROMPT_VERSIONS,
+    load_temporal_plan,
+    normalize_temporal_hybrid_alignment,
+    validate_temporal_dialogue_cues,
 )
 
 DEFAULT_STAGE2_PATH = Path(
@@ -76,6 +98,15 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         args.stage2_path.expanduser().resolve(strict=True).read_text(encoding="utf-8")
     )
     contexts = build_dialogue_generation_contexts(stage2)
+    reason_profile = (
+        "state_evolution"
+        if stage2.event_chains.prompt_version
+        in {
+            V1_EVENT_CHAIN_STATE_EVOLUTION_PROMPT_VERSION,
+            *V2_TEMPORAL_EVENT_PROMPT_VERSIONS,
+        }
+        else "legacy"
+    )
     if args.event_limit is not None and args.event_limit < 1:
         raise ValueError("--event-limit must be positive")
     if args.single_event_index is not None:
@@ -95,14 +126,47 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     dialogue_root.mkdir(parents=True, exist_ok=True)
     event_root = output_root / "events"
     event_root.mkdir(parents=True, exist_ok=True)
+    temporal_transitions = load_temporal_plan(
+        output_root / "temporal-plan.json",
+        source_stage2_sha256=stage2.artifact_sha256,
+        required=False,
+    )
+    temporal_anchor_artifact = None
+    temporal_anchors = {}
+    if temporal_transitions:
+        temporal_plan = json.loads(
+            (output_root / "temporal-plan.json").read_text(encoding="utf-8")
+        )
+        temporal_anchor_artifact, temporal_anchors = load_temporal_anchor_plan(
+            output_root / "temporal-anchor-plan.json",
+            source_stage2_sha256=stage2.artifact_sha256,
+            source_temporal_plan_sha256=str(temporal_plan["artifact_sha256"]),
+        )
 
     dialogue_model = OpenAIV1DialogueGenerationModel(
         args.model,
         timeout_seconds=args.timeout_seconds,
+        additional_instructions=(
+            V2_TEMPORAL_DIALOGUE_INSTRUCTIONS if temporal_transitions else None
+        ),
+        prompt_version=(
+            V2_TEMPORAL_DIALOGUE_PROMPT_VERSION
+            if temporal_transitions
+            else V1_DIALOGUE_PROMPT_VERSION
+        ),
     )
     alignment_model = OpenAIV2HybridEventAlignmentModel(
         args.model,
         timeout_seconds=args.timeout_seconds,
+        additional_instructions=(
+            V2_TEMPORAL_ALIGNMENT_INSTRUCTIONS if temporal_transitions else None
+        ),
+        prompt_version=(
+            V2_TEMPORAL_ALIGNMENT_PROMPT_VERSION
+            if temporal_transitions
+            else V2_HYBRID_ALIGNMENT_PROMPT_VERSION
+        ),
+        normalize_earlier_confirmation=not bool(temporal_transitions),
     )
     checkpoints: list[V2HybridEventCheckpoint] = []
     previous_entries = ()
@@ -117,6 +181,10 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             context=context,
             model=dialogue_model,
             max_attempts=args.max_attempts,
+            temporal_transitions=temporal_transitions.get(
+                context.event.event_id
+            ),
+            temporal_anchors=temporal_anchors.get(context.event.event_id, ()),
         )
         dialogues.append(dialogue)
         turns = event_dialogue_turns(stage2, dialogue)
@@ -135,6 +203,11 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 previous_entries=previous_entries,
                 personas=stage2.persona_group.payload.personas,
                 global_turn_offset=global_turn_offset,
+                chain_kind=context.chain_kind,
+                reason_profile=reason_profile,
+                temporal_transitions_by_update=temporal_transitions.get(
+                    context.event.event_id
+                ),
             )
             if rebuilt != checkpoint:
                 raise ValueError(f"stale Hybrid event checkpoint: {checkpoint_path}")
@@ -142,13 +215,24 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             previous_memory = (
                 checkpoints[-1].after_memory if checkpoints else ""
             )
-            generated_alignment = _generate_alignment(
-                context.event,
-                turns,
-                previous_memory=previous_memory,
-                model=alignment_model,
-                max_attempts=args.max_attempts,
-            )
+            if temporal_anchor_artifact is not None:
+                generated_alignment = build_deterministic_anchor_alignment(
+                    context.event,
+                    turns,
+                    temporal_anchors.get(context.event.event_id, ()),
+                    previous_memory=previous_memory,
+                )
+            else:
+                generated_alignment = _generate_alignment(
+                    context.event,
+                    turns,
+                    previous_memory=previous_memory,
+                    model=alignment_model,
+                    max_attempts=args.max_attempts,
+                    temporal_transitions=temporal_transitions.get(
+                        context.event.event_id
+                    ),
+                )
             checkpoint = build_hybrid_event_checkpoint(
                 event=context.event,
                 timeline_index=context.timeline_index,
@@ -157,6 +241,11 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 previous_entries=previous_entries,
                 personas=stage2.persona_group.payload.personas,
                 global_turn_offset=global_turn_offset,
+                chain_kind=context.chain_kind,
+                reason_profile=reason_profile,
+                temporal_transitions_by_update=temporal_transitions.get(
+                    context.event.event_id
+                ),
             )
             _write_json(checkpoint_path, checkpoint.model_dump(mode="json"))
         checkpoints.append(checkpoint)
@@ -165,11 +254,41 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
 
     artifact = build_hybrid_artifact(stage2, checkpoints)
     artifact_path = write_hybrid_artifact(output_root, artifact)
+    temporal_audit = None
+    if temporal_transitions and artifact.audit.completed:
+        temporal_audit = validate_temporal_hybrid_run(
+            stage2=stage2,
+            hybrid=artifact,
+            plan_path=output_root / "temporal-plan.json",
+            dialogue_root=dialogue_root,
+        )
+        _write_json(
+            output_root / "temporal-hybrid-audit.json",
+            {
+                "schema_version": "vehiclemembench-v2-temporal-hybrid-audit-v1",
+                "source_stage2_sha256": stage2.artifact_sha256,
+                "source_hybrid_sha256": artifact.artifact_sha256,
+                "audit": temporal_audit,
+            },
+        )
+    state_evolution_audit = None
+    if reason_profile == "state_evolution" and artifact.audit.completed:
+        state_evolution_audit = _write_state_evolution_label_audit(
+            output_root,
+            artifact,
+            minimums=(
+                {"add": 10, "replace": 1, "delete": 1}
+                if temporal_transitions
+                else None
+            ),
+        )
     return {
         "status": "completed" if artifact.audit.completed else "partial",
         "artifact_path": str(artifact_path),
         "artifact_sha256": artifact.artifact_sha256,
         "audit": artifact.audit.model_dump(mode="json"),
+        "state_evolution_label_audit": state_evolution_audit,
+        "temporal_hybrid_audit": temporal_audit,
         "usage": {
             "dialogue": _sum_usage(dialogues),
             "alignment": _sum_usage(
@@ -177,6 +296,47 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             ),
         },
     }
+
+
+def _write_state_evolution_label_audit(
+    output_root: Path,
+    artifact,
+    minimums: dict[str, int] | None = None,
+) -> dict[str, Any]:
+    labels = [
+        label
+        for checkpoint in artifact.event_checkpoints
+        for label in checkpoint.turn_labels
+    ]
+    operations = Counter(
+        operation.op for label in labels for operation in label.operations
+    )
+    decisions = Counter(label.decision for label in labels)
+    reasons = Counter(label.reason_code for label in labels)
+    minimums = minimums or {"add": 10, "replace": 2, "delete": 1}
+    passed = all(operations[key] >= value for key, value in minimums.items())
+    if not passed:
+        raise ValueError(
+            "Hybrid state-evolution operations fell below the approved Stage 2 "
+            f"coverage: {dict(operations)}"
+        )
+    audit = {
+        "operation_counts": dict(sorted(operations.items())),
+        "decision_counts": dict(sorted(decisions.items())),
+        "reason_code_counts": dict(sorted(reasons.items())),
+        "minimum_operation_counts": minimums,
+        "passed": True,
+    }
+    _write_json(
+        output_root / "state-evolution-label-audit.json",
+        {
+            "schema_version": "vehiclemembench-v2-state-evolution-label-audit-v1",
+            "source_stage2_sha256": artifact.source_stage2_sha256,
+            "source_hybrid_sha256": artifact.artifact_sha256,
+            "audit": audit,
+        },
+    )
+    return audit
 
 
 def _run_single_event_smoke(
@@ -198,13 +358,46 @@ def _run_single_event_smoke(
     event_root = output_root / "events"
     dialogue_root.mkdir(parents=True, exist_ok=True)
     event_root.mkdir(parents=True, exist_ok=True)
+    temporal_transitions = load_temporal_plan(
+        output_root / "temporal-plan.json",
+        source_stage2_sha256=stage2.artifact_sha256,
+        required=False,
+    )
+    temporal_anchor_artifact = None
+    temporal_anchors = {}
+    if temporal_transitions:
+        temporal_plan = json.loads(
+            (output_root / "temporal-plan.json").read_text(encoding="utf-8")
+        )
+        temporal_anchor_artifact, temporal_anchors = load_temporal_anchor_plan(
+            output_root / "temporal-anchor-plan.json",
+            source_stage2_sha256=stage2.artifact_sha256,
+            source_temporal_plan_sha256=str(temporal_plan["artifact_sha256"]),
+        )
     dialogue_model = OpenAIV1DialogueGenerationModel(
         args.model,
         timeout_seconds=args.timeout_seconds,
+        additional_instructions=(
+            V2_TEMPORAL_DIALOGUE_INSTRUCTIONS if temporal_transitions else None
+        ),
+        prompt_version=(
+            V2_TEMPORAL_DIALOGUE_PROMPT_VERSION
+            if temporal_transitions
+            else V1_DIALOGUE_PROMPT_VERSION
+        ),
     )
     alignment_model = OpenAIV2HybridEventAlignmentModel(
         args.model,
         timeout_seconds=args.timeout_seconds,
+        additional_instructions=(
+            V2_TEMPORAL_ALIGNMENT_INSTRUCTIONS if temporal_transitions else None
+        ),
+        prompt_version=(
+            V2_TEMPORAL_ALIGNMENT_PROMPT_VERSION
+            if temporal_transitions
+            else V2_HYBRID_ALIGNMENT_PROMPT_VERSION
+        ),
+        normalize_earlier_confirmation=not bool(temporal_transitions),
     )
     dialogue_path = dialogue_root / f"{context.event.event_id}.json"
     dialogue = _load_or_generate_dialogue(
@@ -213,15 +406,26 @@ def _run_single_event_smoke(
         context=context,
         model=dialogue_model,
         max_attempts=args.max_attempts,
+        temporal_transitions=temporal_transitions.get(context.event.event_id),
+        temporal_anchors=temporal_anchors.get(context.event.event_id, ()),
     )
     turns = event_dialogue_turns(stage2, dialogue)
-    generated_alignment = _generate_alignment(
-        context.event,
-        turns,
-        previous_memory="",
-        model=alignment_model,
-        max_attempts=args.max_attempts,
-    )
+    if temporal_anchor_artifact is not None:
+        generated_alignment = build_deterministic_anchor_alignment(
+            context.event,
+            turns,
+            temporal_anchors.get(context.event.event_id, ()),
+            previous_memory="",
+        )
+    else:
+        generated_alignment = _generate_alignment(
+            context.event,
+            turns,
+            previous_memory="",
+            model=alignment_model,
+            max_attempts=args.max_attempts,
+            temporal_transitions=temporal_transitions.get(context.event.event_id),
+        )
     checkpoint = build_hybrid_event_checkpoint(
         event=context.event,
         timeline_index=context.timeline_index,
@@ -230,6 +434,19 @@ def _run_single_event_smoke(
         previous_entries=(),
         personas=stage2.persona_group.payload.personas,
         global_turn_offset=0,
+        chain_kind=context.chain_kind,
+        reason_profile=(
+            "state_evolution"
+            if stage2.event_chains.prompt_version
+            in {
+                V1_EVENT_CHAIN_STATE_EVOLUTION_PROMPT_VERSION,
+                *V2_TEMPORAL_EVENT_PROMPT_VERSIONS,
+            }
+            else "legacy"
+        ),
+        temporal_transitions_by_update=temporal_transitions.get(
+            context.event.event_id
+        ),
     )
     checkpoint_path = event_root / (
         f"{context.timeline_index:03d}-{context.event.event_id}.json"
@@ -265,6 +482,8 @@ def _load_or_generate_dialogue(
     context,
     model: OpenAIV1DialogueGenerationModel,
     max_attempts: int,
+    temporal_transitions=None,
+    temporal_anchors=(),
 ) -> V1GeneratedEventDialogue:
     if path.exists():
         checkpoint = V1GeneratedEventDialogue.model_validate_json(
@@ -277,6 +496,16 @@ def _load_or_generate_dialogue(
             checkpoint.payload,
             requested_turn_count=dialogue_turn_target(context),
         )
+        validate_temporal_dialogue_cues(
+            temporal_transitions,
+            [line.text for line in checkpoint.payload.turns],
+            event=context.event,
+            speaker_ids=[line.speaker_id for line in checkpoint.payload.turns],
+        )
+        validate_dialogue_contains_anchors(
+            temporal_anchors,
+            checkpoint.payload.turns,
+        )
         return checkpoint
     last_error: Exception | None = None
     for attempt in range(1, max_attempts + 1):
@@ -285,6 +514,9 @@ def _load_or_generate_dialogue(
                 stage2.persona_group.payload.personas,
                 context,
                 requested_turn_count=dialogue_turn_target(context),
+                frozen_anchors=[
+                    item.model_dump(mode="json") for item in temporal_anchors
+                ],
             )
             checkpoint = checkpoint.model_copy(
                 update={
@@ -293,6 +525,16 @@ def _load_or_generate_dialogue(
                         "generation_attempts": attempt,
                     }
                 }
+            )
+            validate_temporal_dialogue_cues(
+                temporal_transitions,
+                [line.text for line in checkpoint.payload.turns],
+                event=context.event,
+                speaker_ids=[line.speaker_id for line in checkpoint.payload.turns],
+            )
+            validate_dialogue_contains_anchors(
+                temporal_anchors,
+                checkpoint.payload.turns,
             )
             _write_json(path, checkpoint.model_dump(mode="json"))
             return checkpoint
@@ -309,6 +551,7 @@ def _generate_alignment(
     previous_memory: str,
     model: OpenAIV2HybridEventAlignmentModel,
     max_attempts: int,
+    temporal_transitions=None,
 ):
     if not event.preference_updates:
         return deterministic_empty_alignment(
@@ -323,6 +566,12 @@ def _generate_alignment(
                 event,
                 turns,
                 previous_memory=previous_memory,
+            )
+            generated = normalize_temporal_hybrid_alignment(
+                event,
+                turns,
+                generated,
+                temporal_transitions,
             )
             return generated.model_copy(
                 update={

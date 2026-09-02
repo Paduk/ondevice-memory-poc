@@ -11,7 +11,18 @@ from pathlib import Path
 from typing import Any
 
 from .config import DEFAULT_DATA_ROOT
-from .methods import METHODS, DeltaMethod, DeltaState, MemoryMethod
+from .methods import (
+    METHODS,
+    DeltaMethod,
+    DeltaState,
+    DeltaV2Method,
+    DeltaV2State,
+    MemoryMethod,
+)
+from .methods.delta_v2 import (
+    delta_v2_input_from_state,
+    expand_compact_operations,
+)
 from .methods.operations import apply_operations, normalize_memory
 
 
@@ -36,6 +47,14 @@ def _validate_input_state(
             raise ValueError("Delta pending_deltas differ from replay state")
         if memory_input["updates_since_compaction"] != state.updates_since_compaction:
             raise ValueError("Delta compaction counter differs from replay state")
+    elif isinstance(method, DeltaV2Method):
+        if not isinstance(state, DeltaV2State):
+            raise TypeError("Delta-v2 validator received non-Delta-v2 state")
+        expected = delta_v2_input_from_state(
+            state, compaction_interval=method.compaction_interval
+        )
+        if memory_input != expected:
+            raise ValueError("Delta-v2 input differs from replay state")
     elif normalize_memory(memory_input["previous_memory"]) != method.materialize_memory(
         state
     ):
@@ -91,7 +110,7 @@ def validate_method(
 
 
 def validate_compactions(
-    data_root: Path, *, max_rows: int | None = None
+    data_root: Path, *, method_name: str = "delta", max_rows: int | None = None
 ) -> dict[str, Any]:
     path = data_root / "compaction.jsonl"
     rows = 0
@@ -101,10 +120,17 @@ def validate_compactions(
             if max_rows is not None and rows >= max_rows:
                 break
             row = json.loads(line)
-            memory = normalize_memory(row["input"]["base_summary"])
+            memory_input = row["input"]
+            memory = normalize_memory(memory_input["base_summary"])
             try:
-                for batch in row["input"]["pending_deltas"]:
-                    memory, _ = apply_operations(memory, batch["operations"])
+                if method_name in {"delta_v2", "delta_v3"}:
+                    for batch in memory_input["pending_updates"]:
+                        memory, _ = apply_operations(
+                            memory, expand_compact_operations(batch)
+                        )
+                else:
+                    for batch in memory_input["pending_deltas"]:
+                        memory, _ = apply_operations(memory, batch["operations"])
                 if memory != normalize_memory(row["target"]["next_summary"]):
                     raise ValueError("Compaction next_summary mismatch")
                 if _sha256(memory) != row["target"]["next_summary_sha256"]:
@@ -116,7 +142,7 @@ def validate_compactions(
             triggers[row["trigger"]] += 1
             rows += 1
     return {
-        "method": "delta_compaction",
+        "method": f"{method_name}_compaction",
         "source_view": "compaction",
         "rows_checked": rows,
         "complete": max_rows is None,
@@ -136,8 +162,15 @@ def main() -> None:
         validate_method(name, args.data_root, max_rows=args.max_rows)
         for name in args.methods
     ]
-    if "delta" in args.methods:
-        results.append(validate_compactions(args.data_root, max_rows=args.max_rows))
+    for method_name in ("delta", "delta_v2", "delta_v3"):
+        if method_name in args.methods:
+            results.append(
+                validate_compactions(
+                    args.data_root,
+                    method_name=method_name,
+                    max_rows=args.max_rows,
+                )
+            )
     print(json.dumps({"status": "PASS", "results": results}, indent=2))
 
 

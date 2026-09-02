@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Literal
@@ -57,13 +58,20 @@ class QualityQuiz:
 
 def default_quality_artifact_paths(
     evaluation_root: Path,
+    scenario_indices: Iterable[int] | None = None,
 ) -> tuple[QualityArtifactPaths, ...]:
     evaluation_root = evaluation_root.expanduser().resolve()
     hybrid_root = evaluation_root / "vehiclemembench-v2-hybrid"
     posthoc_root = evaluation_root / "vehiclemembench-v2-posthoc"
     native_root = evaluation_root / "vehiclemembench-v2-native"
+    selected = tuple(range(1, 6) if scenario_indices is None else scenario_indices)
+    if not selected or any(index < 1 or index > 100 for index in selected):
+        raise ValueError("quality scenario indexes must be in [1, 100]")
+    if len(set(selected)) != len(selected):
+        raise ValueError("quality scenario indexes must be unique")
+
     paths: list[QualityArtifactPaths] = []
-    for scenario_index in range(1, 6):
+    for scenario_index in selected:
         tag = f"{scenario_index:02d}"
         posthoc = posthoc_root / f"posthoc-terra-anchored-s{tag}-r1"
         paths.append(

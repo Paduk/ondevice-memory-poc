@@ -41,6 +41,8 @@ from palmclaw_ubuntu.vehicle_bench.v2_turn_quiz_expansion import (
     build_supplemental_turn_quiz_contexts,
     build_turn_quiz_expansion_plan,
     build_turn_quiz_facts,
+    repair_composite_quiz_plan_for_checkpoints,
+    select_delayed_context_indexes,
     validate_composite_quiz_plan,
 )
 
@@ -139,10 +141,22 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             for quiz_id, item in immediate_by_id.items()
         },
     )
-    delayed_count = len(immediate_contexts)
-    composite_count = args.target_quiz_count - len(immediate_contexts) - delayed_count
-    if composite_count < 1:
-        raise ValueError("Target Quiz count leaves no composite Quiz capacity")
+    immediate_count = len(immediate_contexts)
+    supplemental_capacity = args.target_quiz_count - immediate_count
+    if supplemental_capacity < 2:
+        raise ValueError("Target Quiz count cannot retain delayed and composite coverage")
+    # Preserve the S1-S20 mix when possible, but reserve four composite quizzes
+    # when S21+ state evolution increases the number of UPDATE checkpoints.
+    minimum_composite_count = min(4, supplemental_capacity - 1)
+    delayed_count = min(
+        immediate_count,
+        supplemental_capacity - minimum_composite_count,
+    )
+    composite_count = supplemental_capacity - delayed_count
+    delayed_context_indexes = select_delayed_context_indexes(
+        immediate_count,
+        delayed_count,
+    )
 
     plan_checkpoint = output_root / "composite-plan.json"
     if plan_checkpoint.exists():
@@ -157,10 +171,33 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             group_count=composite_count,
         )
     else:
-        generated_plan = OpenAIV2CompositeQuizPlanModel(
+        plan_model = OpenAIV2CompositeQuizPlanModel(
             args.model,
             timeout_seconds=args.timeout_seconds,
-        ).generate(facts, group_count=composite_count)
+        )
+        plan_error: Exception | None = None
+        for _ in range(args.max_attempts):
+            try:
+                generated_plan = plan_model.generate(
+                    facts,
+                    group_count=composite_count,
+                )
+                break
+            except Exception as exc:
+                plan_error = exc
+        else:
+            assert plan_error is not None
+            raise plan_error
+        _write_json(plan_checkpoint, generated_plan.model_dump(mode="json"))
+
+    repaired_plan = repair_composite_quiz_plan_for_checkpoints(
+        facts,
+        generated_plan,
+        immediate_contexts,
+        checkpoints,
+    )
+    if repaired_plan != generated_plan:
+        generated_plan = repaired_plan
         _write_json(plan_checkpoint, generated_plan.model_dump(mode="json"))
 
     contexts, specs, rebuilt_facts = build_supplemental_turn_quiz_contexts(
@@ -170,6 +207,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         immediate_contexts,
         generated_plan,
         facts=facts,
+        delayed_context_indexes=delayed_context_indexes,
     )
     if (
         rebuilt_facts != facts

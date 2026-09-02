@@ -22,6 +22,10 @@ mkdir -p "$stage2_root" "$hybrid_root"
 cd "$ubuntu_root"
 
 echo "[$(date -u +%FT%TZ)] S${scenario_tag} stage2"
+stage2_profile_args=()
+if (( scenario_index >= 21 )); then
+  stage2_profile_args+=(--state-evolution)
+fi
 "$palmclaw_python" evaluation/experiment-scripts/run_vehiclemembench_v1_stage2_smoke.py \
   --dataset-root /home/hj153lee/VehicleMemBench \
   --output-root "$stage2_root" \
@@ -29,14 +33,21 @@ echo "[$(date -u +%FT%TZ)] S${scenario_tag} stage2"
   --candidate-group "$scenario_index" \
   --scenario "$scenario_index" \
   --timeout-seconds 1800 \
-  --max-attempts 3
+  --max-attempts 3 \
+  "${stage2_profile_args[@]}"
 
 echo "[$(date -u +%FT%TZ)] S${scenario_tag} causal anchors"
-"$palmclaw_python" evaluation/experiment-scripts/prepare_vehiclemembench_v2_memory_anchors.py \
-  --stage2-path "$stage2_root/stage2.json" \
-  --output-root "$hybrid_root" \
-  --model gpt-5.6-terra \
+anchor_args=(
+  evaluation/experiment-scripts/prepare_vehiclemembench_v2_memory_anchors.py
+  --stage2-path "$stage2_root/stage2.json"
+  --output-root "$hybrid_root"
+  --model gpt-5.6-terra
   --timeout-seconds 1800
+)
+if [[ -f "$hybrid_root/memory-anchors.json" ]]; then
+  anchor_args+=(--anchor-checkpoint "$hybrid_root/memory-anchors.json")
+fi
+"$palmclaw_python" "${anchor_args[@]}"
 
 echo "[$(date -u +%FT%TZ)] S${scenario_tag} hybrid dialogues and memory"
 "$palmclaw_python" evaluation/experiment-scripts/run_vehiclemembench_v2_hybrid_smoke.py \

@@ -1,16 +1,29 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 from memory_training.checkpoints import TrainingProgress
 from memory_training.methods import PatchMethod, SummaryMethod
+from memory_training.quiz_sft import IndexedQuizSFTDataset
 from memory_training.tracking import RunTracker
 from memory_training.training_data import (
+    BalancedMultitaskBatchSampler,
     ChatExampleEncoder,
     EncodedExample,
+    QuizChatExampleEncoder,
     SFTCollator,
+    quiz_epoch_indices,
 )
-from memory_training.validation import memory_scores
+from memory_training.validation import (
+    _quiz_row_with_memory,
+    closed_loop_quiz_snapshot_requests,
+    memory_scores,
+    parse_tool_calls,
+    quiz_indices_for_scenarios,
+    random_quiz_validation_indices,
+    stratified_quiz_validation_indices,
+)
 
 
 class CharacterTokenizer:
@@ -35,6 +48,44 @@ class CharacterTokenizer:
     def __call__(self, text, *, add_special_tokens=False):
         del add_special_tokens
         return {"input_ids": [ord(character) for character in text]}
+
+
+class ToolCharacterTokenizer(CharacterTokenizer):
+    def apply_chat_template(
+        self,
+        messages,
+        *,
+        tokenize,
+        add_generation_prompt,
+        enable_thinking=False,
+        tools=None,
+    ):
+        del tokenize, enable_thinking
+        rendered = "<tools>" + ",".join(
+            tool["function"]["name"] for tool in (tools or [])
+        )
+        rendered += "</tools>"
+        for message in messages:
+            rendered += f"<{message['role']}>{message.get('content') or ''}"
+            for call in message.get("tool_calls", []):
+                function = call["function"]
+                rendered += (
+                    f"<call:{function['name']}>{json.dumps(function['arguments'])}"
+                )
+        if add_generation_prompt:
+            rendered += "<assistant>"
+        return rendered
+
+
+class FixedBatchSampler:
+    def __init__(self, batches):
+        self.batches = batches
+
+    def __iter__(self):
+        return iter(self.batches)
+
+    def __len__(self):
+        return len(self.batches)
 
 
 def _summary_row(decision: str = "NO_OP") -> dict:
@@ -67,6 +118,198 @@ def test_chat_encoder_masks_prompt_and_keeps_exact_target() -> None:
     assert encoded.labels.count(-100) > 0
 
 
+def test_quiz_encoder_masks_tool_schemas_and_keeps_tool_call_target() -> None:
+    tokenizer = ToolCharacterTokenizer()
+    row = {
+        "sample_id": "quiz-1",
+        "scenario_index": 81,
+        "messages": [
+            {"role": "system", "content": "Use tools."},
+            {"role": "user", "content": "Set brightness."},
+            {
+                "role": "assistant",
+                "content": None,
+                "tool_calls": [
+                    {
+                        "type": "function",
+                        "function": {
+                            "name": "set_brightness",
+                            "arguments": {"level": 3},
+                        },
+                    }
+                ],
+            },
+        ],
+    }
+    tools = [
+        {
+            "type": "function",
+            "function": {
+                "name": "set_brightness",
+                "description": "Set brightness",
+                "parameters": {"type": "object"},
+            },
+        }
+    ]
+    encoded = QuizChatExampleEncoder(tokenizer, max_length=4096).encode(
+        row, tools, row_id=3
+    )
+    decoded_target = "".join(
+        chr(token)
+        for token, label in zip(encoded.input_ids, encoded.labels, strict=True)
+        if label != -100
+    )
+    assert "<call:set_brightness>" in decoded_target
+    assert "<tools>" not in decoded_target
+    assert encoded.task_type == "quiz"
+    assert encoded.decision == "TOOL_CALL"
+
+
+def test_multitask_sampler_alternates_memory_and_quiz_deterministically() -> None:
+    memory = FixedBatchSampler([(0, 1), (2, 3), (4,)])
+    first = BalancedMultitaskBatchSampler(
+        memory,
+        memory_size=5,
+        quiz_size=4,
+        quiz_indices=(3, 0, 2, 1),
+        quiz_batch_size=2,
+    )
+    repeated = BalancedMultitaskBatchSampler(
+        memory,
+        memory_size=5,
+        quiz_size=4,
+        quiz_indices=(3, 0, 2, 1),
+        quiz_batch_size=2,
+    )
+    batches = list(first)
+    assert batches == list(repeated)
+    assert len(batches) == 5
+    assert sum(all(index < 5 for index in batch) for batch in batches) == 3
+    assert sum(all(index >= 5 for index in batch) for batch in batches) == 2
+
+
+def test_quiz_schedule_exposes_each_example_exactly_twice_across_epochs() -> None:
+    schedules = [
+        quiz_epoch_indices(11, epoch=epoch, epochs=3, total_passes=2, seed=42)
+        for epoch in range(3)
+    ]
+    combined = [index for schedule in schedules for index in schedule]
+    assert [len(schedule) for schedule in schedules] == [7, 7, 8]
+    assert len(combined) == 22
+    assert all(combined.count(index) == 2 for index in range(11))
+
+
+def test_quiz_validation_subset_is_fixed_and_scenario_balanced(tmp_path: Path) -> None:
+    path = tmp_path / "quiz_sft.jsonl"
+    rows = []
+    reasons = [
+        "conditional_constraint",
+        "coreference_resolution",
+        "error_correction",
+        "preference_conflict",
+        "state_shift",
+    ]
+    for scenario in range(81, 86):
+        for index in range(40):
+            rows.append(
+                {
+                    "schema_version": "vehiclemembench-v2-quiz-tool-sft-v1",
+                    "sample_id": f"s{scenario}-q{index}",
+                    "scenario_index": scenario,
+                    "sft_split": "validation",
+                    "quiz_type": "TURN" if index < 30 else "FINAL",
+                    "reasoning_type": reasons[index % len(reasons)],
+                    "memory_ref": {"global_turn_index": index},
+                }
+            )
+    path.write_text("".join(json.dumps(row) + "\n" for row in rows))
+    source = IndexedQuizSFTDataset(path, split="validation")
+    first = stratified_quiz_validation_indices(source, seed=7)
+    assert first == stratified_quiz_validation_indices(source, seed=7)
+    assert len(first) == 50
+    selected = [source[index] for index in first]
+    for scenario in range(81, 86):
+        scenario_rows = [row for row in selected if row["scenario_index"] == scenario]
+        assert len(scenario_rows) == 10
+        assert sum(row["quiz_type"] == "TURN" for row in scenario_rows) == 8
+        assert sum(row["quiz_type"] == "FINAL" for row in scenario_rows) == 2
+
+    closed_indices = quiz_indices_for_scenarios(source, (83, 84))
+    gold_indices = random_quiz_validation_indices(
+        source,
+        total_rows=50,
+        excluded_scenarios=(83, 84),
+        seed=7,
+    )
+    assert len(closed_indices) == 80
+    assert len(gold_indices) == 50
+    assert {source[index]["scenario_index"] for index in gold_indices} <= {
+        81,
+        82,
+        85,
+    }
+    assert set(closed_indices).isdisjoint(gold_indices)
+    requests = closed_loop_quiz_snapshot_requests(source, closed_indices)
+    assert set(requests) == {83, 84}
+    assert sum(
+        len(sample_ids)
+        for by_turn in requests.values()
+        for sample_ids in by_turn.values()
+    ) == 80
+
+
+def test_quiz_memory_override_preserves_current_request() -> None:
+    row = {
+        "messages": [
+            {"role": "system", "content": "Use tools."},
+            {
+                "role": "user",
+                "content": "[Memory]\n- gold\n\n[Current request]\nSet volume.",
+            },
+        ]
+    }
+    updated = _quiz_row_with_memory(row, "- predicted")
+    assert updated["messages"][1]["content"] == (
+        "[Memory]\n- predicted\n\n[Current request]\nSet volume."
+    )
+    assert row["messages"][1]["content"].startswith("[Memory]\n- gold")
+
+
+def test_tool_call_parser_supports_qwen_xml_and_granite_json() -> None:
+    tools = [
+        {
+            "type": "function",
+            "function": {
+                "name": "set_brightness",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "level": {"type": "integer"},
+                        "zone": {"type": "string"},
+                    },
+                },
+            },
+        }
+    ]
+    qwen = (
+        "<tool_call><function=set_brightness>"
+        "<parameter=level>3</parameter><parameter=zone>rear_left</parameter>"
+        "</function></tool_call>"
+    )
+    granite = (
+        '<tool_call>{"name":"set_brightness","arguments":'
+        '{"level":3,"zone":"rear_left"}}</tool_call>'
+    )
+    expected = [
+        {
+            "name": "set_brightness",
+            "arguments": {"level": 3, "zone": "rear_left"},
+        }
+    ]
+    assert parse_tool_calls(qwen, tools) == expected
+    assert parse_tool_calls(granite, tools) == expected
+
+
 def test_collator_masks_padding() -> None:
     collated = SFTCollator(0)(
         [
@@ -95,3 +338,29 @@ def test_tracker_and_progress_are_dashboard_readable(tmp_path) -> None:
     metric = json.loads((tmp_path / "metrics.jsonl").read_text())
     assert status["global_step"] == 1
     assert metric["loss"] == 0.5
+
+
+def test_tracker_resume_refreshes_effective_config_and_keeps_history(tmp_path) -> None:
+    tracker = RunTracker(tmp_path)
+    tracker.initialize(
+        {
+            "created_at": "2026-01-01T00:00:00+00:00",
+            "arguments": {"closed_loop_full_scenarios": None},
+        }
+    )
+    checkpoint = Path("/workspace/checkpoints/step-0000500")
+    tracker.resume(
+        {
+            "created_at": "ignored",
+            "arguments": {"closed_loop_full_scenarios": [89]},
+        },
+        checkpoint=checkpoint,
+        global_step=500,
+    )
+
+    config = json.loads((tmp_path / "config.json").read_text())
+    status = json.loads((tmp_path / "status.json").read_text())
+    assert config["created_at"] == "2026-01-01T00:00:00+00:00"
+    assert config["arguments"]["closed_loop_full_scenarios"] == [89]
+    assert config["resume_history"][-1]["checkpoint"] == str(checkpoint)
+    assert status["global_step"] == 500

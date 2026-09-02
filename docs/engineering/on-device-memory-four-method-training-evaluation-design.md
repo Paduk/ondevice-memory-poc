@@ -87,6 +87,7 @@ Transformers + PEFT/LoRA 기반으로 구현하고 tokenizer/chat template도 �
 |---|---:|---|---|
 | Qwen 3.5 | 9B | `Qwen/Qwen3.5-9B` | `qwen3.5:9b` |
 | Qwen 3.5 | 4B | `Qwen/Qwen3.5-4B` | `qwen3.5:4b` |
+| Qwen 3.5 | 2B | `Qwen/Qwen3.5-2B` | `qwen3.5:2b` |
 | Granite 4.1 | 8B | `ibm-granite/granite-4.1-8b` | `granite4.1:8b` |
 | Granite 4.1 | 3B | `ibm-granite/granite-4.1-3b` | `granite4.1:3b` |
 
@@ -204,6 +205,19 @@ decode한다. Validation은 비용에 따라 세 단계로 나눈다.
 ESM을 우선하고 trajectory State F1을 tie-break로 사용하되, False UPDATE가 사전 기준을
 넘으면 제외한다. Test split은 checkpoint 선택에 사용하지 않는다.
 
+### Fast-validation 별도 프로필
+
+기존 full 프로필은 보존한다. Fast 프로필은 매 epoch에 teacher-forced 100건, one-step
+100건, full closed-loop S83·T11과 sparse S82만 평가한다. one-step/Quiz는 batch 16,
+독립적인 S83·T11 trajectory는 batch 2로 동시에 진행한다. 같은 trajectory 내부 Turn은
+이전 예측 memory 의존성 때문에 순차 실행한다. 학습 종료 후 mini-validation의 best ESM과
+best Final State F1 checkpoint를 고른다. 같으면 1개, 다르면 최대 2개를 검증한다. Final
+validation은 S81–S85·T11 여섯 trajectory 전체와 해당 Quiz만 batch 6으로 평가하고,
+teacher-forced·one-step·sparse·Gold-memory 진단은 생략한다. 최종 선택은 full ESM,
+동점일 때 full Final State F1 순이다. 선택된 한 checkpoint의 V2 Test(S86–S100·T12–T20)는
+scenario batch 16, Quiz batch 16으로 자동 실행한다. 실행기는
+`memory_training/scripts/run_granite4_350m_patch_fast_validation.sh`이다.
+
 ## 7. 평가
 
 1. **One-step memory:** Gold 이전 state를 입력해 UPDATE F1, NO_OP specificity,
@@ -225,6 +239,11 @@ Ollama model tag로 등록한다. Test runner는 Ollama HTTP API에 연결해 S9
 한 번 closed-loop로 실행하며 Ollama version, model digest, precision, context length,
 temperature와 latency를 저장한다. 네 방법은 동일 base model·BF16·Quiz Agent 조건으로
 비교한다. Q4_K_M 등 양자화 영향은 BF16 결과 확정 후 별도 ablation으로 측정한다.
+
+초기 Test 진단은 고정 S91–S95에서 두 축으로 수행한다. `closed_loop`는 예측 memory를
+다음 Turn 입력으로 연결하고, `teacher_forced`는 매 Turn Gold 이전 memory로 초기화한다.
+두 평가의 Update F1·State F1·Final State F1 차이로 단일 Turn 생성 오류와 누적 drift를
+분리한다. 이 5개 시나리오 진단은 checkpoint 선택에 사용하지 않는다.
 
 ## 8. 구현 순서
 
@@ -317,8 +336,9 @@ temperature와 latency를 저장한다. 네 방법은 동일 base model·BF16·Q
   Validation 경로를 공통 `validation.py`로 통합
 - one-step은 Validation UPDATE 전량과 동일 수의 deterministic NO_OP 표본으로 decision,
   schema/apply, State F1과 reason ablation을 평가
-- closed-loop는 S81–S90을 Turn 1부터 예측 state로 이어 최초 오류, 지속·복구율과 final
-  State F1을 계산하며 Test S91–S100에는 접근하지 않음
+- epoch closed-loop는 S89 전체 Turn과 S82/S85의 모든 UPDATE·인접 hard NO_OP·고정 10%
+  NO_OP 표본을 시간순으로 실행한다. Full은 false UPDATE/drift, sparse는 state transition을
+  진단하며 Test S91–S100에는 접근하지 않음
 - False UPDATE threshold를 넘는 checkpoint를 best 후보에서 제외하고, Quiz hook이 있으면
   ESM 우선·final State F1 tie-break, 없으면 final State F1로 선택
 - epoch/step Validation 결과를 run artifact와 dashboard에 연결하고 greedy decode·고정 seed를 적용
@@ -388,7 +408,7 @@ window 20%가 적용된다. 매 500 optimizer step마다 고정된 512건의 tea
 Validation과 checkpoint를 저장한다. 이 subset은 UPDATE 136건 전량, UPDATE 인접 hard
 NO_OP 188건, seed 고정 random NO_OP 188건으로 구성되어 checkpoint 간 비교 편차와
 JSONL 앞부분 편향을 막는다. epoch 종료마다 272건 one-step 및 S81–S90 전체
-closed-loop를 수행해 best checkpoint를
+축소 closed-loop(S89 full + S82/S85 sparse)를 수행해 best checkpoint를
 선정한다. 중단 시 마지막 checkpoint의 `adapter/optimizer/scheduler/RNG/progress`를 함께
 불러와 정확한 다음 batch부터 재개한다.
 
@@ -438,3 +458,88 @@ python -m memory_training.ollama_test \
   --memory-model <export-manifest의 ollama_tag> \
   --quiz-model <모든 방법에 고정할 Quiz Agent tag>
 ```
+
+## 11. End-to-end Memory + Tool Calling SFT 확장 계획
+
+현재 SFT는 `UPDATE/NO_OP + Summary/Patch/Delta`만 학습한다. Turn/Final Quiz와 Gold
+Tool Call은 데이터에 존재하지만 학습에는 사용하지 않는다. 이를 보완하되, 메모리 품질을
+분리하는 **고정 Quiz Agent 평가는 baseline으로 유지**한다.
+
+### 학습 태스크
+
+- **Memory task:** `previous memory + current turn → UPDATE/NO_OP + memory output`
+- **Quiz task:** `memory snapshot + query + Vehicle tool schema → Gold tool call`
+- ESM은 직접 loss로 학습하지 않고 Gold tool name/arguments SFT 후 simulator로 평가한다.
+- Quiz SFT는 S15–S80만 사용하고 S81–S85 Validation, S86–S100 Test를 보존한다.
+- Quiz 과반복을 막기 위해 전체 학습 동안 각 Quiz를 기본 2회 노출하고 Memory batch 사이에
+  균등하게 분배한다.
+
+### 구현 회차
+
+1. **Quiz SFT 데이터 생성 (완료):** `turn_quiz.jsonl`·`final_quiz.jsonl`을 HF
+   tool-call chat 형식의 `quiz_sft.jsonl`로 변환하고 split·memory reference·Gold call을
+   검증한다. 후보 schema는 selector를 가정해 `Gold + 같은 모듈 negative 1 + 전체 random
+   negative 1`로 제한하며 선택은 `sample_id` 기반으로 재현 가능하게 고정한다.
+2. **Multitask 학습 (완료):** 기존 네 방법 loader에 `task_type`과 균형 sampler를
+   추가하고, assistant memory output 또는 tool-call target에만 loss를 적용한다. 새
+   `--multitask` run은 Memory와 Quiz 모두 S15–S80을 사용한다. Quiz는 전체 학습 동안
+   정확히 2회만 노출되도록 결정론적으로 shuffle한 뒤 epoch별로 균등 분배하고 Memory
+   batch 사이에 삽입한다. aggregate·Memory·Quiz loss를 각각 기록한다.
+3. **Validation (완료):** S83·S84는 모든 Turn을 closed-loop로 재생하고, 각 Quiz 시점의
+   예측 memory snapshot으로 두 시나리오의 모든 Quiz를 풀어 E2E ESM·Tool F1·Arg Exact를
+   계산한다. 별도의 Gold-memory 진단은 서로 겹치지 않도록 S81·S82·S85의 Quiz pool에서
+   seed 고정 random 50건을 뽑는다. Dashboard와 epoch artifact에는 두 Quiz 축을 구분해
+   기록하며, closed-loop Quiz ESM을 checkpoint 1차 선택 기준, final State F1을 tie-break로
+   사용한다.
+4. **Ollama end-to-end 평가:** 같은 fine-tuned 모델이 memory 생성과 Quiz Tool Calling을
+   수행하도록 연결한다. 고정 Agent 결과와 함께 closed-loop/teacher-forced Quiz를 저장한다.
+5. **작은 검증 후 재학습:** S21·S91·S92로 배관과 과적합/일반화를 확인한 뒤 네 방법 및
+   네 base model로 확장한다.
+
+최종 보고는 `고정 Quiz Agent`로 메모리 자체 효과를, `동일 fine-tuned Agent`로 실제
+on-device end-to-end 성능을 각각 보여준다.
+
+## 12. S + Temporal 확장 실험 준비 현황
+
+- T1–T20은 기존 정수 catalog와 충돌하지 않도록 각각 `101–120`으로 인코딩한다.
+- Train은 `S15–S80 + T1–T10`, Validation은 `S81–S85 + T11`, Test는
+  `S86–S100 + T12–T20`으로 고정한다. T1–T10만으로 다섯 temporal action을 모두
+  포함하며, 더 큰 temporal Test로 일반화를 평가한다.
+- Patch와 Temporal Patch는 동일한 Qwen3.5-4B multitask/noop5/4-epoch 설정과 seed 45를
+  사용한다. Temporal Patch만 operation에 `identity_key`, `temporal_action`,
+  `temporal_cue`를 추가한다.
+- Temporal Patch는 surface-rule 원본을 직접 학습하지 않고, 기존 Terra temporal plan
+  416건과 대조해 110건을 교정하고 `DEFER=0`, 전체 replay/hash gate를 통과한
+  `...temporal-patch-terra-audited-v2`를 사용한다.
+- 생성 데이터 경로와 실행 명령은 `memory_training/README.md`의
+  `S + Temporal Patch experiment` 절을 따른다.
+
+## 13. V1 distribution 보강 Patch 실험 준비 현황
+
+- Patch에만 원본 VehicleMemBench V1 10개 시나리오를 추가한다. seed 45 고정 선택은
+  `S2, S5, S6, S14, S17, S23, S31, S32, S33, S36`이며,
+  V2 ID와 충돌하지 않도록 각각 `201–250` 범위로 인코딩한다.
+- Teacher는 기존 Cloud Luna `turn-wise Patch soft-30 fresh R2` trace이다. 모든 UPDATE를
+  보존하고 NO_OP은 기존 `update:no-op=1:5`, adjacent 30%, trajectory 20% epoch sampler를
+  그대로 적용한다. V1 Final Quiz는 시나리오별 고정 seed로 4/10(40%)만 Train에 추가한다.
+- 원시 Patch JSON이 남지 않은 trace는 이전/다음 메모리 차이로 operation을 복원하고 모든
+  턴을 결정론적으로 replay 검증한다. 불량 operation이 없는 시나리오만 채택한다.
+- 추가 trace는 27,270턴(UPDATE 559, NO_OP 26,711)이다. soft-30 compaction 14턴은 row와
+  state에는 유지하되 `train_eligible=false`로 loss/trajectory에서 제외한다. 실제 학습에는
+  UPDATE 545건과 Quiz 40건이 추가되며 epoch 0 Memory 노출량은 8,248건에서 12,370건으로
+  약 50.0% 증가한다.
+- 기존 Validation `S81–S85 + T11` 및 Test `S86–S100 + T12–T20`은 데이터와 개수가 모두
+  유지된다. V1은 Validation/Test에 추가하지 않는다.
+- 준비 데이터는
+  `/mnt/data/hj153lee/PalmClaw/evaluation/vehiclemembench-v2-training/hybrid-s1-s100-plus-temporal-t1-t20-plus-v1-10-patch-v1`,
+  실행기는 `memory_training/scripts/run_qwen35_4b_patch_v1_10_mix.sh`이다.
+
+## 14. Delta-v3 pending-aware NO_OP 학습
+
+- Delta-v2의 compact operation·5 UPDATE 결정론적 compaction·runtime은 그대로 유지한다.
+- 독립 NO_OP 표본을 `pending_updates` depth 0/1/2/3/4 기준
+  **40/30/15/10/5%**로 층화한다. 총 NO_OP 수(UPDATE당 5개)는 늘리지 않는다.
+- UPDATE 인접 NO_OP 30%와 trajectory 20%는 유지한다. 층화 비율은 독립 표본에
+  적용하고 trajectory는 실제 연속 분포를 보존한다.
+- 학습/평가 method 이름은 `delta_v3`, 데이터 view와 runtime 상태 계약은 `delta_v2`와
+  동일하다.

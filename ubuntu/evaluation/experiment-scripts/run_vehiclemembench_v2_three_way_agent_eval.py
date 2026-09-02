@@ -75,7 +75,11 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     output_root = args.output_root.expanduser().resolve() / "agent"
     output_root.mkdir(parents=True, exist_ok=True)
     ready: list[tuple[QualityArtifactPaths, tuple[QualityQuiz, ...]]] = []
-    for paths in default_quality_artifact_paths(args.evaluation_root):
+    scenario_indices = tuple(args.scenarios) if args.scenarios else None
+    for paths in default_quality_artifact_paths(
+        args.evaluation_root,
+        scenario_indices=scenario_indices,
+    ):
         if args.methods and paths.method not in args.methods:
             continue
         if args.scenarios and paths.scenario_index not in args.scenarios:

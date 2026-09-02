@@ -236,3 +236,57 @@ def test_turn_quiz_retry_rephrases_incidental_numeric_cardinality() -> None:
     instructions = responses.request["instructions"]
     assert "same number appears incidentally" in instructions
     assert "group return" in instructions
+
+
+def test_turn_quiz_provider_neutralizes_any_boolean_value_leak() -> None:
+    context = _context().model_copy(
+        update={
+            "hidden_value_arguments": (
+                V1ArgumentValue(name="is_open", value=True),
+            )
+        }
+    )
+    leaking = _payload().model_copy(
+        update={"query": "Please turn on the remembered setting now."}
+    )
+    responses = _FakeResponses(leaking)
+    model = OpenAIV2TurnQuizGenerationModel(
+        "gpt-5.6-terra",
+        timeout_seconds=1,
+        client=SimpleNamespace(responses=responses),
+    )
+
+    generated = model.generate(
+        context,
+        personas=(),
+        source_event_description=_event().description,
+    )
+
+    assert generated.payload.query == (
+        "Please apply the relevant remembered vehicle setting now."
+    )
+    validate_turn_quiz_query(context, generated.payload)
+
+
+def test_turn_quiz_provider_neutralizes_non_boolean_value_leak() -> None:
+    context = _context()
+    leaking = _payload().model_copy(
+        update={"query": "Please set my HUD brightness to level 7."}
+    )
+    responses = _FakeResponses(leaking)
+    model = OpenAIV2TurnQuizGenerationModel(
+        "gpt-5.6-terra",
+        timeout_seconds=1,
+        client=SimpleNamespace(responses=responses),
+    )
+
+    generated = model.generate(
+        context,
+        personas=(),
+        source_event_description=_event().description,
+    )
+
+    assert generated.payload.query == (
+        "Please apply the relevant remembered vehicle setting now."
+    )
+    validate_turn_quiz_query(context, generated.payload)

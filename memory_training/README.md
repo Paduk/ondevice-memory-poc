@@ -98,6 +98,48 @@ F1/Arg Exact, prefill/decode tokens, and memory/Quiz latency. `--force` is reser
 for diagnostics; it must not be used to choose a better paper Test result. The
 dashboard reads `ollama-test-summary.json` from each run automatically.
 
+For the fixed five-scenario diagnostic, evaluate S91-S95 on both axes without
+running Quiz inference. `closed_loop` feeds each prediction into the next turn;
+`teacher_forced` resets every turn to the Gold previous memory. Their gap isolates
+error accumulation from one-turn generation quality.
+
+```bash
+python -m memory_training.ollama_test \
+  --run-dir /mnt/data/hj153lee/PalmClaw/on-device-memory-training/runs/<run-id> \
+  --ollama-url http://127.0.0.1:11435 \
+  --memory-model <fine-tuned-ollama-tag> \
+  --scenarios 91 92 93 94 95 \
+  --memory-modes closed_loop teacher_forced \
+  --memory-only
+```
+
+The report preserves closed-loop results under `memory`, writes the independent
+axis under `memory_teacher_forced`, and records their F1 gaps in
+`memory_mode_comparison`. Per-turn files are separated into `memory/` and
+`memory_teacher_forced/` so runs can resume independently.
+
+When `--quiz-model` is supplied with both memory modes, the same Turn/Final Quiz
+set is evaluated twice. `quiz` uses closed-loop snapshots, while
+`quiz_teacher_forced` uses snapshots generated from the Gold previous memory.
+Their ESM/State F1/Tool F1/Arg Exact gaps are stored in `quiz_mode_comparison`,
+and per-Quiz checkpoints live in `quiz/` and `quiz_teacher_forced/`. Existing
+memory-only snapshots can be reused without memory inference via `--quiz-only`.
+
+For the initial overfitting/generalization check, use S91-S92 as held-out Test and
+S21 as a separately labelled Train diagnostic. S21 is never included in the Test
+aggregate.
+
+```bash
+python -m memory_training.ollama_test \
+  --run-dir /mnt/data/hj153lee/PalmClaw/on-device-memory-training/runs/<run-id> \
+  --ollama-url http://127.0.0.1:11435 \
+  --memory-model <fine-tuned-ollama-tag> \
+  --scenarios 91 92 \
+  --train-diagnostic-scenarios 21 \
+  --memory-modes closed_loop teacher_forced \
+  --memory-only
+```
+
 ### Isolated Qwen3.5 runtime
 
 The system Ollama `0.6.5` on port `11434` is intentionally untouched. Qwen3.5 uses
@@ -151,3 +193,96 @@ Large model downloads, checkpoints, caches, reports and MLflow artifacts are roo
 ```text
 /mnt/data/hj153lee/PalmClaw/on-device-memory-training/
 ```
+
+## Tool-Calling SFT data
+
+Build the compact Quiz SFT view before multitask training. The command resolves every
+Quiz memory reference against the canonical Summary view, validates Gold Tool names and
+arguments against the official 111 VehicleMemBench schemas, and atomically writes the
+data plus its manifest.
+
+```bash
+python -m memory_training.quiz_sft
+```
+
+The generated `quiz_sft.jsonl` contains HF-style `messages` with assistant
+`tool_calls`. The shared schemas are stored once in `vehicle_tools.json` and referenced
+by SHA-256 instead of being duplicated in every row. For a single-call target, each
+row selects the Gold Tool, one deterministic same-module hard negative and one
+deterministic global random negative. Multi-call targets retain every Gold Tool and
+the same two negative categories. This models an on-device selector without exposing
+only the exact answer Tool or overflowing the 4K context.
+`quiz_sft_manifest.json` records the S15-S80 Train, S81-S85 Validation, S86-S100 Test
+policy; S1-S14 remain explicitly marked `excluded`.
+
+Enable capped Memory/Quiz multitask SFT explicitly for a new run:
+
+```bash
+CUDA_VISIBLE_DEVICES=<gpu> python -m memory_training.train \
+  --model qwen3.5-4b --method patch \
+  --run-id qwen35-4b-patch-multitask-r1 \
+  --multitask --quiz-total-passes 2
+```
+
+Each epoch retains every sampled Memory batch from S15-S80. The Quiz dataset is
+deterministically shuffled into two exact full passes, divided across all epochs, and
+distributed evenly among Memory batches. With 2,640 Quiz rows and three epochs this is
+about 1,760 Quiz rows per epoch, rather than repeatedly cycling them to force 1:1.
+The collator keeps batches task-homogeneous, masks all prompts/schemas, and applies
+loss only to the Memory assistant output or assistant Tool Calls. Run metrics record
+aggregate, `memory_loss`, and `quiz_loss` separately. Memory-only runs keep their
+legacy S1-S80 sampler and are unaffected unless `--multitask` is passed.
+
+At every epoch boundary, multitask runs may enable `--closed-loop-quiz` with S83 and
+S84 as `--closed-loop-full-scenarios`. The runner replays every Turn, captures predicted
+memory at every Quiz reference, and evaluates all 80 S83/S84 Tool-Calling Quizzes. A
+separate, deterministic 50-row Gold-memory diagnostic is sampled from S81/S82/S85 only,
+so the two axes do not overlap. The dashboard and epoch artifact report Gold Quiz and
+closed-loop Quiz ESM/Tool F1/Arg Exact separately; closed-loop Quiz ESM is the primary
+checkpoint-selection metric and final State F1 is its tie-break.
+
+## S + Temporal Patch experiment
+
+The mixed exporter preserves the original S1-S100 artifacts and encodes T1-T20 as
+scenario IDs 101-120. Its fixed split is Train `S15-S80 + T1-T10`, Validation
+`S81-S85 + T11`, and Test `S86-S100 + T12-T20`.
+
+```bash
+python -m memory_training.prepare_temporal_mixed_data
+
+# Training (choose a free GPU)
+memory_training/scripts/run_qwen35_4b_patch_temporal_mix.sh patch-r2 <gpu>
+memory_training/scripts/run_qwen35_4b_patch_temporal_mix.sh temporal-patch-r1 <gpu>
+
+# Final closed-loop Test after epoch 4
+memory_training/scripts/run_qwen35_4b_patch_temporal_mix_test.sh patch-r2 <gpu>
+memory_training/scripts/run_qwen35_4b_patch_temporal_mix_test.sh temporal-patch-r1 <gpu>
+```
+
+## Patch-only V1 auxiliary training
+
+Prepare the fixed 10-scenario V1 augmentation from the trusted Cloud Patch R2 traces.
+The exporter retains all turns, adds only four deterministic Final Quizzes per V1
+scenario, verifies every reconstructed Patch by replay, and leaves the existing
+Validation/Test partitions unchanged.
+
+```bash
+python -m memory_training.prepare_v1_patch_augmentation
+
+# Start only after choosing a free GPU.
+memory_training/scripts/run_qwen35_4b_patch_v1_10_mix.sh <gpu>
+```
+
+V1 S1-S50 are encoded as 201-250 and are training-only. The selected IDs, source
+trace hashes, Quiz IDs, replay statistics, and rare full-memory reconstruction
+fallbacks are recorded in the generated `manifest.json`.
+
+Patch data:
+`/mnt/data/hj153lee/PalmClaw/evaluation/vehiclemembench-v2-training/hybrid-s1-s100-plus-temporal-t1-t20-patch-t1t10-v2`
+
+Temporal-Patch data:
+Temporal Patch 학습은 Terra plan 감사와 lossless replay를 통과한 다음 경로를 사용한다.
+
+`/mnt/data/hj153lee/PalmClaw/evaluation/vehiclemembench-v2-training/hybrid-s1-s100-plus-temporal-t1-t20-temporal-patch-t1t10-terra-audited-v2`
+
+원본 deterministic `...temporal-patch-v1`은 비교와 재감사를 위해 그대로 보존한다.

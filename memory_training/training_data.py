@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import random
 from collections.abc import Iterator, Sequence
 from dataclasses import dataclass
 from typing import Any
@@ -11,6 +12,7 @@ from torch.utils.data import Dataset, Sampler
 
 from .dataset import IndexedMemoryDataset
 from .methods import MemoryMethod
+from .quiz_sft import IndexedQuizSFTDataset, VehicleToolSchemaStore
 from .sampling import EpochPlan
 
 
@@ -21,6 +23,8 @@ class EncodedExample:
     row_id: int
     scenario_index: int
     decision: str
+    task_type: str = "memory"
+    sample_id: str = ""
 
 
 class ChatExampleEncoder:
@@ -60,16 +64,14 @@ class ChatExampleEncoder:
             row_id=row_id,
             scenario_index=int(row["scenario_index"]),
             decision=str(row["target"]["decision"]),
+            task_type="memory",
+            sample_id=str(row.get("sample_id", "")),
         )
 
     def generation_inputs(
         self, row: dict[str, Any], method: MemoryMethod[Any]
     ) -> dict[str, torch.Tensor]:
-        messages = [
-            {"role": "system", "content": method.system_prompt},
-            {"role": "user", "content": method.format_input(row)},
-        ]
-        prompt = self._render(messages, add_generation_prompt=True)
+        prompt = self.generation_prompt(row, method)
         encoded = self.tokenizer(
             prompt,
             add_special_tokens=False,
@@ -79,13 +81,26 @@ class ChatExampleEncoder:
         )
         return {key: value for key, value in encoded.items() if key != "token_type_ids"}
 
+    def generation_prompt(self, row: dict[str, Any], method: MemoryMethod[Any]) -> str:
+        messages = [
+            {"role": "system", "content": method.system_prompt},
+            {"role": "user", "content": method.format_input(row)},
+        ]
+        return self._render(messages, add_generation_prompt=True)
+
     def _render(
-        self, messages: list[dict[str, str]], *, add_generation_prompt: bool
+        self,
+        messages: list[dict[str, Any]],
+        *,
+        add_generation_prompt: bool,
+        tools: list[dict[str, Any]] | None = None,
     ) -> str:
         kwargs = {
             "tokenize": False,
             "add_generation_prompt": add_generation_prompt,
         }
+        if tools is not None:
+            kwargs["tools"] = tools
         try:
             return self.tokenizer.apply_chat_template(
                 messages, enable_thinking=False, **kwargs
@@ -95,6 +110,44 @@ class ChatExampleEncoder:
 
     def _tokenize(self, text: str) -> list[int]:
         return list(self.tokenizer(text, add_special_tokens=False)["input_ids"])
+
+
+class QuizChatExampleEncoder(ChatExampleEncoder):
+    """Encode HF assistant Tool Calls while masking schemas and user context."""
+
+    def encode(
+        self,
+        row: dict[str, Any],
+        tools: list[dict[str, Any]],
+        *,
+        row_id: int,
+    ) -> EncodedExample:
+        messages = row.get("messages")
+        if not isinstance(messages, list) or len(messages) < 2:
+            raise ValueError("Quiz SFT row has no chat messages")
+        assistant = messages[-1]
+        if assistant.get("role") != "assistant" or not assistant.get("tool_calls"):
+            raise ValueError("Quiz SFT row has no assistant Tool Call target")
+        prompt = self._render(messages[:-1], add_generation_prompt=True, tools=tools)
+        full = self._render(messages, add_generation_prompt=False, tools=tools)
+        prompt_ids = self._tokenize(prompt)
+        full_ids = self._tokenize(full)
+        boundary = _common_prefix_length(prompt_ids, full_ids)
+        if boundary == len(full_ids):
+            raise ValueError("Chat template produced no Tool Call target tokens")
+        input_ids, boundary = _left_truncate(full_ids, boundary, self.max_length)
+        labels = [-100] * boundary + input_ids[boundary:]
+        if all(label == -100 for label in labels):
+            raise ValueError("Truncation removed every Tool Call target token")
+        return EncodedExample(
+            input_ids=tuple(input_ids),
+            labels=tuple(labels),
+            row_id=row_id,
+            scenario_index=int(row["scenario_index"]),
+            decision="TOOL_CALL",
+            task_type="quiz",
+            sample_id=str(row.get("sample_id", "")),
+        )
 
 
 class MethodSFTDataset(Dataset[EncodedExample]):
@@ -120,6 +173,53 @@ class MethodSFTDataset(Dataset[EncodedExample]):
         return self.encoder.encode(row, self.method, row_id=row_id)
 
 
+class QuizSFTDataset(Dataset[EncodedExample]):
+    def __init__(
+        self,
+        source: IndexedQuizSFTDataset,
+        tools: VehicleToolSchemaStore,
+        encoder: QuizChatExampleEncoder,
+    ) -> None:
+        self.source = source
+        self.tools = tools
+        self.encoder = encoder
+
+    def __len__(self) -> int:
+        return len(self.source)
+
+    def __getitem__(self, index: int) -> EncodedExample:
+        row = self.source[index]
+        if not isinstance(row, dict):
+            raise TypeError("Expected one Quiz SFT row")
+        return self.encoder.encode(row, self.tools.tools_for(row), row_id=index)
+
+
+class MultitaskSFTDataset(Dataset[EncodedExample]):
+    """Expose Memory and Quiz datasets through one non-overlapping index space."""
+
+    def __init__(
+        self, memory: Dataset[EncodedExample], quiz: Dataset[EncodedExample]
+    ) -> None:
+        if not len(memory) or not len(quiz):
+            raise ValueError(
+                "Multitask training requires non-empty Memory and Quiz data"
+            )
+        self.memory = memory
+        self.quiz = quiz
+
+    def __len__(self) -> int:
+        return len(self.memory) + len(self.quiz)
+
+    def __getitem__(self, index: int) -> EncodedExample:
+        if index < 0:
+            index += len(self)
+        if not 0 <= index < len(self):
+            raise IndexError(index)
+        if index < len(self.memory):
+            return self.memory[index]
+        return self.quiz[index - len(self.memory)]
+
+
 class SFTCollator:
     def __init__(self, pad_token_id: int) -> None:
         self.pad_token_id = pad_token_id
@@ -143,6 +243,8 @@ class SFTCollator:
                     "row_id": example.row_id,
                     "scenario_index": example.scenario_index,
                     "decision": example.decision,
+                    "task_type": example.task_type,
+                    "sample_id": example.sample_id,
                 }
                 for example in examples
             ],
@@ -202,6 +304,77 @@ class PlannedBatchSampler(Sampler[list[int]]):
 
     def __len__(self) -> int:
         return len(self.batches) - self.start_batch
+
+
+class BalancedMultitaskBatchSampler(Sampler[list[int]]):
+    """Distribute a capped Quiz schedule evenly among planned Memory batches."""
+
+    def __init__(
+        self,
+        memory_batches: PlannedBatchSampler,
+        *,
+        memory_size: int,
+        quiz_size: int,
+        quiz_indices: Sequence[int],
+        quiz_batch_size: int,
+        start_batch: int = 0,
+    ) -> None:
+        if memory_size < 1 or quiz_size < 1:
+            raise ValueError("Memory and Quiz sizes must be positive")
+        if quiz_batch_size < 1:
+            raise ValueError("Quiz batch size must be positive")
+        if any(not 0 <= index < quiz_size for index in quiz_indices):
+            raise IndexError("Quiz schedule contains an out-of-range index")
+        memory = [tuple(batch) for batch in memory_batches]
+        quiz_batches = [
+            tuple(memory_size + index for index in quiz_indices[start:stop])
+            for start in range(0, len(quiz_indices), quiz_batch_size)
+            for stop in (min(start + quiz_batch_size, len(quiz_indices)),)
+        ]
+
+        batches: list[tuple[int, ...]] = []
+        quiz_cursor = 0
+        for memory_index, memory_batch in enumerate(memory, start=1):
+            batches.append(memory_batch)
+            target = memory_index * len(quiz_batches) // len(memory)
+            while quiz_cursor < target:
+                batches.append(quiz_batches[quiz_cursor])
+                quiz_cursor += 1
+        batches.extend(quiz_batches[quiz_cursor:])
+        if not 0 <= start_batch <= len(batches):
+            raise ValueError("start_batch is outside the multitask epoch plan")
+        self.batches = tuple(batches)
+        self.start_batch = start_batch
+
+    def __iter__(self) -> Iterator[list[int]]:
+        for batch in self.batches[self.start_batch :]:
+            yield list(batch)
+
+    def __len__(self) -> int:
+        return len(self.batches) - self.start_batch
+
+
+def quiz_epoch_indices(
+    quiz_size: int,
+    *,
+    epoch: int,
+    epochs: int,
+    total_passes: int,
+    seed: int,
+) -> tuple[int, ...]:
+    """Partition exact shuffled full-dataset passes across all training epochs."""
+    if quiz_size < 1 or epochs < 1 or total_passes < 1:
+        raise ValueError("Quiz size, epochs, and total passes must be positive")
+    if not 0 <= epoch < epochs:
+        raise ValueError("epoch is outside the Quiz schedule")
+    schedule: list[int] = []
+    for pass_index in range(total_passes):
+        order = list(range(quiz_size))
+        random.Random(seed + pass_index * 1_000_003).shuffle(order)
+        schedule.extend(order)
+    start = len(schedule) * epoch // epochs
+    stop = len(schedule) * (epoch + 1) // epochs
+    return tuple(schedule[start:stop])
 
 
 def _common_prefix_length(left: Sequence[int], right: Sequence[int]) -> int:

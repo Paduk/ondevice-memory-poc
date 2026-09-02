@@ -15,6 +15,7 @@ from palmclaw_ubuntu.vehicle_bench.dataset import (
 from palmclaw_ubuntu.vehicle_bench.scoring import VehicleWorldRuntime
 from palmclaw_ubuntu.vehicle_bench.v1_generation import (
     V1_DEFAULT_GENERATION_MODEL,
+    V1_EVENT_CHAIN_STATE_EVOLUTION_PROMPT_VERSION,
     OpenAIV1EventChainGenerationModel,
     OpenAIV1PersonaGenerationModel,
     V1GeneratedEventChains,
@@ -27,6 +28,7 @@ from palmclaw_ubuntu.vehicle_bench.v1_generation import (
     load_persona_seeds,
     validate_stage2_contract,
     validate_stage2_simulator_arguments,
+    validate_state_evolution_coverage,
     write_stage2_artifact,
 )
 
@@ -57,6 +59,19 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--timeout-seconds", type=float, default=1_800.0)
     parser.add_argument("--persona-only", action="store_true")
     parser.add_argument("--max-attempts", type=int, default=2)
+    parser.add_argument(
+        "--style-blueprint",
+        type=Path,
+        help=(
+            "Optional source-selection.json. Uses its pilot reasoning order and "
+            "Tool family without exposing source dialogue, people, or values."
+        ),
+    )
+    parser.add_argument(
+        "--state-evolution",
+        action="store_true",
+        help="Require the project-defined S21+ ADD/REPLACE/DELETE coverage.",
+    )
     return parser
 
 
@@ -75,11 +90,43 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     seeds = load_persona_seeds(args.persona_seeds)
     seed_groups = build_persona_seed_groups(seeds, candidate_group_count=200)
     selected_seeds = seed_groups[args.candidate_group - 1]
-    reasoning_types = build_reasoning_type_plan(100)[args.scenario - 1]
+    style_blueprint = None
+    if args.style_blueprint is not None:
+        selection_path = args.style_blueprint.expanduser().resolve(strict=True)
+        selection = json.loads(selection_path.read_text(encoding="utf-8"))
+        style_blueprint = selection["pilot_blueprint"]
+        reasoning_types = tuple(style_blueprint["reasoning_types_in_quiz_order"])
+    else:
+        selection_path = None
+        reasoning_types = build_reasoning_type_plan(100)[args.scenario - 1]
     catalog = build_vehicle_attribute_catalog(dataset.tool_schemas)
+    if style_blueprint is not None:
+        allowed_tools = set(style_blueprint["tool_counts"])
+        catalog = tuple(item for item in catalog if item.tool_name in allowed_tools)
+        if not catalog:
+            raise ValueError("style blueprint Tool allowlist produced an empty catalog")
     runtime = VehicleWorldRuntime(dataset.root)
     output_root = args.output_root.expanduser().resolve()
     output_root.mkdir(parents=True, exist_ok=True)
+    if style_blueprint is not None:
+        _write_json(
+            output_root / "style-provenance.json",
+            {
+                "schema_version": "vehiclemembench-v1-style-provenance-v1",
+                "selection_path": str(selection_path),
+                "source_scenario": int(style_blueprint["scenario"]),
+                "source_history_sha256": style_blueprint["history_sha256"],
+                "source_qa_sha256": style_blueprint["qa_sha256"],
+                "copied_source_content": False,
+                "transferred_structure": {
+                    "reasoning_types_in_quiz_order": list(reasoning_types),
+                    "allowed_tool_names": sorted(allowed_tools),
+                    "target_turns": int(style_blueprint["turns"]),
+                    "reference_update_count": int(style_blueprint["cloud_trace_updates"]),
+                    "reference_noop_count": int(style_blueprint["cloud_trace_noops"]),
+                },
+            },
+        )
     persona_path = output_root / "persona.json"
     stage2_path = output_root / "stage2.json"
     if stage2_path.exists() and not args.persona_only:
@@ -96,16 +143,31 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 stored_artifact.event_chains.payload,
                 runtime=runtime,
             )
+            if args.state_evolution:
+                if (
+                    stored_artifact.event_chains.prompt_version
+                    != V1_EVENT_CHAIN_STATE_EVOLUTION_PROMPT_VERSION
+                ):
+                    raise ValueError("stored Stage 2 uses the legacy event profile")
+                validate_state_evolution_coverage(
+                    stored_artifact.event_chains.payload
+                )
         except ValueError:
             invalid_path = stage2_path.with_name(
                 f"stage2.invalid-{stored_artifact.artifact_sha256[:8]}.json"
             )
             stage2_path.replace(invalid_path)
         else:
+            coverage = (
+                _write_state_evolution_coverage(output_root, stored_artifact)
+                if args.state_evolution
+                else None
+            )
             return {
                 "status": "already_completed",
                 "stage2_path": str(stage2_path),
                 "artifact_sha256": stored["artifact_sha256"],
+                "state_evolution_coverage": coverage,
             }
 
     persona_model = OpenAIV1PersonaGenerationModel(
@@ -178,6 +240,13 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 stored_event_chains.payload,
                 runtime=runtime,
             )
+            if args.state_evolution:
+                if (
+                    stored_event_chains.prompt_version
+                    != V1_EVENT_CHAIN_STATE_EVOLUTION_PROMPT_VERSION
+                ):
+                    raise ValueError("stored events use the legacy event profile")
+                validate_state_evolution_coverage(stored_event_chains.payload)
             event_chains = stored_event_chains
         except ValueError:
             invalid_path = event_path.with_name(
@@ -188,6 +257,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         event_model = OpenAIV1EventChainGenerationModel(
             args.model,
             timeout_seconds=args.timeout_seconds,
+            state_evolution=args.state_evolution,
         )
         last_error = None
         for attempt in range(1, args.max_attempts + 1):
@@ -208,6 +278,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                     event_chains.payload,
                     runtime=runtime,
                 )
+                if args.state_evolution:
+                    validate_state_evolution_coverage(event_chains.payload)
                 event_chains = event_chains.model_copy(
                     update={
                         "usage": {
@@ -250,18 +322,42 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         vehicle_attributes=catalog,
         persona_model=_StoredPersonaModel(),
         event_model=_StoredEventModel(),
+        require_state_evolution=args.state_evolution,
     )
     destination = write_stage2_artifact(output_root, artifact)
+    coverage = (
+        _write_state_evolution_coverage(output_root, artifact)
+        if args.state_evolution
+        else None
+    )
     return {
         "status": "completed",
         "stage2_path": str(destination),
         "artifact_sha256": artifact.artifact_sha256,
         "audit": artifact.audit.model_dump(mode="json"),
+        "state_evolution_coverage": coverage,
         "usage": {
             "persona": persona_group.usage,
             "event_chain": event_chains.usage,
         },
     }
+
+
+def _write_state_evolution_coverage(
+    output_root: Path,
+    artifact: V1Stage2Artifact,
+) -> dict[str, Any]:
+    coverage = validate_state_evolution_coverage(
+        artifact.event_chains.payload
+    ).model_dump(mode="json")
+    payload = {
+        "schema_version": "vehiclemembench-v2-state-evolution-coverage-v1",
+        "source_stage2_sha256": artifact.artifact_sha256,
+        "event_prompt_version": artifact.event_chains.prompt_version,
+        "coverage": coverage,
+    }
+    _write_json(output_root / "state-evolution-coverage.json", payload)
+    return coverage
 
 
 def _write_json(path: Path, payload: Any) -> None:

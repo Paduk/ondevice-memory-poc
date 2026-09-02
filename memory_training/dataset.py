@@ -63,6 +63,7 @@ def _identity(row: dict[str, Any]) -> tuple[Any, ...]:
         row.get("turn_id"),
         row.get("split"),
         row.get("target", {}).get("decision"),
+        row.get("train_eligible", True),
     )
 
 
@@ -91,6 +92,7 @@ def build_catalog(data_root: Path, catalog_path: Path) -> dict[str, Any]:
                 global_turn_index INTEGER NOT NULL,
                 turn_id TEXT NOT NULL,
                 decision TEXT NOT NULL,
+                train_eligible INTEGER NOT NULL,
                 summary_offset INTEGER NOT NULL,
                 summary_length INTEGER NOT NULL,
                 patch_offset INTEGER NOT NULL,
@@ -126,7 +128,7 @@ def build_catalog(data_root: Path, catalog_path: Path) -> dict[str, Any]:
                 identity = _identity(rows[0])
                 if any(_identity(row) != identity for row in rows[1:]):
                     raise ValueError(f"Cross-view mismatch at row {row_id}")
-                scenario, global_turn, turn_id, split, decision = identity
+                scenario, global_turn, turn_id, split, decision, train_eligible = identity
                 if not isinstance(scenario, int) or split != split_for_scenario(
                     scenario
                 ):
@@ -135,6 +137,8 @@ def build_catalog(data_root: Path, catalog_path: Path) -> dict[str, Any]:
                     raise TypeError(f"Invalid turn identity at row {row_id}")
                 if decision not in {"NO_OP", "UPDATE"}:
                     raise ValueError(f"Invalid decision at row {row_id}: {decision}")
+                if not isinstance(train_eligible, bool):
+                    raise TypeError(f"Invalid train_eligible at row {row_id}")
                 batch.append(
                     (
                         row_id,
@@ -143,6 +147,7 @@ def build_catalog(data_root: Path, catalog_path: Path) -> dict[str, Any]:
                         global_turn,
                         turn_id,
                         decision,
+                        int(train_eligible),
                         offsets[0],
                         len(lines[0]),
                         offsets[1],
@@ -156,13 +161,13 @@ def build_catalog(data_root: Path, catalog_path: Path) -> dict[str, Any]:
                 row_id += 1
                 if len(batch) >= 4096:
                     connection.executemany(
-                        "INSERT INTO samples VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                        "INSERT INTO samples VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                         batch,
                     )
                     batch.clear()
             if batch:
                 connection.executemany(
-                    "INSERT INTO samples VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    "INSERT INTO samples VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     batch,
                 )
         finally:
@@ -246,6 +251,61 @@ class DatasetCatalog:
             )
             return [int(row["row_id"]) for row in rows]
 
+    def eligible_row_ids(
+        self, *, split: str | None = None, decision: str | None = None
+    ) -> list[int]:
+        """Return train-eligible rows; legacy catalogs default every row to eligible."""
+        if not self._has_sample_column("train_eligible"):
+            return self.row_ids(split=split, decision=decision)
+        where, parameters = _where_clause(split=split, decision=decision)
+        clause = f"{where} AND train_eligible = 1" if where else " WHERE train_eligible = 1"
+        with self._connect() as connection:
+            rows = connection.execute(
+                f"SELECT row_id FROM samples{clause} ORDER BY row_id", parameters
+            )
+            return [int(row["row_id"]) for row in rows]
+
+    def scenario_eligible_segments(self, scenario_index: int) -> list[list[int]]:
+        """Split one scenario at ineligible rows and missing turn positions."""
+        if not self._has_sample_column("train_eligible"):
+            rows = self.scenario_row_ids(scenario_index)
+            return [rows] if rows else []
+        with self._connect() as connection:
+            rows = list(
+                connection.execute(
+                    "SELECT row_id, global_turn_index, train_eligible FROM samples "
+                    "WHERE scenario_index = ? ORDER BY global_turn_index",
+                    (scenario_index,),
+                )
+            )
+        segments: list[list[int]] = []
+        current: list[int] = []
+        previous_turn: int | None = None
+        for row in rows:
+            turn = int(row["global_turn_index"])
+            eligible = bool(row["train_eligible"])
+            if not eligible or (
+                previous_turn is not None and turn != previous_turn + 1
+            ):
+                if current:
+                    segments.append(current)
+                current = []
+            if eligible:
+                current.append(int(row["row_id"]))
+                previous_turn = turn
+            else:
+                previous_turn = None
+        if current:
+            segments.append(current)
+        return segments
+
+    def _has_sample_column(self, name: str) -> bool:
+        with self._connect() as connection:
+            return any(
+                str(row["name"]) == name
+                for row in connection.execute("PRAGMA table_info(samples)")
+            )
+
     def scenarios(self, *, split: str | None = None) -> list[int]:
         where, parameters = _where_clause(split=split)
         with self._connect() as connection:
@@ -272,6 +332,7 @@ class DatasetCatalog:
         anchor_decision: str = "UPDATE",
         target_decision: str = "NO_OP",
         max_distance: int = 2,
+        eligible_only: bool = False,
     ) -> dict[int, list[int]]:
         """Return target rows grouped by nearest distance from an anchor row."""
         if max_distance < 1:
@@ -283,6 +344,9 @@ class DatasetCatalog:
                 (split,),
             )
             materialized = list(rows)
+        if eligible_only and self._has_sample_column("train_eligible"):
+            eligible = set(self.eligible_row_ids(split=split))
+            materialized = [row for row in materialized if int(row["row_id"]) in eligible]
         anchors = {
             (int(row["scenario_index"]), int(row["global_turn_index"]))
             for row in materialized
@@ -317,6 +381,18 @@ class DatasetCatalog:
         if row is None:
             raise IndexError(row_id)
         return SampleRecord(**dict(row))
+
+    def row_id_for_turn(self, scenario_index: int, global_turn_index: int) -> int:
+        """Resolve one canonical trajectory position to its aligned row id."""
+        with self._connect() as connection:
+            row = connection.execute(
+                "SELECT row_id FROM samples WHERE scenario_index = ? "
+                "AND global_turn_index = ?",
+                (scenario_index, global_turn_index),
+            ).fetchone()
+        if row is None:
+            raise KeyError((scenario_index, global_turn_index))
+        return int(row["row_id"])
 
     def location(self, row_id: int, view: MemoryView) -> tuple[int, int]:
         if view not in MEMORY_VIEWS:

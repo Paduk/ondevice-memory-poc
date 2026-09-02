@@ -9,17 +9,21 @@ import json
 import os
 from collections import defaultdict
 from collections.abc import Iterable, Mapping
-from dataclasses import asdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from .config import DEFAULT_DATA_ROOT, DEFAULT_WORKSPACE_ROOT
 from .dataset import IndexedMemoryDataset, default_catalog_path, ensure_catalog
-from .methods import METHODS, DeltaMethod
+from .methods import METHODS
 from .ollama_client import OllamaAgentModel, OllamaClient
 from .ubuntu_bridge import enable_ubuntu_runtime
-from .validation import memory_scores, row_with_runtime_state, state_from_input
+from .validation import (
+    memory_scores,
+    row_with_runtime_state,
+    state_from_input,
+    state_to_input,
+)
 
 
 def run_test(args: argparse.Namespace) -> dict[str, Any]:
@@ -36,16 +40,27 @@ def run_test(args: argparse.Namespace) -> dict[str, Any]:
     )
     output_dir.mkdir(parents=True, exist_ok=True)
     client = OllamaClient(args.ollama_url, timeout_seconds=args.timeout_seconds)
+    if not args.memory_only and not args.quiz_model:
+        raise ValueError("--quiz-model is required unless --memory-only is used")
     environment = _environment(client, args.memory_model, args.quiz_model)
     catalog = ensure_catalog(args.data_root, default_catalog_path(args.workspace))
+    memory_modes = list(dict.fromkeys(args.memory_modes))
+    train_diagnostic_scenarios = list(
+        dict.fromkeys(args.train_diagnostic_scenarios or [])
+    )
+    all_memory_scenarios = list(
+        dict.fromkeys([*args.scenarios, *train_diagnostic_scenarios])
+    )
     signature = _signature(
         {
-            "schema": "palmclaw-ollama-test-v1",
+            "schema": "palmclaw-ollama-test-v2",
             "dataset": catalog.metadata().get("source_fingerprint"),
             "method": method_name,
             "memory_model": environment["memory_model"],
             "quiz_model": environment["quiz_model"],
             "scenarios": args.scenarios,
+            "train_diagnostic_scenarios": train_diagnostic_scenarios,
+            "memory_modes": memory_modes,
             "seed": args.seed,
             "memory_context_length": args.memory_context_length,
             "quiz_context_length": args.quiz_context_length,
@@ -54,60 +69,106 @@ def run_test(args: argparse.Namespace) -> dict[str, Any]:
         }
     )
     quizzes = load_quizzes(args.data_root, args.scenarios)
-    scenario_summaries = []
+    memory_summaries: dict[str, list[dict[str, Any]]] = {
+        mode: [] for mode in memory_modes
+    }
     if not args.quiz_only:
-        for scenario in args.scenarios:
-            scenario_summaries.append(
-                run_memory_scenario(
-                    client,
-                    method,
-                    catalog,
-                    scenario,
-                    quizzes.get(scenario, []),
-                    output_dir=output_dir,
-                    model=args.memory_model,
-                    signature=signature,
-                    seed=args.seed,
-                    context_length=args.memory_context_length,
-                    max_new_tokens=args.memory_max_tokens,
-                    checkpoint_interval=args.checkpoint_interval,
-                    turn_limit=args.turn_limit,
-                    force=args.force,
+        for mode in memory_modes:
+            for scenario in all_memory_scenarios:
+                memory_summaries[mode].append(
+                    run_memory_scenario(
+                        client,
+                        method,
+                        catalog,
+                        scenario,
+                        quizzes.get(scenario, []),
+                        output_dir=output_dir,
+                        model=args.memory_model,
+                        signature=signature,
+                        seed=args.seed,
+                        context_length=args.memory_context_length,
+                        max_new_tokens=args.memory_max_tokens,
+                        checkpoint_interval=args.checkpoint_interval,
+                        turn_limit=args.turn_limit,
+                        force=args.force,
+                        evaluation_mode=mode,
+                    )
                 )
-            )
     else:
-        scenario_summaries = [
-            _read_json(output_dir / "memory" / f"s{scenario:03d}" / "summary.json")
-            for scenario in args.scenarios
-        ]
-    quiz_summary = None
+        for mode in memory_modes:
+            memory_summaries[mode] = [
+                _read_json(
+                    output_dir
+                    / _memory_directory(mode)
+                    / f"s{scenario:03d}"
+                    / "summary.json"
+                )
+                for scenario in all_memory_scenarios
+            ]
+    quiz_summaries: dict[str, dict[str, Any]] = {}
     if not args.memory_only:
-        quiz_summary = run_quizzes(
-            client,
-            quizzes,
-            output_dir=output_dir,
-            dataset_root=args.dataset_root,
-            model=args.quiz_model,
-            signature=signature,
-            seed=args.seed,
-            context_length=args.quiz_context_length,
-            max_new_tokens=args.quiz_max_tokens,
-            max_tool_rounds=args.max_tool_rounds,
-            quiz_limit=args.quiz_limit,
-            force=args.force,
-        )
+        for mode in memory_modes:
+            quiz_summaries[mode] = run_quizzes(
+                client,
+                quizzes,
+                output_dir=output_dir,
+                dataset_root=args.dataset_root,
+                model=str(args.quiz_model),
+                signature=signature,
+                seed=args.seed,
+                context_length=args.quiz_context_length,
+                max_new_tokens=args.quiz_max_tokens,
+                max_tool_rounds=args.max_tool_rounds,
+                quiz_limit=args.quiz_limit,
+                force=args.force,
+                evaluation_mode=mode,
+            )
+    test_summaries = {
+        mode: _select_scenario_summaries(summaries, args.scenarios)
+        for mode, summaries in memory_summaries.items()
+    }
+    train_summaries = {
+        mode: _select_scenario_summaries(summaries, train_diagnostic_scenarios)
+        for mode, summaries in memory_summaries.items()
+    }
+    test_closed = _aggregate_mode(test_summaries, "closed_loop")
+    test_teacher_forced = _aggregate_mode(test_summaries, "teacher_forced")
+    train_closed = _aggregate_mode(train_summaries, "closed_loop")
+    train_teacher_forced = _aggregate_mode(train_summaries, "teacher_forced")
     report = {
-        "schema_version": "palmclaw-ollama-test-v1",
+        "schema_version": "palmclaw-ollama-test-v2",
         "created_at": datetime.now(timezone.utc).isoformat(),
         "signature": signature,
         "run_id": run_dir.name,
         "method": method_name,
         "environment": environment,
         "scenarios": args.scenarios,
-        "memory": aggregate_memory(scenario_summaries),
-        "quiz": quiz_summary,
+        "train_diagnostic_scenarios": train_diagnostic_scenarios,
+        "memory_modes": memory_modes,
+        "memory": test_closed,
+        "memory_teacher_forced": test_teacher_forced,
+        "train_diagnostic": {
+            "scenarios": train_diagnostic_scenarios,
+            "memory": train_closed,
+            "memory_teacher_forced": train_teacher_forced,
+            "memory_mode_comparison": compare_memory_modes(
+                train_closed, train_teacher_forced
+            ),
+        }
+        if train_diagnostic_scenarios
+        else None,
+        # Keep the original field as the closed-loop Quiz result for backward
+        # compatibility, and expose the gold-previous-memory diagnostic beside it.
+        "quiz": quiz_summaries.get("closed_loop"),
+        "quiz_teacher_forced": quiz_summaries.get("teacher_forced"),
         "output_dir": str(output_dir),
     }
+    report["memory_mode_comparison"] = compare_memory_modes(
+        report["memory"], report["memory_teacher_forced"]
+    )
+    report["quiz_mode_comparison"] = compare_quiz_modes(
+        report["quiz"], report["quiz_teacher_forced"]
+    )
     _write_json(output_dir / "summary.json", report)
     _write_json(run_dir / "ollama-test-summary.json", report)
     client.close()
@@ -130,8 +191,9 @@ def run_memory_scenario(
     checkpoint_interval: int,
     turn_limit: int | None,
     force: bool,
+    evaluation_mode: str = "closed_loop",
 ) -> dict[str, Any]:
-    scenario_dir = output_dir / "memory" / f"s{scenario:03d}"
+    scenario_dir = output_dir / _memory_directory(evaluation_mode) / f"s{scenario:03d}"
     summary_path = scenario_dir / "summary.json"
     if summary_path.is_file() and not force:
         stored = _read_json(summary_path)
@@ -169,6 +231,8 @@ def run_memory_scenario(
     for position in range(start_position, len(source)):
         canonical = _single(source, position)
         gold_row = _single(gold, position)
+        if evaluation_mode == "teacher_forced":
+            state = state_from_input(method, canonical["input"])
         runtime_row = row_with_runtime_state(canonical, method, state)
         result = client.chat(
             model=model,
@@ -190,13 +254,16 @@ def run_memory_scenario(
             parsed = method.parse_output(result.content)
             parse_ok = True
             predicted_decision = parsed.decision
-            state = method.apply_output(
+            next_state = method.apply_output(
                 state, parsed, turn_id=str(canonical.get("turn_id", ""))
             )
             apply_ok = True
+            if evaluation_mode == "closed_loop":
+                state = next_state
+            predicted_memory = method.materialize_memory(next_state)
         except Exception as exc:  # noqa: BLE001 - invalid model output is a metric.
             error = f"{type(exc).__name__}: {exc}"
-        predicted_memory = method.materialize_memory(state)
+            predicted_memory = method.materialize_memory(state)
         gold_memory = str(gold_row["target"].get("next_memory", ""))
         score = memory_scores(predicted_memory, gold_memory)
         global_turn = int(canonical["global_turn_index"])
@@ -204,6 +271,7 @@ def run_memory_scenario(
             snapshots[sample_id] = predicted_memory
         record = {
             "position": position,
+            "evaluation_mode": evaluation_mode,
             "global_turn_index": global_turn,
             "turn_id": canonical.get("turn_id"),
             "gold_decision": canonical["target"]["decision"],
@@ -237,6 +305,7 @@ def run_memory_scenario(
     summary = {
         "signature": signature,
         "scenario_index": scenario,
+        "evaluation_mode": evaluation_mode,
         "status": "COMPLETED",
         "turns": len(records),
         "metrics": _memory_metrics(records),
@@ -262,6 +331,7 @@ def run_quizzes(
     max_tool_rounds: int,
     quiz_limit: int | None,
     force: bool,
+    evaluation_mode: str = "closed_loop",
 ) -> dict[str, Any]:
     enable_ubuntu_runtime()
     from palmclaw_ubuntu.vehicle_bench.dataset import (
@@ -294,22 +364,28 @@ def run_quizzes(
     for quiz in selected:
         scenario = int(quiz["scenario_index"])
         memory_summary = _read_json(
-            output_dir / "memory" / f"s{scenario:03d}" / "summary.json"
+            output_dir
+            / _memory_directory(evaluation_mode)
+            / f"s{scenario:03d}"
+            / "summary.json"
         )
-        if memory_summary.get("signature") != signature:
-            raise ValueError(f"Stale memory snapshot for S{scenario}")
+        memory_signature = memory_summary.get("signature")
+        if not memory_signature:
+            raise ValueError(f"Unsigned memory snapshot for S{scenario}")
         memory = memory_summary["quiz_snapshots"].get(quiz["sample_id"])
         if memory is None:
             raise ValueError(f"Missing predicted memory: {quiz['sample_id']}")
         checkpoint = (
             output_dir
-            / "quiz"
+            / _quiz_directory(evaluation_mode)
             / f"s{scenario:03d}"
             / (_safe_name(quiz["sample_id"]) + ".json")
         )
         task_signature = _signature(
             {
                 "run": signature,
+                "memory_run": memory_signature,
+                "memory_evaluation_mode": evaluation_mode,
                 "quiz": quiz["sample_id"],
                 "memory": _text_sha256(memory),
             }
@@ -379,6 +455,7 @@ def run_quizzes(
                 "quiz_id": quiz["quiz_id"],
                 "memory_ref": quiz["memory_ref"],
                 "agent_model": model,
+                "memory_evaluation_mode": evaluation_mode,
             }
         )
         _write_json(checkpoint, record)
@@ -404,6 +481,13 @@ def load_quizzes(
 def aggregate_memory(summaries: list[dict[str, Any]]) -> dict[str, Any]:
     metrics = [summary["metrics"] for summary in summaries]
     total_turns = sum(int(summary["turns"]) for summary in summaries)
+    update_precision = _ratio_sum(metrics, "update_tp", ("update_tp", "false_update"))
+    update_recall = _ratio_sum(metrics, "update_tp", ("update_tp", "missed_update"))
+    update_f1 = (
+        2 * update_precision * update_recall / (update_precision + update_recall)
+        if update_precision + update_recall
+        else 0.0
+    )
     return {
         "scenarios": len(summaries),
         "turns": total_turns,
@@ -413,12 +497,9 @@ def aggregate_memory(summaries: list[dict[str, Any]]) -> dict[str, Any]:
             summary["final_state"]["exact"] for summary in summaries
         ),
         "final_state_f1": _mean(summary["final_state"]["f1"] for summary in summaries),
-        "update_precision": _ratio_sum(
-            metrics, "update_tp", ("update_tp", "false_update")
-        ),
-        "update_recall": _ratio_sum(
-            metrics, "update_tp", ("update_tp", "missed_update")
-        ),
+        "update_precision": update_precision,
+        "update_recall": update_recall,
+        "update_f1": update_f1,
         "noop_specificity": _ratio_sum(
             metrics, "noop_correct", ("noop_correct", "false_update", "invalid_noop")
         ),
@@ -431,6 +512,67 @@ def aggregate_memory(summaries: list[dict[str, Any]]) -> dict[str, Any]:
         "decode_seconds": sum(metric["decode_seconds"] for metric in metrics),
         "latency_seconds": sum(metric["latency_seconds"] for metric in metrics),
         "scenario_summaries": summaries,
+    }
+
+
+def _select_scenario_summaries(
+    summaries: list[dict[str, Any]], scenarios: list[int]
+) -> list[dict[str, Any]]:
+    selected = set(scenarios)
+    return [
+        summary for summary in summaries if int(summary["scenario_index"]) in selected
+    ]
+
+
+def _aggregate_mode(
+    summaries: dict[str, list[dict[str, Any]]], mode: str
+) -> dict[str, Any] | None:
+    selected = summaries.get(mode) or []
+    return aggregate_memory(selected) if selected else None
+
+
+def compare_memory_modes(
+    closed_loop: dict[str, Any] | None,
+    teacher_forced: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    """Report the degradation caused by feeding predictions back across turns."""
+    if closed_loop is None or teacher_forced is None:
+        return None
+    return {
+        "teacher_forced_minus_closed_loop": {
+            key: float(teacher_forced[key]) - float(closed_loop[key])
+            for key in ("state_f1", "final_state_f1", "update_f1")
+        },
+        "closed_loop_over_teacher_forced_latency": (
+            float(closed_loop["latency_seconds"])
+            / float(teacher_forced["latency_seconds"])
+            if teacher_forced["latency_seconds"]
+            else None
+        ),
+    }
+
+
+def compare_quiz_modes(
+    closed_loop: dict[str, Any] | None,
+    teacher_forced: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    """Compare downstream Quiz scores from predicted versus gold previous memory."""
+    if closed_loop is None or teacher_forced is None:
+        return None
+    score_keys = (
+        "exact_state_match",
+        "state_f1",
+        "tool_f1",
+        "argument_exact_match",
+    )
+    return {
+        group: {
+            "teacher_forced_minus_closed_loop": {
+                key: float(teacher_forced[group][key]) - float(closed_loop[group][key])
+                for key in score_keys
+            }
+        }
+        for group in sorted(set(closed_loop) & set(teacher_forced))
     }
 
 
@@ -533,9 +675,7 @@ def _memory_metrics(records: list[dict[str, Any]]) -> dict[str, Any]:
         "prefill_seconds": sum(
             record["usage"]["prefill_seconds"] for record in records
         ),
-        "decode_seconds": sum(
-            record["usage"]["decode_seconds"] for record in records
-        ),
+        "decode_seconds": sum(record["usage"]["decode_seconds"] for record in records),
         "latency_seconds": sum(
             record["usage"]["latency_seconds"] for record in records
         ),
@@ -543,16 +683,17 @@ def _memory_metrics(records: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 def _environment(
-    client: OllamaClient, memory_model: str, quiz_model: str
+    client: OllamaClient, memory_model: str, quiz_model: str | None
 ) -> dict[str, Any]:
     tags = {str(item.get("name") or item.get("model")): item for item in client.tags()}
-    missing = [model for model in (memory_model, quiz_model) if model not in tags]
+    requested = [model for model in (memory_model, quiz_model) if model]
+    missing = [model for model in requested if model not in tags]
     if missing:
         raise ValueError(f"Ollama model tag is not installed: {missing}")
     return {
         "ollama_version": client.version(),
         "memory_model": {"tag": memory_model, **tags[memory_model]},
-        "quiz_model": {"tag": quiz_model, **tags[quiz_model]},
+        "quiz_model": ({"tag": quiz_model, **tags[quiz_model]} if quiz_model else None),
     }
 
 
@@ -568,13 +709,23 @@ def _usage(result: Any) -> dict[str, Any]:
 
 
 def _serialize_state(method: Any, state: Any) -> dict[str, Any]:
-    if isinstance(method, DeltaMethod):
-        return {
-            "base_summary": state.base_summary,
-            "pending_deltas": [asdict(batch) for batch in state.pending_deltas],
-            "updates_since_compaction": state.updates_since_compaction,
-        }
-    return {"previous_memory": method.materialize_memory(state)}
+    return state_to_input(method, state)
+
+
+def _memory_directory(evaluation_mode: str) -> str:
+    if evaluation_mode == "closed_loop":
+        return "memory"
+    if evaluation_mode == "teacher_forced":
+        return "memory_teacher_forced"
+    raise ValueError(f"Unknown memory evaluation mode: {evaluation_mode}")
+
+
+def _quiz_directory(evaluation_mode: str) -> str:
+    if evaluation_mode == "closed_loop":
+        return "quiz"
+    if evaluation_mode != "teacher_forced":
+        raise ValueError(f"Unknown evaluation mode: {evaluation_mode}")
+    return "quiz_teacher_forced"
 
 
 def _deserialize_state(method: Any, value: Mapping[str, Any]) -> Any:
@@ -692,7 +843,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-dir", type=Path, required=True)
     parser.add_argument("--memory-model", required=True)
-    parser.add_argument("--quiz-model", required=True)
+    parser.add_argument("--quiz-model")
     parser.add_argument("--method", choices=sorted(METHODS))
     parser.add_argument("--workspace", type=Path, default=DEFAULT_WORKSPACE_ROOT)
     parser.add_argument("--data-root", type=Path, default=DEFAULT_DATA_ROOT)
@@ -703,6 +854,19 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--ollama-url", default="http://127.0.0.1:11434")
     parser.add_argument(
         "--scenarios", nargs="+", type=int, default=list(range(91, 101))
+    )
+    parser.add_argument(
+        "--train-diagnostic-scenarios",
+        nargs="+",
+        type=int,
+        help="Optional S1-S80 retention diagnostics, reported separately from Test.",
+    )
+    parser.add_argument(
+        "--memory-modes",
+        nargs="+",
+        choices=("closed_loop", "teacher_forced"),
+        default=["closed_loop"],
+        help="Memory evaluation axes; use both for error-accumulation diagnosis.",
     )
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--memory-context-length", type=int, default=8192)
@@ -726,6 +890,9 @@ def main() -> None:
         raise ValueError("--memory-only and --quiz-only are mutually exclusive")
     if any(scenario < 91 or scenario > 100 for scenario in args.scenarios):
         raise ValueError("Test scenarios must be S91-S100")
+    train_diagnostics = args.train_diagnostic_scenarios or []
+    if any(scenario < 1 or scenario > 80 for scenario in train_diagnostics):
+        raise ValueError("Train diagnostic scenarios must be S1-S80")
     result = run_test(args)
     print(json.dumps(result, indent=2))
 

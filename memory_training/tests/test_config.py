@@ -4,7 +4,7 @@ from pathlib import Path
 
 from pytest import MonkeyPatch
 
-from memory_training.config import split_for_scenario
+from memory_training.config import MODEL_BY_KEY, split_for_scenario
 from memory_training.train import _configure_runtime_paths, _loader_worker_kwargs
 
 
@@ -15,6 +15,33 @@ def test_scenario_split_boundaries() -> None:
     assert split_for_scenario(90) == "validation"
     assert split_for_scenario(91) == "test"
     assert split_for_scenario(100) == "test"
+    assert split_for_scenario(101) == "train"
+    assert split_for_scenario(110) == "train"
+    assert split_for_scenario(111) == "validation"
+    assert split_for_scenario(112) == "test"
+    assert split_for_scenario(120) == "test"
+    assert split_for_scenario(201) == "train"
+    assert split_for_scenario(250) == "train"
+    assert split_for_scenario(301) == "train"
+    assert split_for_scenario(320) == "train"
+
+
+def test_qwen35_2b_target_is_registered() -> None:
+    target = MODEL_BY_KEY["qwen3.5-2b"]
+    assert target.parameters_b == 2
+    assert target.hf_id == "Qwen/Qwen3.5-2B"
+
+
+def test_granite4_350m_target_is_registered() -> None:
+    target = MODEL_BY_KEY["granite4-350m"]
+    assert target.parameters_b == 0.35
+    assert target.hf_id == "ibm-granite/granite-4.0-350m"
+
+
+def test_granite4_1b_target_is_registered() -> None:
+    target = MODEL_BY_KEY["granite4-1b"]
+    assert target.parameters_b == 1
+    assert target.hf_id == "ibm-granite/granite-4.0-1b"
 
 
 def test_training_runtime_paths_override_xdg_cache(

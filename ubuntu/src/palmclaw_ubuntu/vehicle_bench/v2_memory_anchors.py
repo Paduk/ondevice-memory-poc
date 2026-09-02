@@ -141,6 +141,7 @@ class OpenAIV2MemoryAnchorModel:
         payload = V2MemoryAnchorPayload.model_validate(
             getattr(response, "output_parsed", None)
         )
+        payload = normalize_memory_anchor_evidence(stage2, payload)
         validate_memory_anchors(stage2, payload)
         return V2GeneratedMemoryAnchors(
             source_stage2_sha256=stage2.artifact_sha256,
@@ -151,6 +152,28 @@ class OpenAIV2MemoryAnchorModel:
             response_id=getattr(response, "id", None),
             usage={**_response_usage(response), "latency_ms": latency_ms},
         )
+
+
+def normalize_memory_anchor_evidence(
+    stage2: V1Stage2Artifact,
+    payload: V2MemoryAnchorPayload,
+) -> V2MemoryAnchorPayload:
+    """Replace paraphrased evidence with the exact selected event description."""
+
+    events = {
+        (chain.chain_id, event.event_id): event
+        for chain in stage2.event_chains.payload.vehicle_chains
+        for event in chain.events
+    }
+    anchors = []
+    for anchor in payload.anchors:
+        target = events.get((anchor.chain_id, anchor.anchor_event_id))
+        if target is not None and anchor.evidence_excerpt not in target.description:
+            anchor = anchor.model_copy(
+                update={"evidence_excerpt": target.description}
+            )
+        anchors.append(anchor)
+    return payload.model_copy(update={"anchors": tuple(anchors)})
 
 
 def render_memory_anchor_input(stage2: V1Stage2Artifact) -> str:

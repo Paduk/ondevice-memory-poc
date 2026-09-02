@@ -6,6 +6,7 @@ import json
 import re
 import time
 from collections.abc import Mapping, Sequence
+from itertools import combinations
 from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
@@ -278,6 +279,133 @@ def validate_composite_quiz_plan(
         raise ValueError("Composite Quiz plan contains a duplicate fact pair")
 
 
+def repair_composite_quiz_plan_for_checkpoints(
+    facts: Sequence[V2TurnQuizFact],
+    generated_plan: V2GeneratedCompositeQuizPlan,
+    immediate_contexts: Sequence[V2TurnQuizGenerationContext],
+    checkpoints: Sequence[V2TurnQuizEventCheckpoint],
+) -> V2GeneratedCompositeQuizPlan:
+    """Deterministically replace pairs that never coexist in causal memory."""
+
+    fact_by_id = {fact.fact_id: fact for fact in facts}
+    context_by_index = {
+        index: context for index, context in enumerate(immediate_contexts)
+    }
+    timeline_index = {item.event_id: index for index, item in enumerate(checkpoints)}
+    checkpoint_index_by_sha = {
+        item.checkpoint_sha256: timeline_index[item.event_id] for item in checkpoints
+    }
+
+    def pair_is_supported(pair: Sequence[V2TurnQuizFact]) -> bool:
+        earliest_index = max(
+            checkpoint_index_by_sha[
+                context_by_index[fact.source_context_index].source_checkpoint_sha256
+            ]
+            for fact in pair
+        )
+        return any(
+            index >= earliest_index
+            and all(
+                _supporting_memory_lines(checkpoint.after_memory, fact.gold_call)
+                for fact in pair
+            )
+            for index, checkpoint in enumerate(checkpoints)
+        )
+
+    groups = list(generated_plan.payload.groups)
+    reserved_ids = {
+        fact_id for group in groups for fact_id in group.fact_ids
+    }
+    repaired_groups = []
+    used_pairs: set[tuple[str, str]] = set()
+    for group in groups:
+        selected = tuple(fact_by_id[fact_id] for fact_id in group.fact_ids)
+        pair_key = tuple(sorted(group.fact_ids))
+        if pair_is_supported(selected) and pair_key not in used_pairs:
+            repaired_groups.append(group)
+            used_pairs.add(pair_key)
+            continue
+
+        candidates = []
+        original_ids = set(group.fact_ids)
+        for pair in combinations(facts, 2):
+            candidate_ids = tuple(sorted(fact.fact_id for fact in pair))
+            if candidate_ids in used_pairs:
+                continue
+            signatures = {
+                canonical_json_sha256(fact.gold_call.model_dump(mode="json"))
+                for fact in pair
+            }
+            if len(signatures) != 2 or not pair_is_supported(pair):
+                continue
+            retains_reasoning = group.assigned_reasoning_type in {
+                fact.reasoning_type for fact in pair
+            }
+            overlap = len(original_ids.intersection(candidate_ids))
+            reserved_collision = len(
+                (set(candidate_ids) - original_ids).intersection(reserved_ids)
+            )
+            candidates.append(
+                (
+                    -overlap,
+                    0 if retains_reasoning else 1,
+                    reserved_collision,
+                    candidate_ids,
+                    pair,
+                )
+            )
+        if not candidates:
+            raise ValueError("Composite Quiz plan has no causally supported repair")
+        *_, replacement = min(candidates, key=lambda item: item[:-1])
+        reasoning_type = (
+            group.assigned_reasoning_type
+            if group.assigned_reasoning_type
+            in {fact.reasoning_type for fact in replacement}
+            else replacement[0].reasoning_type
+        )
+        repaired = V2CompositeQuizPlanItem(
+            fact_ids=tuple(fact.fact_id for fact in replacement),
+            assigned_reasoning_type=reasoning_type,
+            reason=(
+                "Deterministic causal repair: both facts coexist in the selected "
+                "memory checkpoint."
+            ),
+        )
+        repaired_groups.append(repaired)
+        used_pairs.add(tuple(sorted(repaired.fact_ids)))
+
+    repaired_payload = V2CompositeQuizPlanPayload(groups=tuple(repaired_groups))
+    validate_composite_quiz_plan(
+        facts,
+        repaired_payload,
+        group_count=len(groups),
+    )
+    if repaired_payload == generated_plan.payload:
+        return generated_plan
+    return generated_plan.model_copy(update={"payload": repaired_payload})
+
+
+def select_delayed_context_indexes(
+    context_count: int,
+    selected_count: int,
+) -> tuple[int, ...]:
+    """Select a deterministic, timeline-spread subset for delayed quizzes."""
+
+    if context_count < 1 or not 1 <= selected_count <= context_count:
+        raise ValueError("Delayed Quiz selection counts are invalid")
+    if selected_count == context_count:
+        return tuple(range(context_count))
+    if selected_count == 1:
+        return (context_count - 1,)
+    indexes = tuple(
+        round(index * (context_count - 1) / (selected_count - 1))
+        for index in range(selected_count)
+    )
+    if len(set(indexes)) != selected_count:
+        raise ValueError("Delayed Quiz selection produced duplicate indexes")
+    return indexes
+
+
 def build_supplemental_turn_quiz_contexts(
     stage2: V1Stage2Artifact,
     checkpoints: Sequence[V2TurnQuizEventCheckpoint],
@@ -286,6 +414,7 @@ def build_supplemental_turn_quiz_contexts(
     generated_plan: V2GeneratedCompositeQuizPlan,
     *,
     facts: Sequence[V2TurnQuizFact] | None = None,
+    delayed_context_indexes: Sequence[int] | None = None,
 ) -> tuple[
     tuple[V2TurnQuizGenerationContext, ...],
     tuple[V2SupplementalQuizSpec, ...],
@@ -317,10 +446,46 @@ def build_supplemental_turn_quiz_contexts(
     contexts = []
     specs = []
 
-    for index, source in enumerate(immediate_contexts, start=1):
+    selected_delayed_indexes = (
+        set(range(len(immediate_contexts)))
+        if delayed_context_indexes is None
+        else set(delayed_context_indexes)
+    )
+    if any(
+        index < 0 or index >= len(immediate_contexts)
+        for index in selected_delayed_indexes
+    ):
+        raise ValueError("Delayed Quiz context index is outside the source set")
+
+    for source_index, source in enumerate(immediate_contexts):
+        if source_index not in selected_delayed_indexes:
+            continue
+        index = source_index + 1
         chain = chain_by_event[source.source_event_id]
-        cutoff_event_id = chain.events[-1].event_id
-        cutoff = checkpoint_by_event[cutoff_event_id]
+        source_cutoff = checkpoint_by_sha(
+            checkpoints,
+            source.source_checkpoint_sha256,
+        )
+        intended_cutoff = checkpoint_by_event[chain.events[-1].event_id]
+        source_timeline_index = timeline_index[source_cutoff.event_id]
+        intended_timeline_index = timeline_index[intended_cutoff.event_id]
+        supported_cutoffs = [
+            item
+            for item in checkpoints
+            if source_timeline_index <= timeline_index[item.event_id]
+            <= intended_timeline_index
+            and all(
+                _supporting_memory_lines(item.after_memory, call)
+                for call in source.gold_calls
+            )
+        ]
+        if not supported_cutoffs:
+            raise ValueError("Delayed Quiz has no supported causal cutoff")
+        cutoff = max(
+            supported_cutoffs,
+            key=lambda item: timeline_index[item.event_id],
+        )
+        cutoff_event_id = cutoff.event_id
         cutoff_turns = event_dialogue_turns(
             stage2, dialogue_by_event[cutoff_event_id]
         )
@@ -362,14 +527,26 @@ def build_supplemental_turn_quiz_contexts(
         selected_contexts = tuple(
             context_by_index[fact.source_context_index] for fact in selected_facts
         )
-        cutoff_source = max(
-            selected_contexts,
-            key=lambda item: timeline_index[
+        earliest_timeline_index = max(
+            timeline_index[
                 checkpoint_by_sha(checkpoints, item.source_checkpoint_sha256).event_id
-            ],
+            ]
+            for item in selected_contexts
         )
-        cutoff = checkpoint_by_sha(
-            checkpoints, cutoff_source.source_checkpoint_sha256
+        supported_cutoffs = tuple(
+            item
+            for item in checkpoints
+            if timeline_index[item.event_id] >= earliest_timeline_index
+            and all(
+                _supporting_memory_lines(item.after_memory, fact.gold_call)
+                for fact in selected_facts
+            )
+        )
+        if not supported_cutoffs:
+            raise ValueError("Composite Quiz facts have no shared causal cutoff")
+        cutoff = min(
+            supported_cutoffs,
+            key=lambda item: timeline_index[item.event_id],
         )
         cutoff_event_id = cutoff.event_id
         cutoff_turns = event_dialogue_turns(
@@ -527,13 +704,65 @@ def _supporting_memory_lines(
 
 
 def _memory_line_supports_call(line: str, call: V1GoldToolCallRecord) -> bool:
-    normalized_line = _normalized_words(line)
-    if _normalized_words(call.name) not in normalized_line:
+    parsed = _parse_memory_line_call_fields(line)
+    if parsed is None:
+        return False
+    tool_name, value_argument, value, context_arguments = parsed
+    if tool_name != call.name:
+        return False
+    expected = dict(call.arguments)
+    if expected.get(value_argument) != value:
         return False
     return all(
-        not (candidate := _normalized_words(str(value)))
-        or candidate in normalized_line
-        for value in call.arguments.values()
+        name == value_argument or context_arguments.get(name) == argument_value
+        for name, argument_value in expected.items()
+    )
+
+
+def _parse_memory_line_call_fields(
+    line: str,
+) -> tuple[str, str, Any, dict[str, Any]] | None:
+    path_match = re.search(
+        r": (?P<tool>carcontrol_[A-Za-z0-9_]+)\."
+        r"(?P<argument>[A-Za-z0-9_]+); value=",
+        line,
+    )
+    if path_match is None:
+        return None
+    decoder = json.JSONDecoder()
+    try:
+        value, value_end = decoder.raw_decode(line, path_match.end())
+    except json.JSONDecodeError:
+        return None
+
+    context_arguments: dict[str, Any] = {}
+    context_marker = "; context=("
+    context_start = line.find(context_marker, value_end)
+    if context_start >= 0:
+        position = context_start + len(context_marker)
+        while position < len(line):
+            if line[position] == ")":
+                break
+            name_match = re.match(r"\s*([A-Za-z0-9_]+)=", line[position:])
+            if name_match is None:
+                return None
+            name = name_match.group(1)
+            position += name_match.end()
+            try:
+                argument_value, position = decoder.raw_decode(line, position)
+            except json.JSONDecodeError:
+                return None
+            context_arguments[name] = argument_value
+            if line[position : position + 2] == ", ":
+                position += 2
+            elif position < len(line) and line[position] != ")":
+                return None
+
+    return (
+        path_match.group("tool"),
+        path_match.group("argument"),
+        value,
+        context_arguments,
     )
 
 

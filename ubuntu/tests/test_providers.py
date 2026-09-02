@@ -430,6 +430,15 @@ def test_recursive_summary_patch_rejects_missing_or_ambiguous_target():
         )
 
 
+def test_recursive_summary_patch_delete_preserves_paragraph_separator():
+    content, _ = apply_recursive_summary_patch(
+        "- first\n\n- obsolete\n\n- third",
+        [{"op": "delete", "target": "- obsolete", "content": ""}],
+    )
+
+    assert content == "- first\n\n- third"
+
+
 def test_recursive_summary_patch_preserves_indented_fragments():
     content, stats = apply_recursive_summary_patch(
         "- Patricia Garcia:\n  - Prefers detailed navigation.",
@@ -513,6 +522,31 @@ def test_temporal_patch_preserves_baseline_during_temporary_override_cycle():
     assert restored == baseline
     assert metadata["temporal_temporary_override_count"] == 1
     assert end_metadata["temporal_end_temporary_count"] == 1
+
+
+def test_temporal_patch_can_end_override_inside_combined_block():
+    combined = (
+        "- Passenger 22 is the durable setting. Temporary override: 21 today."
+    )
+    baseline = "- Passenger 22 is the durable setting."
+    prepared, metadata = prepare_temporal_summary_patch_operations(
+        [
+            {
+                "op": "replace",
+                "target": combined,
+                "content": baseline,
+                "identity_key": "priya.front_passenger_temperature",
+                "temporal_action": "end_temporary",
+                "temporal_cue": "will not carry it forward",
+            }
+        ],
+        source_history="We will not carry it forward.",
+    )
+
+    restored, _ = apply_recursive_summary_patch(combined, prepared)
+
+    assert restored == baseline
+    assert metadata["temporal_end_temporary_count"] == 1
 
 
 def test_temporal_patch_rejects_override_that_replaces_durable_baseline():
@@ -692,6 +726,58 @@ def test_openai_recursive_summary_patch_repairs_rejected_target():
     assert "exact Markdown prefix and indentation" in responses.requests[1]["input"]
 
 
+def test_openai_recursive_summary_patch_repair_can_recover_to_noop():
+    invalid = SimpleNamespace(
+        id="invalid",
+        status="completed",
+        output_text="",
+        usage=_usage(),
+        output=[
+            SimpleNamespace(
+                type="function_call",
+                name="memory_patch",
+                arguments=json.dumps(
+                    {
+                        "operations": [
+                            {
+                                "op": "replace",
+                                "target": "missing target",
+                                "content": "replacement",
+                            }
+                        ]
+                    }
+                ),
+            )
+        ],
+    )
+    noop = SimpleNamespace(
+        id="noop",
+        status="completed",
+        output_text="",
+        usage=_usage(),
+        output=[],
+    )
+    responses = FakeSequenceResponses([invalid, noop])
+    model = OpenAIRecursiveSummaryPatchMemoryModel(
+        "memory-model",
+        timeout_seconds=1,
+        instructions="Vehicle summary patch instructions",
+        client=SimpleNamespace(responses=responses),
+    )
+
+    result = model.update(
+        previous_memory="**Gary**\n- map_orientation: heading_up",
+        date="2025-01-02",
+        daily_history="That looks proportionate to the current conditions.",
+    )
+
+    assert result.content == ""
+    assert result.metadata["update_status"] == "noop"
+    assert result.metadata["patch_generation_attempts"] == 2
+    assert result.metadata["patch_rejection_count"] == 1
+    assert "Patch Repair Required" in responses.requests[1]["input"]
+
+
 def test_openai_recursive_summary_patch_defaults_to_patch_cache_versions():
     response = SimpleNamespace(
         id="recursive-patch-defaults",
@@ -846,6 +932,146 @@ def test_compacting_recursive_summary_patch_skips_compaction_below_thresholds():
     assert result.metadata["compaction_reason"] == []
     assert result.metadata["patch_add_count_since_compaction"] == 1
     assert result.metadata["truncated"] is False
+
+
+def test_compacting_recursive_summary_patch_uses_lossless_format_fallback():
+    patch_response = SimpleNamespace(
+        id="patch-response",
+        status="completed",
+        output_text="",
+        usage=_usage(),
+        output=[
+            SimpleNamespace(
+                type="function_call",
+                name="memory_patch",
+                arguments=json.dumps(
+                    {
+                        "operations": [
+                            {
+                                "op": "add",
+                                "target": "**Gary**",
+                                "content": "- Audio preference is exactly 4",
+                            }
+                        ]
+                    }
+                ),
+            )
+        ],
+    )
+    compaction_response = SimpleNamespace(
+        id="compaction-response",
+        status="completed",
+        output_text="",
+        usage=_usage(),
+        output=[
+            SimpleNamespace(
+                type="function_call",
+                name="memory_update",
+                arguments=json.dumps(
+                    {
+                        "new_memory": (
+                            "### Gary\n\n- **HUD brightness**: 8\n- **Audio**: 4"
+                        )
+                    }
+                ),
+            )
+        ],
+    )
+    model = OpenAICompactingRecursiveSummaryPatchMemoryModel(
+        "memory-model",
+        timeout_seconds=1,
+        instructions="Vehicle summary patch instructions",
+        compaction_instructions="Canonical recursive summary instructions",
+        compaction_add_threshold=1,
+        max_memory_chars=40,
+        client=SimpleNamespace(
+            responses=FakeSequenceResponses([patch_response, compaction_response])
+        ),
+    )
+
+    result = model.update(
+        previous_memory="**Gary**\n- HUD brightness: 8",
+        date="2025-01-02",
+        daily_history="Gary prefers audio volume 4.",
+    )
+
+    assert result.content == "Gary:\n- HUD brightness: 8\n- Audio: 4"
+    assert len(result.content) <= 40
+    assert result.metadata["compaction_format_normalized"] is True
+
+
+def test_compacting_recursive_summary_patch_retries_near_limit_candidate():
+    patch_response = SimpleNamespace(
+        id="patch-response",
+        status="completed",
+        output_text="",
+        usage=_usage(),
+        output=[
+            SimpleNamespace(
+                type="function_call",
+                name="memory_patch",
+                arguments=json.dumps(
+                    {
+                        "operations": [
+                            {
+                                "op": "add",
+                                "target": "**Gary**",
+                                "content": "- Audio preference is exactly 4",
+                            }
+                        ]
+                    }
+                ),
+            )
+        ],
+    )
+
+    def compaction_response(response_id, memory):
+        return SimpleNamespace(
+            id=response_id,
+            status="completed",
+            output_text="",
+            usage=_usage(),
+            output=[
+                SimpleNamespace(
+                    type="function_call",
+                    name="memory_update",
+                    arguments=json.dumps({"new_memory": memory}),
+                )
+            ],
+        )
+
+    responses = FakeSequenceResponses(
+        [
+            patch_response,
+            compaction_response(
+                "over-limit",
+                "Gary: HUD brightness is exactly 8 and audio is exactly 4.",
+            ),
+            compaction_response("within-limit", "Gary:\n- HUD: 8\n- Audio: 4"),
+        ]
+    )
+    model = OpenAICompactingRecursiveSummaryPatchMemoryModel(
+        "memory-model",
+        timeout_seconds=1,
+        instructions="Vehicle summary patch instructions",
+        compaction_instructions="Canonical recursive summary instructions",
+        compaction_add_threshold=1,
+        max_compaction_attempts=2,
+        max_memory_chars=40,
+        client=SimpleNamespace(responses=responses),
+    )
+
+    result = model.update(
+        previous_memory="**Gary**\n- HUD brightness: 8",
+        date="2025-01-02",
+        daily_history="Gary prefers audio volume 4.",
+    )
+
+    assert result.content == "Gary:\n- HUD: 8\n- Audio: 4"
+    assert result.metadata["compaction_attempts"] == 2
+    assert "Previous Near-limit Compaction Candidate" in responses.requests[2][
+        "input"
+    ]
 
 
 def test_compacting_temporal_patch_preserves_schema_and_compacts():

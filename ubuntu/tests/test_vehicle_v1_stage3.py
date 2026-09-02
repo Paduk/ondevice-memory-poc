@@ -42,12 +42,32 @@ from palmclaw_ubuntu.vehicle_bench.v1_stage3 import (
     build_stage3_artifact,
     dialogue_turn_target,
     finalize_generated_quiz,
+    normalize_dialogue_speaker_ids,
     serialize_v1_history,
     serialize_v1_qa,
     validate_dialogue_payload,
     validate_public_v1_payload,
     write_stage3_artifact,
 )
+
+
+def test_dialogue_speaker_names_are_normalized_to_allowed_ids() -> None:
+    stage2 = _stage2()
+    context = build_dialogue_generation_contexts(stage2)[0]
+    payload = V1DialogueEventPayload(
+        turns=(
+            V1DialogueLine(speaker_id="Person 0", text="First turn."),
+            V1DialogueLine(speaker_id="Person 1", text="Second turn."),
+        )
+    )
+
+    normalized = normalize_dialogue_speaker_ids(
+        stage2.persona_group.payload.personas,
+        context,
+        payload,
+    )
+
+    assert tuple(turn.speaker_id for turn in normalized.turns) == ("p0", "p1")
 
 
 def _personas() -> tuple[V1PersonaRecord, ...]:

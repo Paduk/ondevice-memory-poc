@@ -213,6 +213,7 @@ class V1DialogueGenerationModel(Protocol):
         context: V1DialogueGenerationContext,
         *,
         requested_turn_count: int,
+        frozen_anchors: Sequence[Mapping[str, Any]] = (),
     ) -> V1GeneratedEventDialogue: ...
 
 
@@ -236,13 +237,19 @@ class OpenAIV1DialogueGenerationModel:
         timeout_seconds: float,
         reasoning_effort: str | None = "medium",
         max_output_tokens: int = 8_192,
+        additional_instructions: str | None = None,
+        prompt_version: str = V1_DIALOGUE_PROMPT_VERSION,
         client: Any | None = None,
     ) -> None:
         if not model_id.strip():
             raise ValueError("dialogue generation model ID is required")
+        if not prompt_version.strip():
+            raise ValueError("dialogue prompt version is required")
         self.model_id = model_id
         self.reasoning_effort = reasoning_effort
         self.max_output_tokens = max_output_tokens
+        self.additional_instructions = (additional_instructions or "").strip()
+        self.prompt_version = prompt_version
         if client is None:
             from openai import OpenAI
 
@@ -255,15 +262,31 @@ class OpenAIV1DialogueGenerationModel:
         context: V1DialogueGenerationContext,
         *,
         requested_turn_count: int,
+        frozen_anchors: Sequence[Mapping[str, Any]] = (),
     ) -> V1GeneratedEventDialogue:
-        provider_input = render_dialogue_generation_input(
-            personas,
-            context,
-            requested_turn_count=requested_turn_count,
+        provider_payload = json.loads(
+            render_dialogue_generation_input(
+                personas,
+                context,
+                requested_turn_count=requested_turn_count,
+            )
         )
+        if frozen_anchors:
+            provider_payload["required_exact_anchor_turns"] = [
+                dict(item) for item in frozen_anchors
+            ]
+        provider_input = _canonical_json(provider_payload)
+        instructions = V1_DIALOGUE_INSTRUCTIONS
+        if self.additional_instructions:
+            instructions += "\n\n" + self.additional_instructions
         request: dict[str, Any] = {
             "model": self.model_id,
-            "instructions": V1_DIALOGUE_INSTRUCTIONS,
+            "instructions": (
+                instructions
+                + "\n\nFor this event, speaker_id must be copied exactly from "
+                "this allowlist and no other value is valid: "
+                + json.dumps(list(context.event.participant_ids))
+            ),
             "input": provider_input,
             "text_format": V1DialogueEventPayload,
             "max_output_tokens": self.max_output_tokens,
@@ -276,6 +299,7 @@ class OpenAIV1DialogueGenerationModel:
         latency_ms = int((time.monotonic() - started_at) * 1_000)
         _raise_for_bad_response(response, stage="dialogue generation")
         payload = V1DialogueEventPayload.model_validate(response.output_parsed)
+        payload = normalize_dialogue_speaker_ids(personas, context, payload)
         validate_dialogue_payload(
             context,
             payload,
@@ -289,11 +313,41 @@ class OpenAIV1DialogueGenerationModel:
             target_turn_count=requested_turn_count,
             payload=payload,
             model_id=self.model_id,
-            prompt_version=V1_DIALOGUE_PROMPT_VERSION,
+            prompt_version=self.prompt_version,
             input_sha256=canonical_json_sha256(json.loads(provider_input)),
             response_id=getattr(response, "id", None),
             usage={**_response_usage(response), "latency_ms": latency_ms},
         )
+
+
+def normalize_dialogue_speaker_ids(
+    personas: Sequence[V1PersonaRecord],
+    context: V1DialogueGenerationContext,
+    payload: V1DialogueEventPayload,
+) -> V1DialogueEventPayload:
+    """Map unambiguous participant names/aliases back to canonical IDs."""
+
+    allowed = set(context.event.participant_ids)
+    aliases: dict[str, set[str]] = {}
+    for persona in personas:
+        if persona.persona_id not in allowed:
+            continue
+        values = (persona.persona_id, persona.name, *persona.aliases)
+        for value in values:
+            key = value.strip().casefold()
+            if key:
+                aliases.setdefault(key, set()).add(persona.persona_id)
+
+    turns = []
+    for turn in payload.turns:
+        if turn.speaker_id in allowed:
+            turns.append(turn)
+            continue
+        matches = aliases.get(turn.speaker_id.strip().casefold(), set())
+        if len(matches) == 1:
+            turn = turn.model_copy(update={"speaker_id": next(iter(matches))})
+        turns.append(turn)
+    return payload.model_copy(update={"turns": tuple(turns)})
 
 
 class OpenAIV1FinalQuizGenerationModel:

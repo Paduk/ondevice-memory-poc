@@ -156,11 +156,15 @@ def event_audit_case_from_dict(value: dict[str, Any]) -> EventAuditCase:
 
 def default_update_audit_artifact_paths(
     evaluation_root: Path,
+    scenario_indices: tuple[int, ...] | None = None,
 ) -> tuple[UpdateAuditArtifactPaths, ...]:
     evaluation_root = evaluation_root.expanduser().resolve()
     stage2_by_hash = _index_stage2_artifacts(evaluation_root)
     resolved: list[UpdateAuditArtifactPaths] = []
-    for quality in default_quality_artifact_paths(evaluation_root):
+    for quality in default_quality_artifact_paths(
+        evaluation_root,
+        scenario_indices=scenario_indices,
+    ):
         source_hash = _memory_source_hash(quality.memory_artifact)
         stage2 = _choose_stage2(stage2_by_hash.get(source_hash, ()))
         dialogue_root: Path | None = None

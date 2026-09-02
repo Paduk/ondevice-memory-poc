@@ -24,6 +24,35 @@ class RunTracker:
         self.write_json("config.json", config)
         self.status("RUNNING", global_step=0, message="run initialized")
 
+    def resume(
+        self,
+        config: dict[str, Any],
+        *,
+        checkpoint: Path,
+        global_step: int,
+    ) -> None:
+        """Refresh effective run metadata while retaining resume provenance."""
+        previous = self._read_json("config.json")
+        resumed_at = utc_now()
+        history = list(previous.get("resume_history") or [])
+        history.append(
+            {
+                "resumed_at": resumed_at,
+                "checkpoint": str(checkpoint),
+                "global_step": global_step,
+            }
+        )
+        effective = dict(config)
+        effective["created_at"] = previous.get("created_at", config.get("created_at"))
+        effective["last_resumed_at"] = resumed_at
+        effective["resume_history"] = history
+        self.write_json("config.json", effective)
+        self.status(
+            "RUNNING",
+            global_step=global_step,
+            message=f"resumed from {checkpoint}",
+        )
+
     def metric(self, event: str, **values: Any) -> None:
         payload = {"created_at": utc_now(), "event": event, **values}
         with self.metrics_path.open("a", encoding="utf-8") as handle:
@@ -45,6 +74,13 @@ class RunTracker:
         )
         temporary.replace(path)
         return path
+
+    def _read_json(self, name: str) -> dict[str, Any]:
+        try:
+            value = json.loads((self.run_dir / name).read_text(encoding="utf-8"))
+        except (FileNotFoundError, json.JSONDecodeError, OSError):
+            return {}
+        return value if isinstance(value, dict) else {}
 
 
 class MLflowMirror:

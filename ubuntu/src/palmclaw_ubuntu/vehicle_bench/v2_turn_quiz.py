@@ -74,7 +74,7 @@ Rules:
 """.strip()
 
 
-def _neutral_boolean_query(memory_evidence_lines: Sequence[str]) -> str:
+def _neutral_memory_query(memory_evidence_lines: Sequence[str]) -> str:
     conditions = []
     for line in memory_evidence_lines:
         marker = "; condition="
@@ -319,14 +319,11 @@ class OpenAIV2TurnQuizGenerationModel:
         try:
             validate_turn_quiz_query(context, payload)
         except ValueError as exc:
-            if (
-                retry_feedback is None
-                or "hidden answer value: enabled" not in str(exc)
-            ):
+            if "hidden answer value:" not in str(exc):
                 raise
             payload = payload.model_copy(
                 update={
-                    "query": _neutral_boolean_query(payload.memory_evidence_lines)
+                    "query": _neutral_memory_query(payload.memory_evidence_lines)
                 }
             )
             try:

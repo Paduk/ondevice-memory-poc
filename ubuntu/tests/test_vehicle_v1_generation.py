@@ -10,8 +10,10 @@ from pydantic import ValidationError
 
 from palmclaw_ubuntu.vehicle_bench.v1_generation import (
     V1_EVENT_CHAIN_PROMPT_VERSION,
+    V1_EVENT_CHAIN_STATE_EVOLUTION_PROMPT_VERSION,
     V1_PERSONA_PROMPT_VERSION,
     V1_PUBLISHED_REASONING_COUNTS,
+    OpenAIV1EventChainGenerationModel,
     OpenAIV1PersonaGenerationModel,
     V1EventChainPayload,
     V1GeneratedEventChains,
@@ -25,6 +27,7 @@ from palmclaw_ubuntu.vehicle_bench.v1_generation import (
     interleave_event_chains,
     load_persona_seeds,
     validate_stage2_contract,
+    validate_state_evolution_coverage,
     write_stage2_artifact,
 )
 from palmclaw_ubuntu.vehicle_bench.v1_reproduction import (
@@ -61,6 +64,31 @@ def _tool_schemas() -> tuple[dict, ...]:
                 "additionalProperties": False,
             },
         },
+    )
+
+
+def test_catalog_exposes_air_direction_simulator_values() -> None:
+    catalog = build_vehicle_attribute_catalog(
+        (
+            {
+                "name": "carcontrol_airConditioner_set_air_direction",
+                "description": "Set air direction.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "zone": {"type": "string"},
+                        "direction": {"type": "string"},
+                    },
+                    "required": ["zone", "direction"],
+                },
+            },
+        )
+    )
+
+    direction = next(item for item in catalog if item.argument_name == "direction")
+    assert direction.validation_hints == (
+        "allowed values: "
+        "face|feet|window|face_feet|face_window|feet_window|face_feet_window",
     )
 
 
@@ -288,6 +316,76 @@ def test_stage2_validator_rejects_invalid_vehicle_value() -> None:
             planned_reasoning_types=build_reasoning_type_plan(1)[0],
             vehicle_attributes=build_vehicle_attribute_catalog(_tool_schemas()),
         )
+
+
+def _state_evolution_payload() -> V1EventChainPayload:
+    payload = _event_payload(build_reasoning_type_plan(1)[0]).model_dump(mode="json")
+    for index, chain in enumerate(payload["vehicle_chains"]):
+        chain["events"][0]["preference_updates"][0]["condition"] = (
+            f"chain-{index}-condition"
+        )
+
+    for index, new_value in ((0, 7), (1, 6)):
+        chain = payload["vehicle_chains"][index]
+        source = chain["events"][0]
+        chain["events"][1]["preference_updates"] = [
+            {
+                **source["preference_updates"][0],
+                "previous_value": 8,
+                "new_value": new_value,
+                "supersedes_event_id": source["event_id"],
+            }
+        ]
+
+    corrected = payload["vehicle_chains"][2]
+    corrected_source = corrected["events"][0]
+    corrected["events"][1]["preference_updates"] = [
+        {
+            **corrected_source["preference_updates"][0],
+            "previous_value": 8,
+            "new_value": 5,
+            "condition": "corrected-chain-2-condition",
+            "supersedes_event_id": corrected_source["event_id"],
+        }
+    ]
+    return V1EventChainPayload.model_validate(payload)
+
+
+def test_state_evolution_validator_requires_add_replace_and_delete() -> None:
+    coverage = validate_state_evolution_coverage(_state_evolution_payload())
+
+    assert coverage.initial_identity_count == 10
+    assert coverage.add_count == 11
+    assert coverage.replace_count == 2
+    assert coverage.delete_count == 1
+    assert coverage.explicit_supersession_count == 3
+    with pytest.raises(ValueError, match="state-evolution"):
+        validate_state_evolution_coverage(
+            _event_payload(build_reasoning_type_plan(1)[0])
+        )
+
+
+def test_state_evolution_event_adapter_uses_extended_prompt() -> None:
+    reasoning_types = build_reasoning_type_plan(1)[0]
+    payload = _state_evolution_payload()
+    responses = _FakeResponses(payload)
+    model = OpenAIV1EventChainGenerationModel(
+        "gpt-5.6-terra",
+        timeout_seconds=30,
+        state_evolution=True,
+        client=SimpleNamespace(responses=responses),
+    )
+
+    generated = model.generate(
+        _personas(),
+        scenario_candidate_id="scenario-021",
+        reasoning_types=reasoning_types,
+        vehicle_attributes=build_vehicle_attribute_catalog(_tool_schemas()),
+    )
+
+    assert generated.prompt_version == V1_EVENT_CHAIN_STATE_EVOLUTION_PROMPT_VERSION
+    assert "REPLACE operations" in responses.kwargs["instructions"]
+    assert "DELETE followed by ADD" in responses.kwargs["instructions"]
 
 
 def test_stage2_orchestrator_writes_hash_checked_artifact(tmp_path: Path) -> None:

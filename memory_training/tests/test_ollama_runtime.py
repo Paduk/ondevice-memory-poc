@@ -12,14 +12,20 @@ from memory_training.export_ollama import (
     _converter_arguments,
     _converter_supports,
 )
-from memory_training.methods import PatchMethod
+from memory_training.methods import DeltaV2Method, PatchMethod
 from memory_training.ollama_client import (
     OllamaAgentModel,
     OllamaChatResult,
     OllamaClient,
 )
-from memory_training.ollama_test import run_memory_scenario
+from memory_training.ollama_test import (
+    _deserialize_state,
+    _quiz_directory,
+    compare_quiz_modes,
+    run_memory_scenario,
+)
 from memory_training.ubuntu_bridge import enable_ubuntu_runtime
+from memory_training.validation import state_to_input
 
 
 def test_ollama_client_and_agent_tool_adapter() -> None:
@@ -79,6 +85,25 @@ class FakeMemoryClient:
                 '{"decision":"UPDATE","operations":[{"op":"add","target":"","content":"- fact"}]}',
             )
         )
+
+    def chat(self, **kwargs) -> OllamaChatResult:
+        del kwargs
+        return OllamaChatResult(
+            content=next(self.outputs),
+            tool_calls=(),
+            prompt_tokens=10,
+            output_tokens=5,
+            total_duration_ns=100,
+            load_duration_ns=0,
+            prompt_duration_ns=40,
+            output_duration_ns=60,
+            raw={},
+        )
+
+
+class FakeDeltaV2Client:
+    def __init__(self, outputs: list[str]) -> None:
+        self.outputs = iter(outputs)
 
     def chat(self, **kwargs) -> OllamaChatResult:
         del kwargs
@@ -166,6 +191,148 @@ def test_closed_loop_memory_creates_quiz_snapshot(tmp_path) -> None:
     assert summary["final_state"]["exact"] == 1.0
     assert summary["quiz_snapshots"]["quiz-sample"] == "- fact"
     assert summary["metrics"]["prefill_tokens"] == 20
+
+    teacher_forced = run_memory_scenario(
+        FakeMemoryClient(),
+        PatchMethod(),
+        catalog,
+        91,
+        quizzes,
+        output_dir=tmp_path / "output",
+        model="fake",
+        signature="signature",
+        seed=42,
+        context_length=1024,
+        max_new_tokens=64,
+        checkpoint_interval=1,
+        turn_limit=None,
+        force=False,
+        evaluation_mode="teacher_forced",
+    )
+    assert teacher_forced["evaluation_mode"] == "teacher_forced"
+    assert teacher_forced["final_state"]["exact"] == 1.0
+    assert (
+        tmp_path / "output" / "memory_teacher_forced" / "s091" / "summary.json"
+    ).is_file()
+
+
+def test_delta_v2_ollama_closed_loop_persists_compacted_runtime_state(tmp_path) -> None:
+    data = tmp_path / "data"
+    data.mkdir()
+    method = DeltaV2Method()
+    compact_outputs = [
+        '{"decision":"UPDATE","operations":[["add","- a"]]}',
+        '{"decision":"UPDATE","operations":[["replace","- a","- b"]]}',
+        '{"decision":"UPDATE","operations":[["add","- c"]]}',
+        '{"decision":"UPDATE","operations":[["delete","- c"]]}',
+        '{"decision":"UPDATE","operations":[["replace","- b","- d"]]}',
+        '{"decision":"UPDATE","operations":[["add","- e"]]}',
+    ]
+    state = method.initial_state()
+    rows = []
+    for turn, output_text in enumerate(compact_outputs):
+        input_value = state_to_input(method, state)
+        parsed = method.parse_output(output_text)
+        state = method.apply_output(state, parsed, turn_id=f"turn-{turn}")
+        common = {
+            "sample_id": f"s091:sample:{turn}",
+            "scenario_index": 91,
+            "split": "test",
+            "global_turn_index": turn,
+            "turn_id": f"turn-{turn}",
+            "timestamp": f"2026-01-01T00:0{turn}",
+            "current_turn": {"speaker_name": "Alex", "text": f"turn {turn}"},
+        }
+        rows.append(
+            (common, input_value, output_text, method.materialize_memory(state))
+        )
+
+    for view in ("summary", "patch", "delta"):
+        with (data / f"{view}.jsonl").open("w") as handle:
+            for common, delta_input, output_text, next_memory in rows:
+                compact_target = json.loads(output_text)
+                if view == "summary":
+                    memory_input = {
+                        "previous_memory": "",
+                    }
+                    target = {"decision": "UPDATE", "next_memory": next_memory}
+                elif view == "patch":
+                    memory_input = {"previous_memory": ""}
+                    target = {"decision": "UPDATE", "operations": []}
+                else:
+                    memory_input = delta_input
+                    target = compact_target
+                handle.write(
+                    json.dumps({**common, "input": memory_input, "target": target})
+                    + "\n"
+                )
+    (data / "manifest.json").write_text("{}")
+    (data / "quiz_manifest.json").write_text("{}")
+    catalog_path = tmp_path / "catalog.sqlite"
+    build_catalog(data, catalog_path)
+    catalog = DatasetCatalog(catalog_path, data)
+    output_dir = tmp_path / "output"
+
+    summary = run_memory_scenario(
+        FakeDeltaV2Client(compact_outputs),
+        method,
+        catalog,
+        91,
+        [],
+        output_dir=output_dir,
+        model="fake",
+        signature="delta-v2-signature",
+        seed=42,
+        context_length=1024,
+        max_new_tokens=64,
+        checkpoint_interval=1,
+        turn_limit=None,
+        force=False,
+    )
+
+    assert summary["metrics"]["parse_success_rate"] == 1.0
+    assert summary["metrics"]["apply_success_rate"] == 1.0
+    assert summary["final_state"]["exact"] == 1.0
+    checkpoint = json.loads(
+        (output_dir / "memory" / "s091" / "checkpoint.json").read_text()
+    )
+    assert checkpoint["state"] == {
+        "base_summary": "- d",
+        "pending_updates": [[["add", "- e"]]],
+    }
+    restored = _deserialize_state(method, checkpoint["state"])
+    assert method.materialize_memory(restored) == "- d\n\n- e"
+
+
+def test_teacher_forced_quiz_directory_and_score_comparison() -> None:
+    closed = {
+        "all": {
+            "exact_state_match": 0.25,
+            "state_f1": 0.5,
+            "tool_f1": 0.75,
+            "argument_exact_match": 0.25,
+        }
+    }
+    teacher_forced = {
+        "all": {
+            "exact_state_match": 0.5,
+            "state_f1": 0.75,
+            "tool_f1": 1.0,
+            "argument_exact_match": 0.75,
+        }
+    }
+
+    assert _quiz_directory("closed_loop") == "quiz"
+    assert _quiz_directory("teacher_forced") == "quiz_teacher_forced"
+    comparison = compare_quiz_modes(closed, teacher_forced)
+    assert comparison is not None
+    gaps = comparison["all"]["teacher_forced_minus_closed_loop"]
+    assert gaps == {
+        "exact_state_match": 0.25,
+        "state_f1": 0.25,
+        "tool_f1": 0.25,
+        "argument_exact_match": 0.5,
+    }
 
 
 def test_qwen35_uses_isolated_converter_without_mtp(tmp_path) -> None:
