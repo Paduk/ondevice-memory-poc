@@ -4,12 +4,14 @@ import json
 from pathlib import Path
 
 from memory_training.checkpoints import TrainingProgress
-from memory_training.methods import PatchMethod, SummaryMethod
+from memory_training.methods import DeltaV3AppendMethod, PatchMethod, SummaryMethod
 from memory_training.quiz_sft import IndexedQuizSFTDataset
 from memory_training.tracking import RunTracker
 from memory_training.training_data import (
     BalancedMultitaskBatchSampler,
     ChatExampleEncoder,
+    DeltaAppendChatExampleEncoder,
+    DeltaAppendSFTDataset,
     EncodedExample,
     QuizChatExampleEncoder,
     SFTCollator,
@@ -116,6 +118,129 @@ def test_chat_encoder_masks_prompt_and_keeps_exact_target() -> None:
     )
     assert decoded_target.endswith(target)
     assert encoded.labels.count(-100) > 0
+
+
+class MemoryRows:
+    def __init__(self, rows):
+        self.rows = list(rows)
+        self.positions = {
+            row_id: position for position, (row_id, _row) in enumerate(self.rows)
+        }
+
+    def __len__(self):
+        return len(self.rows)
+
+    def __getitem__(self, index):
+        return self.rows[index][1]
+
+    def row_id_at_position(self, position):
+        return self.rows[position][0]
+
+    def position_for_row_id(self, row_id):
+        return self.positions[row_id]
+
+
+def _delta_append_row(turn, *, pending, decision, operations=()):
+    return {
+        "sample_id": f"delta-append-{turn}",
+        "scenario_index": 15,
+        "global_turn_index": turn,
+        "turn_id": f"turn-{turn}",
+        "timestamp": f"2026-01-01T00:{turn:02d}",
+        "current_turn": {
+            "speaker_id": "p1",
+            "speaker_name": "Alex",
+            "text": f"Turn {turn}",
+        },
+        "input": {"base_summary": "", "pending_updates": pending},
+        "target": {"decision": decision, "operations": list(operations)},
+    }
+
+
+def test_delta_append_dataset_keeps_prior_outputs_but_masks_their_loss() -> None:
+    rows = MemoryRows(
+        [
+            (
+                10,
+                _delta_append_row(
+                    0,
+                    pending=[],
+                    decision="UPDATE",
+                    operations=[["add", "- durable fact"]],
+                ),
+            ),
+            (
+                11,
+                _delta_append_row(
+                    1,
+                    pending=[[["add", "- durable fact"]]],
+                    decision="NO_OP",
+                ),
+            ),
+        ]
+    )
+    method = DeltaV3AppendMethod()
+    encoder = DeltaAppendChatExampleEncoder(CharacterTokenizer(), max_length=4096)
+    dataset = DeltaAppendSFTDataset(rows, rows, method, encoder)
+
+    encoded = dataset[1]
+    rendered = "".join(chr(token) for token in encoded.input_ids)
+    trained = "".join(
+        chr(token)
+        for token, label in zip(encoded.input_ids, encoded.labels, strict=True)
+        if label != -100
+    )
+
+    assert method.format_target(rows[0]) in rendered
+    assert rendered.count('"base_summary"') == 1
+    assert '"pending_updates"' not in rendered
+    assert trained.endswith('{"decision":"NO_OP"}')
+    assert "durable fact" not in trained
+
+
+def test_delta_append_dataset_resets_at_turn_budget() -> None:
+    rows = MemoryRows(
+        [
+            (20, _delta_append_row(0, pending=[], decision="NO_OP")),
+            (21, _delta_append_row(1, pending=[], decision="NO_OP")),
+            (22, _delta_append_row(2, pending=[], decision="NO_OP")),
+        ]
+    )
+    method = DeltaV3AppendMethod()
+    encoder = DeltaAppendChatExampleEncoder(CharacterTokenizer(), max_length=4096)
+    dataset = DeltaAppendSFTDataset(rows, rows, method, encoder, max_history_turns=2)
+
+    rendered = "".join(chr(token) for token in dataset[2].input_ids)
+    assert "Turn 0" not in rendered
+    assert "Turn 1" not in rendered
+    assert "Turn 2" in rendered
+    assert rendered.count('"base_summary"') == 1
+
+
+def test_delta_append_dataset_resets_after_five_updates() -> None:
+    rows = MemoryRows(
+        [
+            (
+                30 + turn,
+                _delta_append_row(
+                    turn,
+                    pending=[],
+                    decision="UPDATE" if turn < 5 else "NO_OP",
+                    operations=[["add", f"- fact {turn}"]] if turn < 5 else [],
+                ),
+            )
+            for turn in range(6)
+        ]
+    )
+    method = DeltaV3AppendMethod()
+    encoder = DeltaAppendChatExampleEncoder(CharacterTokenizer(), max_length=4096)
+    dataset = DeltaAppendSFTDataset(rows, rows, method, encoder)
+
+    history_lengths = [
+        len(dataset.contexts[rows.row_id_at_position(position)].history_row_ids)
+        for position in range(len(rows))
+    ]
+    assert history_lengths == [0, 1, 2, 3, 4, 0]
 
 
 def test_quiz_encoder_masks_tool_schemas_and_keeps_tool_call_target() -> None:

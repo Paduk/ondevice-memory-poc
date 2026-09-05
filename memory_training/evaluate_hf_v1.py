@@ -37,7 +37,16 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--model", choices=sorted(MODEL_BY_KEY), required=True)
     parser.add_argument(
         "--method",
-        choices=("summary", "patch", "temporal_patch", "delta_v2", "delta_v3"),
+        choices=(
+            "summary",
+            "patch",
+            "temporal_patch",
+            "delta_v2",
+            "delta_v3",
+            "delta_v3_compact_k2",
+            "delta_v3_compact_k5",
+            "delta_v3_compact_k10",
+        ),
         required=True,
     )
     parser.add_argument("--checkpoint", type=Path, required=True)

@@ -219,9 +219,7 @@ def aggregate_closed_loop_results(
         "update_precision": precision,
         "update_recall": recall,
         "update_f1": (
-            2 * precision * recall / (precision + recall)
-            if precision + recall
-            else 0.0
+            2 * precision * recall / (precision + recall) if precision + recall else 0.0
         ),
         "false_update_rate": (
             fp / (tn + fp + invalid_noop) if tn + fp + invalid_noop else 0.0
@@ -472,6 +470,9 @@ def evaluate_closed_loop(
 class _BatchedClosedLoopStream:
     scenario: int
     row_ids: list[int]
+    original_turns: int
+    sampled_updates: int
+    sampled_noops: int
     state: Any
     counts: Any
     decision_usage: Any
@@ -497,11 +498,16 @@ def evaluate_closed_loop_batched(
     accelerator: Any,
     split: str = "test",
     batch_size: int = 8,
+    noop_per_update: float | None = None,
+    sampling_seed: int = 42,
     snapshot_requests: Mapping[int, Mapping[int, Sequence[str]]] | None = None,
     progress_callback: Callable[[dict[str, Any]], None] | None = None,
     progress_interval: int = 100,
     max_length: int = 4096,
     max_new_tokens: int = 768,
+    do_sample: bool = False,
+    temperature: float = 1.0,
+    top_p: float = 1.0,
 ) -> dict[int, dict[str, Any]]:
     """Evaluate several dependent trajectories through one cross-scenario batch.
 
@@ -510,6 +516,8 @@ def evaluate_closed_loop_batched(
     """
     if batch_size < 1:
         raise ValueError("Closed-loop batch_size must be positive")
+    if noop_per_update is not None and noop_per_update < 0:
+        raise ValueError("Closed-loop noop_per_update must be non-negative")
     selected = list(dict.fromkeys(int(value) for value in scenarios))
     if not selected:
         return {}
@@ -522,15 +530,39 @@ def evaluate_closed_loop_batched(
     encoder = ChatExampleEncoder(tokenizer, max_length=max_length)
     streams = []
     for scenario in selected:
-        row_ids = [
+        original_row_ids = [
             row_id
             for row_id in catalog.scenario_row_ids(scenario)
             if source.contains_row_id(row_id)
+        ]
+        row_ids = original_row_ids
+        if noop_per_update is not None:
+            required_row_ids = {
+                catalog.row_id_for_turn(scenario, int(turn))
+                for turn in (snapshot_requests or {}).get(scenario, {})
+            }
+            row_ids = ratio_closed_loop_row_ids(
+                source,
+                original_row_ids,
+                noop_per_update=noop_per_update,
+                seed=sampling_seed + scenario,
+                required_row_ids=required_row_ids,
+            )
+        sampled_decisions = [
+            str(
+                _single(source, source.position_for_row_id(row_id))["target"][
+                    "decision"
+                ]
+            )
+            for row_id in row_ids
         ]
         streams.append(
             _BatchedClosedLoopStream(
                 scenario=scenario,
                 row_ids=row_ids,
+                original_turns=len(original_row_ids),
+                sampled_updates=sampled_decisions.count("UPDATE"),
+                sampled_noops=sampled_decisions.count("NO_OP"),
                 state=method.initial_state(),
                 counts=_DecisionCounts(),
                 decision_usage=_DecisionUsage(),
@@ -577,6 +609,9 @@ def evaluate_closed_loop_batched(
                 encoder=encoder,
                 accelerator=accelerator,
                 max_new_tokens=max_new_tokens,
+                do_sample=do_sample,
+                temperature=temperature,
+                top_p=top_p,
             )
             for (stream, canonical, gold, row), generated_result in zip(
                 prepared, generated_batch, strict=True
@@ -645,10 +680,11 @@ def evaluate_closed_loop_batched(
     results = {}
     for stream in streams:
         final = stream.scores[-1] if stream.scores else {"exact": 0.0, "f1": 0.0}
+        sampling_mode = "noop_ratio" if noop_per_update is not None else "full"
         report = {
             "scenario_index": stream.scenario,
-            "sampling_mode": "full",
-            "original_turns": len(stream.row_ids),
+            "sampling_mode": sampling_mode,
+            "original_turns": stream.original_turns,
             "turns": len(stream.row_ids),
             "state_exact": _mean(score["exact"] for score in stream.scores),
             "state_f1": _mean(score["f1"] for score in stream.scores),
@@ -675,10 +711,17 @@ def evaluate_closed_loop_batched(
             **stream.decision_usage.as_dict(),
             "scenario_reports": [report],
             "sampling": {
-                "full_scenarios": [stream.scenario],
-                "sparse_scenarios": [],
+                "full_scenarios": (
+                    [stream.scenario] if noop_per_update is None else []
+                ),
+                "sparse_scenarios": (
+                    [] if noop_per_update is None else [stream.scenario]
+                ),
                 "sparse_noop_keep_fraction": 0.0,
-                "original_turns": len(stream.row_ids),
+                "noop_per_update": noop_per_update,
+                "sampled_updates": stream.sampled_updates,
+                "sampled_noops": stream.sampled_noops,
+                "original_turns": stream.original_turns,
                 "evaluated_turns": len(stream.row_ids),
             },
         }
@@ -697,6 +740,68 @@ def evaluate_closed_loop_batched(
             result["quiz_snapshots"] = stream.snapshots
         results[stream.scenario] = result
     return results
+
+
+def ratio_closed_loop_row_ids(
+    source: IndexedMemoryDataset,
+    row_ids: Sequence[int],
+    *,
+    noop_per_update: float,
+    seed: int,
+    required_row_ids: set[int] | None = None,
+) -> list[int]:
+    """Keep all UPDATEs and a deterministic, ordered NO_OP ratio subset.
+
+    Quiz-anchor rows are mandatory, followed by immediate NO_OP neighbors of
+    UPDATE turns. The remaining budget is sampled from other NO_OPs, and the
+    final row IDs preserve the original trajectory order.
+    """
+    if noop_per_update < 0:
+        raise ValueError("noop_per_update must be non-negative")
+    decisions = [
+        str(_single(source, source.position_for_row_id(row_id))["target"]["decision"])
+        for row_id in row_ids
+    ]
+    updates = {
+        index for index, decision in enumerate(decisions) if decision == "UPDATE"
+    }
+    noops = [index for index, decision in enumerate(decisions) if decision == "NO_OP"]
+    required = set(required_row_ids or ())
+    unknown_required = required - set(row_ids)
+    if unknown_required:
+        raise ValueError(
+            f"Required rows are outside the trajectory: {unknown_required}"
+        )
+    required_noops = {
+        index
+        for index, row_id in enumerate(row_ids)
+        if row_id in required and decisions[index] == "NO_OP"
+    }
+    target_noops = min(
+        len(noops), max(round(len(updates) * noop_per_update), len(required_noops))
+    )
+    adjacent = sorted(
+        {
+            neighbor
+            for index in updates
+            for neighbor in (index - 1, index + 1)
+            if 0 <= neighbor < len(row_ids) and decisions[neighbor] == "NO_OP"
+        }
+    )
+    generator = random.Random(seed)
+    selected_set = set(required_noops)
+    adjacent_candidates = [index for index in adjacent if index not in selected_set]
+    adjacent_budget = target_noops - len(selected_set)
+    selected_set.update(
+        adjacent_candidates
+        if len(adjacent_candidates) <= adjacent_budget
+        else generator.sample(adjacent_candidates, adjacent_budget)
+    )
+    remaining = target_noops - len(selected_set)
+    candidates = [index for index in noops if index not in selected_set]
+    selected_noops = selected_set | set(generator.sample(candidates, remaining))
+    selected = updates | selected_noops
+    return [row_id for index, row_id in enumerate(row_ids) if index in selected]
 
 
 def sparse_closed_loop_row_ids(
@@ -895,6 +1000,9 @@ def generate_output(
     encoder: ChatExampleEncoder,
     accelerator: Any,
     max_new_tokens: int,
+    do_sample: bool = False,
+    temperature: float = 1.0,
+    top_p: float = 1.0,
 ) -> tuple[str, int, int, float]:
     inputs = {
         key: value.to(accelerator.device)
@@ -906,7 +1014,8 @@ def generate_output(
     with torch.inference_mode():
         output = model.generate(
             **inputs,
-            do_sample=False,
+            do_sample=do_sample,
+            **({"temperature": temperature, "top_p": top_p} if do_sample else {}),
             max_new_tokens=max_new_tokens,
             pad_token_id=tokenizer.pad_token_id,
             eos_token_id=tokenizer.eos_token_id,
@@ -932,6 +1041,9 @@ def generate_outputs_batch(
     encoder: ChatExampleEncoder,
     accelerator: Any,
     max_new_tokens: int,
+    do_sample: bool = False,
+    temperature: float = 1.0,
+    top_p: float = 1.0,
 ) -> list[tuple[str, int, int, float]]:
     """Greedily generate independent memory turns with one model forward batch."""
     if not rows:
@@ -946,6 +1058,9 @@ def generate_outputs_batch(
                 encoder=encoder,
                 accelerator=accelerator,
                 max_new_tokens=max_new_tokens,
+                do_sample=do_sample,
+                temperature=temperature,
+                top_p=top_p,
             )
         ]
     prompts = [encoder.generation_prompt(row, method) for row in rows]
@@ -961,7 +1076,8 @@ def generate_outputs_batch(
     with torch.inference_mode():
         output = model.generate(
             **inputs,
-            do_sample=False,
+            do_sample=do_sample,
+            **({"temperature": temperature, "top_p": top_p} if do_sample else {}),
             max_new_tokens=max_new_tokens,
             pad_token_id=tokenizer.pad_token_id,
             eos_token_id=tokenizer.eos_token_id,
@@ -1133,6 +1249,9 @@ def evaluate_quiz_tool_calling(
     progress_callback: Callable[[dict[str, Any]], None] | None = None,
     progress_interval: int = 5,
     allow_gold_execution_failure: bool = False,
+    do_sample: bool = False,
+    temperature: float = 1.0,
+    top_p: float = 1.0,
 ) -> dict[str, Any]:
     """Evaluate Tool Calling with Gold or supplied predicted memory."""
     if batch_size < 1:
@@ -1169,6 +1288,9 @@ def evaluate_quiz_tool_calling(
             accelerator=accelerator,
             max_length=max_length,
             max_new_tokens=max_new_tokens,
+            do_sample=do_sample,
+            temperature=temperature,
+            top_p=top_p,
         )
         for offset, ((row, candidates), generated_result) in enumerate(
             zip(batch, generated_batch, strict=True), start=1
@@ -1201,9 +1323,7 @@ def evaluate_quiz_tool_calling(
             reference_execution_errors = []
             for call in reference_calls:
                 try:
-                    result = runtime.execute(
-                        reference_world, call.name, call.arguments
-                    )
+                    result = runtime.execute(reference_world, call.name, call.arguments)
                     if isinstance(result, Mapping) and result.get("success") is False:
                         raise ValueError(f"{call.name}: {result}")
                 except Exception as exc:
@@ -1310,6 +1430,9 @@ def generate_quiz_output(
     accelerator: Any,
     max_length: int,
     max_new_tokens: int,
+    do_sample: bool = False,
+    temperature: float = 1.0,
+    top_p: float = 1.0,
 ) -> tuple[str, int, int, float]:
     messages = row["messages"][:-1]
     kwargs = {
@@ -1339,7 +1462,8 @@ def generate_quiz_output(
     with torch.inference_mode():
         output = model.generate(
             **inputs,
-            do_sample=False,
+            do_sample=do_sample,
+            **({"temperature": temperature, "top_p": top_p} if do_sample else {}),
             max_new_tokens=max_new_tokens,
             pad_token_id=tokenizer.pad_token_id,
             eos_token_id=tokenizer.eos_token_id,
@@ -1363,6 +1487,9 @@ def generate_quiz_outputs_batch(
     accelerator: Any,
     max_length: int,
     max_new_tokens: int,
+    do_sample: bool = False,
+    temperature: float = 1.0,
+    top_p: float = 1.0,
 ) -> list[tuple[str, int, int, float]]:
     """Greedily generate independent Tool Calls with one model forward batch."""
     if len(rows) != len(tools_by_row):
@@ -1379,6 +1506,9 @@ def generate_quiz_outputs_batch(
                 accelerator=accelerator,
                 max_length=max_length,
                 max_new_tokens=max_new_tokens,
+                do_sample=do_sample,
+                temperature=temperature,
+                top_p=top_p,
             )
         ]
     prompts = [
@@ -1395,7 +1525,8 @@ def generate_quiz_outputs_batch(
     with torch.inference_mode():
         output = model.generate(
             **inputs,
-            do_sample=False,
+            do_sample=do_sample,
+            **({"temperature": temperature, "top_p": top_p} if do_sample else {}),
             max_new_tokens=max_new_tokens,
             pad_token_id=tokenizer.pad_token_id,
             eos_token_id=tokenizer.eos_token_id,

@@ -89,22 +89,27 @@ def select_full_winner(run_dir: Path) -> dict[str, Any]:
                 "full_final_state_f1": float(
                     payload.get("closed_loop", {}).get("final_state_f1", -1.0)
                 ),
+                "full_update_f1": float(
+                    payload.get("closed_loop", {}).get("update_f1", -1.0)
+                ),
                 "result": str(path),
             }
         )
     if not candidates:
         raise RuntimeError("No full-validation candidate result was found")
-    winner = max(
-        candidates,
-        key=lambda row: (
-            row["full_esm"],
-            row["full_final_state_f1"],
-            row["epoch"],
-        ),
-    )
+    for row in candidates:
+        row["composite_score"] = (
+            0.60 * row["full_esm"]
+            + 0.25 * row["full_final_state_f1"]
+            + 0.15 * row["full_update_f1"]
+        )
+    winner = max(candidates, key=lambda row: (
+        row["composite_score"], row["full_esm"],
+        row["full_final_state_f1"], row["full_update_f1"], -row["epoch"],
+    ))
     return {
         "schema_version": "palmclaw-full-validation-winner-v1",
-        "selection_metric": "full_esm_then_full_final_state_f1",
+        "selection_metric": "composite.full_esm_60.full_final_state_f1_25.full_update_f1_15",
         "candidate_count": len(candidates),
         "winner": winner,
         "candidates": candidates,

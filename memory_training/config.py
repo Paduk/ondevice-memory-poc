@@ -39,6 +39,13 @@ TARGET_MODELS = (
         "ibm-granite/granite-4.0-1b",
         "granite4:1b",
     ),
+    TargetModel(
+        "qwen3.5-0.8b",
+        "qwen3.5",
+        0.8,
+        "Qwen/Qwen3.5-0.8B",
+        "qwen3.5:0.8b",
+    ),
     TargetModel("qwen3.5-2b", "qwen3.5", 2, "Qwen/Qwen3.5-2B", "qwen3.5:2b"),
     TargetModel("qwen3.5-4b", "qwen3.5", 4, "Qwen/Qwen3.5-4B", "qwen3.5:4b"),
     TargetModel("qwen3.5-9b", "qwen3.5", 9, "Qwen/Qwen3.5-9B", "qwen3.5:9b"),

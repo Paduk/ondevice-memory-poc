@@ -13,7 +13,10 @@ from memory_training.sampling import (
     SamplingConfig,
     _weighted_capacitated_counts,
 )
-from memory_training.validation import stratified_teacher_forced_row_ids
+from memory_training.validation import (
+    ratio_closed_loop_row_ids,
+    stratified_teacher_forced_row_ids,
+)
 
 
 def _write_views(root: Path) -> None:
@@ -215,6 +218,56 @@ def test_teacher_forced_validation_subset_is_fixed_and_update_preserving(
     assert len(first) == 8
     assert updates.issubset(first)
     assert all(catalog.record(row_id).split == "validation" for row_id in first)
+
+
+def test_ratio_closed_loop_subset_is_ordered_and_update_preserving(
+    tmp_path: Path,
+) -> None:
+    data_root = tmp_path / "data"
+    data_root.mkdir()
+    _write_views(data_root)
+    catalog_path = tmp_path / "catalog.sqlite"
+    build_catalog(data_root, catalog_path)
+    catalog = DatasetCatalog(catalog_path, data_root)
+    source = IndexedMemoryDataset(catalog, "patch", split="validation")
+    row_ids = catalog.scenario_row_ids(81)
+
+    selected = ratio_closed_loop_row_ids(source, row_ids, noop_per_update=2, seed=9)
+    repeated = ratio_closed_loop_row_ids(source, row_ids, noop_per_update=2, seed=9)
+    decisions = [catalog.record(row_id).decision for row_id in selected]
+
+    assert selected == repeated
+    assert selected == sorted(selected)
+    assert decisions.count("UPDATE") == 2
+    assert decisions.count("NO_OP") == 4
+    assert set(catalog.row_ids(split="validation", decision="UPDATE")).issubset(
+        selected
+    )
+
+
+def test_ratio_closed_loop_subset_always_keeps_quiz_anchor_noops(
+    tmp_path: Path,
+) -> None:
+    data_root = tmp_path / "data"
+    data_root.mkdir()
+    _write_views(data_root)
+    catalog_path = tmp_path / "catalog.sqlite"
+    build_catalog(data_root, catalog_path)
+    catalog = DatasetCatalog(catalog_path, data_root)
+    source = IndexedMemoryDataset(catalog, "patch", split="validation")
+    row_ids = catalog.scenario_row_ids(81)
+    required = {catalog.row_id_for_turn(81, 0), catalog.row_id_for_turn(81, 11)}
+
+    selected = ratio_closed_loop_row_ids(
+        source,
+        row_ids,
+        noop_per_update=0,
+        seed=9,
+        required_row_ids=required,
+    )
+
+    assert required.issubset(selected)
+    assert sum(catalog.record(row_id).decision == "NO_OP" for row_id in selected) == 2
 
 
 def test_teacher_forced_validation_subset_rejects_dropped_updates(

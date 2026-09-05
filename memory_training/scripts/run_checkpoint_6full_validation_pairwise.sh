@@ -118,12 +118,12 @@ for epoch in range(first_epoch, last_epoch + 1):
             "output": str(path),
         }
     )
-winner = max(
-    rows,
-    key=lambda row: (
-        row["closed_loop_quiz_esm"], row["closed_loop_final_state_f1"]
-    ),
-)
+for row in rows:
+    row["composite_score"] = (0.60 * row["closed_loop_quiz_esm"]
+                              + 0.25 * row["closed_loop_final_state_f1"]
+                              + 0.15 * row["closed_loop_update_f1"])
+winner = max(rows, key=lambda row: (row["composite_score"], row["closed_loop_quiz_esm"],
+    row["closed_loop_final_state_f1"], row["closed_loop_update_f1"], -row["epoch"]))
 summary = {
     "created_at": datetime.now(timezone.utc).isoformat(),
     "protocol": "6-full pairwise, two checkpoints concurrently, batch-3 each",
@@ -139,8 +139,8 @@ status = {
     "run_id": run_dir.name,
     "final_state": "COMPLETED",
     "best_checkpoint": winner["checkpoint"],
-    "best_score": winner["closed_loop_quiz_esm"],
-    "best_metric": "closed_loop_quiz.esm_then_final_state_f1",
+    "best_score": winner["composite_score"],
+    "best_metric": "composite.quiz_esm_60.final_state_f1_25.update_f1_15",
     "external_validation": "validation-6full-pairwise-summary.json",
 }
 target = run_dir / "status.json"

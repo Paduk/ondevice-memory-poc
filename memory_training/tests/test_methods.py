@@ -7,6 +7,10 @@ import pytest
 from memory_training.methods import (
     DeltaMethod,
     DeltaV2Method,
+    DeltaV3AppendMethod,
+    DeltaV3CompactK2Method,
+    DeltaV3CompactK5Method,
+    DeltaV3CompactK10Method,
     PatchMethod,
     SummaryBatchMethod,
     SummaryMethod,
@@ -180,6 +184,64 @@ def test_delta_v2_compact_operations_and_compaction() -> None:
     state = method.apply_output(state, positioned)
     assert state.pending_updates == ()
     assert state.base_summary == "- a\n- bb"
+
+
+def test_delta_v3_append_uses_base_only_at_cache_epoch_start() -> None:
+    method = DeltaV3AppendMethod()
+    row = {
+        **_row(view="patch", previous="", decision="NO_OP"),
+        "input": {
+            "base_summary": "- old",
+            "pending_updates": [[["add", "- new"]]],
+        },
+    }
+
+    epoch = json.loads(method.format_input(row))
+    followup = json.loads(method.format_followup_turn(row))
+
+    assert epoch["base_summary"] == "- old\n\n- new"
+    assert "pending_updates" not in epoch
+    assert set(followup) == {"current_turn"}
+    assert "base_summary" not in followup
+
+
+@pytest.mark.parametrize(
+    ("method_type", "interval"),
+    (
+        (DeltaV3CompactK2Method, 2),
+        (DeltaV3CompactK5Method, 5),
+        (DeltaV3CompactK10Method, 10),
+    ),
+)
+def test_delta_v3_compact_profiles_preserve_state_and_turn_fields(
+    method_type: type[DeltaV2Method], interval: int
+) -> None:
+    method = method_type()
+    row = {
+        **_row(view="patch", previous="", decision="UPDATE"),
+        "global_turn_index": 7,
+        "input": {
+            "base_summary": "- old",
+            "pending_updates": [[["add", "- new"]]],
+        },
+        "target": {
+            "decision": "UPDATE",
+            "operations": [["replace", "- old", "- current"]],
+        },
+    }
+
+    prompt = method.format_input(row)
+
+    assert method.compaction_interval == interval
+    assert prompt == (
+        "B:\n- old\nP:\n[[[\"add\",\"- new\"]]]\n"
+        "T:\nturn-1|2026-01-01T00:00|p1|Alex\nSet the preferred value."
+    )
+    assert "applying pending patches P to base B in order" in method.system_prompt
+    assert method.format_target(row) == (
+        '{"decision":"UPDATE","operations":'
+        '[["replace","- old","- current"]]}'
+    )
 
 
 def test_delta_v2_delete_noop_and_strict_compact_schema() -> None:

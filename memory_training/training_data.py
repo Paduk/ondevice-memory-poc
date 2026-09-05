@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import random
+from collections import defaultdict
 from collections.abc import Iterator, Sequence
 from dataclasses import dataclass
 from typing import Any
@@ -11,7 +12,9 @@ import torch
 from torch.utils.data import Dataset, Sampler
 
 from .dataset import IndexedMemoryDataset
-from .methods import MemoryMethod
+from .methods import DeltaV3AppendMethod, MemoryMethod
+from .methods.delta_v3_compact import DeltaV3CompactMethod
+from .methods.delta_v2 import delta_v2_state_from_input
 from .quiz_sft import IndexedQuizSFTDataset, VehicleToolSchemaStore
 from .sampling import EpochPlan
 
@@ -88,6 +91,56 @@ class ChatExampleEncoder:
         ]
         return self._render(messages, add_generation_prompt=True)
 
+    def stable_generation_prefix(
+        self, row: dict[str, Any], method: MemoryMethod[Any]
+    ) -> str:
+        """Render the memory-only prefix available before the next turn arrives."""
+        content = method.format_input(row)
+        prompt = self._render(
+            [
+                {"role": "system", "content": method.system_prompt},
+                {"role": "user", "content": content},
+            ],
+            add_generation_prompt=True,
+        )
+        return _stable_current_turn_prefix(prompt, content)
+
+    def cache_anchor_prefixes(
+        self, row: dict[str, Any], method: MemoryMethod[Any]
+    ) -> tuple[str, ...]:
+        """Return increasing immutable prompt prefixes safe to cache.
+
+        Hybrid linear-attention models cannot roll recurrent state backwards.
+        They therefore retain exact snapshots at semantic boundaries instead
+        of cropping a cache produced for a longer prompt.  Every method can
+        retain the chat/system prefix and the complete memory prefix.  Compact
+        Delta-v3 additionally exposes the base-memory boundary so the same B
+        snapshot remains reusable while pending P batches accumulate.
+        """
+        content = method.format_input(row)
+        prompt = self._render(
+            [
+                {"role": "system", "content": method.system_prompt},
+                {"role": "user", "content": content},
+            ],
+            add_generation_prompt=True,
+        )
+        content_start = prompt.find(content)
+        if content_start < 0:
+            raise ValueError("Rendered memory prompt does not contain its input")
+        prefixes = [prompt[:content_start]]
+        if isinstance(method, DeltaV3CompactMethod):
+            pending_marker = "\nP:\n"
+            marker_start = content.find(pending_marker)
+            if marker_start < 0:
+                raise ValueError("Compact Delta-v3 prompt has no pending boundary")
+            prefixes.append(
+                prompt[:content_start]
+                + content[: marker_start + len(pending_marker)]
+            )
+        prefixes.append(_stable_current_turn_prefix(prompt, content))
+        return tuple(prefixes)
+
     def _render(
         self,
         messages: list[dict[str, Any]],
@@ -112,13 +165,268 @@ class ChatExampleEncoder:
         return list(self.tokenizer(text, add_special_tokens=False)["input_ids"])
 
 
+@dataclass(frozen=True)
+class DeltaAppendContext:
+    """One target turn's immutable cache-epoch base and preceding row ids."""
+
+    base_summary: str
+    history_row_ids: tuple[int, ...]
+
+
+class DeltaAppendChatExampleEncoder(ChatExampleEncoder):
+    """Mask prior turns and train only the latest append-only assistant output."""
+
+    def generation_prompt_append(
+        self,
+        row: dict[str, Any],
+        method: DeltaV3AppendMethod,
+        *,
+        base_summary: str,
+        history_rows: Sequence[dict[str, Any]],
+        history_outputs: Sequence[str],
+    ) -> str:
+        """Render the exact multi-turn prompt shared by training and inference."""
+        messages = self._append_messages(
+            row,
+            method,
+            base_summary=base_summary,
+            history_rows=history_rows,
+            history_outputs=history_outputs,
+        )
+        return self._render(messages, add_generation_prompt=True)
+
+    def prompt_token_count(self, prompt: str) -> int:
+        """Return the untruncated token count used for cache-budget decisions."""
+        return len(self._tokenize(prompt))
+
+    def stable_epoch_prefix(
+        self,
+        row: dict[str, Any],
+        method: DeltaV3AppendMethod,
+        *,
+        base_summary: str,
+    ) -> str:
+        """Render the fresh-epoch prefix known immediately after compaction."""
+        content = method.format_epoch_turn(row, base_summary=base_summary)
+        prompt = self._render(
+            [
+                {"role": "system", "content": method.system_prompt},
+                {"role": "user", "content": content},
+            ],
+            add_generation_prompt=True,
+        )
+        return _stable_current_turn_prefix(prompt, content)
+
+    def encode_append(
+        self,
+        row: dict[str, Any],
+        method: DeltaV3AppendMethod,
+        *,
+        context: DeltaAppendContext,
+        history_rows: Sequence[dict[str, Any]],
+        row_id: int,
+    ) -> EncodedExample:
+        if len(history_rows) != len(context.history_row_ids):
+            raise ValueError("Append-only history rows do not match their context")
+        history_outputs = [
+            method.format_target(history_row) for history_row in history_rows
+        ]
+        messages = self._append_messages(
+            row,
+            method,
+            base_summary=context.base_summary,
+            history_rows=history_rows,
+            history_outputs=history_outputs,
+        )
+        prompt = self._render(messages, add_generation_prompt=True)
+        full = self._render(
+            [
+                *messages,
+                {"role": "assistant", "content": method.format_target(row)},
+            ],
+            add_generation_prompt=False,
+        )
+        prompt_ids = self._tokenize(prompt)
+        full_ids = self._tokenize(full)
+        boundary = _common_prefix_length(prompt_ids, full_ids)
+        if boundary == len(full_ids):
+            raise ValueError("Chat template produced no assistant target tokens")
+        input_ids, boundary = _left_truncate(full_ids, boundary, self.max_length)
+        labels = [-100] * boundary + input_ids[boundary:]
+        if all(label == -100 for label in labels):
+            raise ValueError("Truncation removed every assistant target token")
+        return EncodedExample(
+            input_ids=tuple(input_ids),
+            labels=tuple(labels),
+            row_id=row_id,
+            scenario_index=int(row["scenario_index"]),
+            decision=str(row["target"]["decision"]),
+            task_type="memory",
+            sample_id=str(row.get("sample_id", "")),
+        )
+
+    @staticmethod
+    def _append_messages(
+        row: dict[str, Any],
+        method: DeltaV3AppendMethod,
+        *,
+        base_summary: str,
+        history_rows: Sequence[dict[str, Any]],
+        history_outputs: Sequence[str],
+    ) -> list[dict[str, Any]]:
+        if len(history_rows) != len(history_outputs):
+            raise ValueError("Append-only rows and assistant outputs must align")
+        messages: list[dict[str, Any]] = [
+            {"role": "system", "content": method.system_prompt}
+        ]
+        for index, (history_row, history_output) in enumerate(
+            zip(history_rows, history_outputs, strict=True)
+        ):
+            content = (
+                method.format_epoch_turn(history_row, base_summary=base_summary)
+                if index == 0
+                else method.format_followup_turn(history_row)
+            )
+            messages.extend(
+                (
+                    {"role": "user", "content": content},
+                    {"role": "assistant", "content": history_output},
+                )
+            )
+        current = (
+            method.format_followup_turn(row)
+            if history_rows
+            else method.format_epoch_turn(row, base_summary=base_summary)
+        )
+        messages.append({"role": "user", "content": current})
+        return messages
+
+
+class DeltaAppendSFTDataset(Dataset[EncodedExample]):
+    """Build bounded append-only histories from the existing aligned Delta view."""
+
+    def __init__(
+        self,
+        source: IndexedMemoryDataset,
+        context_source: IndexedMemoryDataset,
+        method: DeltaV3AppendMethod,
+        encoder: DeltaAppendChatExampleEncoder,
+        *,
+        max_history_turns: int = 32,
+    ) -> None:
+        if max_history_turns < 1:
+            raise ValueError("max_history_turns must be positive")
+        self.source = source
+        self.context_source = context_source
+        self.method = method
+        self.encoder = encoder
+        self.contexts = build_delta_append_contexts(
+            context_source, method, max_history_turns=max_history_turns
+        )
+        missing = [
+            source.row_id_at_position(position)
+            for position in range(len(source))
+            if source.row_id_at_position(position) not in self.contexts
+        ]
+        if missing:
+            raise ValueError(
+                f"Append-only contexts are missing target rows: {missing[:5]}"
+            )
+
+    def __len__(self) -> int:
+        return len(self.source)
+
+    def __getitem__(self, index: int) -> EncodedExample:
+        row = self.source[index]
+        row_id = self.source.row_id_at_position(index)
+        context = self.contexts[row_id]
+        history_rows = [
+            self.context_source[self.context_source.position_for_row_id(history_row_id)]
+            for history_row_id in context.history_row_ids
+        ]
+        return self.encoder.encode_append(
+            row,
+            self.method,
+            context=context,
+            history_rows=history_rows,
+            row_id=row_id,
+        )
+
+
+def build_delta_append_contexts(
+    source: IndexedMemoryDataset,
+    method: DeltaV3AppendMethod,
+    *,
+    max_history_turns: int = 32,
+) -> dict[int, DeltaAppendContext]:
+    """Create cache epochs ending at five UPDATEs or a bounded turn history."""
+    if max_history_turns < 1:
+        raise ValueError("max_history_turns must be positive")
+    grouped: dict[int, list[tuple[int, int, dict[str, Any]]]] = defaultdict(list)
+    for position in range(len(source)):
+        row = source[position]
+        row_id = source.row_id_at_position(position)
+        grouped[int(row["scenario_index"])].append(
+            (int(row["global_turn_index"]), row_id, row)
+        )
+
+    contexts: dict[int, DeltaAppendContext] = {}
+    for rows in grouped.values():
+        rows.sort(key=lambda item: item[0])
+        history: list[int] = []
+        updates = 0
+        base_summary = ""
+        previous_turn: int | None = None
+        for global_turn, row_id, row in rows:
+            discontinuity = (
+                previous_turn is not None and global_turn != previous_turn + 1
+            )
+            if not history or discontinuity:
+                state = delta_v2_state_from_input(
+                    row.get("input"), compaction_interval=method.compaction_interval
+                )
+                base_summary = method.materialize_memory(state)
+                history = []
+                updates = 0
+            contexts[row_id] = DeltaAppendContext(
+                base_summary=base_summary,
+                history_row_ids=tuple(history),
+            )
+            history.append(row_id)
+            decision = row.get("target", {}).get("decision")
+            if decision == "UPDATE":
+                updates += 1
+            elif decision != "NO_OP":
+                raise ValueError(f"Invalid append-only target decision at row {row_id}")
+            if (
+                updates >= method.compaction_interval
+                or len(history) >= max_history_turns
+            ):
+                history = []
+                updates = 0
+            previous_turn = global_turn
+    return contexts
+
+
+def _stable_current_turn_prefix(prompt: str, content: str) -> str:
+    markers = ('"current_turn":', "\nT:\n")
+    marker = next((value for value in markers if value in content), None)
+    if marker is None:
+        raise ValueError("Rendered memory prompt has no stable current_turn boundary")
+    dynamic_start = content.find(marker)
+    content_start = prompt.find(content)
+    if content_start < 0:
+        raise ValueError("Rendered memory prompt has no stable current_turn boundary")
+    return prompt[:content_start] + content[: dynamic_start + len(marker)]
+
+
 class QuizChatExampleEncoder(ChatExampleEncoder):
-    """Encode HF assistant Tool Calls while masking schemas and user context."""
+    """Encode assistant Tool Calls or natural-language QA targets."""
 
     def encode(
         self,
         row: dict[str, Any],
-        tools: list[dict[str, Any]],
+        tools: list[dict[str, Any]] | None,
         *,
         row_id: int,
     ) -> EncodedExample:
@@ -126,15 +434,23 @@ class QuizChatExampleEncoder(ChatExampleEncoder):
         if not isinstance(messages, list) or len(messages) < 2:
             raise ValueError("Quiz SFT row has no chat messages")
         assistant = messages[-1]
-        if assistant.get("role") != "assistant" or not assistant.get("tool_calls"):
-            raise ValueError("Quiz SFT row has no assistant Tool Call target")
+        if assistant.get("role") != "assistant":
+            raise ValueError("Quiz SFT row has no assistant target")
+        has_tool_calls = bool(assistant.get("tool_calls"))
+        has_answer = isinstance(assistant.get("content"), str) and bool(
+            assistant["content"].strip()
+        )
+        if not has_tool_calls and not has_answer:
+            raise ValueError("Quiz SFT row has neither Tool Call nor text target")
+        if has_tool_calls and has_answer:
+            raise ValueError("Quiz SFT row mixes Tool Call and text targets")
         prompt = self._render(messages[:-1], add_generation_prompt=True, tools=tools)
         full = self._render(messages, add_generation_prompt=False, tools=tools)
         prompt_ids = self._tokenize(prompt)
         full_ids = self._tokenize(full)
         boundary = _common_prefix_length(prompt_ids, full_ids)
         if boundary == len(full_ids):
-            raise ValueError("Chat template produced no Tool Call target tokens")
+            raise ValueError("Chat template produced no Quiz target tokens")
         input_ids, boundary = _left_truncate(full_ids, boundary, self.max_length)
         labels = [-100] * boundary + input_ids[boundary:]
         if all(label == -100 for label in labels):
@@ -144,7 +460,7 @@ class QuizChatExampleEncoder(ChatExampleEncoder):
             labels=tuple(labels),
             row_id=row_id,
             scenario_index=int(row["scenario_index"]),
-            decision="TOOL_CALL",
+            decision="TOOL_CALL" if has_tool_calls else "ANSWER",
             task_type="quiz",
             sample_id=str(row.get("sample_id", "")),
         )
@@ -177,7 +493,7 @@ class QuizSFTDataset(Dataset[EncodedExample]):
     def __init__(
         self,
         source: IndexedQuizSFTDataset,
-        tools: VehicleToolSchemaStore,
+        tools: VehicleToolSchemaStore | None,
         encoder: QuizChatExampleEncoder,
     ) -> None:
         self.source = source
@@ -191,7 +507,8 @@ class QuizSFTDataset(Dataset[EncodedExample]):
         row = self.source[index]
         if not isinstance(row, dict):
             raise TypeError("Expected one Quiz SFT row")
-        return self.encoder.encode(row, self.tools.tools_for(row), row_id=index)
+        selected_tools = self.tools.tools_for(row) if self.tools is not None else None
+        return self.encoder.encode(row, selected_tools, row_id=index)
 
 
 class MultitaskSFTDataset(Dataset[EncodedExample]):

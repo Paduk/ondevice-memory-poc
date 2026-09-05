@@ -32,6 +32,12 @@ def test_qwen35_2b_target_is_registered() -> None:
     assert target.hf_id == "Qwen/Qwen3.5-2B"
 
 
+def test_qwen35_0_8b_target_is_registered() -> None:
+    target = MODEL_BY_KEY["qwen3.5-0.8b"]
+    assert target.parameters_b == 0.8
+    assert target.hf_id == "Qwen/Qwen3.5-0.8B"
+
+
 def test_granite4_350m_target_is_registered() -> None:
     target = MODEL_BY_KEY["granite4-350m"]
     assert target.parameters_b == 0.35

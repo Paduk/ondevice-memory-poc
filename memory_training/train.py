@@ -29,7 +29,7 @@ from .config import (
     split_for_scenario,
 )
 from .dataset import IndexedMemoryDataset, default_catalog_path, ensure_catalog
-from .methods import METHODS
+from .methods import METHODS, DeltaV3AppendMethod, DeltaV3Method
 from .models import load_peft_bundle
 from .quiz_sft import (
     IndexedQuizSFTDataset,
@@ -41,6 +41,8 @@ from .tracking import MLflowMirror, RunTracker
 from .training_data import (
     BalancedMultitaskBatchSampler,
     ChatExampleEncoder,
+    DeltaAppendChatExampleEncoder,
+    DeltaAppendSFTDataset,
     MethodSFTDataset,
     MultitaskSFTDataset,
     PlannedBatchSampler,
@@ -79,6 +81,14 @@ def build_parser() -> argparse.ArgumentParser:
         help="Optional isolated dataset catalog (useful for alternate data views).",
     )
     parser.add_argument("--resume", type=Path)
+    parser.add_argument(
+        "--init-checkpoint",
+        type=Path,
+        help=(
+            "Initialize LoRA weights from checkpoint/adapter but start a fresh "
+            "optimizer, scheduler, epoch counter, and run (domain adaptation)."
+        ),
+    )
     parser.add_argument("--epochs", type=int, default=3)
     parser.add_argument(
         "--stop-after-epoch",
@@ -128,6 +138,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--quiz-validation-max-new-tokens", type=int, default=256)
     parser.add_argument("--skip-quiz-validation", action="store_true")
+    parser.add_argument(
+        "--skip-epoch-validation",
+        action="store_true",
+        help="Save every epoch checkpoint without running validation/model selection.",
+    )
     parser.add_argument("--lora-rank", type=int, default=16)
     parser.add_argument("--lora-alpha", type=int, default=32)
     parser.add_argument("--lora-dropout", type=float, default=0.05)
@@ -160,11 +175,19 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--noop-per-update", type=int, default=10)
     parser.add_argument(
         "--delta-v3-noop-pending-weights",
-        nargs=5,
+        nargs="+",
         type=int,
         default=(40, 30, 15, 10, 5),
-        metavar=("P0", "P1", "P2", "P3", "P4"),
-        help="Delta-v3 independent NO_OP sampling weights by pending depth 0..4.",
+        help=(
+            "Delta-v3 independent NO_OP sampling weights by pending depth. "
+            "The number of weights must equal the method's compaction interval."
+        ),
+    )
+    parser.add_argument(
+        "--delta-v3-append-max-turns",
+        type=int,
+        default=32,
+        help="Maximum turns retained in one append-only training cache epoch.",
     )
     parser.add_argument("--adjacent-noop-fraction", type=float, default=0.30)
     parser.add_argument("--trajectory-fraction", type=float, default=0.20)
@@ -240,9 +263,20 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     )
     method = METHODS[args.method]()
     train_source = IndexedMemoryDataset(catalog, method.source_view, split="train")
+    delta_profile = isinstance(method, DeltaV3Method)
+    append_profile = isinstance(method, DeltaV3AppendMethod)
+    if delta_profile and len(args.delta_v3_noop_pending_weights) != (
+        method.compaction_interval
+    ):
+        raise ValueError(
+            "delta-v3-noop-pending-weights must provide exactly "
+            f"{method.compaction_interval} values for {args.method}"
+        )
     noop_strata = (
-        _delta_noop_pending_depths(catalog)
-        if args.method == "delta_v3"
+        _delta_noop_pending_depths(
+            catalog, compaction_interval=method.compaction_interval
+        )
+        if delta_profile
         else None
     )
     sampling_config = SamplingConfig(
@@ -253,9 +287,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         train_scenario_max=80,
         train_scenarios=tuple(args.train_scenarios or ()),
         noop_stratum_weights=(
-            tuple(args.delta_v3_noop_pending_weights)
-            if args.method == "delta_v3"
-            else ()
+            tuple(args.delta_v3_noop_pending_weights) if delta_profile else ()
         ),
         seed=args.seed,
     )
@@ -297,7 +329,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         total_optimizer_steps = min(total_optimizer_steps, args.max_train_steps)
 
     resume_progress = load_progress(args.resume) if args.resume else TrainingProgress()
-    adapter_path = args.resume / "adapter" if args.resume else None
+    initial_checkpoint = args.resume or args.init_checkpoint
+    adapter_path = initial_checkpoint / "adapter" if initial_checkpoint else None
     bundle = load_peft_bundle(
         args.model,
         lora_rank=args.lora_rank,
@@ -307,14 +340,28 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         gradient_checkpointing=args.gradient_checkpointing,
         cache_dir=workspace / "cache" / "huggingface" / "hub",
     )
-    encoder = ChatExampleEncoder(bundle.tokenizer, max_length=args.max_length)
+    encoder = (
+        DeltaAppendChatExampleEncoder(bundle.tokenizer, max_length=args.max_length)
+        if append_profile
+        else ChatExampleEncoder(bundle.tokenizer, max_length=args.max_length)
+    )
     collator = SFTCollator(bundle.tokenizer.pad_token_id)
-    memory_train_dataset = MethodSFTDataset(train_source, method, encoder)
+    memory_train_dataset = (
+        DeltaAppendSFTDataset(
+            train_source,
+            train_source,
+            method,
+            encoder,
+            max_history_turns=args.delta_v3_append_max_turns,
+        )
+        if append_profile
+        else MethodSFTDataset(train_source, method, encoder)
+    )
     quiz_tools = None
     if quiz_source is not None:
-        quiz_tools = VehicleToolSchemaStore(
-            args.vehicle_tools_path or data_root / "vehicle_tools.json"
-        )
+        tools_path = args.vehicle_tools_path or data_root / "vehicle_tools.json"
+        if tools_path.is_file():
+            quiz_tools = VehicleToolSchemaStore(tools_path)
         quiz_encoder = QuizChatExampleEncoder(
             bundle.tokenizer, max_length=args.max_length
         )
@@ -351,10 +398,9 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 seed=args.quiz_validation_seed,
             )
     validation_scenario_max = 85 if args.multitask else 90
-    validation_scenarios = tuple(
-        args.validation_scenarios
-        or range(81, validation_scenario_max + 1)
-    )
+    validation_scenarios = (() if args.skip_epoch_validation else tuple(
+        args.validation_scenarios or range(81, validation_scenario_max + 1)
+    ))
     validation_row_ids = [
         row_id
         for scenario in validation_scenarios
@@ -376,8 +422,18 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     teacher_forced_source = IndexedMemoryDataset(
         catalog, method.source_view, row_ids=teacher_forced_row_ids
     )
-    validation_dataset = MethodSFTDataset(teacher_forced_source, method, encoder)
-    validation_loader = DataLoader(
+    validation_dataset = (
+        DeltaAppendSFTDataset(
+            teacher_forced_source,
+            validation_source,
+            method,
+            encoder,
+            max_history_turns=args.delta_v3_append_max_turns,
+        )
+        if append_profile
+        else MethodSFTDataset(teacher_forced_source, method, encoder)
+    )
+    validation_loader = None if args.skip_epoch_validation else DataLoader(
         validation_dataset,
         batch_size=args.eval_batch_size,
         shuffle=False,
@@ -398,9 +454,14 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         num_warmup_steps=round(total_optimizer_steps * args.warmup_ratio),
         num_training_steps=max(1, total_optimizer_steps),
     )
-    model, optimizer, scheduler, validation_loader = accelerator.prepare(
-        bundle.model, optimizer, scheduler, validation_loader
-    )
+    if validation_loader is None:
+        model, optimizer, scheduler = accelerator.prepare(
+            bundle.model, optimizer, scheduler
+        )
+    else:
+        model, optimizer, scheduler, validation_loader = accelerator.prepare(
+            bundle.model, optimizer, scheduler, validation_loader
+        )
     if args.resume:
         restore_training_state(args.resume, optimizer=optimizer, scheduler=scheduler)
     progress = resume_progress
@@ -415,6 +476,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "model": asdict(bundle.spec),
         "method": args.method,
         "arguments": _jsonable_args(args),
+        "initial_checkpoint": str(args.init_checkpoint) if args.init_checkpoint else None,
         "sampling": asdict(sampling_config),
         "validation_sampling": {
             "teacher_forced_rows": len(teacher_forced_row_ids),
@@ -452,15 +514,16 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 "enabled": True,
                 "quiz_rows": len(quiz_source),
                 "quiz_sft_path": str(quiz_source.path),
-                "vehicle_tools_path": str(quiz_tools.path),
-                "vehicle_tools_sha256": quiz_tools.sha256,
+                "vehicle_tools_path": str(quiz_tools.path) if quiz_tools else None,
+                "vehicle_tools_sha256": quiz_tools.sha256 if quiz_tools else None,
+                "target_type": "tool_call" if quiz_tools else "text_answer",
                 "quiz_total_passes": args.quiz_total_passes,
                 "quiz_batch_size": quiz_batch_size,
                 "quiz_rows_per_epoch": [
                     len(schedule) for schedule in quiz_schedules if schedule is not None
                 ],
             }
-            if quiz_source is not None and quiz_tools is not None
+            if quiz_source is not None
             else {"enabled": False}
         ),
         "catalog": catalog.metadata(),
@@ -670,6 +733,19 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             scheduler=scheduler,
             progress=progress,
         )
+        if args.skip_epoch_validation:
+            progress.best_checkpoint = str(checkpoint_dir)
+            progress.best_metric = "last_epoch_no_validation"
+            save_checkpoint(
+                checkpoint_dir,
+                accelerator=accelerator,
+                model=model,
+                tokenizer=bundle.tokenizer,
+                optimizer=optimizer,
+                scheduler=scheduler,
+                progress=progress,
+            )
+            continue
         tracker.status(
             "VALIDATING",
             global_step=progress.global_step,
@@ -973,10 +1049,12 @@ def _epoch_validation(
 def _selection_score(validation: dict[str, Any]) -> tuple[float, str]:
     closed_quiz = validation.get("closed_loop_quiz", {})
     if "esm" in closed_quiz:
-        tie_break = float(validation.get("closed_loop", {}).get("final_state_f1", 0.0))
+        closed = validation.get("closed_loop", {})
         return (
-            float(closed_quiz["esm"]) + tie_break * 1e-6,
-            "closed_loop_quiz.esm_then_final_state_f1",
+            0.60 * float(closed_quiz["esm"])
+            + 0.25 * float(closed.get("final_state_f1", 0.0))
+            + 0.15 * float(closed.get("update_f1", 0.0)),
+            "composite.quiz_esm_60.final_state_f1_25.update_f1_15",
         )
     quiz = validation.get("quiz", {})
     if "esm" in quiz:
@@ -1030,7 +1108,11 @@ def _epoch_batch_count(
     )
 
 
-def _delta_noop_pending_depths(catalog: Any) -> dict[int, int]:
+def _delta_noop_pending_depths(
+    catalog: Any, *, compaction_interval: int = 5
+) -> dict[int, int]:
+    if compaction_interval < 1:
+        raise ValueError("compaction_interval must be positive")
     row_ids = catalog.eligible_row_ids(split="train", decision="NO_OP")
     source = IndexedMemoryDataset(catalog, "delta", row_ids=row_ids)
     depths = {}
@@ -1040,7 +1122,7 @@ def _delta_noop_pending_depths(catalog: Any) -> dict[int, int]:
         if not isinstance(memory_input, dict):
             raise TypeError(f"Delta-v3 row {row_id} has invalid input")
         pending = memory_input.get("pending_updates")
-        if not isinstance(pending, list) or len(pending) > 4:
+        if not isinstance(pending, list) or len(pending) >= compaction_interval:
             raise ValueError(f"Delta-v3 row {row_id} has invalid pending_updates")
         depths[row_id] = len(pending)
     return depths
@@ -1064,6 +1146,13 @@ def _validate_args(args: argparse.Namespace) -> None:
         raise ValueError("stop-after-epoch must be between 1 and epochs")
     if args.quiz_batch_size is not None and args.quiz_batch_size < 1:
         raise ValueError("quiz-batch-size must be positive")
+    if args.delta_v3_append_max_turns < 1:
+        raise ValueError("delta-v3-append-max-turns must be positive")
+    if args.method == "delta_v3_append" and not args.skip_generation_validation:
+        raise ValueError(
+            "delta_v3_append currently requires --skip-generation-validation; "
+            "use its append-only runtime for generation evaluation"
+        )
     if args.quiz_total_passes < 1:
         raise ValueError("quiz-total-passes must be positive")
     if args.quiz_validation_rows_per_scenario < 2:
@@ -1086,8 +1175,14 @@ def _validate_args(args: argparse.Namespace) -> None:
         raise ValueError("closed-loop Quiz cannot be combined with skipped Quiz Validation")
     if args.closed_loop_quiz and args.skip_generation_validation:
         raise ValueError("closed-loop Quiz requires generation Validation")
+    if args.resume and args.init_checkpoint:
+        raise ValueError("--resume and --init-checkpoint are mutually exclusive")
     if args.resume and not (args.resume / "adapter").is_dir():
         raise FileNotFoundError(f"Resume adapter not found: {args.resume}")
+    if args.init_checkpoint and not (args.init_checkpoint / "adapter").is_dir():
+        raise FileNotFoundError(
+            f"Initialization adapter not found: {args.init_checkpoint}"
+        )
     if not 0 <= args.closed_loop_sparse_noop_keep_fraction <= 1:
         raise ValueError("closed-loop sparse NO_OP keep fraction must be in [0, 1]")
     selected = [
@@ -1096,10 +1191,10 @@ def _validate_args(args: argparse.Namespace) -> None:
     ]
     if len(selected) != len(set(selected)):
         raise ValueError("closed-loop full and sparse scenarios must be disjoint")
-    validation_scenarios = tuple(
+    validation_scenarios = (() if args.skip_epoch_validation else tuple(
         args.validation_scenarios
         or range(81, (85 if args.multitask else 90) + 1)
-    )
+    ))
     invalid_validation = [
         scenario
         for scenario in validation_scenarios

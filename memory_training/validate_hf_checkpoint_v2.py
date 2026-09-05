@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import torch
 from torch.utils.data import DataLoader
 
 from .config import DEFAULT_DATA_ROOT, DEFAULT_WORKSPACE_ROOT
@@ -43,7 +44,24 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--workspace", type=Path, default=DEFAULT_WORKSPACE_ROOT)
     parser.add_argument("--data-root", type=Path, default=DEFAULT_DATA_ROOT)
+    parser.add_argument("--catalog-path", type=Path)
+    parser.add_argument(
+        "--evaluation-seed",
+        type=int,
+        help="Override the run seed used for deterministic evaluation sampling.",
+    )
+    parser.add_argument("--do-sample", action="store_true")
+    parser.add_argument("--temperature", type=float, default=1.0)
+    parser.add_argument("--top-p", type=float, default=1.0)
     parser.add_argument("--scenario-batch-size", type=int, default=2)
+    parser.add_argument(
+        "--closed-loop-noop-per-update",
+        type=float,
+        help=(
+            "Keep every UPDATE and this many deterministic NO_OP turns per "
+            "UPDATE while preserving trajectory order."
+        ),
+    )
     parser.add_argument("--quiz-batch-size", type=int, default=16)
     parser.add_argument("--teacher-batch-size", type=int, default=4)
     parser.add_argument("--one-step-batch-size", type=int, default=8)
@@ -67,6 +85,11 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Mark an interrupted training run complete after successful validation.",
     )
+    parser.add_argument(
+        "--no-status-update",
+        action="store_true",
+        help="Do not overwrite the training run status during an analysis probe.",
+    )
     return parser
 
 
@@ -78,18 +101,35 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         raise ValueError("Output must be directly inside the selected run directory")
     if not (checkpoint / "adapter").is_dir():
         raise FileNotFoundError(f"Checkpoint adapter not found: {checkpoint}")
-    if min(
-        args.scenario_batch_size,
-        args.quiz_batch_size,
-        args.teacher_batch_size,
-        args.one_step_batch_size,
-    ) < 1:
+    if (
+        min(
+            args.scenario_batch_size,
+            args.quiz_batch_size,
+            args.teacher_batch_size,
+            args.one_step_batch_size,
+        )
+        < 1
+    ):
         raise ValueError("Validation batch sizes must be positive")
+    if (
+        args.closed_loop_noop_per_update is not None
+        and args.closed_loop_noop_per_update < 0
+    ):
+        raise ValueError("Closed-loop NO_OP per UPDATE must be non-negative")
+    if args.temperature <= 0 or not 0 < args.top_p <= 1:
+        raise ValueError("Sampling requires temperature > 0 and 0 < top_p <= 1")
     config = _read_json(run_dir / "config.json")
     arguments = config["arguments"]
     model_key = str(config["model"]["key"])
     method_name = str(config["method"])
-    seed = int(arguments.get("seed", 42))
+    seed = (
+        args.evaluation_seed
+        if args.evaluation_seed is not None
+        else int(arguments.get("seed", 42))
+    )
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
     max_length = int(arguments.get("max_length", 2048))
     max_new_tokens = int(arguments.get("max_new_tokens", 768))
     quiz_max_new_tokens = int(arguments.get("quiz_validation_max_new_tokens", 256))
@@ -111,7 +151,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     model = accelerator.prepare(bundle.model)
     model.eval()
     method = METHODS[method_name]()
-    catalog = ensure_catalog(data_root, default_catalog_path(workspace))
+    catalog_path = (args.catalog_path or default_catalog_path(workspace)).resolve()
+    catalog = ensure_catalog(data_root, catalog_path)
 
     validation_scenarios = tuple(
         args.validation_scenarios
@@ -203,6 +244,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     epoch = _checkpoint_epoch(checkpoint)
 
     def report(payload: dict[str, Any]) -> None:
+        if args.no_status_update:
+            return
         _write_status(
             run_dir,
             state="VALIDATING",
@@ -231,9 +274,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             seed=seed,
             scenarios=validation_scenarios,
         )
-        report(
-            {"phase": "one_step", "item": 0, "items": len(one_step_row_ids)}
-        )
+        report({"phase": "one_step", "item": 0, "items": len(one_step_row_ids)})
         one_step = evaluate_one_step(
             model,
             bundle.tokenizer,
@@ -255,10 +296,15 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         accelerator=accelerator,
         split="validation",
         batch_size=args.scenario_batch_size,
+        noop_per_update=args.closed_loop_noop_per_update,
+        sampling_seed=seed,
         snapshot_requests=snapshot_requests,
         progress_callback=report,
         max_length=max_length,
         max_new_tokens=max_new_tokens,
+        do_sample=args.do_sample,
+        temperature=args.temperature,
+        top_p=args.top_p,
     )
     snapshots = {
         sample_id: memory
@@ -298,6 +344,9 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         memory_overrides=snapshots,
         batch_size=args.quiz_batch_size,
         progress_callback=report,
+        do_sample=args.do_sample,
+        temperature=args.temperature,
+        top_p=args.top_p,
     )
     if args.closed_loop_only:
         gold_quiz = {"skipped": True, "reason": "closed_loop_only"}
@@ -333,6 +382,11 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             "one_step_batch_size": args.one_step_batch_size,
             "quiz_batch_size": args.quiz_batch_size,
             "closed_loop_only": args.closed_loop_only,
+            "closed_loop_noop_per_update": args.closed_loop_noop_per_update,
+            "evaluation_seed": seed,
+            "do_sample": args.do_sample,
+            "temperature": args.temperature,
+            "top_p": args.top_p,
         },
         "teacher_forced": teacher,
         "one_step": one_step,
@@ -451,9 +505,11 @@ def _finalize_run(
 ) -> None:
     closed_quiz = result.get("closed_loop_quiz", {})
     closed = result.get("closed_loop", {})
-    score = float(closed_quiz.get("esm", 0.0)) + float(
-        closed.get("final_state_f1", 0.0)
-    ) * 1e-6
+    score = (
+        0.60 * float(closed_quiz.get("esm", 0.0))
+        + 0.25 * float(closed.get("final_state_f1", 0.0))
+        + 0.15 * float(closed.get("update_f1", 0.0))
+    )
     false_update_rate = float(result.get("one_step", {}).get("false_update_rate", 1.0))
     config = _read_json(run_dir / "config.json")
     threshold = float(config["arguments"].get("false_update_threshold", 0.15))
@@ -467,7 +523,7 @@ def _finalize_run(
             {
                 "checkpoint": str(checkpoint),
                 "score": score,
-                "metric": "closed_loop_quiz.esm_then_final_state_f1",
+                "metric": "composite.quiz_esm_60.final_state_f1_25.update_f1_15",
                 "false_update_rate": false_update_rate,
             },
         )

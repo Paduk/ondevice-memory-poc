@@ -112,6 +112,7 @@ def validate_method(
 def validate_compactions(
     data_root: Path, *, method_name: str = "delta", max_rows: int | None = None
 ) -> dict[str, Any]:
+    method = METHODS[method_name]()
     path = data_root / "compaction.jsonl"
     rows = 0
     triggers: Counter[str] = Counter()
@@ -123,7 +124,7 @@ def validate_compactions(
             memory_input = row["input"]
             memory = normalize_memory(memory_input["base_summary"])
             try:
-                if method_name in {"delta_v2", "delta_v3"}:
+                if isinstance(method, DeltaV2Method):
                     for batch in memory_input["pending_updates"]:
                         memory, _ = apply_operations(
                             memory, expand_compact_operations(batch)
@@ -162,8 +163,8 @@ def main() -> None:
         validate_method(name, args.data_root, max_rows=args.max_rows)
         for name in args.methods
     ]
-    for method_name in ("delta", "delta_v2", "delta_v3"):
-        if method_name in args.methods:
+    for method_name in args.methods:
+        if isinstance(METHODS[method_name](), (DeltaMethod, DeltaV2Method)):
             results.append(
                 validate_compactions(
                     args.data_root,
