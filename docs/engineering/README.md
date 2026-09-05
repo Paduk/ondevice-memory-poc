@@ -20,6 +20,8 @@ This directory is the public engineering knowledge base for PalmClaw. It records
 - [VehicleMemBench integration plan](vehiclemembench-integration-plan.md): benchmark adapter phases, evaluation isolation rules, and acceptance criteria.
 - [VehicleMemBench V2 Hybrid generation paper framing](vehiclemembench-v2-hybrid-generation-paper-framing.md): origin, three-way construction methodology, hypothetical 50-scenario interpretation, related work, and defensible paper claims.
 - [On-device Memory method and dataset training guide](on-device-memory-method-dataset-training-guide.md): method outputs, dataset variants, sampling, Validation/Test scenario policy, and Run management.
+- [On-device Memory KV-cache efficiency evaluation plan](on-device-memory-kv-cache-efficiency-evaluation-plan.md): cross-turn/background prefix-cache implementation, 5:1 NO_OP/UPDATE workload, and three-view latency/cost reporting for Summary, Patch, and Delta-v3-append.
+- [Delta-v3 compact k ablation](delta-v3-compact-k-ablation.md): compact prompt, aligned k=2/5/10 datasets, controlled training, and latency/cost acceptance checks.
 - [VehicleMemBench V4 method examples](vehiclemembench-v4-method-examples.md): concise examples of the four memory profiles and State/Tool F1 interpretation.
 - [Fact-first incremental memory methodology](tool-schema-on-device-memory-methodology.md): high-recall Fact extraction, bounded patch operations, and late Tool binding.
 - [Fact-first incremental memory implementation plan](tool-schema-on-device-memory-implementation-plan.md): Cloud PoC redesign followed by Local SLM and Android validation.

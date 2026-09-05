@@ -1,5 +1,10 @@
 # On-device Memory 4-Method 학습·평가 설계
 
+> 최신 모델·방법론별 Validation/Test 수치와 Composite 집계는
+> [`on-device-memory-latest-results.md`](./on-device-memory-latest-results.md)를 결과 기준
+> 문서로 사용한다. 결과를 갱신하거나 비교할 때 해당 문서를 먼저 확인하고, 새 평가가
+> 완료되면 표와 원본 artifact 목록을 함께 갱신한다.
+
 ## 0. 현재 상태 (2026-08-23)
 
 학습·Validation·Ollama Test에 필요한 코드는 모두 구현됐다. 현재 남은 핵심 작업은
@@ -201,9 +206,23 @@ decode한다. Validation은 비용에 따라 세 단계로 나눈다.
 3. epoch 종료마다 S81–S90 전체 closed-loop 평가
 4. S91–S100 Test는 best checkpoint 확정 후 정확히 한 번만 실행
 
-모든 생성은 고정 seed, `do_sample=false`로 실행한다. Best checkpoint는 closed-loop Quiz
-ESM을 우선하고 trajectory State F1을 tie-break로 사용하되, False UPDATE가 사전 기준을
-넘으면 제외한다. Test split은 checkpoint 선택에 사용하지 않는다.
+모든 생성은 고정 seed, `do_sample=false`로 실행한다. False UPDATE가 사전 기준을 넘는
+checkpoint는 제외하고, 나머지는 아래 Validation 복합점수로 best checkpoint를 선택한다.
+Test split은 checkpoint 선택에 사용하지 않는다.
+
+`Composite = 0.60 × Quiz ESM + 0.25 × Final-state F1 + 0.15 × Update F1`
+
+- **Quiz ESM (60%):** 예측 memory로 tool call을 실행했을 때 전체 상태가 정답과 정확히
+  일치한 비율이다. 최종 사용자 과업 성공에 가장 가까워 가장 큰 비중을 둔다.
+- **Final-state F1 (25%):** 각 trajectory 종료 시점의 예측 memory와 정답 memory 사이
+  F1이다. 여러 turn을 거치며 누적된 memory 상태의 정확성을 나타낸다.
+- **Update F1 (15%):** UPDATE가 필요한 turn을 찾아 올바르게 갱신하는 능력의 precision과
+  recall을 함께 반영한다. 불필요한 갱신과 필요한 갱신 누락을 모두 벌점화한다.
+
+세 지표는 모두 `[0, 1]` 범위이므로 별도 정규화 없이 결합한다. 복합점수가 같으면 Quiz
+ESM, Final-state F1, Update F1 순으로 비교하고, 그래도 같으면 과적합 위험과 추론 비용을
+줄이기 위해 더 이른 epoch를 선택한다. 2026-09-03 기준 기존 epoch별 결과에 이 정책을
+재적용했을 때 0.8B Patch/Delta-v3/Summary와 2B Patch/Summary의 선택 epoch는 바뀌지 않았다.
 
 ### Fast-validation 별도 프로필
 
@@ -213,8 +232,8 @@ ESM을 우선하고 trajectory State F1을 tie-break로 사용하되, False UPDA
 이전 예측 memory 의존성 때문에 순차 실행한다. 학습 종료 후 mini-validation의 best ESM과
 best Final State F1 checkpoint를 고른다. 같으면 1개, 다르면 최대 2개를 검증한다. Final
 validation은 S81–S85·T11 여섯 trajectory 전체와 해당 Quiz만 batch 6으로 평가하고,
-teacher-forced·one-step·sparse·Gold-memory 진단은 생략한다. 최종 선택은 full ESM,
-동점일 때 full Final State F1 순이다. 선택된 한 checkpoint의 V2 Test(S86–S100·T12–T20)는
+teacher-forced·one-step·sparse·Gold-memory 진단은 생략한다. 최종 선택은 위의 Validation
+복합점수와 동일한 동점 처리 규칙을 사용한다. 선택된 한 checkpoint의 V2 Test(S86–S100·T12–T20)는
 scenario batch 16, Quiz batch 16으로 자동 실행한다. 실행기는
 `memory_training/scripts/run_granite4_350m_patch_fast_validation.sh`이다.
 
