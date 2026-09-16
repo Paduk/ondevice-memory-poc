@@ -13,6 +13,7 @@ from memory_training.training_data import (
     DeltaAppendChatExampleEncoder,
     DeltaAppendSFTDataset,
     EncodedExample,
+    QuizBatchSampler,
     QuizChatExampleEncoder,
     SFTCollator,
     quiz_epoch_indices,
@@ -322,6 +323,15 @@ def test_quiz_schedule_exposes_each_example_exactly_twice_across_epochs() -> Non
     assert [len(schedule) for schedule in schedules] == [7, 7, 8]
     assert len(combined) == 22
     assert all(combined.count(index) == 2 for index in range(11))
+
+
+def test_quiz_only_batch_sampler_is_deterministic_and_resumable() -> None:
+    sampler = QuizBatchSampler((3, 0, 2, 1, 4), quiz_size=5, batch_size=2)
+    assert list(sampler) == [[3, 0], [2, 1], [4]]
+    resumed = QuizBatchSampler(
+        (3, 0, 2, 1, 4), quiz_size=5, batch_size=2, start_batch=1
+    )
+    assert list(resumed) == [[2, 1], [4]]
 
 
 def test_quiz_validation_subset_is_fixed_and_scenario_balanced(tmp_path: Path) -> None:

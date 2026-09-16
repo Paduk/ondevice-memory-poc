@@ -14,6 +14,8 @@ from .delta_v3_compact import (
 )
 from .patch import PatchMethod
 from .general_patch import GeneralPatchMethod
+from .mem0_one_pass import Mem0OnePassMethod
+from .mem0_two_stage import Mem0TwoStageMethod
 from .summary import SummaryMethod
 from .summary_reason import SummaryReasonMethod
 from .temporal_patch import TemporalPatchMethod
@@ -22,6 +24,8 @@ METHODS = {
     "summary": SummaryMethod,
     "patch": PatchMethod,
     "general_patch": GeneralPatchMethod,
+    "mem0_one_pass": Mem0OnePassMethod,
+    "mem0_two_stage": Mem0TwoStageMethod,
     "delta": DeltaMethod,
     "delta_v2": DeltaV2Method,
     "delta_v3": DeltaV3Method,
@@ -48,6 +52,8 @@ __all__ = [
     "DeltaV3CompactMethod",
     "DeltaV3Method",
     "MemoryMethod",
+    "Mem0OnePassMethod",
+    "Mem0TwoStageMethod",
     "ParsedMemoryOutput",
     "PatchBatchMethod",
     "PatchMethod",

@@ -29,7 +29,8 @@ from .config import (
     split_for_scenario,
 )
 from .dataset import IndexedMemoryDataset, default_catalog_path, ensure_catalog
-from .methods import METHODS, DeltaV3AppendMethod, DeltaV3Method
+from .methods import METHODS, DeltaV3AppendMethod, DeltaV3Method, Mem0TwoStageMethod
+from .mem0_two_stage_sampling import Mem0TwoStageEpochSampler
 from .models import load_peft_bundle
 from .quiz_sft import (
     IndexedQuizSFTDataset,
@@ -46,6 +47,7 @@ from .training_data import (
     MethodSFTDataset,
     MultitaskSFTDataset,
     PlannedBatchSampler,
+    QuizBatchSampler,
     QuizChatExampleEncoder,
     QuizSFTDataset,
     SFTCollator,
@@ -108,6 +110,14 @@ def build_parser() -> argparse.ArgumentParser:
         action=argparse.BooleanOptionalAction,
         default=False,
         help="Alternate Memory and Tool-Calling Quiz batches during SFT.",
+    )
+    parser.add_argument(
+        "--quiz-only",
+        action="store_true",
+        help=(
+            "Train only the shared Tool-Calling Quiz reader. Memory examples and "
+            "Memory-generation validation are excluded."
+        ),
     )
     parser.add_argument(
         "--quiz-total-passes",
@@ -184,6 +194,16 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument(
+        "--delta-v3-noop-sampling",
+        choices=("depth-weighted", "unstratified"),
+        default="depth-weighted",
+        help=(
+            "Choose whether independent Delta-v3 NO_OP examples are stratified "
+            "by pending depth. UPDATE, adjacent-NO_OP, trajectory, and Quiz "
+            "budgets are unchanged."
+        ),
+    )
+    parser.add_argument(
         "--delta-v3-append-max-turns",
         type=int,
         default=32,
@@ -191,6 +211,14 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--adjacent-noop-fraction", type=float, default=0.30)
     parser.add_argument("--trajectory-fraction", type=float, default=0.20)
+    parser.add_argument(
+        "--trajectory-sampling-seed",
+        type=int,
+        help=(
+            "Optional independent RNG seed for trajectory windows. Use the same "
+            "value across paired ablation conditions to hold trajectory exposure fixed."
+        ),
+    )
     parser.add_argument("--num-workers", type=int, default=4)
     parser.add_argument("--prefetch-factor", type=int, default=2)
     parser.add_argument(
@@ -265,7 +293,10 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     train_source = IndexedMemoryDataset(catalog, method.source_view, split="train")
     delta_profile = isinstance(method, DeltaV3Method)
     append_profile = isinstance(method, DeltaV3AppendMethod)
-    if delta_profile and len(args.delta_v3_noop_pending_weights) != (
+    depth_weighted_delta = (
+        delta_profile and args.delta_v3_noop_sampling == "depth-weighted"
+    )
+    if depth_weighted_delta and len(args.delta_v3_noop_pending_weights) != (
         method.compaction_interval
     ):
         raise ValueError(
@@ -276,7 +307,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         _delta_noop_pending_depths(
             catalog, compaction_interval=method.compaction_interval
         )
-        if delta_profile
+        if depth_weighted_delta
         else None
     )
     sampling_config = SamplingConfig(
@@ -287,15 +318,32 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         train_scenario_max=80,
         train_scenarios=tuple(args.train_scenarios or ()),
         noop_stratum_weights=(
-            tuple(args.delta_v3_noop_pending_weights) if delta_profile else ()
+            tuple(args.delta_v3_noop_pending_weights)
+            if depth_weighted_delta
+            else ()
         ),
         seed=args.seed,
+        trajectory_seed=args.trajectory_sampling_seed,
     )
-    epoch_sampler = EpochSampler(catalog, sampling_config, noop_strata=noop_strata)
-    plans = [epoch_sampler.build(epoch) for epoch in range(args.epochs)]
+    if isinstance(method, Mem0TwoStageMethod):
+        two_stage_manifest = json.loads(
+            (data_root / "manifest.json").read_text(encoding="utf-8")
+        )
+        epoch_sampler = Mem0TwoStageEpochSampler(
+            catalog,
+            sampling_config,
+            extraction_rows=int(two_stage_manifest["extraction_row_boundary"]),
+        )
+    else:
+        epoch_sampler = EpochSampler(catalog, sampling_config, noop_strata=noop_strata)
+    plans = (
+        []
+        if args.quiz_only
+        else [epoch_sampler.build(epoch) for epoch in range(args.epochs)]
+    )
     quiz_source = None
     quiz_batch_size = args.quiz_batch_size or args.batch_size
-    if args.multitask:
+    if args.multitask or args.quiz_only:
         quiz_source = IndexedQuizSFTDataset(
             args.quiz_sft_path or data_root / "quiz_sft.jsonl", split="train"
         )
@@ -313,18 +361,37 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         if quiz_source is not None
         else [None] * args.epochs
     )
-    total_batches = sum(
-        _epoch_batch_count(
-            train_source,
-            plan,
-            batch_size=args.batch_size,
-            quiz_size=len(quiz_source) if quiz_source is not None else None,
-            quiz_indices=quiz_schedules[epoch],
-            quiz_batch_size=quiz_batch_size,
+    if args.quiz_only:
+        quiz_epoch_batch_counts = [
+            len(
+                QuizBatchSampler(
+                    schedule or (),
+                    quiz_size=len(quiz_source),
+                    batch_size=quiz_batch_size,
+                )
+            )
+            for schedule in quiz_schedules
+        ]
+        total_batches = sum(quiz_epoch_batch_counts)
+        total_optimizer_steps = sum(
+            math.ceil(count / args.gradient_accumulation)
+            for count in quiz_epoch_batch_counts
         )
-        for epoch, plan in enumerate(plans)
-    )
-    total_optimizer_steps = math.ceil(total_batches / args.gradient_accumulation)
+    else:
+        total_batches = sum(
+            _epoch_batch_count(
+                train_source,
+                plan,
+                batch_size=args.batch_size,
+                quiz_size=len(quiz_source) if quiz_source is not None else None,
+                quiz_indices=quiz_schedules[epoch],
+                quiz_batch_size=quiz_batch_size,
+            )
+            for epoch, plan in enumerate(plans)
+        )
+        total_optimizer_steps = math.ceil(
+            total_batches / args.gradient_accumulation
+        )
     if args.max_train_steps is not None:
         total_optimizer_steps = min(total_optimizer_steps, args.max_train_steps)
 
@@ -366,13 +433,17 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             bundle.tokenizer, max_length=args.max_length
         )
         quiz_dataset = QuizSFTDataset(quiz_source, quiz_tools, quiz_encoder)
-        train_dataset = MultitaskSFTDataset(memory_train_dataset, quiz_dataset)
+        train_dataset = (
+            quiz_dataset
+            if args.quiz_only
+            else MultitaskSFTDataset(memory_train_dataset, quiz_dataset)
+        )
     else:
         train_dataset = memory_train_dataset
     quiz_validation_source = None
     quiz_validation_indices = None
     closed_loop_quiz_indices = None
-    if args.multitask and not args.skip_quiz_validation:
+    if (args.multitask or args.quiz_only) and not args.skip_quiz_validation:
         quiz_validation_source = IndexedQuizSFTDataset(
             args.quiz_sft_path or data_root / "quiz_sft.jsonl", split="validation"
         )
@@ -398,41 +469,55 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 seed=args.quiz_validation_seed,
             )
     validation_scenario_max = 85 if args.multitask else 90
-    validation_scenarios = (() if args.skip_epoch_validation else tuple(
-        args.validation_scenarios or range(81, validation_scenario_max + 1)
-    ))
-    validation_row_ids = [
-        row_id
-        for scenario in validation_scenarios
-        for row_id in catalog.scenario_row_ids(scenario)
-    ]
-    validation_source = IndexedMemoryDataset(
-        catalog, method.source_view, row_ids=validation_row_ids
-    )
-    validation_summary = IndexedMemoryDataset(
-        catalog, "summary", row_ids=validation_row_ids
-    )
-    teacher_forced_row_ids = stratified_teacher_forced_row_ids(
-        catalog,
-        max_rows=args.eval_max_rows,
-        adjacent_noop_fraction=args.eval_adjacent_noop_fraction,
-        seed=args.seed,
-        scenarios=validation_scenarios,
-    )
-    teacher_forced_source = IndexedMemoryDataset(
-        catalog, method.source_view, row_ids=teacher_forced_row_ids
-    )
-    validation_dataset = (
-        DeltaAppendSFTDataset(
-            teacher_forced_source,
-            validation_source,
-            method,
-            encoder,
-            max_history_turns=args.delta_v3_append_max_turns,
+    validation_scenarios = (
+        ()
+        if args.skip_epoch_validation or args.quiz_only
+        else tuple(
+            args.validation_scenarios or range(81, validation_scenario_max + 1)
         )
-        if append_profile
-        else MethodSFTDataset(teacher_forced_source, method, encoder)
     )
+    if args.quiz_only:
+        validation_source = None
+        validation_summary = None
+        teacher_forced_row_ids = []
+        validation_dataset = QuizSFTDataset(
+            quiz_validation_source,
+            quiz_tools,
+            QuizChatExampleEncoder(bundle.tokenizer, max_length=args.max_length),
+        )
+    else:
+        validation_row_ids = [
+            row_id
+            for scenario in validation_scenarios
+            for row_id in catalog.scenario_row_ids(scenario)
+        ]
+        validation_source = IndexedMemoryDataset(
+            catalog, method.source_view, row_ids=validation_row_ids
+        )
+        validation_summary = IndexedMemoryDataset(
+            catalog, "summary", row_ids=validation_row_ids
+        )
+        teacher_forced_row_ids = stratified_teacher_forced_row_ids(
+            catalog,
+            max_rows=args.eval_max_rows,
+            adjacent_noop_fraction=args.eval_adjacent_noop_fraction,
+            seed=args.seed,
+            scenarios=validation_scenarios,
+        )
+        teacher_forced_source = IndexedMemoryDataset(
+            catalog, method.source_view, row_ids=teacher_forced_row_ids
+        )
+        validation_dataset = (
+            DeltaAppendSFTDataset(
+                teacher_forced_source,
+                validation_source,
+                method,
+                encoder,
+                max_history_turns=args.delta_v3_append_max_turns,
+            )
+            if append_profile
+            else MethodSFTDataset(teacher_forced_source, method, encoder)
+        )
     validation_loader = None if args.skip_epoch_validation else DataLoader(
         validation_dataset,
         batch_size=args.eval_batch_size,
@@ -467,14 +552,19 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     progress = resume_progress
     configuration = {
         "schema_version": (
-            "palmclaw-memory-tool-multitask-run-v1"
-            if args.multitask
-            else "palmclaw-memory-training-run-v1"
+            "palmclaw-quiz-only-training-run-v1"
+            if args.quiz_only
+            else (
+                "palmclaw-memory-tool-multitask-run-v1"
+                if args.multitask
+                else "palmclaw-memory-training-run-v1"
+            )
         ),
         "created_at": datetime.now(timezone.utc).isoformat(),
         "run_id": run_id,
         "model": asdict(bundle.spec),
-        "method": args.method,
+        "method": "quiz_only" if args.quiz_only else args.method,
+        "memory_method_placeholder": args.method if args.quiz_only else None,
         "arguments": _jsonable_args(args),
         "initial_checkpoint": str(args.init_checkpoint) if args.init_checkpoint else None,
         "sampling": asdict(sampling_config),
@@ -508,7 +598,19 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             if args.closed_loop_quiz
             else [],
         },
-        "epoch_plans": [plan.summary() for plan in plans],
+        "epoch_plans": (
+            [
+                {
+                    "task": "quiz",
+                    "rows": len(schedule or ()),
+                    "batches": math.ceil(len(schedule or ()) / quiz_batch_size),
+                }
+                for schedule in quiz_schedules
+            ]
+            if args.quiz_only
+            else [plan.summary() for plan in plans]
+        ),
+        "quiz_only": args.quiz_only,
         "multitask": (
             {
                 "enabled": True,
@@ -547,7 +649,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 "batch_size": args.batch_size,
                 "gradient_accumulation": args.gradient_accumulation,
                 "multitask": args.multitask,
-                "quiz_total_passes": args.quiz_total_passes if args.multitask else 0,
+                "quiz_only": args.quiz_only,
+                "quiz_total_passes": (
+                    args.quiz_total_passes
+                    if args.multitask or args.quiz_only
+                    else 0
+                ),
                 "dataset_fingerprint": catalog.metadata().get("source_fingerprint"),
             }
         )
@@ -583,10 +690,17 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         epoch_eta_started_at = time.perf_counter()
         epoch_eta_start_step = progress.global_step
         start_batch = progress.next_batch if epoch == progress.epoch else 0
-        memory_batch_sampler = PlannedBatchSampler(
-            train_source, plans[epoch], batch_size=args.batch_size
-        )
-        if quiz_source is not None:
+        if args.quiz_only:
+            batch_sampler = QuizBatchSampler(
+                quiz_schedules[epoch] or (),
+                quiz_size=len(quiz_source),
+                batch_size=quiz_batch_size,
+                start_batch=start_batch,
+            )
+        elif quiz_source is not None:
+            memory_batch_sampler = PlannedBatchSampler(
+                train_source, plans[epoch], batch_size=args.batch_size
+            )
             batch_sampler = BalancedMultitaskBatchSampler(
                 memory_batch_sampler,
                 memory_size=len(memory_train_dataset),
@@ -1146,6 +1260,14 @@ def _validate_args(args: argparse.Namespace) -> None:
         raise ValueError("stop-after-epoch must be between 1 and epochs")
     if args.quiz_batch_size is not None and args.quiz_batch_size < 1:
         raise ValueError("quiz-batch-size must be positive")
+    if args.quiz_only and args.multitask:
+        raise ValueError("--quiz-only and --multitask are mutually exclusive")
+    if args.quiz_only and not args.skip_generation_validation:
+        raise ValueError("--quiz-only requires --skip-generation-validation")
+    if args.quiz_only and args.skip_quiz_validation:
+        raise ValueError("--quiz-only requires Quiz validation")
+    if args.quiz_only and args.train_scenarios:
+        raise ValueError("--train-scenarios does not apply to --quiz-only")
     if args.delta_v3_append_max_turns < 1:
         raise ValueError("delta-v3-append-max-turns must be positive")
     if args.method == "delta_v3_append" and not args.skip_generation_validation:
@@ -1191,10 +1313,14 @@ def _validate_args(args: argparse.Namespace) -> None:
     ]
     if len(selected) != len(set(selected)):
         raise ValueError("closed-loop full and sparse scenarios must be disjoint")
-    validation_scenarios = (() if args.skip_epoch_validation else tuple(
-        args.validation_scenarios
-        or range(81, (85 if args.multitask else 90) + 1)
-    ))
+    validation_scenarios = (
+        ()
+        if args.skip_epoch_validation or args.quiz_only
+        else tuple(
+            args.validation_scenarios
+            or range(81, (85 if args.multitask else 90) + 1)
+        )
+    )
     invalid_validation = [
         scenario
         for scenario in validation_scenarios

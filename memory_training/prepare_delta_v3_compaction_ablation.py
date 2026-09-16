@@ -20,7 +20,7 @@ from .methods.operations import apply_operations, normalize_memory
 
 DEFAULT_SOURCE = Path(
     "/mnt/data/hj153lee/PalmClaw/evaluation/vehiclemembench-v2-training/"
-    "grouped-s1-s100-plus-temporal-t1-t20-plus-v1-10-v2"
+    "grouped-s1-s100-plus-temporal-t1-t20-v2"
 )
 INVARIANT_FILES = (
     "summary.jsonl",

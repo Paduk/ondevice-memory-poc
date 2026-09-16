@@ -39,7 +39,7 @@ export TOKENIZERS_PARALLELISM=false
 export PYTHONUNBUFFERED=1
 export PYTHONPATH="${repo_root}:${repo_root}/ubuntu/src${PYTHONPATH:+:${PYTHONPATH}}"
 
-train_scenarios=($(seq 15 80) $(seq 101 110))
+train_scenarios=($(seq 21 80) $(seq 101 110))
 
 exec "${python_bin}" -m memory_training.train \
   --model qwen3.5-4b \

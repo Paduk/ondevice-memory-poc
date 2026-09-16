@@ -9,6 +9,49 @@ from typing import Any
 from .config import MODEL_BY_KEY, TargetModel
 
 
+_LLAMA_SINGLE_TOOL_BLOCK = """{%- elif 'tool_calls' in message %}
+        {%- if not message.tool_calls|length == 1 %}
+            {{- raise_exception("This model only supports single tool-calls at once!") }}
+        {%- endif %}
+        {%- set tool_call = message.tool_calls[0].function %}
+        {{- '<|start_header_id|>assistant<|end_header_id|>\\n\\n' -}}
+        {{- '{"name": "' + tool_call.name + '", ' }}
+        {{- '"parameters": ' }}
+        {{- tool_call.arguments | tojson }}
+        {{- "}" }}
+        {{- "<|eot_id|>" }}"""
+
+_LLAMA_MULTI_TOOL_BLOCK = """{%- elif 'tool_calls' in message %}
+        {{- '<|start_header_id|>assistant<|end_header_id|>\\n\\n' -}}
+        {%- for tool_call in message.tool_calls %}
+            {%- set function = tool_call.function %}
+            {{- '<tool_call>\\n' }}
+            {{- '{"name": "' + function.name + '", ' }}
+            {{- '"arguments": ' }}
+            {{- function.arguments | tojson }}
+            {{- "}\\n</tool_call>" }}
+            {%- if not loop.last %}{{- "\\n" }}{%- endif %}
+        {%- endfor %}
+        {{- "<|eot_id|>" }}"""
+
+
+def configure_tokenizer_for_model(spec: TargetModel, tokenizer: Any) -> None:
+    """Apply model-family chat compatibility required by PalmClaw targets."""
+    if spec.family != "llama3.2":
+        return
+    template = getattr(tokenizer, "chat_template", None)
+    if not isinstance(template, str):
+        raise ValueError(f"{spec.key} tokenizer has no string chat template")
+    if _LLAMA_SINGLE_TOOL_BLOCK not in template:
+        raise ValueError(f"{spec.key} has an unsupported Llama tool chat template")
+    template = template.replace(_LLAMA_SINGLE_TOOL_BLOCK, _LLAMA_MULTI_TOOL_BLOCK)
+    template = template.replace(
+        'Respond in the format {"name": function name, "parameters": dictionary of argument name and its value}.',
+        "Respond with one <tool_call> JSON block per required function call, using the keys name and arguments.",
+    )
+    tokenizer.chat_template = template
+
+
 @dataclass(frozen=True)
 class ModelBundle:
     spec: TargetModel
@@ -81,6 +124,7 @@ def load_peft_bundle(
         trust_remote_code=True,
         cache_dir=cache_dir,
     )
+    configure_tokenizer_for_model(spec, tokenizer)
     if tokenizer.pad_token_id is None:
         tokenizer.pad_token = tokenizer.eos_token
     tokenizer.padding_side = "right"

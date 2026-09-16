@@ -19,7 +19,7 @@ repo_root=/home/hj153lee/PalmClaw
 workspace=/mnt/data/hj153lee/PalmClaw/on-device-memory-training
 python_bin=/mnt/data/hj153lee/conda-envs/palmclaw-memory-sft/bin/python
 data_parent=/mnt/data/hj153lee/PalmClaw/evaluation/vehiclemembench-v2-training
-train_root="${data_parent}/grouped-s1-s100-plus-temporal-t1-t20-plus-v1-10-v2-delta-v3-compact-k${interval}-v1"
+train_root="${data_parent}/grouped-s1-s100-plus-temporal-t1-t20-v2-delta-v3-compact-k${interval}-v1"
 eval_root="${data_parent}/grouped-v2-v1-10-eval-fixed-noop5-seed45-v1-delta-v3-compact-k${interval}-v1"
 method=delta_v3_compact_k${interval}
 run_id="qwen35-2b-${method}-multitask-noop5-uniform-depth-e${epochs}-b2-trainseed${training_seed}-evalfixed-noop5-${run_tag}"
@@ -46,9 +46,8 @@ mkdir -p "${run_dir}"
 exec > >(tee -a "${log_path}") 2>&1
 
 train_scenarios=(
-  $(seq 15 80)
+  $(seq 21 80)
   $(seq 101 110)
-  202 205 206 214 217 223 231 232 233 236
 )
 validation_scenarios=(81 82 83 84 85 111)
 test_scenarios=(

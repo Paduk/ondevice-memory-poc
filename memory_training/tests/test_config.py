@@ -24,6 +24,11 @@ def test_scenario_split_boundaries() -> None:
     assert split_for_scenario(250) == "train"
     assert split_for_scenario(301) == "train"
     assert split_for_scenario(320) == "train"
+    assert split_for_scenario(901) == "test"
+    assert split_for_scenario(920) == "test"
+    assert split_for_scenario(921) == "test"
+    assert split_for_scenario(930) == "test"
+    assert split_for_scenario(940) == "test"
 
 
 def test_qwen35_2b_target_is_registered() -> None:
@@ -48,6 +53,15 @@ def test_granite4_1b_target_is_registered() -> None:
     target = MODEL_BY_KEY["granite4-1b"]
     assert target.parameters_b == 1
     assert target.hf_id == "ibm-granite/granite-4.0-1b"
+
+
+def test_llama32_targets_are_registered() -> None:
+    one_b = MODEL_BY_KEY["llama3.2-1b"]
+    three_b = MODEL_BY_KEY["llama3.2-3b"]
+    assert one_b.parameters_b == 1
+    assert one_b.hf_id == "meta-llama/Llama-3.2-1B-Instruct"
+    assert three_b.parameters_b == 3
+    assert three_b.hf_id == "meta-llama/Llama-3.2-3B-Instruct"
 
 
 def test_training_runtime_paths_override_xdg_cache(

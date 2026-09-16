@@ -58,8 +58,14 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     scenarios = tuple(dict.fromkeys(args.scenarios))
     if not scenarios:
         raise ValueError("At least one Test scenario is required")
-    if any(scenario < 1 or scenario > 120 for scenario in scenarios):
-        raise ValueError("Scenario indices must be S1-S100 or encoded T1-T20")
+    if any(
+        not (1 <= scenario <= 120 or 901 <= scenario <= 940)
+        for scenario in scenarios
+    ):
+        raise ValueError(
+            "Scenario indices must be S1-S100, encoded T1-T20, "
+            "or evaluation-only HVP/HVE aliases S901-S940"
+        )
     if args.scenario_batch_size < 1 or args.quiz_batch_size < 1:
         raise ValueError("Evaluation batch sizes must be positive")
     checkpoint = args.checkpoint.resolve()

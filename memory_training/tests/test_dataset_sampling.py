@@ -146,6 +146,30 @@ def test_epoch_sampler_preserves_updates_and_is_deterministic(tmp_path: Path) ->
         )
 
 
+def test_epoch_sampler_can_pair_trajectory_windows_across_sampling_seeds(
+    tmp_path: Path,
+) -> None:
+    data_root = tmp_path / "data"
+    data_root.mkdir()
+    _write_views(data_root)
+    catalog_path = tmp_path / "catalog.sqlite"
+    build_catalog(data_root, catalog_path)
+    catalog = DatasetCatalog(catalog_path, data_root)
+    common = {
+        "noop_per_update": 2,
+        "adjacent_noop_fraction": 0.5,
+        "trajectory_fraction": 0.25,
+        "trajectory_min_turns": 2,
+        "trajectory_max_turns": 4,
+        "trajectory_seed": 99,
+    }
+
+    first = EpochSampler(catalog, SamplingConfig(**common, seed=7)).build(0)
+    second = EpochSampler(catalog, SamplingConfig(**common, seed=8)).build(0)
+
+    assert first.trajectory_windows == second.trajectory_windows
+
+
 def test_pending_depth_weights_allocate_requested_delta_v3_mix() -> None:
     assert _weighted_capacitated_counts(
         100,

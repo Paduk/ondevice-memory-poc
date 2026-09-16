@@ -37,6 +37,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--catalog-path", type=Path)
     parser.add_argument("--scenarios", nargs="+", type=int, required=True)
     parser.add_argument("--split", default="validation")
+    parser.add_argument(
+        "--quiz-split",
+        help="Quiz split used for required anchors; defaults to --split.",
+    )
     parser.add_argument("--noop-per-update", type=float, default=5.0)
     parser.add_argument("--sampling-seed", type=int, default=45)
     parser.add_argument(
@@ -56,6 +60,7 @@ def build_manifest(
     noop_per_update: float,
     sampling_seed: int,
     include_quiz_anchors: bool,
+    quiz_split: str | None = None,
 ) -> dict[str, Any]:
     if noop_per_update < 0:
         raise ValueError("NO_OP per UPDATE must be non-negative")
@@ -64,16 +69,33 @@ def build_manifest(
         raise ValueError("At least one scenario is required")
     data_root = data_root.resolve()
     catalog = ensure_catalog(data_root, catalog_path.resolve())
-    available = set(catalog.scenarios(split=split))
+    available = set(
+        catalog.scenarios() if split == "all" else catalog.scenarios(split=split)
+    )
     invalid = sorted(set(selected_scenarios) - available)
     if invalid:
         raise ValueError(f"Scenarios are outside the {split} split: {invalid}")
 
-    source = IndexedMemoryDataset(catalog, "patch", split=split)
+    source = (
+        IndexedMemoryDataset(
+            catalog,
+            "patch",
+            row_ids=[
+                row_id
+                for scenario in selected_scenarios
+                for row_id in catalog.scenario_row_ids(scenario)
+            ],
+        )
+        if split == "all"
+        else IndexedMemoryDataset(catalog, "patch", split=split)
+    )
     required_by_scenario: Mapping[int, Mapping[int, Sequence[str]]] = {}
     if include_quiz_anchors:
+        effective_quiz_split = quiz_split or split
+        if effective_quiz_split == "all":
+            raise ValueError("--quiz-split is required when --split=all")
         quiz_source = IndexedQuizSFTDataset(
-            data_root / "quiz_sft.jsonl", split=split
+            data_root / "quiz_sft.jsonl", split=effective_quiz_split
         )
         quiz_indices = quiz_indices_for_scenarios(quiz_source, selected_scenarios)
         required_by_scenario = closed_loop_quiz_snapshot_requests(
@@ -136,6 +158,7 @@ def build_manifest(
             "noop_per_update": noop_per_update,
             "sampling_seed": sampling_seed,
             "include_quiz_anchors": include_quiz_anchors,
+            "quiz_split": quiz_split or split,
         },
         "totals": {
             "original_turns": original_turns,
@@ -236,6 +259,7 @@ def main() -> None:
         noop_per_update=args.noop_per_update,
         sampling_seed=args.sampling_seed,
         include_quiz_anchors=not args.without_quiz_anchors,
+        quiz_split=args.quiz_split,
     )
     write_manifest(args.output, manifest)
     print(

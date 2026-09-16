@@ -50,6 +50,20 @@ TARGET_MODELS = (
     TargetModel("qwen3.5-4b", "qwen3.5", 4, "Qwen/Qwen3.5-4B", "qwen3.5:4b"),
     TargetModel("qwen3.5-9b", "qwen3.5", 9, "Qwen/Qwen3.5-9B", "qwen3.5:9b"),
     TargetModel(
+        "llama3.2-1b",
+        "llama3.2",
+        1,
+        "meta-llama/Llama-3.2-1B-Instruct",
+        "llama3.2:1b",
+    ),
+    TargetModel(
+        "llama3.2-3b",
+        "llama3.2",
+        3,
+        "meta-llama/Llama-3.2-3B-Instruct",
+        "llama3.2:3b",
+    ),
+    TargetModel(
         "granite4.1-3b",
         "granite4.1",
         3,
@@ -100,10 +114,17 @@ def split_for_scenario(scenario_index: int) -> str:
     # V1 source split disjoint from the generated S301-S320 identities.
     if 301 <= scenario_index <= 320:
         return "train"
+    # Evaluation-only aliases for external-adapted HVP suites. S901-S920 are
+    # the main HVP set; S921-S940 are the explicitly easy HVE calibration set.
+    # These IDs exist only inside an isolated data root and are never eligible
+    # for training or checkpoint selection.
+    if 901 <= scenario_index <= 940:
+        return "test"
     if not 1 <= scenario_index <= 100:
         raise ValueError(
             "scenario_index must be S1-S100, encoded T1-T20, "
-            "training-only encoded V1 S1-S50, or V1-style S301-S320: "
+            "training-only encoded V1 S1-S50, V1-style S301-S320, "
+            "or evaluation-only HVP/HVE aliases S901-S940: "
             f"{scenario_index}"
         )
     if scenario_index <= 80:

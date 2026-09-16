@@ -69,7 +69,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--memory-max-output-tokens", type=int, default=768)
     parser.add_argument("--quiz-max-output-tokens", type=int, default=256)
     parser.add_argument("--quiz-workers", type=int, default=8)
-    parser.add_argument("--reasoning-effort", default="low")
+    parser.add_argument(
+        "--reasoning-effort",
+        choices=("none", "low", "medium", "high", "xhigh", "max"),
+        default="low",
+    )
     parser.add_argument("--summary-memory-token-budget", type=int)
     parser.add_argument("--vehicle-memory-filter", action="store_true")
     parser.add_argument("--semantic-compaction-every", type=int)
@@ -638,6 +642,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     manifest = {
         "schema_version": "palmclaw-cloud-ondevice-prompt-closed-loop-v1",
         "model": args.model,
+        "reasoning_effort": args.reasoning_effort,
         "method": args.method,
         "scenario": args.scenario,
         "scenario_label": f"T{args.scenario - 100}" if args.scenario > 100 else f"S{args.scenario}",

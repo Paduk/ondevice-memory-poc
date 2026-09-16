@@ -27,10 +27,10 @@ def _summary_row(scenario: int, turn: int, memory: str) -> dict:
 
 
 def _write_catalog_data(root: Path, memory: str = "- preferred brightness=3") -> None:
-    summary = _summary_row(15, 3, memory)
+    summary = _summary_row(21, 3, memory)
     for view in ("summary", "patch", "delta"):
         row = dict(summary)
-        row["sample_id"] = f"s015:{view}:00003"
+        row["sample_id"] = f"s021:{view}:00003"
         if view != "summary":
             row["target"] = {"decision": "UPDATE", "operations": []}
         (root / f"{view}.jsonl").write_text(json.dumps(row) + "\n")
@@ -39,8 +39,8 @@ def _write_catalog_data(root: Path, memory: str = "- preferred brightness=3") ->
 
 
 def test_sft_split_keeps_pilot_scenarios_out_of_training() -> None:
-    assert sft_split_for_scenario(14) == "excluded"
-    assert sft_split_for_scenario(15) == "train"
+    assert sft_split_for_scenario(20) == "excluded"
+    assert sft_split_for_scenario(21) == "train"
     assert sft_split_for_scenario(81) == "validation"
     assert sft_split_for_scenario(86) == "test"
     assert sft_split_for_scenario(101) == "train"
@@ -52,6 +52,11 @@ def test_sft_split_keeps_pilot_scenarios_out_of_training() -> None:
     assert sft_split_for_scenario(250) == "train"
     assert sft_split_for_scenario(301) == "train"
     assert sft_split_for_scenario(320) == "train"
+    assert sft_split_for_scenario(901) == "test"
+    assert sft_split_for_scenario(920) == "test"
+    assert sft_split_for_scenario(921) == "test"
+    assert sft_split_for_scenario(930) == "test"
+    assert sft_split_for_scenario(940) == "test"
 
 
 def test_convert_quiz_resolves_gold_memory_and_hf_tool_calls(tmp_path: Path) -> None:
@@ -73,16 +78,16 @@ def test_convert_quiz_resolves_gold_memory_and_hf_tool_calls(tmp_path: Path) -> 
     from jsonschema import Draft202012Validator
 
     row = {
-        "sample_id": "s015:turn_quiz:q1",
-        "scenario_index": 15,
+        "sample_id": "s021:turn_quiz:q1",
+        "scenario_index": 21,
         "split": "train",
         "quiz_type": "TURN",
         "quiz_id": "q1",
         "memory_ref": {
             "global_turn_index": 3,
-            "summary_sample_id": "s015:summary:00003",
-            "patch_sample_id": "s015:patch:00003",
-            "delta_sample_id": "s015:delta:00003",
+            "summary_sample_id": "s021:summary:00003",
+            "patch_sample_id": "s021:patch:00003",
+            "delta_sample_id": "s021:delta:00003",
             "memory_snapshot_sha256": hashlib.sha256(memory.encode()).hexdigest(),
         },
         "input": {
@@ -136,14 +141,14 @@ def test_convert_quiz_rejects_invalid_tool_arguments(tmp_path: Path) -> None:
     build_catalog(data_root, catalog_path)
     summaries = IndexedMemoryDataset(DatasetCatalog(catalog_path, data_root), "summary")
     row = {
-        "sample_id": "s015:turn_quiz:q1",
-        "scenario_index": 15,
+        "sample_id": "s021:turn_quiz:q1",
+        "scenario_index": 21,
         "split": "train",
         "quiz_type": "TURN",
         "quiz_id": "q1",
         "memory_ref": {
             "global_turn_index": 3,
-            "summary_sample_id": "s015:summary:00003",
+            "summary_sample_id": "s021:summary:00003",
             "memory_snapshot_sha256": hashlib.sha256(memory.encode()).hexdigest(),
         },
         "input": {"query": "Set it.", "reasoning_type": "state_shift"},

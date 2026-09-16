@@ -12,7 +12,7 @@ from plot_delta_v3_stress_pareto import COLORS, DATA, MARKERS, pareto_front
 OUTPUT_DIR = Path("/home/hj153lee/PalmClaw/docs/engineering/figures")
 MODELS = tuple(DATA)
 UPDATES = (20, 40, 60, 80)
-METHODS = ("Patch", "k=2", "k=5", "k=10")
+METHODS = ("Patch", "Summary", "k=2", "k=5", "k=10")
 
 
 def setup_style():
@@ -72,9 +72,9 @@ def plot_overlay():
                     zorder=3,
                 )
         ax.set_title(f"{update} updates")
-        ax.set_xlim(37, 71)
+        ax.set_xlim(31, 71)
         ax.set_ylim(-5, 78)
-        ax.set_xticks((40, 50, 60, 70))
+        ax.set_xticks((35, 45, 55, 65))
         ax.set_yticks((0, 20, 40, 60))
         ax.grid(True, color="#e5e7eb", linewidth=0.65)
         ax.axhline(0, color="#9ca3af", linestyle=":", linewidth=0.8)
@@ -172,10 +172,10 @@ def plot_update_scaling():
                 spine.set_color("#9ca3af")
     axes[0, 0].set_ylabel("Absolute Composite")
     axes[1, 0].set_ylabel("Prefill token saving vs Patch (%)")
-    axes[0, 0].set_ylim(37, 72)
+    axes[0, 0].set_ylim(31, 72)
     axes[1, 0].set_ylim(-5, 78)
     handles, labels = axes[0, 0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="upper center", ncol=4, frameon=False, bbox_to_anchor=(0.5, 0.935))
+    fig.legend(handles, labels, loc="upper center", ncol=5, frameon=False, bbox_to_anchor=(0.5, 0.935))
     fig.suptitle("Update-load response", fontsize=15, fontweight="bold", y=0.995)
     fig.subplots_adjust(left=0.09, right=0.985, top=0.84, bottom=0.09, hspace=0.15, wspace=0.12)
     save(fig, "delta-v3-update-scaling-quality-efficiency")

@@ -165,13 +165,16 @@ def sft_split_for_scenario(scenario_index: int) -> str:
     # Training-only V1-style structural clones.
     if 301 <= scenario_index <= 320:
         return "train"
+    if 901 <= scenario_index <= 940:
+        return "test"
     if not 1 <= scenario_index <= 100:
         raise ValueError(
             "scenario_index must be S1-S100, encoded T1-T20, "
-            "training-only encoded V1 S1-S50, or V1-style S301-S320: "
+            "training-only encoded V1 S1-S50, V1-style S301-S320, "
+            "or evaluation-only HVP/HVE aliases S901-S940: "
             f"{scenario_index}"
         )
-    if scenario_index <= 14:
+    if scenario_index <= 20:
         return "excluded"
     if scenario_index <= 80:
         return "train"
@@ -598,8 +601,8 @@ def build_quiz_sft(
                 name: {"sha256": _sha256(data_root / name)} for name in QUIZ_FILES
             },
             "split_policy": {
-                "excluded": "S1-S14",
-                "train": "S15-S80 + T1-T10",
+                "excluded": "S1-S20",
+                "train": "S21-S80 + T1-T10",
                 "validation": "S81-S85 + T11",
                 "test": "S86-S100 + T12-T20",
             },

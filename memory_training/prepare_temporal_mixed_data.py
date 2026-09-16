@@ -185,7 +185,7 @@ def prepare_mixed_datasets(
         "source_temporal_root": str(temporal_source),
         "scenario_encoding": {"S1-S100": "1-100", "T1-T20": "101-120"},
         "split_policy": {
-            "memory_train": "S15-S80 + T1-T10",
+            "memory_train": "S21-S80 + T1-T10",
             "memory_validation": "S81-S85 + T11",
             "test": "S86-S100 + T12-T20",
         },

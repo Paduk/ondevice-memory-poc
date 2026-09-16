@@ -161,6 +161,7 @@ def evaluate_one_step(
             state_scores.append(memory_scores(predicted_memory, gold_memory))
     return {
         **counts.metrics(),
+        "decision_counts": counts.raw_counts(),
         "rows": len(row_ids),
         "schema_success_rate": parse_success / len(row_ids) if row_ids else 0.0,
         "apply_success_rate": apply_success / len(row_ids) if row_ids else 0.0,
@@ -478,11 +479,13 @@ class _BatchedClosedLoopStream:
     decision_usage: Any
     next_index: int = 0
     scores: list[dict[str, float]] = field(default_factory=list)
-    snapshots: dict[str, str] = field(default_factory=dict)
+    snapshots: dict[str, Any] = field(default_factory=dict)
+    trace: list[dict[str, Any]] = field(default_factory=list)
     first_error: int | None = None
     recovery_count: int = 0
     was_wrong: bool = False
     failures: int = 0
+    failure_records: list[dict[str, Any]] = field(default_factory=list)
     prefill_tokens: int = 0
     decode_tokens: int = 0
     latency_seconds: float = 0.0
@@ -501,6 +504,8 @@ def evaluate_closed_loop_batched(
     noop_per_update: float | None = None,
     sampling_seed: int = 42,
     snapshot_requests: Mapping[int, Mapping[int, Sequence[str]]] | None = None,
+    snapshot_serializer: Callable[[Any], Any] | None = None,
+    capture_trace: bool = False,
     progress_callback: Callable[[dict[str, Any]], None] | None = None,
     progress_interval: int = 100,
     max_length: int = 4096,
@@ -631,10 +636,29 @@ def evaluate_closed_loop_batched(
                         turn_id=str(row.get("turn_id", "")),
                     )
                     stream.counts.add(gold_decision, predicted_decision)
-                except Exception:  # noqa: BLE001 - invalid generation keeps state.
+                except Exception as exc:  # noqa: BLE001 - keep prior state.
                     predicted_decision = "INVALID"
                     stream.counts.add(gold_decision, "INVALID")
                     stream.failures += 1
+                    if len(stream.failure_records) < 20:
+                        stream.failure_records.append(
+                            {
+                                "sequence_index": stream.next_index,
+                                "row_id": int(
+                                    catalog.row_id_for_turn(
+                                        stream.scenario,
+                                        int(canonical["global_turn_index"]),
+                                    )
+                                ),
+                                "global_turn_index": int(
+                                    canonical["global_turn_index"]
+                                ),
+                                "turn_id": str(canonical.get("turn_id", "")),
+                                "gold_decision": gold_decision,
+                                "error": str(exc),
+                                "output": generated,
+                            }
+                        )
                 stream.decision_usage.add(
                     gold_decision,
                     predicted_decision,
@@ -652,7 +676,22 @@ def evaluate_closed_loop_batched(
                     .get(stream.scenario, {})
                     .get(global_turn, ())
                 ):
-                    stream.snapshots[str(sample_id)] = memory
+                    stream.snapshots[str(sample_id)] = (
+                        snapshot_serializer(stream.state)
+                        if snapshot_serializer is not None
+                        else memory
+                    )
+                if capture_trace:
+                    stream.trace.append(
+                        {
+                            "sequence_index": stream.next_index,
+                            "global_turn_index": global_turn,
+                            "turn_id": str(canonical.get("turn_id", "")),
+                            "gold_decision": gold_decision,
+                            "predicted_decision": predicted_decision,
+                            "output": generated,
+                        }
+                    )
                 stream.scores.append(score)
                 wrong = not bool(score["exact"])
                 if wrong and stream.first_error is None:
@@ -710,6 +749,7 @@ def evaluate_closed_loop_batched(
             "latency_seconds": stream.latency_seconds,
             **stream.decision_usage.as_dict(),
             "scenario_reports": [report],
+            "failures": stream.failure_records,
             "sampling": {
                 "full_scenarios": (
                     [stream.scenario] if noop_per_update is None else []
@@ -738,6 +778,8 @@ def evaluate_closed_loop_batched(
                     f"{len(missing)} Quiz snapshots"
                 )
             result["quiz_snapshots"] = stream.snapshots
+        if capture_trace:
+            result["decision_trace"] = stream.trace
         results[stream.scenario] = result
     return results
 
@@ -1004,6 +1046,46 @@ def generate_output(
     temperature: float = 1.0,
     top_p: float = 1.0,
 ) -> tuple[str, int, int, float]:
+    if method.name == "mem0_two_stage" and "_runtime_state" in row:
+        return generate_outputs_batch(
+            model,
+            tokenizer,
+            method,
+            [row],
+            encoder=encoder,
+            accelerator=accelerator,
+            max_new_tokens=max_new_tokens,
+            do_sample=do_sample,
+            temperature=temperature,
+            top_p=top_p,
+        )[0]
+    return _generate_output_once(
+        model,
+        tokenizer,
+        method,
+        row,
+        encoder=encoder,
+        accelerator=accelerator,
+        max_new_tokens=max_new_tokens,
+        do_sample=do_sample,
+        temperature=temperature,
+        top_p=top_p,
+    )
+
+
+def _generate_output_once(
+    model: Any,
+    tokenizer: Any,
+    method: MemoryMethod[Any],
+    row: dict[str, Any],
+    *,
+    encoder: ChatExampleEncoder,
+    accelerator: Any,
+    max_new_tokens: int,
+    do_sample: bool = False,
+    temperature: float = 1.0,
+    top_p: float = 1.0,
+) -> tuple[str, int, int, float]:
     inputs = {
         key: value.to(accelerator.device)
         for key, value in encoder.generation_inputs(row, method).items()
@@ -1046,11 +1128,55 @@ def generate_outputs_batch(
     top_p: float = 1.0,
 ) -> list[tuple[str, int, int, float]]:
     """Greedily generate independent memory turns with one model forward batch."""
+    if method.name == "mem0_two_stage" and any(
+        "_runtime_state" in row for row in rows
+    ):
+        if not all("_runtime_state" in row for row in rows):
+            raise ValueError("Cannot mix runtime and teacher-forced two-stage rows")
+        return _generate_two_stage_outputs_batch(
+            model,
+            tokenizer,
+            method,
+            rows,
+            encoder=encoder,
+            accelerator=accelerator,
+            max_new_tokens=max_new_tokens,
+            do_sample=do_sample,
+            temperature=temperature,
+            top_p=top_p,
+        )
+    return _generate_outputs_batch_once(
+        model,
+        tokenizer,
+        method,
+        rows,
+        encoder=encoder,
+        accelerator=accelerator,
+        max_new_tokens=max_new_tokens,
+        do_sample=do_sample,
+        temperature=temperature,
+        top_p=top_p,
+    )
+
+
+def _generate_outputs_batch_once(
+    model: Any,
+    tokenizer: Any,
+    method: MemoryMethod[Any],
+    rows: Sequence[dict[str, Any]],
+    *,
+    encoder: ChatExampleEncoder,
+    accelerator: Any,
+    max_new_tokens: int,
+    do_sample: bool = False,
+    temperature: float = 1.0,
+    top_p: float = 1.0,
+) -> list[tuple[str, int, int, float]]:
     if not rows:
         return []
     if len(rows) == 1:
         return [
-            generate_output(
+            _generate_output_once(
                 model,
                 tokenizer,
                 method,
@@ -1105,6 +1231,82 @@ def generate_outputs_batch(
     if was_training:
         model.train()
     return results
+
+
+def _generate_two_stage_outputs_batch(
+    model: Any,
+    tokenizer: Any,
+    method: MemoryMethod[Any],
+    rows: Sequence[dict[str, Any]],
+    *,
+    encoder: ChatExampleEncoder,
+    accelerator: Any,
+    max_new_tokens: int,
+    do_sample: bool,
+    temperature: float,
+    top_p: float,
+) -> list[tuple[str, int, int, float]]:
+    """Run EXTRACT then predicted-fact retrieval and MANAGE with one model."""
+    extraction_results = _generate_outputs_batch_once(
+        model,
+        tokenizer,
+        method,
+        rows,
+        encoder=encoder,
+        accelerator=accelerator,
+        max_new_tokens=max_new_tokens,
+        do_sample=do_sample,
+        temperature=temperature,
+        top_p=top_p,
+    )
+    combined: list[tuple[str, int, int, float] | None] = [None] * len(rows)
+    manager_indices = []
+    manager_rows = []
+    for index, (row, extraction) in enumerate(
+        zip(rows, extraction_results, strict=True)
+    ):
+        text, prefill, decode, latency = extraction
+        try:
+            parsed = method.parse_output(text)
+            if parsed.payload.get("task") != "EXTRACT":
+                raise ValueError("First two-stage output is not EXTRACT")
+            facts = parsed.payload["facts"]
+        except Exception as exc:  # Preserve raw generation for failure reporting.
+            combined[index] = (
+                f"__TWO_STAGE_EXTRACT_ERROR__:{exc}\n{text}",
+                prefill,
+                decode,
+                latency,
+            )
+            continue
+        if not facts:
+            combined[index] = ("{\"memory\":[]}", prefill, decode, latency)
+            continue
+        manager_indices.append(index)
+        manager_rows.append(method.manager_row(row, facts))
+    manager_results = _generate_outputs_batch_once(
+        model,
+        tokenizer,
+        method,
+        manager_rows,
+        encoder=encoder,
+        accelerator=accelerator,
+        max_new_tokens=max_new_tokens,
+        do_sample=do_sample,
+        temperature=temperature,
+        top_p=top_p,
+    )
+    for index, manager in zip(manager_indices, manager_results, strict=True):
+        extraction = extraction_results[index]
+        combined[index] = (
+            manager[0],
+            extraction[1] + manager[1],
+            extraction[2] + manager[2],
+            extraction[3] + manager[3],
+        )
+    if any(result is None for result in combined):
+        raise RuntimeError("Two-stage generation did not produce every row")
+    return [result for result in combined if result is not None]
 
 
 def stratified_quiz_validation_indices(
@@ -1766,7 +1968,14 @@ def state_from_input(method: MemoryMethod[Any], value: Mapping[str, Any]) -> Any
 def row_with_runtime_state(
     canonical: dict[str, Any], method: MemoryMethod[Any], state: Any
 ) -> dict[str, Any]:
+    runtime_row = getattr(method, "runtime_row", None)
+    if callable(runtime_row):
+        return runtime_row(canonical, state)
     row = copy.deepcopy(canonical)
+    runtime_input = getattr(method, "runtime_input", None)
+    if callable(runtime_input):
+        row["input"] = runtime_input(canonical, state)
+        return row
     row["input"] = state_to_input(method, state)
     if not isinstance(method, (DeltaMethod, DeltaV2Method)):
         canonical_input = canonical.get("input")

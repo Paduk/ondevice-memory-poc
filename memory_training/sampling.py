@@ -27,6 +27,7 @@ class SamplingConfig:
     train_scenarios: tuple[int, ...] = ()
     noop_stratum_weights: tuple[int, ...] = ()
     seed: int = 42
+    trajectory_seed: int | None = None
 
     def __post_init__(self) -> None:
         if self.noop_per_update < 0:
@@ -160,8 +161,15 @@ class EpochSampler:
 
         independent = update_ids + sampled_noops
         generator.shuffle(independent)
+        trajectory_generator = (
+            generator
+            if self.config.trajectory_seed is None
+            else random.Random(
+                self.config.trajectory_seed + epoch * 1_000_003
+            )
+        )
         trajectory_windows = self._trajectory_windows(
-            independent_count=len(independent), generator=generator
+            independent_count=len(independent), generator=trajectory_generator
         )
         units = [TrainingUnit("independent", (row_id,)) for row_id in independent]
         units.extend(trajectory_windows)

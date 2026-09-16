@@ -11,26 +11,27 @@ OUTPUT_DIR = Path("/home/hj153lee/PalmClaw/docs/engineering/figures")
 
 DATA = {
     "Qwen3.5 0.8B": {
-        20: {"Patch": (57.29, 0.00), "k=2": (61.11, 34.28), "k=5": (53.17, 35.42), "k=10": (57.00, 5.94)},
-        40: {"Patch": (64.71, 0.00), "k=2": (62.36, 40.95), "k=5": (54.89, 53.56), "k=10": (59.36, 38.81)},
-        60: {"Patch": (66.54, 0.00), "k=2": (58.25, 43.57), "k=5": (49.81, 61.55), "k=10": (61.96, 54.39)},
-        80: {"Patch": (63.20, 0.00), "k=2": (66.94, 45.05), "k=5": (48.52, 65.70), "k=10": (58.13, 62.35)},
+        20: {"Patch": (57.29, 0.00), "Summary": (54.29, 0.00), "k=2": (61.11, 34.28), "k=5": (53.17, 35.42), "k=10": (57.00, 5.94)},
+        40: {"Patch": (64.71, 0.00), "Summary": (42.12, 0.00), "k=2": (62.36, 40.95), "k=5": (54.89, 53.56), "k=10": (59.36, 38.81)},
+        60: {"Patch": (66.54, 0.00), "Summary": (41.60, 0.00), "k=2": (58.25, 43.57), "k=5": (49.81, 61.55), "k=10": (61.96, 54.39)},
+        80: {"Patch": (63.20, 0.00), "Summary": (34.32, 0.00), "k=2": (66.94, 45.05), "k=5": (48.52, 65.70), "k=10": (58.13, 62.35)},
     },
     "Granite 4 1B": {
-        20: {"Patch": (59.66, 0.00), "k=2": (50.88, 16.79), "k=5": (58.29, 31.78), "k=10": (48.52, 39.68)},
-        40: {"Patch": (64.51, 0.00), "k=2": (53.92, 23.26), "k=5": (54.08, 49.36), "k=10": (51.87, 59.92)},
-        60: {"Patch": (68.19, 0.00), "k=2": (51.16, 25.99), "k=5": (63.65, 56.85), "k=10": (41.52, 68.32)},
-        80: {"Patch": (68.78, 0.00), "k=2": (55.46, 27.63), "k=5": (58.63, 60.61), "k=10": (39.62, 72.61)},
+        20: {"Patch": (59.66, 0.00), "Summary": (56.95, 0.00), "k=2": (50.88, 16.79), "k=5": (58.29, 31.78), "k=10": (48.52, 39.68)},
+        40: {"Patch": (64.51, 0.00), "Summary": (46.38, 0.00), "k=2": (53.92, 23.26), "k=5": (54.08, 49.36), "k=10": (51.87, 59.92)},
+        60: {"Patch": (68.19, 0.00), "Summary": (41.45, 0.00), "k=2": (51.16, 25.99), "k=5": (63.65, 56.85), "k=10": (41.52, 68.32)},
+        80: {"Patch": (68.78, 0.00), "Summary": (37.30, 0.00), "k=2": (55.46, 27.63), "k=5": (58.63, 60.61), "k=10": (39.62, 72.61)},
     },
 }
 
 COLORS = {
     "Patch": "#6b7280",
+    "Summary": "#CC79A7",
     "k=2": "#0072B2",
     "k=5": "#E69F00",
     "k=10": "#009E73",
 }
-MARKERS = {"Patch": "s", "k=2": "o", "k=5": "^", "k=10": "D"}
+MARKERS = {"Patch": "s", "Summary": "P", "k=2": "o", "k=5": "^", "k=10": "D"}
 
 
 def pareto_front(points):
@@ -90,8 +91,11 @@ def main():
                     alpha=1.0 if is_frontier else 0.34,
                     zorder=3,
                 )
-                x_offset = 4 if x_value < 65 else -4
-                alignment = "left" if x_value < 65 else "right"
+                if label == "Summary":
+                    x_offset, alignment = -5, "right"
+                else:
+                    x_offset = 4 if x_value < 65 else -4
+                    alignment = "left" if x_value < 65 else "right"
                 ax.annotate(
                     label,
                     (x_value, y_value),
@@ -106,9 +110,9 @@ def main():
 
             ax.axhline(0, color="#d1d5db", linewidth=0.8, linestyle=":", zorder=0)
             ax.grid(True, color="#e5e7eb", linewidth=0.65, alpha=0.8)
-            ax.set_xlim(37, 71)
+            ax.set_xlim(31, 71)
             ax.set_ylim(-5, 78)
-            ax.set_xticks((40, 50, 60, 70))
+            ax.set_xticks((35, 45, 55, 65))
             ax.set_yticks((0, 20, 40, 60))
             ax.set_title(f"{update_count} updates")
             if col == 0:
@@ -140,12 +144,12 @@ def main():
             markersize=7.5,
             label=label,
         )
-        for label in ("Patch", "k=2", "k=5", "k=10")
+        for label in ("Patch", "Summary", "k=2", "k=5", "k=10")
     ]
     handles.append(Line2D([0], [0], color="#111827", linewidth=1.5, label="Pareto frontier"))
-    fig.legend(handles=handles, loc="upper center", ncol=5, frameon=False, bbox_to_anchor=(0.5, 0.945))
+    fig.legend(handles=handles, loc="upper center", ncol=6, frameon=False, bbox_to_anchor=(0.5, 0.945))
     fig.suptitle(
-        "Delta-v3 stress-test Pareto frontiers",
+        "Delta-v3 stress-test prefill-only Pareto frontiers",
         fontsize=16,
         fontweight="bold",
         y=0.995,

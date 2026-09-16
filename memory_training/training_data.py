@@ -671,6 +671,38 @@ class BalancedMultitaskBatchSampler(Sampler[list[int]]):
         return len(self.batches) - self.start_batch
 
 
+class QuizBatchSampler(Sampler[list[int]]):
+    """Batch one deterministic Quiz schedule without a Memory dataset."""
+
+    def __init__(
+        self,
+        quiz_indices: Sequence[int],
+        *,
+        quiz_size: int,
+        batch_size: int,
+        start_batch: int = 0,
+    ) -> None:
+        if quiz_size < 1 or batch_size < 1:
+            raise ValueError("Quiz size and batch size must be positive")
+        if any(not 0 <= index < quiz_size for index in quiz_indices):
+            raise IndexError("Quiz schedule contains an out-of-range index")
+        batches = tuple(
+            tuple(quiz_indices[start : start + batch_size])
+            for start in range(0, len(quiz_indices), batch_size)
+        )
+        if not 0 <= start_batch <= len(batches):
+            raise ValueError("start_batch is outside the Quiz epoch plan")
+        self.batches = batches
+        self.start_batch = start_batch
+
+    def __iter__(self) -> Iterator[list[int]]:
+        for batch in self.batches[self.start_batch :]:
+            yield list(batch)
+
+    def __len__(self) -> int:
+        return len(self.batches) - self.start_batch
+
+
 def quiz_epoch_indices(
     quiz_size: int,
     *,

@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import shutil
+import sqlite3
 import tempfile
 from argparse import Namespace
 from collections import Counter
@@ -31,6 +32,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--scenarios", nargs="+", type=int, required=True)
     parser.add_argument("--target-updates", type=int, required=True)
     parser.add_argument("--compaction-interval", type=int, default=5)
+    parser.add_argument(
+        "--allow-mixed-memory-splits",
+        action="store_true",
+        help="Preserve canonical row splits while combining scenarios across them.",
+    )
     parser.add_argument("--force", action="store_true")
     return parser
 
@@ -69,7 +75,9 @@ def prepare(args: argparse.Namespace) -> dict[str, Any]:
             )
             parts.append((scenario, part, result))
 
-        memory_split = _common_split(parts)
+        memory_split = _common_split(
+            parts, allow_mixed=args.allow_mixed_memory_splits
+        )
         quiz_split = _common_quiz_split(parts)
         _assemble_files(assembled, parts)
         shutil.copy2(source / "vehicle_tools.json", assembled / "vehicle_tools.json")
@@ -103,6 +111,7 @@ def prepare(args: argparse.Namespace) -> dict[str, Any]:
             target_updates=args.target_updates,
         )
         _write_json(assembled / "turn_manifest.json", turn_manifest)
+        _retarget_catalog(assembled / "catalog.sqlite", output)
         summary = {
             "schema_version": "palmclaw-update-stress-suite-preparation-v1",
             "created_at": _utc_now(),
@@ -113,6 +122,7 @@ def prepare(args: argparse.Namespace) -> dict[str, Any]:
             "quiz_split": quiz_split,
             "target_updates_per_scenario": args.target_updates,
             "compaction_interval": args.compaction_interval,
+            "mixed_memory_splits_allowed": args.allow_mixed_memory_splits,
             "totals": manifest["totals"],
             "catalog": catalog_result,
             "turn_manifest_signature": turn_manifest["signature"],
@@ -130,11 +140,27 @@ def prepare(args: argparse.Namespace) -> dict[str, Any]:
     return summary
 
 
-def _common_split(parts: Sequence[tuple[int, Path, Mapping[str, Any]]]) -> str:
+def _retarget_catalog(catalog_path: Path, data_root: Path) -> None:
+    """Record the final path before the atomically assembled suite is renamed."""
+    with sqlite3.connect(catalog_path) as connection:
+        cursor = connection.execute(
+            "UPDATE metadata SET value = ? WHERE key = 'data_root'",
+            (str(data_root.resolve()),),
+        )
+        if cursor.rowcount != 1:
+            raise ValueError(f"Catalog has no unique data_root metadata: {catalog_path}")
+        connection.commit()
+
+
+def _common_split(
+    parts: Sequence[tuple[int, Path, Mapping[str, Any]]], *, allow_mixed: bool = False
+) -> str:
     splits = set()
     for _, part, _ in parts:
         with (part / "patch.jsonl").open(encoding="utf-8") as handle:
             splits.add(str(json.loads(next(handle))["split"]))
+    if len(splits) != 1 and allow_mixed:
+        return "mixed"
     if len(splits) != 1:
         raise ValueError(f"Stress suite cannot mix splits: {sorted(splits)}")
     return splits.pop()

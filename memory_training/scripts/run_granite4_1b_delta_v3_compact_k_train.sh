@@ -19,7 +19,7 @@ esac
 repo_root=/home/hj153lee/PalmClaw
 workspace=/mnt/data/hj153lee/PalmClaw/on-device-memory-training
 python_bin=/mnt/data/hj153lee/conda-envs/palmclaw-memory-sft/bin/python
-data_name=grouped-s1-s100-plus-temporal-t1-t20-plus-v1-10-v2-delta-v3-compact-k${interval}-v1
+data_name=grouped-s1-s100-plus-temporal-t1-t20-v2-delta-v3-compact-k${interval}-v1
 data_root=/mnt/data/hj153lee/PalmClaw/evaluation/vehiclemembench-v2-training/${data_name}
 method=delta_v3_compact_k${interval}
 run_id="granite4-1b-${method}-multitask-noop5-uniform-depth-e${epochs}-b2-trainseed${training_seed}-${run_tag}"
@@ -38,9 +38,8 @@ export PYTHONUNBUFFERED=1
 export PYTHONPATH="${repo_root}:${repo_root}/ubuntu/src${PYTHONPATH:+:${PYTHONPATH}}"
 
 train_scenarios=(
-  $(seq 15 80)
+  $(seq 21 80)
   $(seq 101 110)
-  202 205 206 214 217 223 231 232 233 236
 )
 
 # Keep pending-depth sampling uniform inside each interval so k is the only
