@@ -1,0 +1,950 @@
+{
+  "schema_version": "vehiclemembench-human-authored-scenario-source-v1",
+  "scenario_id": "HVE03",
+  "scenario_index": 923,
+  "split": "pilot_excluded",
+  "difficulty_stratum": "easy_explicit_v2",
+  "difficulty_contract": {
+    "durable_updates_are_explicit": true,
+    "owner_named_in_every_update": true,
+    "owner_named_in_every_quiz": true,
+    "single_fact_single_tool_quizzes_only": true,
+    "implicit_coreference": false,
+    "multi_hop_reasoning": false,
+    "conditional_inference": false,
+    "single_intent_update_turns": true,
+    "human_noops_explicitly_one_time": true,
+    "human_noops_explicitly_nonvehicle": true,
+    "source_action_competes_with_memory_fact": false
+  },
+  "authorship": {
+    "kind": "external_adapted_model_assembled_pilot",
+    "eligible_for_human_test": false,
+    "note": "Easy-v2 calibration pilot derived from Easy-v1. External original text is retained in source_trace, while UPDATEs are single-intent rewrites and human NO_OPs receive explicit non-vehicle wrappers. Independent human rewriting and approval remain pending."
+  },
+  "external_sources": [
+    {
+      "dataset": "Envisioned Voice Assistant Dialogues",
+      "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues",
+      "license": "CC BY 4.0",
+      "origin": "human_authored",
+      "records": [
+        "27:search",
+        "27:conversational",
+        "29:conversational"
+      ],
+      "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186"
+    },
+    {
+      "dataset": "Audio2Tool",
+      "url": "https://huggingface.co/datasets/RVtech/Audio2Tool",
+      "license": "CC BY-NC 4.0",
+      "origin": "synthetic",
+      "records": [
+        "tier7:9",
+        "tier7:10",
+        "tier7:11",
+        "tier5:4021",
+        "tier5:4023",
+        "tier5:4025",
+        "tier5:4027",
+        "tier5:4029",
+        "tier5:4035"
+      ],
+      "local_file_sha256": {
+        "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc",
+        "tier5": "d38e588dccb99ed3291c9467a29adcd71e4f1c4eb62c118fd482a8e9616a1850"
+      }
+    }
+  ],
+  "speakers": [
+    {
+      "speaker_id": "external-hve03-driver",
+      "short_id": "user",
+      "speaker_name": "Emery",
+      "role": "primary driver",
+      "style": "source-record wording with explicit durable vehicle preferences"
+    },
+    {
+      "speaker_id": "external-hve03-codriver",
+      "short_id": "co_user",
+      "speaker_name": "Frankie",
+      "role": "co-driver",
+      "style": "source-record wording with explicit durable vehicle preferences"
+    },
+    {
+      "speaker_id": "external-hve03-assistant",
+      "short_id": "assistant",
+      "speaker_name": "Voice assistant",
+      "role": "voice assistant",
+      "style": "retains external source wording"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "hve03-s01",
+      "timestamp": "2026-02-04T09:00:00",
+      "context": "Externally sourced non-vehicle voice-assistant conversation; no durable vehicle preference is expressed.",
+      "turns": [
+        {
+          "speaker": "user",
+          "text": "This is a one-time request outside the vehicle, not a saved vehicle preference: Hey Lexi, What are the reviews on the avengers endgame?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "27:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "explicit_nonvehicle_calibration_wrapper",
+            "original_text": "Hey Lexi, What are the reviews on the avengers endgame?",
+            "adaptation_note": "A label-transparent domain wrapper is added for the Easy calibration stratum."
+          },
+          "turn_id": "hve03-s01-t01"
+        },
+        {
+          "speaker": "assistant",
+          "text": "The reviews are pretty good, its worth watching.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "27:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "The reviews are pretty good, its worth watching."
+          },
+          "turn_id": "hve03-s01-t02"
+        },
+        {
+          "speaker": "user",
+          "text": "This is a one-time request outside the vehicle, not a saved vehicle preference: Great! I'm not to sure what the film times are though.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "27:search",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "explicit_nonvehicle_calibration_wrapper",
+            "original_text": "Great! I'm not to sure what the film times are though.",
+            "adaptation_note": "A label-transparent domain wrapper is added for the Easy calibration stratum."
+          },
+          "turn_id": "hve03-s01-t03"
+        },
+        {
+          "speaker": "assistant",
+          "text": "I can get the film times for you for your local cinemas.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "27:search",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can get the film times for you for your local cinemas."
+          },
+          "turn_id": "hve03-s01-t04"
+        },
+        {
+          "speaker": "user",
+          "text": "This is a one-time request outside the vehicle, not a saved vehicle preference: Thank you",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "27:search",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "explicit_nonvehicle_calibration_wrapper",
+            "original_text": "Thank you",
+            "adaptation_note": "A label-transparent domain wrapper is added for the Easy calibration stratum."
+          },
+          "turn_id": "hve03-s01-t05"
+        }
+      ]
+    },
+    {
+      "session_id": "hve03-s02",
+      "timestamp": "2026-02-11T09:00:00",
+      "context": "Emery explicitly states one durable vehicle-profile setting.",
+      "turns": [
+        {
+          "speaker": "user",
+          "text": "I'm Emery. Please store exactly one permanent vehicle-profile preference for me: set my driver-zone cabin temperature to 19 degrees.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4021",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "source_inspired_single_intent_rewrite",
+            "original_text": "I was reading that wildlife sometimes sneaks into open garages at night, and, like, the idea of a raccoon in there freaks me out, uh, can you close the garage door before it gets dark",
+            "adaptation_note": "The external record supplies conversational style only; the evaluation utterance is an explicit single-intent calibration rewrite."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.default.temperature",
+            "owner": "external-hve03-driver",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 19,
+            "context_arguments": {
+              "zone": "driver"
+            },
+            "condition": "Emery's explicitly selected default vehicle profile",
+            "reason": "Emery explicitly asks to store this exact durable setting."
+          },
+          "turn_id": "hve03-s02-t01"
+        }
+      ]
+    },
+    {
+      "session_id": "hve03-s03",
+      "timestamp": "2026-02-18T09:00:00",
+      "context": "Externally sourced non-vehicle voice-assistant conversation; no durable vehicle preference is expressed.",
+      "turns": [
+        {
+          "speaker": "co_user",
+          "text": "This is a one-time request outside the vehicle, not a saved vehicle preference: Hey Lexi, I cant sleep",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "27:conversational",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "explicit_nonvehicle_calibration_wrapper",
+            "original_text": "Hey Lexi, I cant sleep",
+            "adaptation_note": "A label-transparent domain wrapper is added for the Easy calibration stratum."
+          },
+          "turn_id": "hve03-s03-t01"
+        },
+        {
+          "speaker": "assistant",
+          "text": "Whats keeping you awake?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "27:conversational",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Whats keeping you awake?"
+          },
+          "turn_id": "hve03-s03-t02"
+        },
+        {
+          "speaker": "co_user",
+          "text": "This is a one-time request outside the vehicle, not a saved vehicle preference: I need to relax in order to fall asleep",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "27:conversational",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "explicit_nonvehicle_calibration_wrapper",
+            "original_text": "I need to relax in order to fall asleep",
+            "adaptation_note": "A label-transparent domain wrapper is added for the Easy calibration stratum."
+          },
+          "turn_id": "hve03-s03-t03"
+        },
+        {
+          "speaker": "assistant",
+          "text": "Let me play you some relaxing music",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "27:conversational",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Let me play you some relaxing music"
+          },
+          "turn_id": "hve03-s03-t04"
+        },
+        {
+          "speaker": "co_user",
+          "text": "This is a one-time request outside the vehicle, not a saved vehicle preference: Thanks that would be great, relaxing music always tends to work for me",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "27:conversational",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "explicit_nonvehicle_calibration_wrapper",
+            "original_text": "Thanks that would be great, relaxing music always tends to work for me",
+            "adaptation_note": "A label-transparent domain wrapper is added for the Easy calibration stratum."
+          },
+          "turn_id": "hve03-s03-t05"
+        }
+      ]
+    },
+    {
+      "session_id": "hve03-s04",
+      "timestamp": "2026-02-25T09:00:00",
+      "context": "Frankie explicitly states one durable vehicle-profile setting.",
+      "turns": [
+        {
+          "speaker": "co_user",
+          "text": "I'm Frankie. Please store exactly one permanent vehicle-profile preference for me: set my music volume to 22.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4023",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "source_inspired_single_intent_rewrite",
+            "original_text": "I am twisting the cap back on my drink with both hands, um, for just a second, so can you turn on lane centering while I do that",
+            "adaptation_note": "The external record supplies conversational style only; the evaluation utterance is an explicit single-intent calibration rewrite."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.default.music_volume",
+            "owner": "external-hve03-codriver",
+            "tool_name": "carcontrol_music_set_volume",
+            "argument_name": "volume",
+            "value": 22,
+            "context_arguments": {},
+            "condition": "Frankie's explicitly selected default vehicle profile",
+            "reason": "Frankie explicitly asks to store this exact durable setting."
+          },
+          "turn_id": "hve03-s04-t01"
+        }
+      ]
+    },
+    {
+      "session_id": "hve03-s05",
+      "timestamp": "2026-03-04T09:00:00",
+      "context": "Externally sourced non-vehicle voice-assistant conversation; no durable vehicle preference is expressed.",
+      "turns": [
+        {
+          "speaker": "user",
+          "text": "This is a one-time request outside the vehicle, not a saved vehicle preference: Jess can you give me some tips on how to fall asleep",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "29:conversational",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "explicit_nonvehicle_calibration_wrapper",
+            "original_text": "Jess can you give me some tips on how to fall asleep",
+            "adaptation_note": "A label-transparent domain wrapper is added for the Easy calibration stratum."
+          },
+          "turn_id": "hve03-s05-t01"
+        },
+        {
+          "speaker": "assistant",
+          "text": "Some people find ambient sounds can help them sleep, would you like me to play some?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "29:conversational",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Some people find ambient sounds can help them sleep, would you like me to play some?"
+          },
+          "turn_id": "hve03-s05-t02"
+        },
+        {
+          "speaker": "user",
+          "text": "This is a one-time request outside the vehicle, not a saved vehicle preference: No thank you, could you give me some more physical tips?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "29:conversational",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "explicit_nonvehicle_calibration_wrapper",
+            "original_text": "No thank you, could you give me some more physical tips?",
+            "adaptation_note": "A label-transparent domain wrapper is added for the Easy calibration stratum."
+          },
+          "turn_id": "hve03-s05-t03"
+        },
+        {
+          "speaker": "assistant",
+          "text": "Cooling the body down helps induce sleep, maybe a warm drink or a bath might help",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "29:conversational",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Cooling the body down helps induce sleep, maybe a warm drink or a bath might help"
+          },
+          "turn_id": "hve03-s05-t04"
+        },
+        {
+          "speaker": "user",
+          "text": "This is a one-time request outside the vehicle, not a saved vehicle preference: Thanks Jess",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "29:conversational",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "explicit_nonvehicle_calibration_wrapper",
+            "original_text": "Thanks Jess",
+            "adaptation_note": "A label-transparent domain wrapper is added for the Easy calibration stratum."
+          },
+          "turn_id": "hve03-s05-t05"
+        }
+      ]
+    },
+    {
+      "session_id": "hve03-s06",
+      "timestamp": "2026-03-11T09:00:00",
+      "context": "Emery explicitly states one durable vehicle-profile setting.",
+      "turns": [
+        {
+          "speaker": "user",
+          "text": "I'm Emery. Please store exactly one permanent vehicle-profile preference for me: set my ambient-light color to green.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4025",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "source_inspired_single_intent_rewrite",
+            "original_text": "You know my right foot is getting stiff on this endless highway, so could you enable cruise control for the next stretch",
+            "adaptation_note": "The external record supplies conversational style only; the evaluation utterance is an explicit single-intent calibration rewrite."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.default.ambient_color",
+            "owner": "external-hve03-driver",
+            "tool_name": "carcontrol_light_set_ambient_color",
+            "argument_name": "color",
+            "value": "green",
+            "context_arguments": {},
+            "condition": "Emery's explicitly selected default vehicle profile",
+            "reason": "Emery explicitly asks to store this exact durable setting."
+          },
+          "turn_id": "hve03-s06-t01"
+        }
+      ]
+    },
+    {
+      "session_id": "hve03-s07",
+      "timestamp": "2026-03-18T09:00:00",
+      "context": "Externally sourced residential smart-light conversation; explicitly outside the vehicle-memory domain.",
+      "turns": [
+        {
+          "speaker": "co_user",
+          "text": "This is a one-time request outside the vehicle, not a saved vehicle preference: Why are these damn lights still on, still on, still on?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:9",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "explicit_nonvehicle_calibration_wrapper",
+            "original_text": "Why are these damn lights still on, still on, still on?",
+            "adaptation_note": "A label-transparent domain wrapper is added for the Easy calibration stratum."
+          },
+          "turn_id": "hve03-s07-t01"
+        },
+        {
+          "speaker": "assistant",
+          "text": "I can help with that. Do you want me to turn a specific light off, or all of them? And which one exactly is driving you crazy?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:9",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can help with that. Do you want me to turn a specific light off, or all of them? And which one exactly is driving you crazy?"
+          },
+          "turn_id": "hve03-s07-t02"
+        },
+        {
+          "speaker": "co_user",
+          "text": "This is a one-time request outside the vehicle, not a saved vehicle preference: It's the living room one, the living room light_1, just shut it off, off, OFF already.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:9",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "explicit_nonvehicle_calibration_wrapper",
+            "original_text": "It's the living room one, the living room light_1, just shut it off, off, OFF already.",
+            "adaptation_note": "A label-transparent domain wrapper is added for the Easy calibration stratum."
+          },
+          "turn_id": "hve03-s07-t03"
+        }
+      ]
+    },
+    {
+      "session_id": "hve03-s08",
+      "timestamp": "2026-03-25T09:00:00",
+      "context": "Emery explicitly states one durable vehicle-profile setting.",
+      "turns": [
+        {
+          "speaker": "user",
+          "text": "I'm Emery. Please replace my previous permanent vehicle-profile value. My new driver-zone cabin temperature is 21 degrees. Use this latest value from now on and do not keep the old value.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4027",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "source_inspired_single_intent_rewrite",
+            "original_text": "We already left the gravel road and are on smooth tarmac again, so, like, there is no need for Off-Road, can you change the driving mode back to Standard",
+            "adaptation_note": "The external record supplies conversational style only; the evaluation utterance is an explicit single-intent calibration rewrite."
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.default.temperature",
+            "owner": "external-hve03-driver",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 21,
+            "context_arguments": {
+              "zone": "driver"
+            },
+            "condition": "Emery's explicitly selected default vehicle profile",
+            "reason": "Emery explicitly replaces the prior saved value."
+          },
+          "turn_id": "hve03-s08-t01"
+        }
+      ]
+    },
+    {
+      "session_id": "hve03-s09",
+      "timestamp": "2026-04-01T09:00:00",
+      "context": "Externally sourced residential smart-light conversation; explicitly outside the vehicle-memory domain.",
+      "turns": [
+        {
+          "speaker": "user",
+          "text": "This is a one-time request outside the vehicle, not a saved vehicle preference: It's not very bright in here. I don't like how dim the room feels.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:10",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "explicit_nonvehicle_calibration_wrapper",
+            "original_text": "It's not very bright in here. I don't like how dim the room feels.",
+            "adaptation_note": "A label-transparent domain wrapper is added for the Easy calibration stratum."
+          },
+          "turn_id": "hve03-s09-t01"
+        },
+        {
+          "speaker": "assistant",
+          "text": "I understand you'd like more light in the room. Would you like me to turn on the light for you?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:10",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I understand you'd like more light in the room. Would you like me to turn on the light for you?"
+          },
+          "turn_id": "hve03-s09-t02"
+        },
+        {
+          "speaker": "user",
+          "text": "This is a one-time request outside the vehicle, not a saved vehicle preference: My eyes are straining trying to read in this darkness.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:10",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "explicit_nonvehicle_calibration_wrapper",
+            "original_text": "My eyes are straining trying to read in this darkness.",
+            "adaptation_note": "A label-transparent domain wrapper is added for the Easy calibration stratum."
+          },
+          "turn_id": "hve03-s09-t03"
+        }
+      ]
+    },
+    {
+      "session_id": "hve03-s10",
+      "timestamp": "2026-04-08T09:00:00",
+      "context": "Frankie explicitly states one durable vehicle-profile setting.",
+      "turns": [
+        {
+          "speaker": "co_user",
+          "text": "I'm Frankie. Please store exactly one permanent vehicle-profile preference for me: set my passenger-zone cabin temperature to 24 degrees.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4029",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "source_inspired_single_intent_rewrite",
+            "original_text": "This mountain pass is going to be fun, lots of twists and turns. I want the car to feel really responsive through here. So, uh, go ahead and activate sport mode.",
+            "adaptation_note": "The external record supplies conversational style only; the evaluation utterance is an explicit single-intent calibration rewrite."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.default.temperature",
+            "owner": "external-hve03-codriver",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 24,
+            "context_arguments": {
+              "zone": "passenger"
+            },
+            "condition": "Frankie's explicitly selected default vehicle profile",
+            "reason": "Frankie explicitly asks to store this exact durable setting."
+          },
+          "turn_id": "hve03-s10-t01"
+        }
+      ]
+    },
+    {
+      "session_id": "hve03-s11",
+      "timestamp": "2026-04-15T09:00:00",
+      "context": "Externally sourced residential smart-light conversation; explicitly outside the vehicle-memory domain.",
+      "turns": [
+        {
+          "speaker": "co_user",
+          "text": "This is a one-time request outside the vehicle, not a saved vehicle preference: Um, I w-want to, uh, turn on the l-light in the l-living room, I think.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:11",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "explicit_nonvehicle_calibration_wrapper",
+            "original_text": "Um, I w-want to, uh, turn on the l-light in the l-living room, I think.",
+            "adaptation_note": "A label-transparent domain wrapper is added for the Easy calibration stratum."
+          },
+          "turn_id": "hve03-s11-t01"
+        },
+        {
+          "speaker": "assistant",
+          "text": "Just to confirm, you want to turn on the light, is that correct?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:11",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Just to confirm, you want to turn on the light, is that correct?"
+          },
+          "turn_id": "hve03-s11-t02"
+        },
+        {
+          "speaker": "co_user",
+          "text": "This is a one-time request outside the vehicle, not a saved vehicle preference: Y-yes, that's r-right. Um, I mean, light_1, if that's the, uh, default one.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:11",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "explicit_nonvehicle_calibration_wrapper",
+            "original_text": "Y-yes, that's r-right. Um, I mean, light_1, if that's the, uh, default one.",
+            "adaptation_note": "A label-transparent domain wrapper is added for the Easy calibration stratum."
+          },
+          "turn_id": "hve03-s11-t03"
+        }
+      ]
+    },
+    {
+      "session_id": "hve03-s12",
+      "timestamp": "2026-04-22T09:00:00",
+      "context": "Frankie explicitly states one durable vehicle-profile setting.",
+      "turns": [
+        {
+          "speaker": "co_user",
+          "text": "I'm Frankie. Please replace my previous permanent vehicle-profile value. My new music volume is 28. Use this latest value from now on and do not keep the old value.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4035",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "source_inspired_single_intent_rewrite",
+            "original_text": "I'm feeling a little nauseous, I think it's all this stop-and-go. The car's deceleration is really abrupt. Uh, is there a way to make it coast more? Like, maybe put regenerative braking on low.",
+            "adaptation_note": "The external record supplies conversational style only; the evaluation utterance is an explicit single-intent calibration rewrite."
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "codriver.default.music_volume",
+            "owner": "external-hve03-codriver",
+            "tool_name": "carcontrol_music_set_volume",
+            "argument_name": "volume",
+            "value": 28,
+            "context_arguments": {},
+            "condition": "Frankie's explicitly selected default vehicle profile",
+            "reason": "Frankie explicitly replaces the prior saved value."
+          },
+          "turn_id": "hve03-s12-t01"
+        }
+      ]
+    }
+  ],
+  "quizzes": [
+    {
+      "quiz_id": "hve03-turn-01",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hve03-s02-t01",
+      "query": "Set the driver-zone cabin temperature to Emery's saved vehicle-profile value now.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.default.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 19,
+            "zone": "driver"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve03-turn-02",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hve03-s04-t01",
+      "query": "Set the music volume to Frankie's saved vehicle-profile value now.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "codriver.default.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 22
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve03-turn-03",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hve03-s06-t01",
+      "query": "Set the ambient-light color to Emery's saved vehicle-profile value now.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.default.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "green"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve03-turn-04",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hve03-s08-t01",
+      "query": "Set the driver-zone cabin temperature to Emery's saved vehicle-profile value now.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.default.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 21,
+            "zone": "driver"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve03-turn-05",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hve03-s10-t01",
+      "query": "Set the passenger-zone cabin temperature to Frankie's saved vehicle-profile value now.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "codriver.default.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 24,
+            "zone": "passenger"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve03-turn-06",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hve03-s12-t01",
+      "query": "Set the music volume to Frankie's saved vehicle-profile value now.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "codriver.default.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 28
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve03-turn-07",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hve03-s02-t01",
+      "query": "Apply the saved driver-zone cabin temperature for Emery now.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.default.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 19,
+            "zone": "driver"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve03-turn-08",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hve03-s04-t01",
+      "query": "Apply the saved music volume for Frankie now.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "codriver.default.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 22
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve03-final-01",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hve03-s12-t01",
+      "query": "Apply Emery's latest saved driver-zone cabin temperature now.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.default.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 21,
+            "zone": "driver"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve03-final-02",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hve03-s12-t01",
+      "query": "Set the driver-zone cabin temperature to the current value in Emery's vehicle profile.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.default.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 21,
+            "zone": "driver"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve03-final-03",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hve03-s12-t01",
+      "query": "Apply Frankie's latest saved music volume now.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "codriver.default.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 28
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve03-final-04",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hve03-s12-t01",
+      "query": "Set the music volume to the current value in Frankie's vehicle profile.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "codriver.default.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 28
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve03-final-05",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hve03-s12-t01",
+      "query": "Apply Emery's latest saved ambient-light color now.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.default.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "green"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve03-final-06",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hve03-s12-t01",
+      "query": "Set the ambient-light color to the current value in Emery's vehicle profile.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.default.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "green"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve03-final-07",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hve03-s12-t01",
+      "query": "Apply Frankie's latest saved passenger-zone cabin temperature now.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "codriver.default.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 24,
+            "zone": "passenger"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve03-final-08",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hve03-s12-t01",
+      "query": "Set the passenger-zone cabin temperature to the current value in Frankie's vehicle profile.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "codriver.default.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 24,
+            "zone": "passenger"
+          }
+        }
+      ]
+    }
+  ]
+}

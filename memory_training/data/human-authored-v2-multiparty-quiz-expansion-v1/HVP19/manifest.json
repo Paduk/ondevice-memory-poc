@@ -1,0 +1,133 @@
+{
+  "eligible_for_human_test": false,
+  "external_adaptation": {
+    "dataset_turn_counts": {
+      "Audio2Tool": 34,
+      "Envisioned Voice Assistant Dialogues": 25
+    },
+    "externally_sourced_turn_count": 59,
+    "externally_sourced_turn_rate": 1.0,
+    "origin_turn_counts": {
+      "human_authored": 25,
+      "synthetic": 34
+    },
+    "reuse_mode_turn_counts": {
+      "minimal_persistence_adaptation": 10,
+      "vehicle_domain_rewrite": 6,
+      "vehicle_domain_rewrite_with_persistence": 3,
+      "verbatim_text_role_normalized": 40
+    },
+    "source_catalog": [
+      {
+        "dataset": "Envisioned Voice Assistant Dialogues",
+        "license": "CC BY 4.0",
+        "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186",
+        "origin": "human_authored",
+        "records": [
+          "94:open",
+          "67:alarm",
+          "55:conversational"
+        ],
+        "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues"
+      },
+      {
+        "dataset": "Audio2Tool",
+        "license": "CC BY-NC 4.0",
+        "local_file_sha256": {
+          "tier4": "d430e801c9bba5db03b3d044ac626ebec35de1b8a4eb2e2beb4cdec0013e9271",
+          "tier5": "d38e588dccb99ed3291c9467a29adcd71e4f1c4eb62c118fd482a8e9616a1850",
+          "tier6": "fa5c0825d99c4f68e226480261befe9ce7aa33c9dfbb7ff1fe1fc82493bcb991",
+          "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc"
+        },
+        "origin": "synthetic",
+        "records": [
+          "tier7:1906",
+          "tier7:2034",
+          "tier7:2104",
+          "tier4:4098",
+          "tier5:3974",
+          "tier6:4239",
+          "tier5:4235",
+          "tier4:3997",
+          "tier6:4003",
+          "tier4:4075",
+          "tier6:4114",
+          "tier6:4112",
+          "tier5:4237",
+          "tier7:67",
+          "tier7:345",
+          "tier7:547"
+        ],
+        "url": "https://huggingface.co/datasets/RVtech/Audio2Tool"
+      }
+    ]
+  },
+  "files": {
+    "dialogue.jsonl": {
+      "row_count": 59,
+      "sha256": "e9b6727524d3e20ae597714510187acb90aa399c5fd34f86b788080d625319bd"
+    },
+    "final_quiz.jsonl": {
+      "row_count": 7,
+      "sha256": "d91687e9099a0afc1db4e926460b673cc4774b2c778751e85e9aea7ab1741502"
+    },
+    "memory_snapshots.jsonl": {
+      "row_count": 59,
+      "sha256": "3e8044f40468c3ba4f7bede113863422c4d231d306496b545ebe74cc840855b8"
+    },
+    "patch.jsonl": {
+      "row_count": 59,
+      "sha256": "c8d37bf1f9707bf1c6b3a8f0eae0d930688fbe91045bbe10655959ac839ed189"
+    },
+    "turn_quiz.jsonl": {
+      "row_count": 21,
+      "sha256": "4a7ffc7c30b17078f69cba694e72988a9664b32c52f80d9f3ae7012662a35dad"
+    }
+  },
+  "final_memory": {
+    "active_slot_ids": [
+      "codriver.normal.ambient_color",
+      "codriver.parked.doors_locked",
+      "codriver.normal.music_volume",
+      "driver.normal.ambient_color",
+      "driver.normal.rear_right_seat_ventilation_speed",
+      "driver.normal.circulation",
+      "driver.front_condensation.defrost",
+      "driver.coat.front_trunk",
+      "driver.parked.doors_locked",
+      "driver.background_noise.radio"
+    ],
+    "sha256": "6d551b75864522b433e66b319ef9cadea971f79230ddc2283de59b9348172d07",
+    "turn_id": "hvp19-s16-t01"
+  },
+  "scenario_id": "HVP19",
+  "scenario_index": 919,
+  "schema_version": "vehiclemembench-human-authored-pilot-manifest-v1",
+  "source_path": "/home/hj153lee/PalmClaw/evaluation/human-authored-vehicle-memory/multiparty-quiz-expansion-v1/HVP19/scenario-source.json",
+  "source_sha256": "a561d591cb531144824bf9e566f888f2a223b66380a5df0e2059f4bbee929761",
+  "split": "pilot_excluded",
+  "statistics": {
+    "active_memory_slot_count": 10,
+    "add_count": 10,
+    "distinct_memory_tool_count": 8,
+    "final_quiz_count": 7,
+    "noop_count": 46,
+    "quiz_tool_call_count": 50,
+    "replace_count": 3,
+    "session_count": 19,
+    "speaker_count": 3,
+    "turn_count": 59,
+    "turn_quiz_count": 21,
+    "update_count": 13
+  },
+  "validation": {
+    "chronology_and_unique_ids": "PASS",
+    "final_quiz_uses_final_snapshot": "PASS",
+    "noop_memory_identity": "PASS",
+    "official_tool_json_schema": "PASS",
+    "official_vehicleworld_simulator": "PASS",
+    "patch_replay_all_turns": "PASS",
+    "quiz_evidence_active_at_cutoff": "PASS",
+    "source_contract": "PASS"
+  }
+}

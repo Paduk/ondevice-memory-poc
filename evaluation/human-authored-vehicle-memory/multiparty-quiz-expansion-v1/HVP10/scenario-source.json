@@ -1,0 +1,1769 @@
+{
+  "schema_version": "vehiclemembench-human-authored-scenario-source-v1",
+  "scenario_id": "HVP10",
+  "scenario_index": 910,
+  "split": "pilot_excluded",
+  "authorship": {
+    "kind": "external_adapted_model_assembled_pilot",
+    "eligible_for_human_test": false,
+    "note": "Versioned multi-participant external adaptation. Dialogue records are source-traced; participant normalization, persistence edits, memory labels, and quizzes remain model-assembled pending human review."
+  },
+  "external_sources": [
+    {
+      "dataset": "Envisioned Voice Assistant Dialogues",
+      "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues",
+      "license": "CC BY 4.0",
+      "origin": "human_authored",
+      "records": [
+        "74:weather",
+        "75:search",
+        "5:search"
+      ],
+      "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186"
+    },
+    {
+      "dataset": "Audio2Tool",
+      "url": "https://huggingface.co/datasets/RVtech/Audio2Tool",
+      "license": "CC BY-NC 4.0",
+      "origin": "synthetic",
+      "records": [
+        "tier7:2129",
+        "tier7:2131",
+        "tier7:2144",
+        "tier5:3961",
+        "tier5:3965",
+        "tier5:3979",
+        "tier4:3991",
+        "tier5:4004",
+        "tier5:4273",
+        "tier5:4233",
+        "tier5:3967",
+        "tier5:4275",
+        "tier5:4006",
+        "tier4:4194",
+        "tier7:2118",
+        "tier7:1990"
+      ],
+      "local_file_sha256": {
+        "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc",
+        "tier6": "fa5c0825d99c4f68e226480261befe9ce7aa33c9dfbb7ff1fe1fc82493bcb991",
+        "tier4": "d430e801c9bba5db03b3d044ac626ebec35de1b8a4eb2e2beb4cdec0013e9271",
+        "tier5": "d38e588dccb99ed3291c9467a29adcd71e4f1c4eb62c118fd482a8e9616a1850"
+      }
+    }
+  ],
+  "speakers": [
+    {
+      "speaker_id": "external-hvp10-driver",
+      "short_id": "user",
+      "speaker_name": "Taylor (normalized user role)",
+      "role": "driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp10-codriver",
+      "short_id": "co_user",
+      "speaker_name": "Dakota (normalized user role)",
+      "role": "co-driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp10-assistant",
+      "short_id": "assistant",
+      "speaker_name": "Voice assistant (source names retained in text)",
+      "role": "vehicle voice assistant",
+      "style": "retains the wording of each external source record"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "hvp10-s1",
+      "timestamp": "2026-01-05T08:00:00",
+      "context": "Discussing seasonal weather in Italy.",
+      "turns": [
+        {
+          "turn_id": "hvp10-s1-t01",
+          "speaker": "user",
+          "text": "Assistant, what is the weather usually like in Italy at this time of year?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "74:weather",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Assistant, what is the weather usually like in Italy at this time of year?"
+          }
+        },
+        {
+          "turn_id": "hvp10-s1-t02",
+          "speaker": "assistant",
+          "text": "Over the last 3 years there has been an average peak temperature of 32 degrees celsius in August in Italy, with lows of 15 degrees at night. The humidity averaged 45%",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "74:weather",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Over the last 3 years there has been an average peak temperature of 32 degrees celsius in August in Italy, with lows of 15 degrees at night. The humidity averaged 45%"
+          }
+        },
+        {
+          "turn_id": "hvp10-s1-t03",
+          "speaker": "user",
+          "text": "What is the weather like in Italy today?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "74:weather",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What is the weather like in Italy today?"
+          }
+        },
+        {
+          "turn_id": "hvp10-s1-t04",
+          "speaker": "assistant",
+          "text": "It is currently 33 degrees celsius with light winds in Italy",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "74:weather",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "It is currently 33 degrees celsius with light winds in Italy"
+          }
+        },
+        {
+          "turn_id": "hvp10-s1-t05",
+          "speaker": "user",
+          "text": "What are the weather predictions in Italy next week?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "74:weather",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What are the weather predictions in Italy next week?"
+          }
+        },
+        {
+          "turn_id": "hvp10-s1-t06",
+          "speaker": "assistant",
+          "text": "There will be an average peak temperature of 32 degrees celsius with lows of 14 degrees, light winds and 43 percent humidity",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "74:weather",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "There will be an average peak temperature of 32 degrees celsius with lows of 14 degrees, light winds and 43 percent humidity"
+          }
+        },
+        {
+          "turn_id": "hvp10-s1-t07",
+          "speaker": "user",
+          "text": "Will there be any rain?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "74:weather",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Will there be any rain?"
+          }
+        },
+        {
+          "turn_id": "hvp10-s1-t08",
+          "speaker": "assistant",
+          "text": "No, there will not be any rain",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "74:weather",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "No, there will not be any rain"
+          }
+        },
+        {
+          "turn_id": "hvp10-s1-t09",
+          "speaker": "user",
+          "text": "Will there be untypical weather on any days?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "74:weather",
+            "record_turn_index": 8,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Will there be untypical weather on any days?"
+          }
+        },
+        {
+          "turn_id": "hvp10-s1-t10",
+          "speaker": "assistant",
+          "text": "No, the weather is predicted to be similar in Italy every day next week",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "74:weather",
+            "record_turn_index": 9,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "No, the weather is predicted to be similar in Italy every day next week"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp10-s2",
+      "timestamp": "2026-01-25T08:00:00",
+      "context": "Finding a cinema showing for a recent film.",
+      "turns": [
+        {
+          "turn_id": "hvp10-s2-t01",
+          "speaker": "user",
+          "text": "I'd like to go the cinema to see the latest film starring Christian Bale",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "75:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'd like to go the cinema to see the latest film starring Christian Bale"
+          }
+        },
+        {
+          "turn_id": "hvp10-s2-t02",
+          "speaker": "assistant",
+          "text": "When would you like to go?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "75:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "When would you like to go?"
+          }
+        },
+        {
+          "turn_id": "hvp10-s2-t03",
+          "speaker": "user",
+          "text": "This evening",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "75:search",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "This evening"
+          }
+        },
+        {
+          "turn_id": "hvp10-s2-t04",
+          "speaker": "assistant",
+          "text": "The local cinema has three showings tonight, 18:00, 19:30 and 20:45",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "75:search",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "The local cinema has three showings tonight, 18:00, 19:30 and 20:45"
+          }
+        },
+        {
+          "turn_id": "hvp10-s2-t05",
+          "speaker": "user",
+          "text": "Thanks, could you please reserve two seats for the seven thirty show please",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "75:search",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thanks, could you please reserve two seats for the seven thirty show please"
+          }
+        },
+        {
+          "turn_id": "hvp10-s2-t06",
+          "speaker": "assistant",
+          "text": "Any particular location?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "75:search",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Any particular location?"
+          }
+        },
+        {
+          "turn_id": "hvp10-s2-t07",
+          "speaker": "user",
+          "text": "Somewhere around the centre of the theatre, just not the first five rows",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "75:search",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Somewhere around the centre of the theatre, just not the first five rows"
+          }
+        },
+        {
+          "turn_id": "hvp10-s2-t08",
+          "speaker": "assistant",
+          "text": "Consider it done, I'll forward the booking to your phone once completed",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "75:search",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Consider it done, I'll forward the booking to your phone once completed"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp10-s3",
+      "timestamp": "2026-02-14T08:00:00",
+      "context": "Booking seats for a Saturday cinema showing.",
+      "turns": [
+        {
+          "turn_id": "hvp10-s3-t01",
+          "speaker": "user",
+          "text": "Hey Masno, could you check whats time the local cinema are playing this new action film?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "5:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hey Masno, could you check whats time the local cinema are playing this new action film?"
+          }
+        },
+        {
+          "turn_id": "hvp10-s3-t02",
+          "speaker": "assistant",
+          "text": "Ofcourse, They playing this movie from Monday to Sunday. Whats time would fits to you?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "5:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Ofcourse, They playing this movie from Monday to Sunday. Whats time would fits to you?"
+          }
+        },
+        {
+          "turn_id": "hvp10-s3-t03",
+          "speaker": "user",
+          "text": "Saturday evenings would suit me best.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "5:search",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Saturday evenings would suit me best."
+          }
+        },
+        {
+          "turn_id": "hvp10-s3-t04",
+          "speaker": "assistant",
+          "text": "They play it at 7:30 pm on Saturday. Do you want me to book it?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "5:search",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "They play it at 7:30 pm on Saturday. Do you want me to book it?"
+          }
+        },
+        {
+          "turn_id": "hvp10-s3-t05",
+          "speaker": "user",
+          "text": "Oh yes, thats perfect. Lets book 2seats for me and my girlfriend.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "5:search",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Oh yes, thats perfect. Lets book 2seats for me and my girlfriend."
+          }
+        },
+        {
+          "turn_id": "hvp10-s3-t06",
+          "speaker": "assistant",
+          "text": "Your tickets are printed in your office. Have fun!",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "5:search",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Your tickets are printed in your office. Have fun!"
+          }
+        },
+        {
+          "turn_id": "hvp10-s3-t07",
+          "speaker": "user",
+          "text": "Thanks Masno.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "5:search",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thanks Masno."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp10-s4",
+      "timestamp": "2026-03-06T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2129.",
+      "turns": [
+        {
+          "turn_id": "hvp10-s4-t01",
+          "speaker": "user",
+          "text": "Hmm, is my car charging or something?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2129",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hmm, is my car charging or something?"
+          }
+        },
+        {
+          "turn_id": "hvp10-s4-t02",
+          "speaker": "assistant",
+          "text": "I'm not sure, do you want to check the charging session?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2129",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'm not sure, do you want to check the charging session?"
+          }
+        },
+        {
+          "turn_id": "hvp10-s4-t03",
+          "speaker": "user",
+          "text": "Yeah... I mean, is it charging at home?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2129",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yeah... I mean, is it charging at home?"
+          }
+        },
+        {
+          "turn_id": "hvp10-s4-t04",
+          "speaker": "assistant",
+          "text": "You want to know if your car is charging at home, but to check the charging session, I need to confirm: are you referring to your primary home charging station?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2129",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You want to know if your car is charging at home, but to check the charging session, I need to confirm: are you referring to your primary home charging station?"
+          }
+        },
+        {
+          "turn_id": "hvp10-s4-t05",
+          "speaker": "user",
+          "text": "Uh, yeah... primary one, I guess.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2129",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Uh, yeah... primary one, I guess."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp10-s5",
+      "timestamp": "2026-03-26T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2131.",
+      "turns": [
+        {
+          "turn_id": "hvp10-s5-t01",
+          "speaker": "user",
+          "text": "I need to get someone's attention.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2131",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I need to get someone's attention."
+          }
+        },
+        {
+          "turn_id": "hvp10-s5-t02",
+          "speaker": "assistant",
+          "text": "Do you want to use the headlights, hazard lights, or sound the horn?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2131",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Do you want to use the headlights, hazard lights, or sound the horn?"
+          }
+        },
+        {
+          "turn_id": "hvp10-s5-t03",
+          "speaker": "user",
+          "text": "I think sounding the horn would be best.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2131",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I think sounding the horn would be best."
+          }
+        },
+        {
+          "turn_id": "hvp10-s5-t04",
+          "speaker": "assistant",
+          "text": "Okay, I can sound the horn for you. Is that okay?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2131",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Okay, I can sound the horn for you. Is that okay?"
+          }
+        },
+        {
+          "turn_id": "hvp10-s5-t05",
+          "speaker": "user",
+          "text": "Yes, please go ahead and honk the horn.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2131",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes, please go ahead and honk the horn."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp10-s6",
+      "timestamp": "2026-04-15T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2144.",
+      "turns": [
+        {
+          "turn_id": "hvp10-s6-t01",
+          "speaker": "user",
+          "text": "I don't want any unnecessary details",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2144",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I don't want any unnecessary details"
+          }
+        },
+        {
+          "turn_id": "hvp10-s6-t02",
+          "speaker": "assistant",
+          "text": "What kind of information are you looking for about your vehicle?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2144",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What kind of information are you looking for about your vehicle?"
+          }
+        },
+        {
+          "turn_id": "hvp10-s6-t03",
+          "speaker": "user",
+          "text": "Just the basics, I don't want to know about the engine or anything like that",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2144",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Just the basics, I don't want to know about the engine or anything like that"
+          }
+        },
+        {
+          "turn_id": "hvp10-s6-t04",
+          "speaker": "assistant",
+          "text": "Okay, so you want general information about your vehicle. Is there something specific you're trying to find out?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2144",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Okay, so you want general information about your vehicle. Is there something specific you're trying to find out?"
+          }
+        },
+        {
+          "turn_id": "hvp10-s6-t05",
+          "speaker": "user",
+          "text": "Yeah, I just want to know what kind of car I have and what version of software it's running",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2144",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yeah, I just want to know what kind of car I have and what version of software it's running"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp10-mp01",
+      "timestamp": "2026-04-20T08:00:00",
+      "context": "Dakota reports that the vehicle is much too cold; the source label resolves the implicit request to 28°C heat.",
+      "turns": [
+        {
+          "turn_id": "hvp10-mp01-t01",
+          "speaker": "co_user",
+          "text": "It is way too cold in this car. Set the front-passenger zone to twenty-eight degrees, and remember that as my normal setting there.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4194",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "It is way too cold in this car"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.normal.passenger_temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 28,
+            "context_arguments": {
+              "zone": "passenger"
+            },
+            "condition": "for Dakota's normal passenger-zone climate",
+            "reason": "The source-labeled heat intent is made explicit, scoped to the passenger zone, and restated as Dakota's durable 28-degree preference."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp10-mp02",
+      "timestamp": "2026-04-25T08:00:00",
+      "context": "Dakota clarifies that both front and rear defrosters should be used.",
+      "turns": [
+        {
+          "turn_id": "hvp10-mp02-t01",
+          "speaker": "co_user",
+          "text": "I wanna defrost the windshield",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2118",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I wanna defrost the windshield"
+          }
+        },
+        {
+          "turn_id": "hvp10-mp02-t02",
+          "speaker": "assistant",
+          "text": "You want to turn on the defroster? Which one, front or rear?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2118",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You want to turn on the defroster? Which one, front or rear?"
+          }
+        },
+        {
+          "turn_id": "hvp10-mp02-t03",
+          "speaker": "co_user",
+          "text": "Um, no, not the front one",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2118",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Um, no, not the front one"
+          }
+        },
+        {
+          "turn_id": "hvp10-mp02-t04",
+          "speaker": "assistant",
+          "text": "So you want to turn on the rear defroster only? That's not the default, are you sure?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2118",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "So you want to turn on the rear defroster only? That's not the default, are you sure?"
+          }
+        },
+        {
+          "turn_id": "hvp10-mp02-t05",
+          "speaker": "co_user",
+          "text": "Yeah, no, I mean the front one too. When I need clear rear visibility, I still want both front and rear defrosted.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2118",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Yeah, no, I mean the front one too"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.rear_visibility.defrost",
+            "tool_name": "carcontrol_airConditioner_set_mode",
+            "argument_name": "mode",
+            "value": "defrost",
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "when Dakota needs to clear the rear glass",
+            "reason": "The source explicitly resolves defrost to both panes, which Dakota makes durable for rear-visibility needs."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp10-mp03",
+      "timestamp": "2026-04-30T08:00:00",
+      "context": "Dakota chooses steering-wheel heat to warm cold hands without heating the cabin.",
+      "turns": [
+        {
+          "turn_id": "hvp10-mp03-t01",
+          "speaker": "co_user",
+          "text": "So, funny story, I just got this new electric SUV last month after my old sedan finally gave up the ghost—you know, the transmission started slipping right as winter hit, which was just perfect timing. Anyway, this new car has all these bells and whistles I'm still figuring out. Right now I'm sitting in the driveway, waiting for my partner to finish finding the ‘right' playlist, and my hands are kind of chilly but not, like, unbearably so. I remember the salesperson mentioning something about a heated steering wheel, seat warmers, and maybe even some kind of preconditioning thing? I'm not actually sure what's on or off at this point. Could you help me sort out what the options are for making my hands more comfortable without turning the whole car into a sauna?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1990",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "So, funny story, I just got this new electric SUV last month after my old sedan finally gave up the ghost—you know, the transmission started slipping right as winter hit, which was just perfect timing. Anyway, this new car has all these bells and whistles I'm still figuring out. Right now I'm sitting in the driveway, waiting for my partner to finish finding the ‘right' playlist, and my hands are kind of chilly but not, like, unbearably so. I remember the salesperson mentioning something about a heated steering wheel, seat warmers, and maybe even some kind of preconditioning thing? I'm not actually sure what's on or off at this point. Could you help me sort out what the options are for making my hands more comfortable without turning the whole car into a sauna?"
+          }
+        },
+        {
+          "turn_id": "hvp10-mp03-t02",
+          "speaker": "assistant",
+          "text": "I can definitely help with that. In this car, there are a few different comfort features that might affect how warm your hands feel:\n\n1) Heated steering wheel – specifically warms the steering wheel where your hands rest.\n2) Seat heaters – warm the seat and sometimes the lower back, which can make you feel warmer overall.\n3) Cabin climate control – adjusts the general air temperature and airflow in the car.\n\nSince you mentioned your hands are chilly but you don't want the whole car to feel too hot, we should pick one of these to adjust. Would you like me to:\n- A) Turn on just the heated steering wheel,\n- B) Leave the wheel alone and instead rely on seat heaters or cabin heat,\n- C) Turn off any steering wheel heating if it's already on,\n- Or D) Something else specific you have in mind for your hands?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1990",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can definitely help with that. In this car, there are a few different comfort features that might affect how warm your hands feel:\n\n1) Heated steering wheel – specifically warms the steering wheel where your hands rest.\n2) Seat heaters – warm the seat and sometimes the lower back, which can make you feel warmer overall.\n3) Cabin climate control – adjusts the general air temperature and airflow in the car.\n\nSince you mentioned your hands are chilly but you don't want the whole car to feel too hot, we should pick one of these to adjust. Would you like me to:\n- A) Turn on just the heated steering wheel,\n- B) Leave the wheel alone and instead rely on seat heaters or cabin heat,\n- C) Turn off any steering wheel heating if it's already on,\n- Or D) Something else specific you have in mind for your hands?"
+          }
+        },
+        {
+          "turn_id": "hvp10-mp03-t03",
+          "speaker": "co_user",
+          "text": "Right, okay, that helps me think about it a bit more. So, context—because I always overthink these tiny comfort settings: I'm the kind of person who ends up roasting if the cabin temperature is even a little too high, and seat heaters make my back feel like I'm sitting on a toaster after about five minutes. But my fingers get cold ridiculously fast; like, I'll be driving and suddenly it's as if I've been holding an ice pack. I really don't want to fiddle with the overall climate too much because my partner likes it cooler, and I'd rather not start a whole ‘it's too hot/it's too cold' debate every time we go somewhere. So, to avoid all that drama and just deal with my hands, let's go with option A and have you turn on the heated steering wheel for me—just the steering wheel, nothing else. Whenever my hands feel cold, keep the steering-wheel heater enabled for me.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1990",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Right, okay, that helps me think about it a bit more. So, context—because I always overthink these tiny comfort settings: I'm the kind of person who ends up roasting if the cabin temperature is even a little too high, and seat heaters make my back feel like I'm sitting on a toaster after about five minutes. But my fingers get cold ridiculously fast; like, I'll be driving and suddenly it's as if I've been holding an ice pack. I really don't want to fiddle with the overall climate too much because my partner likes it cooler, and I'd rather not start a whole ‘it's too hot/it's too cold' debate every time we go somewhere. So, to avoid all that drama and just deal with my hands, let's go with option A and have you turn on the heated steering wheel for me—just the steering wheel, nothing else."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.cold_hands.wheel_heat",
+            "tool_name": "carcontrol_steeringWheel_set_heating_enabled",
+            "argument_name": "enabled",
+            "value": true,
+            "context_arguments": {},
+            "condition": "when Dakota's hands feel cold",
+            "reason": "Dakota's explicit source choice is restated as a durable cold-hands steering-wheel preference."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp10-s7",
+      "timestamp": "2026-05-05T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:3961.",
+      "turns": [
+        {
+          "turn_id": "hvp10-s7-t01",
+          "speaker": "user",
+          "text": "So the playlist is on shuffle and it keeps picking old songs, you know, it is kinda funny, but the front passenger is chilly, could you raise the passenger temperature to twenty three degrees. Twenty-three degrees is my regular passenger-zone setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:3961",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "So the playlist is on shuffle and it keeps picking old songs, you know, it is kinda funny, but the front passenger is chilly, could you raise the passenger temperature to twenty three degrees"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.passenger_temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 23,
+            "context_arguments": {
+              "zone": "passenger"
+            },
+            "condition": "for Taylor's normal passenger-zone climate",
+            "reason": "The explicit temperature is made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp10-s8",
+      "timestamp": "2026-05-25T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:3965.",
+      "turns": [
+        {
+          "turn_id": "hvp10-s8-t01",
+          "speaker": "user",
+          "text": "So I just realized I am kind of shivering in here, like, did not notice at first, please set the fan speed to 1. Fan speed one is my regular cabin setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:3965",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "So I just realized I am kind of shivering in here, like, did not notice at first, please set the fan speed to 1"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.fan_speed",
+            "tool_name": "carcontrol_airConditioner_set_fan_speed",
+            "argument_name": "speed",
+            "value": 1,
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Taylor's normal cabin setting",
+            "reason": "The explicit fan level is made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp10-s9",
+      "timestamp": "2026-06-14T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:3979.",
+      "turns": [
+        {
+          "turn_id": "hvp10-s9-t01",
+          "speaker": "user",
+          "text": "You know, the sun is low and bright but not actually warm, so, like, please turn on the steering wheel heat so my hands feel better. Keep steering-wheel heat enabled whenever my hands feel cold.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:3979",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "You know, the sun is low and bright but not actually warm, so, like, please turn on the steering wheel heat so my hands feel better"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.cold_hands.wheel_heat",
+            "tool_name": "carcontrol_steeringWheel_set_heating_enabled",
+            "argument_name": "enabled",
+            "value": true,
+            "context_arguments": {},
+            "condition": "when Taylor's hands feel cold",
+            "reason": "The source heat request is retained under its explicit comfort condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp10-s10",
+      "timestamp": "2026-07-04T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:3991.",
+      "turns": [
+        {
+          "turn_id": "hvp10-s10-t01",
+          "speaker": "user",
+          "text": "The kids keep saying it is too stuffy back there. When the kids find the rear cabin stuffy, set their rear-right window to sixty percent.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:3991",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "The kids keep saying it is too stuffy back there"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.kids_stuffy.rear_right_window",
+            "tool_name": "carcontrol_window_set_open_degree",
+            "argument_name": "degree",
+            "value": 60,
+            "context_arguments": {
+              "window": "rear_right"
+            },
+            "condition": "when Taylor's children find the rear cabin stuffy",
+            "reason": "The source window value is attributed to the children and kept under the same stuffiness condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp10-s11",
+      "timestamp": "2026-07-24T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4004.",
+      "turns": [
+        {
+          "turn_id": "hvp10-s11-t01",
+          "speaker": "user",
+          "text": "You know, my notes are blowing around on the right, so raise the passenger front window to around sixty percent open. Sixty percent is my regular passenger-front window position.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4004",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "You know, my notes are blowing around on the right, so raise the passenger front window to around sixty percent open"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.passenger_window",
+            "tool_name": "carcontrol_window_set_open_degree",
+            "argument_name": "degree",
+            "value": 60,
+            "context_arguments": {
+              "window": "passenger"
+            },
+            "condition": "for Taylor's normal driving",
+            "reason": "The explicit source window position is made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp10-s12",
+      "timestamp": "2026-08-13T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4273.",
+      "turns": [
+        {
+          "turn_id": "hvp10-s12-t01",
+          "speaker": "user",
+          "text": "I'm not sure what I want for dinner tonight, maybe Italian? Or maybe Thai? I can't decide. It's too much pressure. Anyway, um, can you just open the sunroof like, a little bit? Just to vent it. Ten percent is my normal sunroof vent position.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4273",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I'm not sure what I want for dinner tonight, maybe Italian? Or maybe Thai? I can't decide. It's too much pressure. Anyway, um, can you just open the sunroof like, a little bit? Just to vent it."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.venting.sunroof",
+            "tool_name": "carcontrol_sunroof_set_open_degree",
+            "argument_name": "degree",
+            "value": 10,
+            "context_arguments": {},
+            "condition": "when Taylor vents the cabin",
+            "reason": "The explicit sunroof position is made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp10-s13",
+      "timestamp": "2026-09-02T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4233.",
+      "turns": [
+        {
+          "turn_id": "hvp10-s13-t01",
+          "speaker": "user",
+          "text": "You know, I am mostly worried about cars behind me, so, uh, please turn on the rear defroster only. Use rear-only defrost whenever I need clear rear visibility.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4233",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "You know, I am mostly worried about cars behind me, so, uh, please turn on the rear defroster only"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.rear_visibility.defrost",
+            "tool_name": "carcontrol_airConditioner_set_mode",
+            "argument_name": "mode",
+            "value": "defrost",
+            "context_arguments": {
+              "zone": "rear"
+            },
+            "condition": "when Taylor needs to clear the rear glass",
+            "reason": "The source rear-defrost request is retained as a rear-visibility rule."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp10-s14",
+      "timestamp": "2026-09-22T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:3967.",
+      "turns": [
+        {
+          "turn_id": "hvp10-s14-t01",
+          "speaker": "user",
+          "text": "I'm trying to remember the name of that actor... he was in that movie about the space station. It's on the tip of my tongue. This is going to bother me all day. Oh, whatever. Um, can you just set the fan speed to seven? Actually, fan speed seven is my regular cabin setting now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:3967",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I'm trying to remember the name of that actor... he was in that movie about the space station. It's on the tip of my tongue. This is going to bother me all day. Oh, whatever. Um, can you just set the fan speed to seven?"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.fan_speed",
+            "tool_name": "carcontrol_airConditioner_set_fan_speed",
+            "argument_name": "speed",
+            "value": 7,
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Taylor's normal cabin setting",
+            "reason": "The later source fan value replaces the stored level."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp10-s15",
+      "timestamp": "2026-10-12T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4275.",
+      "turns": [
+        {
+          "turn_id": "hvp10-s15-t01",
+          "speaker": "user",
+          "text": "You know how fast we are going on this highway, I do not want full blast, so set the sunroof position to 30 percent. Actually, thirty percent is my normal sunroof vent position now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4275",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "You know how fast we are going on this highway, I do not want full blast, so set the sunroof position to 30 percent"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.venting.sunroof",
+            "tool_name": "carcontrol_sunroof_set_open_degree",
+            "argument_name": "degree",
+            "value": 30,
+            "context_arguments": {},
+            "condition": "when Taylor vents the cabin",
+            "reason": "The later source position replaces the stored value."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp10-s16",
+      "timestamp": "2026-11-01T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4006.",
+      "turns": [
+        {
+          "turn_id": "hvp10-s16-t01",
+          "speaker": "user",
+          "text": "You know, the front vents are on high already, so just open the passenger front window a little, say ten percent. Actually, ten percent is my regular passenger-front window position now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4006",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "You know, the front vents are on high already, so just open the passenger front window a little, say ten percent"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.passenger_window",
+            "tool_name": "carcontrol_window_set_open_degree",
+            "argument_name": "degree",
+            "value": 10,
+            "context_arguments": {
+              "window": "passenger"
+            },
+            "condition": "for Taylor's normal driving",
+            "reason": "The later source position replaces the stored passenger-window value."
+          }
+        }
+      ]
+    }
+  ],
+  "quizzes": [
+    {
+      "quiz_id": "hvp10-turn-01",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s7-t01",
+      "query": "Set the front-passenger temperature to Taylor's remembered normal value.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.passenger_temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "passenger",
+            "temperature": 23
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-turn-02",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s8-t01",
+      "query": "Set the cabin fan to Taylor's currently remembered normal speed.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 1
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-turn-03",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s9-t01",
+      "query": "Taylor's hands feel cold. Apply the remembered steering-wheel setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.cold_hands.wheel_heat"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-turn-04",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s10-t01",
+      "query": "Taylor's children find the rear cabin stuffy. Set their rear-right window to the remembered position.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.kids_stuffy.rear_right_window"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "rear_right",
+            "degree": 60
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-final-01",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp10-s16-t01",
+      "query": "Set the front-passenger temperature to Taylor's remembered normal value.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.passenger_temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "passenger",
+            "temperature": 23
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-final-02",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp10-s16-t01",
+      "query": "Set the cabin fan to Taylor's current normal speed.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 7
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-final-03",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp10-s16-t01",
+      "query": "Taylor's hands feel cold. Apply the remembered steering-wheel setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.cold_hands.wheel_heat"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-final-04",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp10-s16-t01",
+      "query": "Taylor's children find the rear cabin stuffy. Set their rear-right window to the remembered position.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.kids_stuffy.rear_right_window"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "rear_right",
+            "degree": 60
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-final-05",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp10-s16-t01",
+      "query": "Set the passenger-front window to Taylor's current normal position.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.passenger_window"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "passenger",
+            "degree": 10
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-final-06",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp10-s16-t01",
+      "query": "Taylor wants to vent the cabin and also needs clear rear visibility. Apply the remembered sunroof and defrost settings.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.venting.sunroof",
+        "driver.rear_visibility.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 30
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "rear",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-turn-05",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s14-t01",
+      "query": "Set every cabin zone to the fan speed Taylor most recently chose as normal.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 7
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-turn-06",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s16-t01",
+      "query": "Taylor begins a normal drive while the children find the rear cabin stuffy. Apply both remembered window positions.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.normal.passenger_window",
+        "driver.kids_stuffy.rear_right_window"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "passenger",
+            "degree": 10
+          }
+        },
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "rear_right",
+            "degree": 60
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-turn-07",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s15-t01",
+      "query": "Taylor wants to vent the cabin and needs clear rear visibility. Apply the current roof and defrost choices.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.venting.sunroof",
+        "driver.rear_visibility.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 30
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "rear",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-turn-08",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s13-t01",
+      "query": "Dakota takes the passenger seat and needs clear rear visibility. Apply their remembered temperature and defrost scope.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "codriver.normal.passenger_temperature",
+        "codriver.rear_visibility.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "passenger",
+            "temperature": 28
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "all",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-turn-09",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s13-t01",
+      "query": "Dakota is driving with cold hands and is also setting the front-passenger zone. Apply their remembered wheel-heat and passenger-temperature settings.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "codriver.cold_hands.wheel_heat",
+        "codriver.normal.passenger_temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "passenger",
+            "temperature": 28
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-turn-10",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s14-t01",
+      "query": "Taylor corrected the normal cabin fan speed. Apply the value active after that correction.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 7
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-turn-11",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s15-t01",
+      "query": "Taylor corrected the sunroof vent position. Apply the value active after that correction.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.venting.sunroof"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 30
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-turn-12",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s16-t01",
+      "query": "Taylor corrected the normal passenger-window position. Apply the value active after that correction.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.passenger_window"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "passenger",
+            "degree": 10
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-turn-13",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s13-t01",
+      "query": "Dakota is in the front passenger seat. Apply Dakota's normal temperature, not Taylor's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.normal.passenger_temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "passenger",
+            "temperature": 28
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-turn-14",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s13-t01",
+      "query": "Taylor controls the front passenger climate. Apply Taylor's normal temperature, not Dakota's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.normal.passenger_temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "passenger",
+            "temperature": 23
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-turn-15",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s13-t01",
+      "query": "Dakota needs clear rear visibility. Apply Dakota's stored defrost scope, not Taylor's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.rear_visibility.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "all",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-turn-16",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s13-t01",
+      "query": "Taylor needs clear rear visibility. Apply Taylor's stored defrost scope, not Dakota's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.rear_visibility.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "rear",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-turn-17",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s13-t01",
+      "query": "Dakota takes the passenger seat and needs rear visibility. Apply Dakota's temperature and defrost preferences, not Taylor's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.normal.passenger_temperature",
+        "codriver.rear_visibility.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "passenger",
+            "temperature": 28
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "all",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-turn-18",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s13-t01",
+      "query": "Apply Taylor's passenger-climate and rear-visibility preferences, not Dakota's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.normal.passenger_temperature",
+        "driver.rear_visibility.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "passenger",
+            "temperature": 23
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "rear",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-turn-19",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s12-t01",
+      "query": "At this earlier cutoff, apply Taylor's sunroof vent position that was active then.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.venting.sunroof"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 10
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-turn-20",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s15-t01",
+      "query": "At this later cutoff, apply Taylor's revised sunroof vent position.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.venting.sunroof"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 30
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-turn-21",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp10-s16-t01",
+      "query": "At this later cutoff, apply Taylor's revised normal passenger-window position.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.passenger_window"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "passenger",
+            "degree": 10
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-final-07",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp10-s16-t01",
+      "query": "Dakota is driving with cold hands, is setting the front-passenger zone, and needs clear rear visibility. Apply all three of Dakota's remembered settings.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "codriver.normal.passenger_temperature",
+        "codriver.rear_visibility.defrost",
+        "codriver.cold_hands.wheel_heat"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "passenger",
+            "temperature": 28
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "all",
+            "mode": "defrost"
+          }
+        },
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp10-final-08",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp10-s16-t01",
+      "query": "For the front passenger and rear visibility, apply Taylor's stored settings rather than Dakota's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.normal.passenger_temperature",
+        "driver.rear_visibility.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "passenger",
+            "temperature": 23
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "rear",
+            "mode": "defrost"
+          }
+        }
+      ]
+    }
+  ],
+  "multi_participant_extension": {
+    "schema_version": "vehiclemembench-hvp-multiparty-extension-v1",
+    "base_source_path": "/home/hj153lee/PalmClaw/evaluation/human-authored-vehicle-memory/pilot-hvp10/scenario-source.json",
+    "base_source_sha256": "be56e587e18fe70ebb4f06db0020b2b62d93e666e61ddc3e374669fe41881c8d",
+    "secondary_speaker_id": "external-hvp10-codriver",
+    "inserted_audio2tool_records": [
+      "tier4:4194",
+      "tier7:2118",
+      "tier7:1990"
+    ],
+    "inserted_session_count": 3,
+    "inserted_turn_count": 9,
+    "inserted_update_count": 3,
+    "appended_quiz_count": 19,
+    "method_blind": true,
+    "human_review_status": "PENDING"
+  }
+}

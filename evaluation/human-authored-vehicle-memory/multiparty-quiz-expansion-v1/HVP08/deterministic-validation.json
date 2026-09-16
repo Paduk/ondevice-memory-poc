@@ -1,0 +1,154 @@
+{
+  "added_quiz_distribution": {
+    "FINAL::coreference_resolution": 1,
+    "FINAL::preference_conflict": 1,
+    "TURN::coreference_resolution": 5,
+    "TURN::error_correction": 3,
+    "TURN::preference_conflict": 6,
+    "TURN::state_shift": 3
+  },
+  "checks": {
+    "added_query_uniqueness": "PASS",
+    "base_quizzes_unchanged": "PASS",
+    "base_sessions_unchanged": "PASS",
+    "base_source_hash": "PASS",
+    "derived_source_hash": "PASS",
+    "extension_counts": "PASS",
+    "inserted_source_records_disjoint": "PASS",
+    "multiple_memory_owners": "PASS",
+    "official_builder_validation": "PASS",
+    "preference_conflict::hvp08-final-08": "PASS",
+    "preference_conflict::hvp08-turn-13": "PASS",
+    "preference_conflict::hvp08-turn-14": "PASS",
+    "preference_conflict::hvp08-turn-15": "PASS",
+    "preference_conflict::hvp08-turn-16": "PASS",
+    "preference_conflict::hvp08-turn-17": "PASS",
+    "preference_conflict::hvp08-turn-18": "PASS",
+    "preference_conflict_action_difference::hvp08-final-08": "PASS",
+    "preference_conflict_action_difference::hvp08-turn-13": "PASS",
+    "preference_conflict_action_difference::hvp08-turn-14": "PASS",
+    "preference_conflict_action_difference::hvp08-turn-15": "PASS",
+    "preference_conflict_action_difference::hvp08-turn-16": "PASS",
+    "preference_conflict_action_difference::hvp08-turn-17": "PASS",
+    "preference_conflict_action_difference::hvp08-turn-18": "PASS",
+    "scenario_quota": "PASS"
+  },
+  "preference_conflict_audit": [
+    {
+      "gold_evidence": [
+        "- [2026-04-20 08:00] carcontrol_airConditioner_set_temperature.temperature; value=22; context=(zone=\"driver\"); condition=for Blake's normal driving"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-05-05 08:00] carcontrol_airConditioner_set_temperature.temperature; value=18; context=(zone=\"driver\"); condition=for Avery's normal driving"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-05-05 08:00] carcontrol_airConditioner_set_temperature.temperature; value=18; context=(zone=\"driver\"); condition=for Avery's normal driving"
+      ],
+      "quiz_id": "hvp08-turn-13"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-05-05 08:00] carcontrol_airConditioner_set_temperature.temperature; value=18; context=(zone=\"driver\"); condition=for Avery's normal driving"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-20 08:00] carcontrol_airConditioner_set_temperature.temperature; value=22; context=(zone=\"driver\"); condition=for Blake's normal driving"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-20 08:00] carcontrol_airConditioner_set_temperature.temperature; value=22; context=(zone=\"driver\"); condition=for Blake's normal driving"
+      ],
+      "quiz_id": "hvp08-turn-14"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-04-25 08:00] carcontrol_light_set_ambient_color.color; value=\"red\"; condition=for Blake's normal ambient lighting"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-07-24 08:00] carcontrol_light_set_ambient_color.color; value=\"blue\"; condition=for Avery's normal ambient lighting"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-07-24 08:00] carcontrol_light_set_ambient_color.color; value=\"blue\"; condition=for Avery's normal ambient lighting"
+      ],
+      "quiz_id": "hvp08-turn-15"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-07-24 08:00] carcontrol_light_set_ambient_color.color; value=\"blue\"; condition=for Avery's normal ambient lighting"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-25 08:00] carcontrol_light_set_ambient_color.color; value=\"red\"; condition=for Blake's normal ambient lighting"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-25 08:00] carcontrol_light_set_ambient_color.color; value=\"red\"; condition=for Blake's normal ambient lighting"
+      ],
+      "quiz_id": "hvp08-turn-16"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-04-30 08:00] carcontrol_trunk_switch.switch; value=false; condition=when Blake loads bulky items",
+        "- [2026-04-20 08:00] carcontrol_airConditioner_set_temperature.temperature; value=22; context=(zone=\"driver\"); condition=for Blake's normal driving"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-05-05 08:00] carcontrol_airConditioner_set_temperature.temperature; value=18; context=(zone=\"driver\"); condition=for Avery's normal driving",
+        "- [2026-08-13 08:00] carcontrol_trunk_switch.switch; value=true; condition=when Avery loads bulky items"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-05-05 08:00] carcontrol_airConditioner_set_temperature.temperature; value=18; context=(zone=\"driver\"); condition=for Avery's normal driving",
+        "- [2026-08-13 08:00] carcontrol_trunk_switch.switch; value=true; condition=when Avery loads bulky items"
+      ],
+      "quiz_id": "hvp08-turn-17"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-08-13 08:00] carcontrol_trunk_switch.switch; value=true; condition=when Avery loads bulky items"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-30 08:00] carcontrol_trunk_switch.switch; value=false; condition=when Blake loads bulky items"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-30 08:00] carcontrol_trunk_switch.switch; value=false; condition=when Blake loads bulky items"
+      ],
+      "quiz_id": "hvp08-turn-18"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-05-05 08:00] carcontrol_airConditioner_set_temperature.temperature; value=18; context=(zone=\"driver\"); condition=for Avery's normal driving",
+        "- [2026-07-24 08:00] carcontrol_light_set_ambient_color.color; value=\"blue\"; condition=for Avery's normal ambient lighting",
+        "- [2026-08-13 08:00] carcontrol_trunk_switch.switch; value=true; condition=when Avery loads bulky items"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-20 08:00] carcontrol_airConditioner_set_temperature.temperature; value=22; context=(zone=\"driver\"); condition=for Blake's normal driving",
+        "- [2026-04-25 08:00] carcontrol_light_set_ambient_color.color; value=\"red\"; condition=for Blake's normal ambient lighting",
+        "- [2026-04-30 08:00] carcontrol_trunk_switch.switch; value=false; condition=when Blake loads bulky items"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-20 08:00] carcontrol_airConditioner_set_temperature.temperature; value=22; context=(zone=\"driver\"); condition=for Blake's normal driving",
+        "- [2026-04-25 08:00] carcontrol_light_set_ambient_color.color; value=\"red\"; condition=for Blake's normal ambient lighting",
+        "- [2026-04-30 08:00] carcontrol_trunk_switch.switch; value=false; condition=when Blake loads bulky items"
+      ],
+      "quiz_id": "hvp08-final-08"
+    }
+  ],
+  "scenario_id": "HVP08",
+  "schema_version": "vehiclemembench-hvp-multiparty-validation-v1",
+  "scope": "deterministic validation; semantic review remains separate",
+  "semantic_review_status": "PENDING",
+  "statistics": {
+    "active_memory_slot_count": 10,
+    "add_count": 10,
+    "distinct_memory_tool_count": 7,
+    "final_quiz_count": 8,
+    "noop_count": 44,
+    "quiz_tool_call_count": 39,
+    "replace_count": 3,
+    "session_count": 19,
+    "speaker_count": 3,
+    "turn_count": 57,
+    "turn_quiz_count": 21,
+    "update_count": 13
+  },
+  "status": "PASS",
+  "update_owners": {
+    "external-hvp08-codriver": 3,
+    "external-hvp08-driver": 10
+  }
+}

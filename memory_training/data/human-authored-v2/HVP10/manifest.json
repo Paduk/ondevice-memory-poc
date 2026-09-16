@@ -1,0 +1,125 @@
+{
+  "eligible_for_human_test": false,
+  "external_adaptation": {
+    "dataset_turn_counts": {
+      "Audio2Tool": 25,
+      "Envisioned Voice Assistant Dialogues": 25
+    },
+    "externally_sourced_turn_count": 50,
+    "externally_sourced_turn_rate": 1.0,
+    "origin_turn_counts": {
+      "human_authored": 25,
+      "synthetic": 25
+    },
+    "reuse_mode_turn_counts": {
+      "minimal_persistence_adaptation": 10,
+      "verbatim_text_role_normalized": 40
+    },
+    "source_catalog": [
+      {
+        "dataset": "Envisioned Voice Assistant Dialogues",
+        "license": "CC BY 4.0",
+        "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186",
+        "origin": "human_authored",
+        "records": [
+          "74:weather",
+          "75:search",
+          "5:search"
+        ],
+        "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues"
+      },
+      {
+        "dataset": "Audio2Tool",
+        "license": "CC BY-NC 4.0",
+        "local_file_sha256": {
+          "tier4": "d430e801c9bba5db03b3d044ac626ebec35de1b8a4eb2e2beb4cdec0013e9271",
+          "tier5": "d38e588dccb99ed3291c9467a29adcd71e4f1c4eb62c118fd482a8e9616a1850",
+          "tier6": "fa5c0825d99c4f68e226480261befe9ce7aa33c9dfbb7ff1fe1fc82493bcb991",
+          "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc"
+        },
+        "origin": "synthetic",
+        "records": [
+          "tier7:2129",
+          "tier7:2131",
+          "tier7:2144",
+          "tier5:3961",
+          "tier5:3965",
+          "tier5:3979",
+          "tier4:3991",
+          "tier5:4004",
+          "tier5:4273",
+          "tier5:4233",
+          "tier5:3967",
+          "tier5:4275",
+          "tier5:4006"
+        ],
+        "url": "https://huggingface.co/datasets/RVtech/Audio2Tool"
+      }
+    ]
+  },
+  "files": {
+    "dialogue.jsonl": {
+      "row_count": 50,
+      "sha256": "e12eaf870d7773b2a167cc57b536b342ec6f599e2ccb0824e8d973d91876268d"
+    },
+    "final_quiz.jsonl": {
+      "row_count": 6,
+      "sha256": "f8d7f14efdc05aec4c56218a17e9d656976451fed645cb3bc322f85c11318c99"
+    },
+    "memory_snapshots.jsonl": {
+      "row_count": 50,
+      "sha256": "17471e40fa6dfdcb767dda09530caaee695fbfdbde3f2b8d33639b34bbe28423"
+    },
+    "patch.jsonl": {
+      "row_count": 50,
+      "sha256": "ac61afa57d8dbbaf4e19f1e7452412102d427e858eda8bf5758e055df507f1c1"
+    },
+    "turn_quiz.jsonl": {
+      "row_count": 4,
+      "sha256": "83b0407801a45a3d4afe297ddc46fa97af1349bd9187b43e46837714cd09d903"
+    }
+  },
+  "final_memory": {
+    "active_slot_ids": [
+      "driver.normal.passenger_temperature",
+      "driver.normal.fan_speed",
+      "driver.cold_hands.wheel_heat",
+      "driver.kids_stuffy.rear_right_window",
+      "driver.normal.passenger_window",
+      "driver.venting.sunroof",
+      "driver.rear_visibility.defrost"
+    ],
+    "sha256": "60c5b2117536537e7e7a60fe59fa90e6e5cab7de0c2c35062aa4c78fc69155aa",
+    "turn_id": "hvp10-s16-t01"
+  },
+  "scenario_id": "HVP10",
+  "scenario_index": 910,
+  "schema_version": "vehiclemembench-human-authored-pilot-manifest-v1",
+  "source_path": "/home/hj153lee/PalmClaw/evaluation/human-authored-vehicle-memory/pilot-hvp10/scenario-source.json",
+  "source_sha256": "be56e587e18fe70ebb4f06db0020b2b62d93e666e61ddc3e374669fe41881c8d",
+  "split": "pilot_excluded",
+  "statistics": {
+    "active_memory_slot_count": 7,
+    "add_count": 7,
+    "distinct_memory_tool_count": 6,
+    "final_quiz_count": 6,
+    "noop_count": 40,
+    "quiz_tool_call_count": 11,
+    "replace_count": 3,
+    "session_count": 16,
+    "speaker_count": 2,
+    "turn_count": 50,
+    "turn_quiz_count": 4,
+    "update_count": 10
+  },
+  "validation": {
+    "chronology_and_unique_ids": "PASS",
+    "final_quiz_uses_final_snapshot": "PASS",
+    "noop_memory_identity": "PASS",
+    "official_tool_json_schema": "PASS",
+    "official_vehicleworld_simulator": "PASS",
+    "patch_replay_all_turns": "PASS",
+    "quiz_evidence_active_at_cutoff": "PASS",
+    "source_contract": "PASS"
+  }
+}

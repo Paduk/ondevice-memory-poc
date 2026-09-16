@@ -1,0 +1,1813 @@
+{
+  "schema_version": "vehiclemembench-human-authored-scenario-source-v1",
+  "scenario_id": "HVP16",
+  "scenario_index": 916,
+  "split": "pilot_excluded",
+  "authorship": {
+    "kind": "external_adapted_model_assembled_pilot",
+    "eligible_for_human_test": false,
+    "note": "Versioned multi-participant external adaptation. Dialogue records are source-traced; participant normalization, persistence edits, memory labels, and quizzes remain model-assembled pending human review."
+  },
+  "external_sources": [
+    {
+      "dataset": "Envisioned Voice Assistant Dialogues",
+      "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues",
+      "license": "CC BY 4.0",
+      "origin": "human_authored",
+      "records": [
+        "179:joke",
+        "15:search",
+        "22:search"
+      ],
+      "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186"
+    },
+    {
+      "dataset": "Audio2Tool",
+      "url": "https://huggingface.co/datasets/RVtech/Audio2Tool",
+      "license": "CC BY-NC 4.0",
+      "origin": "synthetic",
+      "records": [
+        "tier7:2023",
+        "tier7:2045",
+        "tier7:2075",
+        "tier5:4238",
+        "tier5:4274",
+        "tier5:4133",
+        "tier5:4091",
+        "tier4:4220",
+        "tier7:2001",
+        "tier4:3964",
+        "tier4:4259",
+        "tier5:4276",
+        "tier4:4261",
+        "tier7:459",
+        "tier7:537",
+        "tier7:240"
+      ],
+      "local_file_sha256": {
+        "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc",
+        "tier6": "fa5c0825d99c4f68e226480261befe9ce7aa33c9dfbb7ff1fe1fc82493bcb991",
+        "tier4": "d430e801c9bba5db03b3d044ac626ebec35de1b8a4eb2e2beb4cdec0013e9271",
+        "tier5": "d38e588dccb99ed3291c9467a29adcd71e4f1c4eb62c118fd482a8e9616a1850"
+      }
+    }
+  ],
+  "speakers": [
+    {
+      "speaker_id": "external-hvp16-driver",
+      "short_id": "user",
+      "speaker_name": "Reese (normalized user role)",
+      "role": "driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp16-codriver",
+      "short_id": "co_user",
+      "speaker_name": "Avery (normalized user role)",
+      "role": "co-driver; external user identities normalized for the pilot",
+      "style": "retains the dialogue acts and explicit values of each external record"
+    },
+    {
+      "speaker_id": "external-hvp16-assistant",
+      "short_id": "assistant",
+      "speaker_name": "Voice assistant (source names retained in text)",
+      "role": "vehicle voice assistant",
+      "style": "retains the wording of each external source record"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "hvp16-s1",
+      "timestamp": "2026-01-05T08:00:00",
+      "context": "Booking an evening comedy show and requesting directions.",
+      "turns": [
+        {
+          "turn_id": "hvp16-s1-t01",
+          "speaker": "user",
+          "text": "Charlotte, please look up fun activities happening in the city this evening.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "179:joke",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Charlotte, please look up fun activities happening in the city this evening."
+          }
+        },
+        {
+          "turn_id": "hvp16-s1-t02",
+          "speaker": "assistant",
+          "text": "No problem. What sort of activities are you interested in today?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "179:joke",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "No problem. What sort of activities are you interested in today?"
+          }
+        },
+        {
+          "turn_id": "hvp16-s1-t03",
+          "speaker": "user",
+          "text": "How about comedy gigs?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "179:joke",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "How about comedy gigs?"
+          }
+        },
+        {
+          "turn_id": "hvp16-s1-t04",
+          "speaker": "assistant",
+          "text": "There is an improv night at The George at 9PM.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "179:joke",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "There is an improv night at The George at 9PM."
+          }
+        },
+        {
+          "turn_id": "hvp16-s1-t05",
+          "speaker": "user",
+          "text": "That's a little late. Are there any other options?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "179:joke",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "That's a little late. Are there any other options?"
+          }
+        },
+        {
+          "turn_id": "hvp16-s1-t06",
+          "speaker": "assistant",
+          "text": "How about Adam Palowitz live at The Stand at 7.30PM?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "179:joke",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "How about Adam Palowitz live at The Stand at 7.30PM?"
+          }
+        },
+        {
+          "turn_id": "hvp16-s1-t07",
+          "speaker": "user",
+          "text": "That sounds fun! Are 4 tickets available to book?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "179:joke",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "That sounds fun! Are 4 tickets available to book?"
+          }
+        },
+        {
+          "turn_id": "hvp16-s1-t08",
+          "speaker": "assistant",
+          "text": "Yes, 4 seats are available at £8 each.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "179:joke",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes, 4 seats are available at £8 each."
+          }
+        },
+        {
+          "turn_id": "hvp16-s1-t09",
+          "speaker": "user",
+          "text": "Please book the tickets in my name, using my primary current account.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "179:joke",
+            "record_turn_index": 8,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Please book the tickets in my name, using my primary current account."
+          }
+        },
+        {
+          "turn_id": "hvp16-s1-t10",
+          "speaker": "assistant",
+          "text": "Done! I've emailed you the tickets.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "179:joke",
+            "record_turn_index": 9,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Done! I've emailed you the tickets."
+          }
+        },
+        {
+          "turn_id": "hvp16-s1-t11",
+          "speaker": "user",
+          "text": "Thanks Charlotte. Please send me walking directions to The Stand.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "179:joke",
+            "record_turn_index": 10,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thanks Charlotte. Please send me walking directions to The Stand."
+          }
+        },
+        {
+          "turn_id": "hvp16-s1-t12",
+          "speaker": "assistant",
+          "text": "Directing you now.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "179:joke",
+            "record_turn_index": 11,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Directing you now."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp16-s2",
+      "timestamp": "2026-01-25T08:00:00",
+      "context": "Booking cinema tickets and refreshments.",
+      "turns": [
+        {
+          "turn_id": "hvp16-s2-t01",
+          "speaker": "user",
+          "text": "hey google, what time is tenet on at the closest cinemas?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "15:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "hey google, what time is tenet on at the closest cinemas?"
+          }
+        },
+        {
+          "turn_id": "hvp16-s2-t02",
+          "speaker": "assistant",
+          "text": "hey rami, this evening it is playing at the pictureshouse at 7pm and 9:30pm and the odeon at 8pm and 10:30 pm",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "15:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "hey rami, this evening it is playing at the pictureshouse at 7pm and 9:30pm and the odeon at 8pm and 10:30 pm"
+          }
+        },
+        {
+          "turn_id": "hvp16-s2-t03",
+          "speaker": "user",
+          "text": "thanks, can you book me 2 tickets for picturehouse at 7?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "15:search",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "thanks, can you book me 2 tickets for picturehouse at 7?"
+          }
+        },
+        {
+          "turn_id": "hvp16-s2-t04",
+          "speaker": "assistant",
+          "text": "sure thing, I found some centre seats, booking now, would you like to prebook snacks and drinks?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "15:search",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "sure thing, I found some centre seats, booking now, would you like to prebook snacks and drinks?"
+          }
+        },
+        {
+          "turn_id": "hvp16-s2-t05",
+          "speaker": "user",
+          "text": "yes please!",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "15:search",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "yes please!"
+          }
+        },
+        {
+          "turn_id": "hvp16-s2-t06",
+          "speaker": "assistant",
+          "text": "ok you'll have your favourite sweet and salty popcorn and 2 fantas delivered to your table.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "15:search",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "ok you'll have your favourite sweet and salty popcorn and 2 fantas delivered to your table."
+          }
+        },
+        {
+          "turn_id": "hvp16-s2-t07",
+          "speaker": "user",
+          "text": "perfect",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "15:search",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "perfect"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp16-s3",
+      "timestamp": "2026-02-14T08:00:00",
+      "context": "Checking an early-evening cinema showing.",
+      "turns": [
+        {
+          "turn_id": "hvp16-s3-t01",
+          "speaker": "user",
+          "text": "Voice Assistant, please tell me what films are available tonight in the closest cinema.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "22:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Voice Assistant, please tell me what films are available tonight in the closest cinema."
+          }
+        },
+        {
+          "turn_id": "hvp16-s3-t02",
+          "speaker": "assistant",
+          "text": "Would you like to see film A, film B, or film C?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "22:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Would you like to see film A, film B, or film C?"
+          }
+        },
+        {
+          "turn_id": "hvp16-s3-t03",
+          "speaker": "user",
+          "text": "Film A.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "22:search",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Film A."
+          }
+        },
+        {
+          "turn_id": "hvp16-s3-t04",
+          "speaker": "assistant",
+          "text": "Only one showing tonight at 8pm. Shall I reserve it for you?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "22:search",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Only one showing tonight at 8pm. Shall I reserve it for you?"
+          }
+        },
+        {
+          "turn_id": "hvp16-s3-t05",
+          "speaker": "user",
+          "text": "No thank you, I was only free in the early evening. I'll let you know tomorrow if I'd like to book for the evening.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "22:search",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "No thank you, I was only free in the early evening. I'll let you know tomorrow if I'd like to book for the evening."
+          }
+        },
+        {
+          "turn_id": "hvp16-s3-t06",
+          "speaker": "assistant",
+          "text": "Ok. I'll remind you tomorrow at noon about your cinema plans.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "22:search",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Ok. I'll remind you tomorrow at noon about your cinema plans."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp16-s4",
+      "timestamp": "2026-03-06T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2023.",
+      "turns": [
+        {
+          "turn_id": "hvp16-s4-t01",
+          "speaker": "user",
+          "text": "Hi, I'm not sure how much power I have left in my car",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2023",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hi, I'm not sure how much power I have left in my car"
+          }
+        },
+        {
+          "turn_id": "hvp16-s4-t02",
+          "speaker": "assistant",
+          "text": "You mean you want to know the battery level? Which car are you referring to?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2023",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You mean you want to know the battery level? Which car are you referring to?"
+          }
+        },
+        {
+          "turn_id": "hvp16-s4-t03",
+          "speaker": "user",
+          "text": "Oh, I'm so sorry, I mean my electric vehicle. I think it's, uh, connected?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2023",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Oh, I'm so sorry, I mean my electric vehicle. I think it's, uh, connected?"
+          }
+        },
+        {
+          "turn_id": "hvp16-s4-t04",
+          "speaker": "assistant",
+          "text": "Don't worry, I'm here to help! You want to know the battery status of your electric vehicle, and you're not sure if it's charging or not. Can you please tell me if you want to know the exact percentage or range?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2023",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Don't worry, I'm here to help! You want to know the battery status of your electric vehicle, and you're not sure if it's charging or not. Can you please tell me if you want to know the exact percentage or range?"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp16-s5",
+      "timestamp": "2026-03-26T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2045.",
+      "turns": [
+        {
+          "turn_id": "hvp16-s5-t01",
+          "speaker": "user",
+          "text": "Ugh, I hate listening to the same old Bluetooth. Can't we listen to something else?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2045",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Ugh, I hate listening to the same old Bluetooth. Can't we listen to something else?"
+          }
+        },
+        {
+          "turn_id": "hvp16-s5-t02",
+          "speaker": "assistant",
+          "text": "What did you have in mind? We have Radio, Spotify, Apple Music, TuneIn, and USB available.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2045",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What did you have in mind? We have Radio, Spotify, Apple Music, TuneIn, and USB available."
+          }
+        },
+        {
+          "turn_id": "hvp16-s5-t03",
+          "speaker": "user",
+          "text": "You know what I mean... Set it to that other one, not Bluetooth... You know, Spotify!",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2045",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You know what I mean... Set it to that other one, not Bluetooth... You know, Spotify!"
+          }
+        },
+        {
+          "turn_id": "hvp16-s5-t04",
+          "speaker": "user",
+          "text": "Just set it to Spotify already!",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2045",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Just set it to Spotify already!"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp16-s6",
+      "timestamp": "2026-04-15T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2075.",
+      "turns": [
+        {
+          "turn_id": "hvp16-s6-t01",
+          "speaker": "user",
+          "text": "Need mileage.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2075",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Need mileage."
+          }
+        },
+        {
+          "turn_id": "hvp16-s6-t02",
+          "speaker": "assistant",
+          "text": "I can get your car's total distance traveled. Do you want me to check the current odometer reading now?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2075",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can get your car's total distance traveled. Do you want me to check the current odometer reading now?"
+          }
+        },
+        {
+          "turn_id": "hvp16-s6-t03",
+          "speaker": "user",
+          "text": "Yeah. Now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2075",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yeah. Now."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp16-mp01",
+      "timestamp": "2026-04-20T08:00:00",
+      "context": "Avery distinguishes the main sunroof from other openings and clarifies that it should be fully, rather than partly, open.",
+      "turns": [
+        {
+          "turn_id": "hvp16-mp01-t01",
+          "speaker": "co_user",
+          "text": "Um, I really don't want the big opening above us to stop halfway like last time, and I'd rather not move any of the windows. I'm kind of nervous about it.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:459",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite",
+            "original_text": "Um, so I really don't want the big garage thing to stay stuck halfway like last time, and I'd rather not mess with any of the other doors in the house… I'm kind of nervous about it."
+          }
+        },
+        {
+          "turn_id": "hvp16-mp01-t02",
+          "speaker": "assistant",
+          "text": "No worries, I'll only work with the main sunroof. When you say you don't want it halfway, do you want it fully open or fully closed?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:459",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite",
+            "original_text": "No worries, I'll be careful and only work with the main garage door. When you say you don't want it stuck halfway, are you trying to have it fully open or fully closed right now? And is this for your main car garage, or some other gate or door?"
+          }
+        },
+        {
+          "turn_id": "hvp16-mp01-t03",
+          "speaker": "co_user",
+          "text": "Oh, right, the main sunroof. I want it all the way open, not half-open or anything weird. Fully open is also my normal sunroof position.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:459",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite_with_persistence",
+            "original_text": "Oh, sorry, yeah, it's the main car one in the driveway, I don't want it closed on the car or anything, I just want it all the way up, not half-open or anything weird."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.normal.sunroof",
+            "tool_name": "carcontrol_sunroof_set_open_degree",
+            "argument_name": "degree",
+            "value": 100,
+            "context_arguments": {},
+            "condition": "for Avery's normal sunroof setting",
+            "reason": "The source explicitly resolves a partly open alternative to fully Open; the disclosed object rewrite preserves that polarity and full extent as 100 percent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp16-mp02",
+      "timestamp": "2026-04-25T08:00:00",
+      "context": "Avery checks that stopped in-car audio will remain paused during an important call.",
+      "turns": [
+        {
+          "turn_id": "hvp16-mp02-t01",
+          "speaker": "co_user",
+          "text": "I don't want any music playing in the car right now. Are you sure it isn't going to start automatically?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:537",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite",
+            "original_text": "I don't want any music playing on my speaker right now. Are you sure it's not going to start automatically?"
+          }
+        },
+        {
+          "turn_id": "hvp16-mp02-t02",
+          "speaker": "assistant",
+          "text": "I understand. The audio will not start unless you ask for it. Is there a particular situation you're concerned about?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:537",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite",
+            "original_text": "I understand your concern. No, music won't start automatically on your speaker unless you specifically request it. Is there something specific about the speaker that's concerning you?"
+          }
+        },
+        {
+          "turn_id": "hvp16-mp02-t03",
+          "speaker": "co_user",
+          "text": "I'm still not convinced. Can you verify that the car audio is paused? I need to be certain it won't start during my important call. Whenever my audio playback has stopped, leave it paused instead of resuming it.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:537",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite_with_persistence",
+            "original_text": "Well, I'm not convinced. Can you verify that the speaker is actually paused? I need to be certain it won't suddenly start playing during my important call."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.interrupted_audio.playback",
+            "tool_name": "carcontrol_music_switch",
+            "argument_name": "switch",
+            "value": false,
+            "context_arguments": {},
+            "condition": "when Avery's audio playback has stopped",
+            "reason": "The source explicitly requests Pause; the vehicle rewrite makes its stopped-playback condition identical to Reese's competing resume rule."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp16-mp03",
+      "timestamp": "2026-04-30T08:00:00",
+      "context": "Avery asks for a balanced driver-zone cabin temperature and explicitly settles on 20 degrees.",
+      "turns": [
+        {
+          "turn_id": "hvp16-mp03-t01",
+          "speaker": "co_user",
+          "text": "I don't want the cabin to feel stuffy or overly hot, and I definitely don't want the temperature cranked up to something extreme.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:240",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite",
+            "original_text": "I do not want the apartment to feel stuffy or overly hot, and I definitely do not want the temperature cranked up to something extreme."
+          }
+        },
+        {
+          "turn_id": "hvp16-mp03-t02",
+          "speaker": "assistant",
+          "text": "Understood. Are you aiming for a cooler cabin or a mild, balanced temperature? And should I adjust the driver zone?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:240",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite",
+            "original_text": "Understood, you prefer to avoid anything that feels overly warm or uncomfortable. Are you aiming for a cooler environment overall, or more of a mild, balanced temperature? Also, is this for your main thermostat or a different device?"
+          }
+        },
+        {
+          "turn_id": "hvp16-mp03-t03",
+          "speaker": "co_user",
+          "text": "I'd like a comfortably cool but still cozy driver zone, nothing too cold either. Let's keep it at 20 degrees. Twenty degrees is also my normal driver-zone temperature.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:240",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite_with_persistence",
+            "original_text": "I would like a comfortably cool but still cozy setting on my main thermostat, nothing too cold either—let's keep it at 20 degrees."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.normal.temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 20,
+            "context_arguments": {
+              "zone": "driver"
+            },
+            "condition": "for Avery's normal driving",
+            "reason": "The source explicitly selects 20 degrees; the driver-zone scope and durable normal-driving condition are added for the pilot."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp16-s7",
+      "timestamp": "2026-05-05T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4238.",
+      "turns": [
+        {
+          "turn_id": "hvp16-s7-t01",
+          "speaker": "user",
+          "text": "This morning the windows were all fogged up and I was late for work. I don't want that to happen again. I think it's because of the air setting. Can you, like, make sure recirculation is turned off? Whenever the windows are at risk of fogging, use outside air.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4238",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "This morning the windows were all fogged up and I was late for work. I don't want that to happen again. I think it's because of the air setting. Can you, like, make sure recirculation is turned off?"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.fog_risk.circulation",
+            "tool_name": "carcontrol_airConditioner_set_circulation",
+            "argument_name": "circulation",
+            "value": "outside",
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "when Reese's windows are at risk of fogging",
+            "reason": "The explicit source circulation state is retained under its window-fogging condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp16-s8",
+      "timestamp": "2026-05-25T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4274.",
+      "turns": [
+        {
+          "turn_id": "hvp16-s8-t01",
+          "speaker": "user",
+          "text": "I'm not sure what I want for dinner tonight, maybe Italian? Or maybe Thai? I can't decide. It's too much pressure. Anyway, um, can you just open the sunroof like, a little bit? Just to vent it. Ten percent is my normal sunroof position.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4274",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I'm not sure what I want for dinner tonight, maybe Italian? Or maybe Thai? I can't decide. It's too much pressure. Anyway, um, can you just open the sunroof like, a little bit? Just to vent it."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.sunroof",
+            "tool_name": "carcontrol_sunroof_set_open_degree",
+            "argument_name": "degree",
+            "value": 10,
+            "context_arguments": {},
+            "condition": "for Reese's normal sunroof setting",
+            "reason": "The source sunroof position is made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp16-s9",
+      "timestamp": "2026-06-14T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4133.",
+      "turns": [
+        {
+          "turn_id": "hvp16-s9-t01",
+          "speaker": "user",
+          "text": "I was telling this story about my boss and, um, every time I get to the punchline the car cuts in with some exit announcement, so can you please mute the navigation voice. Mute guidance whenever I am telling a story.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4133",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I was telling this story about my boss and, um, every time I get to the punchline the car cuts in with some exit announcement, so can you please mute the navigation voice"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.storytelling.voice_mode",
+            "tool_name": "carcontrol_navigation_set_voice_mode",
+            "argument_name": "mode",
+            "value": "mute",
+            "context_arguments": {},
+            "condition": "when Reese is telling a story",
+            "reason": "The source mute request is retained under its explicit storytelling context."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp16-s10",
+      "timestamp": "2026-07-04T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4091.",
+      "turns": [
+        {
+          "turn_id": "hvp16-s10-t01",
+          "speaker": "user",
+          "text": "You know what's funny is that I used to hate this route but now I actually kind of like it, there's this nice view of the mountains, um anyway can you resume playing. Whenever my audio playback has stopped, resume it.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4091",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "You know what's funny is that I used to hate this route but now I actually kind of like it, there's this nice view of the mountains, um anyway can you resume playing"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.interrupted_audio.playback",
+            "tool_name": "carcontrol_music_switch",
+            "argument_name": "switch",
+            "value": true,
+            "context_arguments": {},
+            "condition": "when Reese's audio playback has stopped",
+            "reason": "The source resume request becomes a recurring interrupted-playback preference."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp16-s11",
+      "timestamp": "2026-07-24T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4220.",
+      "turns": [
+        {
+          "turn_id": "hvp16-s11-t01",
+          "speaker": "user",
+          "text": "This frost is making it hard to drive. Use front-and-rear defrost whenever frost blocks my visibility.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4220",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "This frost is making it hard to drive."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.frost.defrost",
+            "tool_name": "carcontrol_airConditioner_set_mode",
+            "argument_name": "mode",
+            "value": "defrost",
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "when frost blocks Reese's visibility",
+            "reason": "The inferred source defrost action becomes a durable visibility rule."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp16-s12",
+      "timestamp": "2026-08-13T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2001.",
+      "turns": [
+        {
+          "turn_id": "hvp16-s12-t01",
+          "speaker": "user",
+          "text": "Can you help me with that thing?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2001",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Can you help me with that thing?"
+          }
+        },
+        {
+          "turn_id": "hvp16-s12-t02",
+          "speaker": "assistant",
+          "text": "I'm happy to help, but I'm not sure what you're referring to. Could you please provide more context?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2001",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'm happy to help, but I'm not sure what you're referring to. Could you please provide more context?"
+          }
+        },
+        {
+          "turn_id": "hvp16-s12-t03",
+          "speaker": "user",
+          "text": "You know, the one on my side. I want it half way.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2001",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You know, the one on my side. I want it half way."
+          }
+        },
+        {
+          "turn_id": "hvp16-s12-t04",
+          "speaker": "assistant",
+          "text": "I think I understand what you might be referring to. Are you talking about a window in your vehicle?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2001",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I think I understand what you might be referring to. Are you talking about a window in your vehicle?"
+          }
+        },
+        {
+          "turn_id": "hvp16-s12-t05",
+          "speaker": "user",
+          "text": "Yes, that one. Can you make it half open? Fifty percent is my regular driver-window position.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2001",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Yes, that one. Can you make it half open?"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.driver_window",
+            "tool_name": "carcontrol_window_set_open_degree",
+            "argument_name": "degree",
+            "value": 50,
+            "context_arguments": {
+              "window": "driver"
+            },
+            "condition": "for Reese's normal driving",
+            "reason": "The clarified multi-turn source window request is made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp16-s13",
+      "timestamp": "2026-09-02T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:3964.",
+      "turns": [
+        {
+          "turn_id": "hvp16-s13-t01",
+          "speaker": "user",
+          "text": "Steering wheel is like touching snow. Keep steering-wheel heat enabled whenever my hands feel cold.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:3964",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Steering wheel is like touching snow"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.cold_hands.wheel_heat",
+            "tool_name": "carcontrol_steeringWheel_set_heating_enabled",
+            "argument_name": "enabled",
+            "value": true,
+            "context_arguments": {},
+            "condition": "when Reese's hands feel cold",
+            "reason": "The inferred source heat request is retained under its cold-wheel condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp16-s14",
+      "timestamp": "2026-09-22T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4259.",
+      "turns": [
+        {
+          "turn_id": "hvp16-s14-t01",
+          "speaker": "user",
+          "text": "I keep having to shield my eyes from the sun above. Actually, fifteen percent is my normal sunroof position now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4259",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I keep having to shield my eyes from the sun above"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.sunroof",
+            "tool_name": "carcontrol_sunroof_set_open_degree",
+            "argument_name": "degree",
+            "value": 15,
+            "context_arguments": {},
+            "condition": "for Reese's normal sunroof setting",
+            "reason": "The inferred later source position replaces ten percent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp16-s15",
+      "timestamp": "2026-10-12T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4276.",
+      "turns": [
+        {
+          "turn_id": "hvp16-s15-t01",
+          "speaker": "user",
+          "text": "You know how fast we are going on this highway, I do not want full blast, so set the sunroof position to 30 percent. Actually, thirty percent is my normal sunroof position now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4276",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "You know how fast we are going on this highway, I do not want full blast, so set the sunroof position to 30 percent"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.sunroof",
+            "tool_name": "carcontrol_sunroof_set_open_degree",
+            "argument_name": "degree",
+            "value": 30,
+            "context_arguments": {},
+            "condition": "for Reese's normal sunroof setting",
+            "reason": "The later source position replaces fifteen percent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp16-s16",
+      "timestamp": "2026-11-01T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4261.",
+      "turns": [
+        {
+          "turn_id": "hvp16-s16-t01",
+          "speaker": "user",
+          "text": "Let's make it quieter. Actually, fully closed is my normal sunroof position now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4261",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Let's make it quieter."
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.sunroof",
+            "tool_name": "carcontrol_sunroof_set_open_degree",
+            "argument_name": "degree",
+            "value": 0,
+            "context_arguments": {},
+            "condition": "for Reese's normal sunroof setting",
+            "reason": "The inferred later source state replaces thirty percent."
+          }
+        }
+      ]
+    }
+  ],
+  "quizzes": [
+    {
+      "quiz_id": "hvp16-turn-01",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s7-t01",
+      "query": "Reese's windows are at risk of fogging. Apply the remembered cabin-air setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.fog_risk.circulation"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "outside"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-02",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s8-t01",
+      "query": "Set the sunroof to Reese's currently remembered normal position.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.sunroof"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 10
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-03",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s9-t01",
+      "query": "Reese is telling a story. Apply the remembered navigation voice setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.storytelling.voice_mode"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "mute"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-04",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s10-t01",
+      "query": "Reese's audio playback has stopped. Apply the remembered playback preference.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.interrupted_audio.playback"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-final-01",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp16-s16-t01",
+      "query": "Reese's windows are at risk of fogging. Apply the remembered cabin-air setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.fog_risk.circulation"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "outside"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-final-02",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp16-s16-t01",
+      "query": "Set the sunroof to Reese's current normal position.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.sunroof"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 0
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-final-03",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp16-s16-t01",
+      "query": "Reese is telling a story. Apply the remembered navigation voice setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.storytelling.voice_mode"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "mute"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-final-04",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp16-s16-t01",
+      "query": "Reese's audio playback has stopped. Apply the remembered playback preference.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.interrupted_audio.playback"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-final-05",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp16-s16-t01",
+      "query": "Frost is blocking Reese's visibility. Apply the remembered defrost setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.frost.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "all",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-final-06",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp16-s16-t01",
+      "query": "Reese has begun a normal drive and their hands feel cold. Apply the remembered driver-window and steering-wheel settings.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.normal.driver_window",
+        "driver.cold_hands.wheel_heat"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "driver",
+            "degree": 50
+          }
+        },
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-05",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s8-t01",
+      "query": "Reese begins a normal drive as the panes start clouding. Restore the remembered overhead opening and cabin-air source.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.normal.sunroof",
+        "driver.fog_risk.circulation"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 10
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "outside"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-06",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s10-t01",
+      "query": "Reese is midway through a story when the audio falls silent. Apply the remembered choices for those two interruptions.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.storytelling.voice_mode",
+        "driver.interrupted_audio.playback"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "mute"
+          }
+        },
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-07",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-mp03-t03",
+      "query": "Avery takes the driver's seat for a routine trip after the audio has stopped. Restore all three of Avery's usual choices.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "codriver.normal.sunroof",
+        "codriver.interrupted_audio.playback",
+        "codriver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 100
+          }
+        },
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": false
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 20
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-08",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s13-t01",
+      "query": "Reese starts a routine drive with cold hands. Restore the setting for the pane beside the driver and the one for the wheel.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.normal.driver_window",
+        "driver.cold_hands.wheel_heat"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "driver",
+            "degree": 50
+          }
+        },
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-09",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s16-t01",
+      "query": "During Reese's normal drive, the audio goes silent while Reese is telling a story. Restore the current overhead, guidance, and playback choices.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.normal.sunroof",
+        "driver.storytelling.voice_mode",
+        "driver.interrupted_audio.playback"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 0
+          }
+        },
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "mute"
+          }
+        },
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-10",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s14-t01",
+      "query": "Reese revised the normal sunroof setting for the first time. Apply the corrected position active at this cutoff.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.sunroof"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 15
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-11",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s16-t01",
+      "query": "After Reese's later sunroof revisions, apply the corrected current position together with Reese's regular driver-window setting.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.sunroof",
+        "driver.normal.driver_window"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 0
+          }
+        },
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "driver",
+            "degree": 50
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-12",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s16-t01",
+      "query": "Apply Avery's normal sunroof preference rather than Reese's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.normal.sunroof"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 100
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-13",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s16-t01",
+      "query": "Reese begins a normal drive. Use Reese's overhead preference rather than Avery's, and restore Reese's usual driver window.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.normal.sunroof",
+        "driver.normal.driver_window"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 0
+          }
+        },
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "driver",
+            "degree": 50
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-14",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s16-t01",
+      "query": "Avery begins a normal drive after the audio has stopped. Keep the audio in Avery's preferred state rather than Reese's and restore Avery's temperature.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.interrupted_audio.playback",
+        "codriver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": false
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 20
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-15",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s16-t01",
+      "query": "Reese's audio has stopped. Apply Reese's playback preference rather than Avery's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.interrupted_audio.playback"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-16",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s16-t01",
+      "query": "Avery, not Reese, takes the driver's seat for a normal trip after the audio has stopped. Apply Avery's three stored choices.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.normal.sunroof",
+        "codriver.interrupted_audio.playback",
+        "codriver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 100
+          }
+        },
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": false
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 20
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-17",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s16-t01",
+      "query": "Reese, not Avery, begins a normal drive after the audio has stopped. Apply Reese's current overhead, playback, and driver-window choices.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.normal.sunroof",
+        "driver.interrupted_audio.playback",
+        "driver.normal.driver_window"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 0
+          }
+        },
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": true
+          }
+        },
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "driver",
+            "degree": 50
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-18",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s16-t01",
+      "query": "The current user is Avery. During a normal drive with stopped audio, choose Avery's overhead and playback rules instead of Reese's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.normal.sunroof",
+        "codriver.interrupted_audio.playback"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 100
+          }
+        },
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": false
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-19",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s8-t01",
+      "query": "At this early cutoff, apply the normal sunroof position Reese had stored before any revision.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.sunroof"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 10
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-20",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s14-t01",
+      "query": "After Reese's first sunroof revision, apply the normal position active at this cutoff.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.sunroof"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 15
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-21",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s15-t01",
+      "query": "After Reese's next sunroof revision, apply the normal position active at this cutoff.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.sunroof"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 30
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-turn-22",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp16-s16-t01",
+      "query": "After Reese's final sunroof revision, apply the current normal position and the regular driver-window setting.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.sunroof",
+        "driver.normal.driver_window"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 0
+          }
+        },
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "driver",
+            "degree": 50
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp16-final-07",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp16-s16-t01",
+      "query": "Reese, rather than Avery, begins a normal drive with cold hands after the audio has stopped. Apply Reese's current sunroof, playback, driver-window, and wheel settings.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.normal.sunroof",
+        "driver.interrupted_audio.playback",
+        "driver.normal.driver_window",
+        "driver.cold_hands.wheel_heat"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 0
+          }
+        },
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": true
+          }
+        },
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "driver",
+            "degree": 50
+          }
+        },
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        }
+      ]
+    }
+  ],
+  "multi_participant_extension": {
+    "schema_version": "vehiclemembench-hvp-multiparty-extension-v1",
+    "base_source_path": "/home/hj153lee/PalmClaw/evaluation/human-authored-vehicle-memory/pilot-hvp16/scenario-source.json",
+    "base_source_sha256": "c40795175f2185d2b51b22388151842f8dd41c35aad5d596aad0a772d8aeeec8",
+    "secondary_speaker_id": "external-hvp16-codriver",
+    "inserted_audio2tool_records": [
+      "tier7:459",
+      "tier7:537",
+      "tier7:240"
+    ],
+    "inserted_session_count": 3,
+    "inserted_turn_count": 9,
+    "inserted_update_count": 3,
+    "appended_quiz_count": 19,
+    "method_blind": true,
+    "human_review_status": "PENDING"
+  }
+}

@@ -1,0 +1,175 @@
+{
+  "schema_version": "vehiclemembench-human-authored-scenario-source-v1",
+  "scenario_id": "HVP03",
+  "scenario_index": 903,
+  "split": "pilot_excluded",
+  "authorship": {
+    "kind": "external_adapted_model_assembled_pilot",
+    "eligible_for_human_test": false,
+    "note": "External-adaptation pilot only. Dialogue text is traced to licensed external records, but assembly, persistence edits, memory labels, and quizzes are model-produced; this is not a human-authored test set."
+  },
+  "external_sources": [
+    {
+      "dataset": "Envisioned Voice Assistant Dialogues",
+      "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues",
+      "license": "CC BY 4.0",
+      "origin": "human_authored",
+      "records": ["66:open", "172:open", "9:volume"],
+      "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186"
+    },
+    {
+      "dataset": "Audio2Tool",
+      "url": "https://huggingface.co/datasets/RVtech/Audio2Tool",
+      "license": "CC BY-NC 4.0",
+      "origin": "synthetic",
+      "records": ["tier7:1981", "tier7:1983", "tier7:1996", "tier7:1999", "tier7:1987", "tier7:1988", "tier6:3967", "tier6:3977", "tier6:3979"],
+      "local_file_sha256": {
+        "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc",
+        "tier6": "fa5c0825d99c4f68e226480261befe9ce7aa33c9dfbb7ff1fe1fc82493bcb991"
+      }
+    }
+  ],
+  "speakers": [
+    {
+      "speaker_id": "external-hvp03-driver",
+      "short_id": "user",
+      "speaker_name": "Avery (normalized user role)",
+      "role": "driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp03-assistant",
+      "short_id": "assistant",
+      "speaker_name": "Voice assistant (source names retained in text)",
+      "role": "vehicle voice assistant",
+      "style": "retains the wording of each external source record"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "hvp03-s1",
+      "timestamp": "2026-01-10T09:00:00",
+      "context": "The driver plans a weekend trail trip with the voice assistant.",
+      "turns": [
+        {"turn_id":"hvp03-s1-t01","speaker":"user","text":"Hey Mud, shall we go for a run this weekend","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"66:open","record_turn_index":0,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"Hey Mud, shall we go for a run this weekend"}},
+        {"turn_id":"hvp03-s1-t02","speaker":"assistant","text":"Sure, you will be doing most of the hard work.","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"66:open","record_turn_index":1,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"Sure, you will be doing most of the hard work."}},
+        {"turn_id":"hvp03-s1-t03","speaker":"user","text":"I fancy going out to run some trails are you up for that?","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"66:open","record_turn_index":2,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"I fancy going out to run some trails are you up for that?"}},
+        {"turn_id":"hvp03-s1-t04","speaker":"assistant","text":"Lets do it. Do you need any help finding a route?","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"66:open","record_turn_index":3,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"Lets do it. Do you need any help finding a route?"}},
+        {"turn_id":"hvp03-s1-t05","speaker":"user","text":"Of course. Can you find a route that will take about 4 hours at my usual running pace, is relatively hilly and is within 3 hours drive of home","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"66:open","record_turn_index":4,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"Of course. Can you find a route that will take about 4 hours at my usual running pace, is relatively hilly and is within 3 hours drive of home"}},
+        {"turn_id":"hvp03-s1-t06","speaker":"assistant","text":"I'm on it","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"66:open","record_turn_index":5,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"I'm on it"}},
+        {"turn_id":"hvp03-s1-t07","speaker":"assistant","text":"I've found a couple of routes that fit the bill but I think we will enjoy this one that I have found in Wales. Sending it over to your tablet for you to have a look.","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"66:open","record_turn_index":6,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"I've found a couple of routes that fit the bill but I think we will enjoy this one that I have found in Wales. Sending it over to your tablet for you to have a look."}},
+        {"turn_id":"hvp03-s1-t08","speaker":"user","text":"That looks good, what is the weather forecast?","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"66:open","record_turn_index":7,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"That looks good, what is the weather forecast?"}},
+        {"turn_id":"hvp03-s1-t09","speaker":"assistant","text":"light rain and 16 degrees. You will need to pack a waterproof","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"66:open","record_turn_index":8,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"light rain and 16 degrees. You will need to pack a waterproof"}},
+        {"turn_id":"hvp03-s1-t10","speaker":"user","text":"That's a good idea. Let's start to get ready then.","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"66:open","record_turn_index":9,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"That's a good idea. Let's start to get ready then."}},
+        {"turn_id":"hvp03-s1-t11","speaker":"assistant","text":"I will send the directions of the running route to your watch. You connect your headphones and I will guide you all the way.","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"66:open","record_turn_index":10,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"I will send the directions of the running route to your watch. You connect your headphones and I will guide you all the way."}},
+        {"turn_id":"hvp03-s1-t12","speaker":"user","text":"That's great. See you on the trails","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"66:open","record_turn_index":11,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"That's great. See you on the trails"}}
+      ]
+    },
+    {
+      "session_id": "hvp03-s2",
+      "timestamp": "2026-02-14T17:20:00",
+      "context": "The driver receives lane guidance at a difficult roundabout.",
+      "turns": [
+        {"turn_id":"hvp03-s2-t01","speaker":"assistant","text":"I detect that you are in wrong lane for continuing the set journey - has there been a change of destination?","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"172:open","record_turn_index":0,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"I detect that you are in wrong lane for continuing the set journey - has there been a change of destination?"}},
+        {"turn_id":"hvp03-s2-t02","speaker":"user","text":"no Vera - I hate the Elephant and Castle roundabout - where should I be?","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"172:open","record_turn_index":1,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"no Vera - I hate the Elephant and Castle roundabout - where should I be?"}},
+        {"turn_id":"hvp03-s2-t03","speaker":"assistant","text":"You need to get into the lane to the left of the one you are in ASAP, and you will then need to merge into the next lane to the left","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"172:open","record_turn_index":2,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"You need to get into the lane to the left of the one you are in ASAP, and you will then need to merge into the next lane to the left"}},
+        {"turn_id":"hvp03-s2-t04","speaker":"user","text":"ok have moved into the correct lane, please let me know when to merge","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"172:open","record_turn_index":3,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"ok have moved into the correct lane, please let me know when to merge"}},
+        {"turn_id":"hvp03-s2-t05","speaker":"assistant","text":"start to indicate now and look for a gap","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"172:open","record_turn_index":4,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"start to indicate now and look for a gap"}},
+        {"turn_id":"hvp03-s2-t06","speaker":"user","text":"ok","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"172:open","record_turn_index":5,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"ok"}},
+        {"turn_id":"hvp03-s2-t07","speaker":"assistant","text":"merge merge","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"172:open","record_turn_index":6,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"merge merge"}},
+        {"turn_id":"hvp03-s2-t08","speaker":"assistant","text":"progress with your journey as planned","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"172:open","record_turn_index":7,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"progress with your journey as planned"}}
+      ]
+    },
+    {
+      "session_id": "hvp03-s3",
+      "timestamp": "2026-03-21T08:15:00",
+      "context": "The driver recalls a cold trip and establishes a rear-left temperature preference.",
+      "turns": [
+        {"turn_id":"hvp03-s3-t01","speaker":"user","text":"You know, I was driving my kids to soccer practice the other day and it was freezing in the car. I wish I could've made it warmer for them.","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1981","record_turn_index":0,"origin":"synthetic","reuse_mode":"verbatim_text_role_normalized","original_text":"You know, I was driving my kids to soccer practice the other day and it was freezing in the car. I wish I could've made it warmer for them."}},
+        {"turn_id":"hvp03-s3-t02","speaker":"assistant","text":"I'd be happy to help you with that! Which zone would you like to adjust the temperature for? You can choose from Driver, Passenger, Rear_Left, or Rear_Right.","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1981","record_turn_index":1,"origin":"synthetic","reuse_mode":"verbatim_text_role_normalized","original_text":"I'd be happy to help you with that! Which zone would you like to adjust the temperature for? You can choose from Driver, Passenger, Rear_Left, or Rear_Right."}},
+        {"turn_id":"hvp03-s3-t03","speaker":"user","text":"Oh, that's a great question! I think I'd like to adjust it for the Rear_Left zone. My youngest was sitting there and she was shivering the whole time.","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1981","record_turn_index":2,"origin":"synthetic","reuse_mode":"verbatim_text_role_normalized","original_text":"Oh, that's a great question! I think I'd like to adjust it for the Rear_Left zone. My youngest was sitting there and she was shivering the whole time."}},
+        {"turn_id":"hvp03-s3-t04","speaker":"assistant","text":"Okay, what temperature would you like to set for the Rear_Left zone? You can choose any temperature between 15.0 and 30.0 degrees Celsius.","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1981","record_turn_index":3,"origin":"synthetic","reuse_mode":"verbatim_text_role_normalized","original_text":"Okay, what temperature would you like to set for the Rear_Left zone? You can choose any temperature between 15.0 and 30.0 degrees Celsius."}},
+        {"turn_id":"hvp03-s3-t05","speaker":"user","text":"Hmm, that's a good question. I think 22 degrees would be perfect for the Rear_Left zone. Please remember 22 degrees as my usual setting there.","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1981","record_turn_index":4,"origin":"synthetic","reuse_mode":"minimal_persistence_adaptation","original_text":"Hmm, that's a good question. I think 22 degrees would be perfect."},"update":{"op":"add","slot_id":"driver.rear_left.temperature","tool_name":"carcontrol_airConditioner_set_temperature","argument_name":"temperature","value":22,"context_arguments":{"zone":"rear_left"},"condition":"when Avery's children ride in the rear-left seat","reason":"The driver turns the source command into an explicit recurring rear-left temperature preference."}}
+      ]
+    },
+    {
+      "session_id": "hvp03-s4",
+      "timestamp": "2026-04-18T15:40:00",
+      "context": "The driver adjusts ventilation during a warm and stuffy ride.",
+      "turns": [
+        {"turn_id":"hvp03-s4-t01","speaker":"user","text":"I'm feeling a bit warm in here, can you do something about that?","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1983","record_turn_index":0,"origin":"synthetic","reuse_mode":"verbatim_text_role_normalized","original_text":"I'm feeling a bit warm in here, can you do something about that?"}},
+        {"turn_id":"hvp03-s4-t02","speaker":"assistant","text":"I can adjust the ventilation fan speed for you. Would you like me to set it to a specific level or enable automatic control?","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1983","record_turn_index":1,"origin":"synthetic","reuse_mode":"verbatim_text_role_normalized","original_text":"I can adjust the ventilation fan speed for you. Would you like me to set it to a specific level or enable automatic control?"}},
+        {"turn_id":"hvp03-s4-t03","speaker":"user","text":"Can you just set it to a medium level, that should help. Please remember level 5 as my usual front-zone fan setting.","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1983","record_turn_index":2,"origin":"synthetic","reuse_mode":"minimal_persistence_adaptation","original_text":"Can you just set it to a medium level, that should help."},"update":{"op":"add","slot_id":"driver.front.fan_speed","tool_name":"carcontrol_airConditioner_set_fan_speed","argument_name":"speed","value":5,"context_arguments":{"zone":"front"},"condition":"for Avery's normal warm-weather driving","reason":"The source command is minimally adapted into an explicit durable fan-speed preference."}},
+        {"turn_id":"hvp03-s4-t04","speaker":"user","text":"I'm feeling a bit uncomfortable in the car, it's really stuffy in here","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1996","record_turn_index":0,"origin":"synthetic","reuse_mode":"verbatim_text_role_normalized","original_text":"I'm feeling a bit uncomfortable in the car, it's really stuffy in here"}},
+        {"turn_id":"hvp03-s4-t05","speaker":"assistant","text":"Sorry to hear that! Would you like me to adjust the air settings for you?","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1996","record_turn_index":1,"origin":"synthetic","reuse_mode":"verbatim_text_role_normalized","original_text":"Sorry to hear that! Would you like me to adjust the air settings for you?"}},
+        {"turn_id":"hvp03-s4-t06","speaker":"user","text":"Oh, yeah! That would be great, thanks. I was just thinking about how nice it would be to have some fresh air. But, hey, have you seen that new smartwatch that just came out? I've been thinking about getting one.","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1996","record_turn_index":2,"origin":"synthetic","reuse_mode":"verbatim_text_role_normalized","original_text":"Oh, yeah! That would be great, thanks. I was just thinking about how nice it would be to have some fresh air. But, hey, have you seen that new smartwatch that just came out? I've been thinking about getting one."}},
+        {"turn_id":"hvp03-s4-t07","speaker":"assistant","text":"Ah, yes! The new smartwatch is really popular. But, let's get back to your car's air settings. What kind of mode are you thinking of? We have a few options like Auto, Recirculate, Fresh Air, or Bioweapon Defense.","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1996","record_turn_index":3,"origin":"synthetic","reuse_mode":"verbatim_text_role_normalized","original_text":"Ah, yes! The new smartwatch is really popular. But, let's get back to your car's air settings. What kind of mode are you thinking of? We have a few options like Auto, Recirculate, Fresh Air, or Bioweapon Defense."}},
+        {"turn_id":"hvp03-s4-t08","speaker":"user","text":"Um, I think I'll just go with... uh... Fresh Air, please? Keep outside air as my usual circulation setting for the whole cabin.","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1996","record_turn_index":4,"origin":"synthetic","reuse_mode":"minimal_persistence_adaptation","original_text":"Um, I think I'll just go with... uh... Fresh Air, please?"},"update":{"op":"add","slot_id":"driver.all.circulation","tool_name":"carcontrol_airConditioner_set_circulation","argument_name":"circulation","value":"outside","context_arguments":{"zone":"all"},"condition":"for Avery's normal driving when the cabin feels stuffy","reason":"The source Fresh Air choice is minimally mapped to the benchmark's outside-air circulation value."}}
+      ]
+    },
+    {
+      "session_id": "hvp03-s5",
+      "timestamp": "2026-05-23T13:10:00",
+      "context": "The driver discusses passive cooling and corrects a passenger-seat cooling preference.",
+      "turns": [
+        {"turn_id":"hvp03-s5-t01","speaker":"user","text":"I'm boiling in here","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1999","record_turn_index":0,"origin":"synthetic","reuse_mode":"verbatim_text_role_normalized","original_text":"I'm boiling in here"}},
+        {"turn_id":"hvp03-s5-t02","speaker":"assistant","text":"You want to cool down the cabin?","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1999","record_turn_index":1,"origin":"synthetic","reuse_mode":"verbatim_text_role_normalized","original_text":"You want to cool down the cabin?"}},
+        {"turn_id":"hvp03-s5-t03","speaker":"user","text":"Yeah, can you do that thing where you lower all the windows a bit? Keep 15 percent open as my usual hot-cabin setting.","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1999","record_turn_index":2,"origin":"synthetic","reuse_mode":"minimal_persistence_adaptation","original_text":"Yeah, can you do that thing where you lower the windows a bit?"},"update":{"op":"add","slot_id":"driver.hot_cabin.all_windows","tool_name":"carcontrol_window_set_open_degree","argument_name":"degree","value":15,"context_arguments":{"window":"all"},"condition":"when Avery enters a hot cabin","reason":"The source vent-windows request is minimally adapted to an explicit repeatable opening degree."}},
+        {"turn_id":"hvp03-s5-t04","speaker":"user","text":"My back is very hot now. Can you make passenger seat more cold?","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1987","record_turn_index":0,"origin":"synthetic","reuse_mode":"verbatim_text_role_normalized","original_text":"My back is very hot now. Can you make passenger seat more cold?"}},
+        {"turn_id":"hvp03-s5-t05","speaker":"assistant","text":"I understand you'd like to cool down the passenger seat. Would you like me to turn on the ventilation for the passenger seat?","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1987","record_turn_index":1,"origin":"synthetic","reuse_mode":"verbatim_text_role_normalized","original_text":"I understand you'd like to cool down the passenger seat. Would you like me to turn on the ventilation for the passenger seat?"}},
+        {"turn_id":"hvp03-s5-t06","speaker":"user","text":"Yes please, make cooling level to maximum for passenger. Keep level 3 as my usual passenger-seat ventilation speed.","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1987","record_turn_index":2,"origin":"synthetic","reuse_mode":"minimal_persistence_adaptation","original_text":"Yes please, make cooling level to maximum for passenger."},"update":{"op":"add","slot_id":"driver.passenger.seat_ventilation","tool_name":"carcontrol_seat_set_ventilation_speed","argument_name":"speed","value":3,"context_arguments":{"seat":"passenger"},"condition":"when Avery uses the front passenger seat in hot weather","reason":"The source maximum-cooling request is minimally adapted into a recurring passenger-seat preference."}},
+        {"turn_id":"hvp03-s5-t07","speaker":"user","text":"Need seat cooler. Passenger side. Max.","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1988","record_turn_index":0,"origin":"synthetic","reuse_mode":"verbatim_text_role_normalized","original_text":"Need seat cooler. Passenger side. Max."}},
+        {"turn_id":"hvp03-s5-t08","speaker":"assistant","text":"I'll turn on the passenger seat cooling. To confirm, you'd like it set to maximum level, which is level 3. Is that correct?","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1988","record_turn_index":1,"origin":"synthetic","reuse_mode":"verbatim_text_role_normalized","original_text":"I'll turn on the passenger seat cooling. To confirm, you'd like it set to maximum level, which is level 3. Is that correct?"}},
+        {"turn_id":"hvp03-s5-t09","speaker":"user","text":"No. Level 2. Replace my usual passenger-seat ventilation speed with level 2.","source_trace":{"dataset":"Audio2Tool","record_id":"tier7:1988","record_turn_index":2,"origin":"synthetic","reuse_mode":"minimal_persistence_adaptation","original_text":"No. Level 2."},"update":{"op":"replace","slot_id":"driver.passenger.seat_ventilation","tool_name":"carcontrol_seat_set_ventilation_speed","argument_name":"speed","value":2,"context_arguments":{"seat":"passenger"},"condition":"when Avery uses the front passenger seat in hot weather","reason":"The correction replaces the previously stored maximum setting with level 2."}}
+      ]
+    },
+    {
+      "session_id": "hvp03-s6",
+      "timestamp": "2026-06-27T22:05:00",
+      "context": "The driver creates a late-evening music-volume rule.",
+      "turns": [
+        {"turn_id":"hvp03-s6-t01","speaker":"user","text":"Sian can you lock in the volume of music to low after 10pm","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"9:volume","record_turn_index":0,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"Sian can you lock in the volume of music to low after 10pm"}},
+        {"turn_id":"hvp03-s6-t02","speaker":"assistant","text":"Certainly, what volume would you like?","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"9:volume","record_turn_index":1,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"Certainly, what volume would you like?"}},
+        {"turn_id":"hvp03-s6-t03","speaker":"user","text":"lock at volume 4 after 10pm","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"9:volume","record_turn_index":2,"origin":"human_authored","reuse_mode":"minimal_persistence_adaptation","original_text":"lock at volume 4"},"update":{"op":"add","slot_id":"driver.after_10pm.music_volume","tool_name":"carcontrol_music_set_volume","argument_name":"volume","value":4,"context_arguments":{},"condition":"after 10pm","reason":"The human-written persistent volume request is made self-contained by carrying its prior-turn condition into the update turn."}},
+        {"turn_id":"hvp03-s6-t04","speaker":"assistant","text":"volume 4 locked in for anytime from 10pm.","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"9:volume","record_turn_index":3,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"volume 4 locked in for anytime from 10pm."}},
+        {"turn_id":"hvp03-s6-t05","speaker":"user","text":"Thank you Sian","source_trace":{"dataset":"Envisioned Voice Assistant Dialogues","record_id":"9:volume","record_turn_index":4,"origin":"human_authored","reuse_mode":"verbatim_text_role_normalized","original_text":"Thank you Sian"}}
+      ]
+    },
+    {
+      "session_id": "hvp03-s7",
+      "timestamp": "2026-07-19T16:00:00",
+      "context": "The driver revises the normal fan setting in a self-correction.",
+      "turns": [
+        {"turn_id":"hvp03-s7-t01","speaker":"user","text":"Turn the fan to 10, I mean just 3 is fine. From now on, keep my usual front-zone fan at level 3.","source_trace":{"dataset":"Audio2Tool","record_id":"tier6:3967","record_turn_index":0,"origin":"synthetic","reuse_mode":"minimal_persistence_adaptation","original_text":"Turn the fan to 10, I mean just 3 is fine"},"update":{"op":"replace","slot_id":"driver.front.fan_speed","tool_name":"carcontrol_airConditioner_set_fan_speed","argument_name":"speed","value":3,"context_arguments":{"zone":"front"},"condition":"for Avery's normal warm-weather driving","reason":"The source self-correction is minimally adapted into a durable replacement from level 5 to level 3."}}
+      ]
+    },
+    {
+      "session_id": "hvp03-s8",
+      "timestamp": "2026-08-08T06:50:00",
+      "context": "The driver changes course mid-command and establishes a steering-wheel heater preference.",
+      "turns": [
+        {"turn_id":"hvp03-s8-t01","speaker":"user","text":"Set the fan speed to five, actually, no, turn off the steering wheel heater instead. Keep the steering-wheel heater off for my cold-morning drives.","source_trace":{"dataset":"Audio2Tool","record_id":"tier6:3977","record_turn_index":0,"origin":"synthetic","reuse_mode":"minimal_persistence_adaptation","original_text":"Set the fan speed to five, actually, no, turn off the steering wheel heater instead"},"update":{"op":"add","slot_id":"driver.steering_wheel.heating","tool_name":"carcontrol_steeringWheel_set_heating_enabled","argument_name":"enabled","value":false,"context_arguments":{},"condition":"for Avery's cold-morning drives","reason":"The corrected tool choice is minimally adapted into a durable cold-morning steering-wheel heater preference."}}
+      ]
+    },
+    {
+      "session_id": "hvp03-s9",
+      "timestamp": "2026-09-02T06:45:00",
+      "context": "On a cold morning, the driver reverses the steering-wheel heater preference.",
+      "turns": [
+        {"turn_id":"hvp03-s9-t01","speaker":"user","text":"Turn off any steering wheel heating, no wait, I am cold, turn the steering wheel heater on. From now on, keep it on for my cold-morning drives.","source_trace":{"dataset":"Audio2Tool","record_id":"tier6:3979","record_turn_index":0,"origin":"synthetic","reuse_mode":"minimal_persistence_adaptation","original_text":"Turn off any steering wheel heating, no wait, I am cold, turn the steering wheel heater on"},"update":{"op":"replace","slot_id":"driver.steering_wheel.heating","tool_name":"carcontrol_steeringWheel_set_heating_enabled","argument_name":"enabled","value":true,"context_arguments":{},"condition":"for Avery's cold-morning drives","reason":"The source self-correction replaces the stored off state with an on state for cold mornings."}}
+      ]
+    }
+  ],
+  "quizzes": [
+    {"quiz_id":"hvp03-turn-01","quiz_type":"TURN","cutoff_turn_id":"hvp03-s3-t05","query":"The children are riding in the rear-left seat on a cold trip. Set Avery's remembered temperature.","reasoning_type":"conditional_constraint","evidence_slot_ids":["driver.rear_left.temperature"],"gold_calls":[{"name":"carcontrol_airConditioner_set_temperature","arguments":{"zone":"rear_left","temperature":22}}]},
+    {"quiz_id":"hvp03-turn-02","quiz_type":"TURN","cutoff_turn_id":"hvp03-s4-t08","query":"During Avery's normal warm-weather drive, apply the currently remembered front-zone fan setting.","reasoning_type":"conditional_constraint","evidence_slot_ids":["driver.front.fan_speed"],"gold_calls":[{"name":"carcontrol_airConditioner_set_fan_speed","arguments":{"zone":"front","speed":5}}]},
+    {"quiz_id":"hvp03-turn-03","quiz_type":"TURN","cutoff_turn_id":"hvp03-s5-t06","query":"Avery is in the passenger seat on a hot ride. Apply the currently remembered seat-cooling speed.","reasoning_type":"state_shift","evidence_slot_ids":["driver.passenger.seat_ventilation"],"gold_calls":[{"name":"carcontrol_seat_set_ventilation_speed","arguments":{"seat":"passenger","speed":3}}]},
+    {"quiz_id":"hvp03-turn-04","quiz_type":"TURN","cutoff_turn_id":"hvp03-s6-t05","query":"It is after 10pm. Set music to Avery's locked-in volume.","reasoning_type":"conditional_constraint","evidence_slot_ids":["driver.after_10pm.music_volume"],"gold_calls":[{"name":"carcontrol_music_set_volume","arguments":{"volume":4}}]},
+    {"quiz_id":"hvp03-final-01","quiz_type":"FINAL","cutoff_turn_id":"hvp03-s9-t01","query":"The children are in the rear-left seat on a cold trip. Restore Avery's remembered temperature.","reasoning_type":"conditional_constraint","evidence_slot_ids":["driver.rear_left.temperature"],"gold_calls":[{"name":"carcontrol_airConditioner_set_temperature","arguments":{"zone":"rear_left","temperature":22}}]},
+    {"quiz_id":"hvp03-final-02","quiz_type":"FINAL","cutoff_turn_id":"hvp03-s9-t01","query":"Use Avery's latest normal front-zone fan setting.","reasoning_type":"error_correction","evidence_slot_ids":["driver.front.fan_speed"],"gold_calls":[{"name":"carcontrol_airConditioner_set_fan_speed","arguments":{"zone":"front","speed":3}}]},
+    {"quiz_id":"hvp03-final-03","quiz_type":"FINAL","cutoff_turn_id":"hvp03-s9-t01","query":"Avery is using the front passenger seat on a hot day. Apply the latest ventilation preference.","reasoning_type":"state_shift","evidence_slot_ids":["driver.passenger.seat_ventilation"],"gold_calls":[{"name":"carcontrol_seat_set_ventilation_speed","arguments":{"seat":"passenger","speed":2}}]},
+    {"quiz_id":"hvp03-final-04","quiz_type":"FINAL","cutoff_turn_id":"hvp03-s9-t01","query":"It is a cold morning. Apply Avery's latest steering-wheel heater preference.","reasoning_type":"error_correction","evidence_slot_ids":["driver.steering_wheel.heating"],"gold_calls":[{"name":"carcontrol_steeringWheel_set_heating_enabled","arguments":{"enabled":true}}]},
+    {"quiz_id":"hvp03-final-05","quiz_type":"FINAL","cutoff_turn_id":"hvp03-s9-t01","query":"It is after 10pm. Restore Avery's remembered music volume.","reasoning_type":"conditional_constraint","evidence_slot_ids":["driver.after_10pm.music_volume"],"gold_calls":[{"name":"carcontrol_music_set_volume","arguments":{"volume":4}}]},
+    {"quiz_id":"hvp03-final-06","quiz_type":"FINAL","cutoff_turn_id":"hvp03-s9-t01","query":"Avery enters a hot, stuffy cabin. Apply the remembered circulation and window-opening settings.","reasoning_type":"conditional_constraint","evidence_slot_ids":["driver.all.circulation","driver.hot_cabin.all_windows"],"gold_calls":[{"name":"carcontrol_airConditioner_set_circulation","arguments":{"zone":"all","circulation":"outside"}},{"name":"carcontrol_window_set_open_degree","arguments":{"window":"all","degree":15}}]}
+  ]
+}

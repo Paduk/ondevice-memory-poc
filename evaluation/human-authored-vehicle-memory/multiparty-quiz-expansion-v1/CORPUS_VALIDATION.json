@@ -1,0 +1,159 @@
+{
+  "added_query_base_collision_count": 0,
+  "added_query_unique_count": 374,
+  "added_quiz_count": 374,
+  "added_quiz_distribution": {
+    "FINAL::coreference_resolution": 11,
+    "FINAL::preference_conflict": 13,
+    "TURN::coreference_resolution": 106,
+    "TURN::error_correction": 47,
+    "TURN::preference_conflict": 127,
+    "TURN::state_shift": 70
+  },
+  "genuine_preference_conflict_count": 140,
+  "human_review_queue_session_count": 60,
+  "independent_human_review_status": "PENDING",
+  "inserted_record_count": 60,
+  "owner_sensitive_quiz_count": 257,
+  "pilot_excluded_patch_and_quiz_row_count": 1748,
+  "scenario_count": 20,
+  "scenarios": [
+    {
+      "added_quizzes": 19,
+      "inserted_records": 3,
+      "scenario_id": "HVP01",
+      "status": "PASS"
+    },
+    {
+      "added_quizzes": 19,
+      "inserted_records": 3,
+      "scenario_id": "HVP02",
+      "status": "PASS"
+    },
+    {
+      "added_quizzes": 19,
+      "inserted_records": 3,
+      "scenario_id": "HVP03",
+      "status": "PASS"
+    },
+    {
+      "added_quizzes": 19,
+      "inserted_records": 3,
+      "scenario_id": "HVP04",
+      "status": "PASS"
+    },
+    {
+      "added_quizzes": 18,
+      "inserted_records": 3,
+      "scenario_id": "HVP05",
+      "status": "PASS"
+    },
+    {
+      "added_quizzes": 18,
+      "inserted_records": 3,
+      "scenario_id": "HVP06",
+      "status": "PASS"
+    },
+    {
+      "added_quizzes": 18,
+      "inserted_records": 3,
+      "scenario_id": "HVP07",
+      "status": "PASS"
+    },
+    {
+      "added_quizzes": 19,
+      "inserted_records": 3,
+      "scenario_id": "HVP08",
+      "status": "PASS"
+    },
+    {
+      "added_quizzes": 19,
+      "inserted_records": 3,
+      "scenario_id": "HVP09",
+      "status": "PASS"
+    },
+    {
+      "added_quizzes": 19,
+      "inserted_records": 3,
+      "scenario_id": "HVP10",
+      "status": "PASS"
+    },
+    {
+      "added_quizzes": 19,
+      "inserted_records": 3,
+      "scenario_id": "HVP11",
+      "status": "PASS"
+    },
+    {
+      "added_quizzes": 19,
+      "inserted_records": 3,
+      "scenario_id": "HVP12",
+      "status": "PASS"
+    },
+    {
+      "added_quizzes": 19,
+      "inserted_records": 3,
+      "scenario_id": "HVP13",
+      "status": "PASS"
+    },
+    {
+      "added_quizzes": 19,
+      "inserted_records": 3,
+      "scenario_id": "HVP14",
+      "status": "PASS"
+    },
+    {
+      "added_quizzes": 19,
+      "inserted_records": 3,
+      "scenario_id": "HVP15",
+      "status": "PASS"
+    },
+    {
+      "added_quizzes": 19,
+      "inserted_records": 3,
+      "scenario_id": "HVP16",
+      "status": "PASS"
+    },
+    {
+      "added_quizzes": 19,
+      "inserted_records": 3,
+      "scenario_id": "HVP17",
+      "status": "PASS"
+    },
+    {
+      "added_quizzes": 18,
+      "inserted_records": 3,
+      "scenario_id": "HVP18",
+      "status": "PASS"
+    },
+    {
+      "added_quizzes": 18,
+      "inserted_records": 3,
+      "scenario_id": "HVP19",
+      "status": "PASS"
+    },
+    {
+      "added_quizzes": 18,
+      "inserted_records": 3,
+      "scenario_id": "HVP20",
+      "status": "PASS"
+    }
+  ],
+  "schema_version": "vehiclemembench-hvp-multiparty-corpus-validation-v1",
+  "source_reuse_mode_counts": {
+    "minimal_persistence_adaptation": 43,
+    "vehicle_domain_rewrite": 36,
+    "vehicle_domain_rewrite_with_persistence": 17,
+    "verbatim_text_role_normalized": 78
+  },
+  "source_trace_turn_count": 174,
+  "statistics": {
+    "final_quizzes": 144,
+    "noops": 923,
+    "quiz_calls": 807,
+    "turn_quizzes": 430,
+    "turns": 1174,
+    "updates": 251
+  },
+  "status": "PASS"
+}

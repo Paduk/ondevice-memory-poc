@@ -1,0 +1,222 @@
+{
+  "schema_version": "vehiclemembench-easy-natural-explicit-validation-v1",
+  "scenario_count": 20,
+  "aggregate": {
+    "turns": 600,
+    "updates": 120,
+    "noops": 480,
+    "quizzes": 320,
+    "unique_natural_update_clauses": 120
+  },
+  "validation": {
+    "gold_equivalence_to_easy_explicit_v1": "PASS",
+    "source_and_noop_preservation": "PASS",
+    "owner_value_persistence_explicitness": "PASS",
+    "replacement_explicitness": "PASS",
+    "rigid_template_removal": "PASS",
+    "quiz_answer_non_leakage": "PASS",
+    "derived_patch_and_tool_validation": "PASS"
+  },
+  "scenarios": [
+    {
+      "scenario_id": "HVE01",
+      "updates": 6,
+      "noops": 24,
+      "quizzes": 16,
+      "gold_equivalence": "PASS",
+      "natural_explicitness": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE02",
+      "updates": 6,
+      "noops": 24,
+      "quizzes": 16,
+      "gold_equivalence": "PASS",
+      "natural_explicitness": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE03",
+      "updates": 6,
+      "noops": 24,
+      "quizzes": 16,
+      "gold_equivalence": "PASS",
+      "natural_explicitness": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE04",
+      "updates": 6,
+      "noops": 24,
+      "quizzes": 16,
+      "gold_equivalence": "PASS",
+      "natural_explicitness": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE05",
+      "updates": 6,
+      "noops": 24,
+      "quizzes": 16,
+      "gold_equivalence": "PASS",
+      "natural_explicitness": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE06",
+      "updates": 6,
+      "noops": 24,
+      "quizzes": 16,
+      "gold_equivalence": "PASS",
+      "natural_explicitness": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE07",
+      "updates": 6,
+      "noops": 24,
+      "quizzes": 16,
+      "gold_equivalence": "PASS",
+      "natural_explicitness": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE08",
+      "updates": 6,
+      "noops": 24,
+      "quizzes": 16,
+      "gold_equivalence": "PASS",
+      "natural_explicitness": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE09",
+      "updates": 6,
+      "noops": 24,
+      "quizzes": 16,
+      "gold_equivalence": "PASS",
+      "natural_explicitness": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE10",
+      "updates": 6,
+      "noops": 24,
+      "quizzes": 16,
+      "gold_equivalence": "PASS",
+      "natural_explicitness": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE11",
+      "updates": 6,
+      "noops": 24,
+      "quizzes": 16,
+      "gold_equivalence": "PASS",
+      "natural_explicitness": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE12",
+      "updates": 6,
+      "noops": 24,
+      "quizzes": 16,
+      "gold_equivalence": "PASS",
+      "natural_explicitness": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE13",
+      "updates": 6,
+      "noops": 24,
+      "quizzes": 16,
+      "gold_equivalence": "PASS",
+      "natural_explicitness": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE14",
+      "updates": 6,
+      "noops": 24,
+      "quizzes": 16,
+      "gold_equivalence": "PASS",
+      "natural_explicitness": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE15",
+      "updates": 6,
+      "noops": 24,
+      "quizzes": 16,
+      "gold_equivalence": "PASS",
+      "natural_explicitness": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE16",
+      "updates": 6,
+      "noops": 24,
+      "quizzes": 16,
+      "gold_equivalence": "PASS",
+      "natural_explicitness": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE17",
+      "updates": 6,
+      "noops": 24,
+      "quizzes": 16,
+      "gold_equivalence": "PASS",
+      "natural_explicitness": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE18",
+      "updates": 6,
+      "noops": 24,
+      "quizzes": 16,
+      "gold_equivalence": "PASS",
+      "natural_explicitness": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE19",
+      "updates": 6,
+      "noops": 24,
+      "quizzes": 16,
+      "gold_equivalence": "PASS",
+      "natural_explicitness": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE20",
+      "updates": 6,
+      "noops": 24,
+      "quizzes": 16,
+      "gold_equivalence": "PASS",
+      "natural_explicitness": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    }
+  ]
+}

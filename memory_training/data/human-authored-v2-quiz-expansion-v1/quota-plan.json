@@ -1,0 +1,486 @@
+{
+  "baseline": {
+    "baseline_quiz_files_sha256": "eb01d7a128686a4669ae9ef3cdb0bcde21aae7805cf9959b791fccf4b5ab79a4",
+    "core_files_sha256": "9cab67f801aff4b89a91d1779aa9dbe5bc7571288cc168cee646325a20486c12",
+    "path": "/home/hj153lee/PalmClaw/memory_training/data/human-authored-v2-quiz-expansion-v1/baseline-freeze.json",
+    "quiz_count": 200
+  },
+  "derivation": {
+    "addition_quiz_type_by_reasoning_type": {
+      "FINAL::conditional_constraint": 0,
+      "FINAL::coreference_resolution": 11,
+      "FINAL::error_correction": 0,
+      "FINAL::preference_conflict": 13,
+      "FINAL::state_shift": 0,
+      "TURN::conditional_constraint": 0,
+      "TURN::coreference_resolution": 106,
+      "TURN::error_correction": 47,
+      "TURN::preference_conflict": 127,
+      "TURN::state_shift": 70
+    },
+    "additional_quiz_count": 374,
+    "criterion": "smallest integer total whose unrounded reference-proportional reasoning-type expectations never fall below a baseline count; integer targets then use largest-remainder apportionment",
+    "expanded_quiz_count": 574,
+    "expanded_quiz_type_by_reasoning_type": {
+      "FINAL::conditional_constraint": 64,
+      "FINAL::coreference_resolution": 11,
+      "FINAL::error_correction": 39,
+      "FINAL::preference_conflict": 13,
+      "FINAL::state_shift": 17,
+      "TURN::conditional_constraint": 34,
+      "TURN::coreference_resolution": 106,
+      "TURN::error_correction": 48,
+      "TURN::preference_conflict": 127,
+      "TURN::state_shift": 115
+    },
+    "joint_allocation_note": "The pre-existing FINAL conditional/error excess cannot be removed by addition. New FINAL cells minimize Pearson distance to the reference subject to the fixed marginal quotas.",
+    "quiz_type_additions": {
+      "FINAL": 24,
+      "TURN": 350
+    },
+    "quiz_type_target": {
+      "FINAL": 144,
+      "TURN": 430
+    },
+    "reasoning_type_additions": {
+      "conditional_constraint": 0,
+      "coreference_resolution": 117,
+      "error_correction": 47,
+      "preference_conflict": 140,
+      "state_shift": 70
+    },
+    "reasoning_type_target": {
+      "conditional_constraint": 98,
+      "coreference_resolution": 117,
+      "error_correction": 87,
+      "preference_conflict": 140,
+      "state_shift": 132
+    }
+  },
+  "per_scenario_addition_quota": [
+    {
+      "final": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 1,
+        "error_correction": 0,
+        "preference_conflict": 0,
+        "state_shift": 0
+      },
+      "scenario_id": "HVP01",
+      "scenario_index": 901,
+      "total": 19,
+      "turn": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 6,
+        "error_correction": 2,
+        "preference_conflict": 6,
+        "state_shift": 4
+      }
+    },
+    {
+      "final": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 1,
+        "error_correction": 0,
+        "preference_conflict": 0,
+        "state_shift": 0
+      },
+      "scenario_id": "HVP02",
+      "scenario_index": 902,
+      "total": 19,
+      "turn": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 6,
+        "error_correction": 2,
+        "preference_conflict": 6,
+        "state_shift": 4
+      }
+    },
+    {
+      "final": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 1,
+        "error_correction": 0,
+        "preference_conflict": 0,
+        "state_shift": 0
+      },
+      "scenario_id": "HVP03",
+      "scenario_index": 903,
+      "total": 19,
+      "turn": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 6,
+        "error_correction": 2,
+        "preference_conflict": 6,
+        "state_shift": 4
+      }
+    },
+    {
+      "final": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 1,
+        "error_correction": 0,
+        "preference_conflict": 0,
+        "state_shift": 0
+      },
+      "scenario_id": "HVP04",
+      "scenario_index": 904,
+      "total": 19,
+      "turn": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 6,
+        "error_correction": 2,
+        "preference_conflict": 6,
+        "state_shift": 4
+      }
+    },
+    {
+      "final": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 1,
+        "error_correction": 0,
+        "preference_conflict": 0,
+        "state_shift": 0
+      },
+      "scenario_id": "HVP05",
+      "scenario_index": 905,
+      "total": 18,
+      "turn": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 6,
+        "error_correction": 2,
+        "preference_conflict": 6,
+        "state_shift": 3
+      }
+    },
+    {
+      "final": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 1,
+        "error_correction": 0,
+        "preference_conflict": 0,
+        "state_shift": 0
+      },
+      "scenario_id": "HVP06",
+      "scenario_index": 906,
+      "total": 18,
+      "turn": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 6,
+        "error_correction": 2,
+        "preference_conflict": 6,
+        "state_shift": 3
+      }
+    },
+    {
+      "final": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 1,
+        "error_correction": 0,
+        "preference_conflict": 0,
+        "state_shift": 0
+      },
+      "scenario_id": "HVP07",
+      "scenario_index": 907,
+      "total": 18,
+      "turn": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 5,
+        "error_correction": 3,
+        "preference_conflict": 6,
+        "state_shift": 3
+      }
+    },
+    {
+      "final": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 1,
+        "error_correction": 0,
+        "preference_conflict": 1,
+        "state_shift": 0
+      },
+      "scenario_id": "HVP08",
+      "scenario_index": 908,
+      "total": 19,
+      "turn": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 5,
+        "error_correction": 3,
+        "preference_conflict": 6,
+        "state_shift": 3
+      }
+    },
+    {
+      "final": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 1,
+        "error_correction": 0,
+        "preference_conflict": 1,
+        "state_shift": 0
+      },
+      "scenario_id": "HVP09",
+      "scenario_index": 909,
+      "total": 19,
+      "turn": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 5,
+        "error_correction": 3,
+        "preference_conflict": 6,
+        "state_shift": 3
+      }
+    },
+    {
+      "final": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 1,
+        "error_correction": 0,
+        "preference_conflict": 1,
+        "state_shift": 0
+      },
+      "scenario_id": "HVP10",
+      "scenario_index": 910,
+      "total": 19,
+      "turn": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 5,
+        "error_correction": 3,
+        "preference_conflict": 6,
+        "state_shift": 3
+      }
+    },
+    {
+      "final": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 1,
+        "error_correction": 0,
+        "preference_conflict": 1,
+        "state_shift": 0
+      },
+      "scenario_id": "HVP11",
+      "scenario_index": 911,
+      "total": 19,
+      "turn": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 5,
+        "error_correction": 3,
+        "preference_conflict": 6,
+        "state_shift": 3
+      }
+    },
+    {
+      "final": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 0,
+        "error_correction": 0,
+        "preference_conflict": 1,
+        "state_shift": 0
+      },
+      "scenario_id": "HVP12",
+      "scenario_index": 912,
+      "total": 19,
+      "turn": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 5,
+        "error_correction": 3,
+        "preference_conflict": 6,
+        "state_shift": 4
+      }
+    },
+    {
+      "final": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 0,
+        "error_correction": 0,
+        "preference_conflict": 1,
+        "state_shift": 0
+      },
+      "scenario_id": "HVP13",
+      "scenario_index": 913,
+      "total": 19,
+      "turn": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 5,
+        "error_correction": 3,
+        "preference_conflict": 6,
+        "state_shift": 4
+      }
+    },
+    {
+      "final": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 0,
+        "error_correction": 0,
+        "preference_conflict": 1,
+        "state_shift": 0
+      },
+      "scenario_id": "HVP14",
+      "scenario_index": 914,
+      "total": 19,
+      "turn": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 5,
+        "error_correction": 2,
+        "preference_conflict": 7,
+        "state_shift": 4
+      }
+    },
+    {
+      "final": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 0,
+        "error_correction": 0,
+        "preference_conflict": 1,
+        "state_shift": 0
+      },
+      "scenario_id": "HVP15",
+      "scenario_index": 915,
+      "total": 19,
+      "turn": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 5,
+        "error_correction": 2,
+        "preference_conflict": 7,
+        "state_shift": 4
+      }
+    },
+    {
+      "final": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 0,
+        "error_correction": 0,
+        "preference_conflict": 1,
+        "state_shift": 0
+      },
+      "scenario_id": "HVP16",
+      "scenario_index": 916,
+      "total": 19,
+      "turn": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 5,
+        "error_correction": 2,
+        "preference_conflict": 7,
+        "state_shift": 4
+      }
+    },
+    {
+      "final": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 0,
+        "error_correction": 0,
+        "preference_conflict": 1,
+        "state_shift": 0
+      },
+      "scenario_id": "HVP17",
+      "scenario_index": 917,
+      "total": 19,
+      "turn": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 5,
+        "error_correction": 2,
+        "preference_conflict": 7,
+        "state_shift": 4
+      }
+    },
+    {
+      "final": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 0,
+        "error_correction": 0,
+        "preference_conflict": 1,
+        "state_shift": 0
+      },
+      "scenario_id": "HVP18",
+      "scenario_index": 918,
+      "total": 18,
+      "turn": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 5,
+        "error_correction": 2,
+        "preference_conflict": 7,
+        "state_shift": 3
+      }
+    },
+    {
+      "final": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 0,
+        "error_correction": 0,
+        "preference_conflict": 1,
+        "state_shift": 0
+      },
+      "scenario_id": "HVP19",
+      "scenario_index": 919,
+      "total": 18,
+      "turn": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 5,
+        "error_correction": 2,
+        "preference_conflict": 7,
+        "state_shift": 3
+      }
+    },
+    {
+      "final": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 0,
+        "error_correction": 0,
+        "preference_conflict": 1,
+        "state_shift": 0
+      },
+      "scenario_id": "HVP20",
+      "scenario_index": 920,
+      "total": 18,
+      "turn": {
+        "conditional_constraint": 0,
+        "coreference_resolution": 5,
+        "error_correction": 2,
+        "preference_conflict": 7,
+        "state_shift": 3
+      }
+    }
+  ],
+  "reference": {
+    "filter": {
+      "sft_split": "test"
+    },
+    "path": "/mnt/nvme2/hj153lee/PalmClaw/evaluation/vehiclemembench-v2-training/grouped-v2-v1-10-eval-fixed-noop5-seed45-v1/quiz_sft.jsonl",
+    "quiz_count": 960,
+    "quiz_type_by_reasoning_type": {
+      "FINAL::conditional_constraint": 44,
+      "FINAL::coreference_resolution": 53,
+      "FINAL::error_correction": 34,
+      "FINAL::preference_conflict": 61,
+      "FINAL::state_shift": 48,
+      "TURN::conditional_constraint": 120,
+      "TURN::coreference_resolution": 142,
+      "TURN::error_correction": 111,
+      "TURN::preference_conflict": 174,
+      "TURN::state_shift": 173
+    },
+    "quiz_type_distribution": {
+      "FINAL": 240,
+      "TURN": 720
+    },
+    "reasoning_type_distribution": {
+      "conditional_constraint": 164,
+      "coreference_resolution": 195,
+      "error_correction": 145,
+      "preference_conflict": 235,
+      "state_shift": 221
+    },
+    "sha256": "861cb368c371c4bedaed13c51c65e4b07155810f48f18f35aa66132942e92a0e"
+  },
+  "schema_version": "vehiclemembench-hvp-quiz-expansion-quota-v1",
+  "selection_contract": {
+    "candidate_oversampling_minimum": 1.5,
+    "deduplication_unit": "normalized query + gold_calls + memory checkpoint",
+    "forbidden_inputs": [
+      "Summary predictions",
+      "Patch predictions",
+      "Delta-v3 predictions",
+      "per-method error or disagreement results"
+    ],
+    "method_blind": true,
+    "scenario_is_statistical_cluster": true
+  }
+}

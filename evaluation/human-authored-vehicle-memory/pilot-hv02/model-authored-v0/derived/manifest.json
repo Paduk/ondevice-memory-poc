@@ -1,0 +1,72 @@
+{
+  "eligible_for_human_test": false,
+  "files": {
+    "dialogue.jsonl": {
+      "row_count": 50,
+      "sha256": "3014a4e874d80d68707056d38f5aa7c90ee84e2aaed8445e4115ff3b768933ef"
+    },
+    "final_quiz.jsonl": {
+      "row_count": 6,
+      "sha256": "50a20c02b51422d13cc9cecc31862c34dd6dbe2a512f5ec54a4c96fe706cc548"
+    },
+    "memory_snapshots.jsonl": {
+      "row_count": 50,
+      "sha256": "6c80ce9520e6c980e2cc13285df3f80a81e9f076903d1106934c7e37a8e94e10"
+    },
+    "patch.jsonl": {
+      "row_count": 50,
+      "sha256": "c3e89f921936fc9da8b43563ceb0008661803c6cbcff679a1937c5ed6ebea8d3"
+    },
+    "turn_quiz.jsonl": {
+      "row_count": 4,
+      "sha256": "7a1e20e96413818e7d79b8ce4afff1695f3ee9bf02a505a5f45c6af483beafb0"
+    }
+  },
+  "final_memory": {
+    "active_slot_ids": [
+      "elena.steady_rain.front_wiper_speed",
+      "elena.unfamiliar_city.navigation_volume",
+      "shared.lock.mirror_auto_fold",
+      "marcus.night_drive.center_display_brightness",
+      "marcus.cold_drive.steering_heat_level",
+      "marcus.highway.navigation_zoom",
+      "luca.evening_trip.overhead_brightness",
+      "luca.long_trip.video_volume",
+      "shared.younger_cousin.rear_right_child_lock",
+      "elena.tight_parking.right_mirror_tilt",
+      "elena.long_drive.driver_backrest_angle"
+    ],
+    "sha256": "fb91fb3bddfc36910db1fac779dd95c14b3173120b2a59b3f841a608c173d23f",
+    "turn_id": "hvp02-s6-t08"
+  },
+  "scenario_id": "HVP02",
+  "scenario_index": 902,
+  "schema_version": "vehiclemembench-human-authored-pilot-manifest-v1",
+  "source_path": "/home/hj153lee/PalmClaw/evaluation/human-authored-vehicle-memory/pilot-hv02/scenario-source.json",
+  "source_sha256": "0b5a93b3a2867358bf77a9d254a08503964b4c98e40304740bf66c6b9fff4152",
+  "split": "pilot_excluded",
+  "statistics": {
+    "active_memory_slot_count": 11,
+    "add_count": 11,
+    "distinct_memory_tool_count": 11,
+    "final_quiz_count": 6,
+    "noop_count": 35,
+    "quiz_tool_call_count": 21,
+    "replace_count": 4,
+    "session_count": 6,
+    "speaker_count": 3,
+    "turn_count": 50,
+    "turn_quiz_count": 4,
+    "update_count": 15
+  },
+  "validation": {
+    "chronology_and_unique_ids": "PASS",
+    "final_quiz_uses_final_snapshot": "PASS",
+    "noop_memory_identity": "PASS",
+    "official_tool_json_schema": "PASS",
+    "official_vehicleworld_simulator": "PASS",
+    "patch_replay_all_turns": "PASS",
+    "quiz_evidence_active_at_cutoff": "PASS",
+    "source_contract": "PASS"
+  }
+}

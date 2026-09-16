@@ -1,0 +1,1140 @@
+{
+  "schema_version": "vehiclemembench-human-authored-scenario-source-v1",
+  "scenario_id": "HVP08",
+  "scenario_index": 908,
+  "split": "pilot_excluded",
+  "authorship": {
+    "kind": "external_adapted_model_assembled_pilot",
+    "eligible_for_human_test": false,
+    "note": "Externally adapted pilot. Dialogue records are disjoint from every other external-adapted HVP pilot; assembly, persistence edits, memory labels, and quizzes are model-produced."
+  },
+  "external_sources": [
+    {
+      "dataset": "Envisioned Voice Assistant Dialogues",
+      "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues",
+      "license": "CC BY 4.0",
+      "origin": "human_authored",
+      "records": [
+        "35:search",
+        "38:weather",
+        "57:search"
+      ],
+      "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186"
+    },
+    {
+      "dataset": "Audio2Tool",
+      "url": "https://huggingface.co/datasets/RVtech/Audio2Tool",
+      "license": "CC BY-NC 4.0",
+      "origin": "synthetic",
+      "records": [
+        "tier7:2024",
+        "tier7:2088",
+        "tier7:2145",
+        "tier5:3963",
+        "tier5:4003",
+        "tier5:4111",
+        "tier5:4239",
+        "tier4:4096",
+        "tier5:4272",
+        "tier4:3988",
+        "tier5:4005",
+        "tier5:4113",
+        "tier5:4002"
+      ],
+      "local_file_sha256": {
+        "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc",
+        "tier6": "fa5c0825d99c4f68e226480261befe9ce7aa33c9dfbb7ff1fe1fc82493bcb991",
+        "tier4": "d430e801c9bba5db03b3d044ac626ebec35de1b8a4eb2e2beb4cdec0013e9271",
+        "tier5": "d38e588dccb99ed3291c9467a29adcd71e4f1c4eb62c118fd482a8e9616a1850"
+      }
+    }
+  ],
+  "speakers": [
+    {
+      "speaker_id": "external-hvp08-driver",
+      "short_id": "user",
+      "speaker_name": "Avery (normalized user role)",
+      "role": "driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp08-assistant",
+      "short_id": "assistant",
+      "speaker_name": "Voice assistant (source names retained in text)",
+      "role": "vehicle voice assistant",
+      "style": "retains the wording of each external source record"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "hvp08-s1",
+      "timestamp": "2026-01-05T08:00:00",
+      "context": "Choosing a film for the evening.",
+      "turns": [
+        {
+          "turn_id": "hvp08-s1-t01",
+          "speaker": "user",
+          "text": "Hey, what films are showing tonight?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "35:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hey, what films are showing tonight?"
+          }
+        },
+        {
+          "turn_id": "hvp08-s1-t02",
+          "speaker": "assistant",
+          "text": "What genre do you want to see?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "35:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What genre do you want to see?"
+          }
+        },
+        {
+          "turn_id": "hvp08-s1-t03",
+          "speaker": "user",
+          "text": "Give me something romantc",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "35:search",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Give me something romantc"
+          }
+        },
+        {
+          "turn_id": "hvp08-s1-t04",
+          "speaker": "assistant",
+          "text": "Sure. Hope Gap and After We Collide are showing.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "35:search",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Sure. Hope Gap and After We Collide are showing."
+          }
+        },
+        {
+          "turn_id": "hvp08-s1-t05",
+          "speaker": "user",
+          "text": "When are they showing at the nearest cinema?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "35:search",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "When are they showing at the nearest cinema?"
+          }
+        },
+        {
+          "turn_id": "hvp08-s1-t06",
+          "speaker": "assistant",
+          "text": "The next one for Hope Gap is at 6.00pm and After We Collide is at 5.40.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "35:search",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "The next one for Hope Gap is at 6.00pm and After We Collide is at 5.40."
+          }
+        },
+        {
+          "turn_id": "hvp08-s1-t07",
+          "speaker": "assistant",
+          "text": "Do you want directions?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "35:search",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Do you want directions?"
+          }
+        },
+        {
+          "turn_id": "hvp08-s1-t08",
+          "speaker": "user",
+          "text": "Yes. get me there on time for Hope Gap please.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "35:search",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes. get me there on time for Hope Gap please."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp08-s2",
+      "timestamp": "2026-01-25T08:00:00",
+      "context": "Checking weather for a trip to Napoli.",
+      "turns": [
+        {
+          "turn_id": "hvp08-s2-t01",
+          "speaker": "user",
+          "text": "Check the weather in Napoli please",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "38:weather",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Check the weather in Napoli please"
+          }
+        },
+        {
+          "turn_id": "hvp08-s2-t02",
+          "speaker": "assistant",
+          "text": "28 degrees, no humidity, sunny",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "38:weather",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "28 degrees, no humidity, sunny"
+          }
+        },
+        {
+          "turn_id": "hvp08-s2-t03",
+          "speaker": "user",
+          "text": "Sounds good, what about in the evenings",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "38:weather",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Sounds good, what about in the evenings"
+          }
+        },
+        {
+          "turn_id": "hvp08-s2-t04",
+          "speaker": "assistant",
+          "text": "Low twenties, no wind",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "38:weather",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Low twenties, no wind"
+          }
+        },
+        {
+          "turn_id": "hvp08-s2-t05",
+          "speaker": "user",
+          "text": "Is Pompeii hotter than Napoli",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "38:weather",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Is Pompeii hotter than Napoli"
+          }
+        },
+        {
+          "turn_id": "hvp08-s2-t06",
+          "speaker": "assistant",
+          "text": "Pompeii will be 32 on Tuesday when you are there",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "38:weather",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Pompeii will be 32 on Tuesday when you are there"
+          }
+        },
+        {
+          "turn_id": "hvp08-s2-t07",
+          "speaker": "user",
+          "text": "oh my god. So I need a cool loose dress for walking round Pompeii",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "38:weather",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "oh my god. So I need a cool loose dress for walking round Pompeii"
+          }
+        },
+        {
+          "turn_id": "hvp08-s2-t08",
+          "speaker": "assistant",
+          "text": "OK. I'll add it to the list",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "38:weather",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "OK. I'll add it to the list"
+          }
+        },
+        {
+          "turn_id": "hvp08-s2-t09",
+          "speaker": "user",
+          "text": "What day are we sailing to Capri? I need something very smart for that day",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "38:weather",
+            "record_turn_index": 8,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What day are we sailing to Capri? I need something very smart for that day"
+          }
+        },
+        {
+          "turn_id": "hvp08-s2-t10",
+          "speaker": "assistant",
+          "text": "I can't see the trip to Capri, who booked it",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "38:weather",
+            "record_turn_index": 9,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can't see the trip to Capri, who booked it"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp08-s3",
+      "timestamp": "2026-02-14T08:00:00",
+      "context": "Checking a local cinema showing time.",
+      "turns": [
+        {
+          "turn_id": "hvp08-s3-t01",
+          "speaker": "user",
+          "text": "Buddy please check what time  Cheech and Chong Rise Again  starts at the local VUE cinema.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "57:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Buddy please check what time  Cheech and Chong Rise Again  starts at the local VUE cinema."
+          }
+        },
+        {
+          "turn_id": "hvp08-s3-t02",
+          "speaker": "assistant",
+          "text": "Checking now, Cheech and Chong Rise Again starts at 15:35. Would you like me to book tickets for you?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "57:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Checking now, Cheech and Chong Rise Again starts at 15:35. Would you like me to book tickets for you?"
+          }
+        },
+        {
+          "turn_id": "hvp08-s3-t03",
+          "speaker": "user",
+          "text": "Yes please Buddy",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "57:search",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes please Buddy"
+          }
+        },
+        {
+          "turn_id": "hvp08-s3-t04",
+          "speaker": "assistant",
+          "text": "What row would you like to be seated in? There are 13 seats free at the front.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "57:search",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What row would you like to be seated in? There are 13 seats free at the front."
+          }
+        },
+        {
+          "turn_id": "hvp08-s3-t05",
+          "speaker": "user",
+          "text": "Front row please buddy, any seat will do.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "57:search",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Front row please buddy, any seat will do."
+          }
+        },
+        {
+          "turn_id": "hvp08-s3-t06",
+          "speaker": "assistant",
+          "text": "Okay, booking from row seat A3 for the 15:35 showing of Cheech And Chong Rise Again",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "57:search",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Okay, booking from row seat A3 for the 15:35 showing of Cheech And Chong Rise Again"
+          }
+        },
+        {
+          "turn_id": "hvp08-s3-t07",
+          "speaker": "user",
+          "text": "thanks buddy love you!",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "57:search",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "thanks buddy love you!"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp08-s4",
+      "timestamp": "2026-03-06T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2024.",
+      "turns": [
+        {
+          "turn_id": "hvp08-s4-t01",
+          "speaker": "user",
+          "text": "I wonder how much juice my car has left. I need to run some errands.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2024",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I wonder how much juice my car has left. I need to run some errands."
+          }
+        },
+        {
+          "turn_id": "hvp08-s4-t02",
+          "speaker": "assistant",
+          "text": "I'd be happy to check your car's battery status for you. Would you like me to do that now?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2024",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'd be happy to check your car's battery status for you. Would you like me to do that now?"
+          }
+        },
+        {
+          "turn_id": "hvp08-s4-t03",
+          "speaker": "user",
+          "text": "Actually, can you remind me about my doctor's appointment next week?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2024",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Actually, can you remind me about my doctor's appointment next week?"
+          }
+        },
+        {
+          "turn_id": "hvp08-s4-t04",
+          "speaker": "assistant",
+          "text": "Your doctor's appointment is scheduled for next Tuesday at 2:30 PM with Dr. Johnson. Would you still like me to check your car's battery status?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2024",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Your doctor's appointment is scheduled for next Tuesday at 2:30 PM with Dr. Johnson. Would you still like me to check your car's battery status?"
+          }
+        },
+        {
+          "turn_id": "hvp08-s4-t05",
+          "speaker": "user",
+          "text": "Oh right, I almost forgot. I'm worried I might not make it to the store and back.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2024",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Oh right, I almost forgot. I'm worried I might not make it to the store and back."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp08-s5",
+      "timestamp": "2026-03-26T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2088.",
+      "turns": [
+        {
+          "turn_id": "hvp08-s5-t01",
+          "speaker": "user",
+          "text": "I'm not sure what's going on, the car feels like it's not really moving when I press the gas.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2088",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'm not sure what's going on, the car feels like it's not really moving when I press the gas."
+          }
+        },
+        {
+          "turn_id": "hvp08-s5-t02",
+          "speaker": "assistant",
+          "text": "I can help you figure that out. Sometimes this happens if the wrong gear is selected or if there's an issue with traction or the engine. Are you hearing the engine rev, or does it feel more like the car is resisting when you try to accelerate?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2088",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can help you figure that out. Sometimes this happens if the wrong gear is selected or if there's an issue with traction or the engine. Are you hearing the engine rev, or does it feel more like the car is resisting when you try to accelerate?"
+          }
+        },
+        {
+          "turn_id": "hvp08-s5-t03",
+          "speaker": "user",
+          "text": "Also, that song on the radio is driving me nuts, it's so distracting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2088",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Also, that song on the radio is driving me nuts, it's so distracting."
+          }
+        },
+        {
+          "turn_id": "hvp08-s5-t04",
+          "speaker": "assistant",
+          "text": "I'll switch to a quieter preset station and lower the volume a bit so it's less distracting. Once that's done, we can focus on the car's behavior again.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2088",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'll switch to a quieter preset station and lower the volume a bit so it's less distracting. Once that's done, we can focus on the car's behavior again."
+          }
+        },
+        {
+          "turn_id": "hvp08-s5-t05",
+          "speaker": "user",
+          "text": "Okay, the engine is definitely revving, but I'm barely creeping forward, like something's holding the car back.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2088",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Okay, the engine is definitely revving, but I'm barely creeping forward, like something's holding the car back."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp08-s6",
+      "timestamp": "2026-04-15T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2145.",
+      "turns": [
+        {
+          "turn_id": "hvp08-s6-t01",
+          "speaker": "user",
+          "text": "Update thingy not working",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2145",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Update thingy not working"
+          }
+        },
+        {
+          "turn_id": "hvp08-s6-t02",
+          "speaker": "assistant",
+          "text": "I'm happy to help you with your software update concerns. Can you please confirm what you mean by 'update thingy'?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2145",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'm happy to help you with your software update concerns. Can you please confirm what you mean by 'update thingy'?"
+          }
+        },
+        {
+          "turn_id": "hvp08-s6-t03",
+          "speaker": "user",
+          "text": "I mean the car's system",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2145",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I mean the car's system"
+          }
+        },
+        {
+          "turn_id": "hvp08-s6-t04",
+          "speaker": "assistant",
+          "text": "You're referring to the Over-The-Air software updates. Would you like me to check the status for you?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2145",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You're referring to the Over-The-Air software updates. Would you like me to check the status for you?"
+          }
+        },
+        {
+          "turn_id": "hvp08-s6-t05",
+          "speaker": "user",
+          "text": "Yeah check it",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2145",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yeah check it"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp08-s7",
+      "timestamp": "2026-05-05T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:3963.",
+      "turns": [
+        {
+          "turn_id": "hvp08-s7-t01",
+          "speaker": "user",
+          "text": "My phone is about to die, I really hope I have a charger in here somewhere. This is always a problem. Um, you know, I'm getting hot, please set my temperature to eighteen degrees. Eighteen degrees is my regular driver setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:3963",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "My phone is about to die, I really hope I have a charger in here somewhere. This is always a problem. Um, you know, I'm getting hot, please set my temperature to eighteen degrees."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 18,
+            "context_arguments": {
+              "zone": "driver"
+            },
+            "condition": "for Avery's normal driving",
+            "reason": "The explicit temperature is made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp08-s8",
+      "timestamp": "2026-05-25T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4003.",
+      "turns": [
+        {
+          "turn_id": "hvp08-s8-t01",
+          "speaker": "user",
+          "text": "You know, my notes are blowing around on the right, so raise the passenger front window to around sixty percent open. Sixty percent is my usual passenger-front window position.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4003",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "You know, my notes are blowing around on the right, so raise the passenger front window to around sixty percent open"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.passenger_window",
+            "tool_name": "carcontrol_window_set_open_degree",
+            "argument_name": "degree",
+            "value": 60,
+            "context_arguments": {
+              "window": "passenger"
+            },
+            "condition": "for Avery's normal driving",
+            "reason": "The explicit window position is made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp08-s9",
+      "timestamp": "2026-06-14T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4111.",
+      "turns": [
+        {
+          "turn_id": "hvp08-s9-t01",
+          "speaker": "user",
+          "text": "So I think the dog park is somewhere near the river, uh, set navigation to Riverside Dog Park on Kennel Lane. Use Riverside Dog Park as my default destination.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4111",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "So I think the dog park is somewhere near the river, uh, set navigation to Riverside Dog Park on Kennel Lane"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.default.destination",
+            "tool_name": "carcontrol_navigation_navigate_to",
+            "argument_name": "destination",
+            "value": "Riverside Dog Park on Kennel Lane",
+            "context_arguments": {},
+            "condition": "when Avery starts navigation without naming a destination",
+            "reason": "The explicit destination becomes a default."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp08-s10",
+      "timestamp": "2026-07-04T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4239.",
+      "turns": [
+        {
+          "turn_id": "hvp08-s10-t01",
+          "speaker": "user",
+          "text": "The street we are on has so many restaurants venting out grease smells, and, like, it is making me hungry and nauseous, um, can you turn on the cabin recirculation mode. When outside food smells bother me, inside circulation is my usual choice.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4239",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "The street we are on has so many restaurants venting out grease smells, and, like, it is making me hungry and nauseous, um, can you turn on the cabin recirculation mode"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.food_odor.circulation",
+            "tool_name": "carcontrol_airConditioner_set_circulation",
+            "argument_name": "circulation",
+            "value": "inside",
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "when outside food odors bother Avery",
+            "reason": "The source recirculation request becomes a persistent rule under the same odor condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp08-s11",
+      "timestamp": "2026-07-24T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4096.",
+      "turns": [
+        {
+          "turn_id": "hvp08-s11-t01",
+          "speaker": "user",
+          "text": "I'm feeling a little blue. Blue is my normal ambient-light color.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4096",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I'm feeling a little blue."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.ambient_color",
+            "tool_name": "carcontrol_light_set_ambient_color",
+            "argument_name": "color",
+            "value": "blue",
+            "context_arguments": {},
+            "condition": "for Avery's normal ambient lighting",
+            "reason": "The source color is stated explicitly and made persistent without dropping a brightness request."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp08-s12",
+      "timestamp": "2026-08-13T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4272.",
+      "turns": [
+        {
+          "turn_id": "hvp08-s12-t01",
+          "speaker": "user",
+          "text": "I'm at the pet store picking up a huge bag of dog food. This thing weighs a ton. I can barely lift it. I'm walking to the car now. Uh, can you please open the trunk so I can just slide it in? I normally use the rear trunk when loading bulky items.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4272",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I'm at the pet store picking up a huge bag of dog food. This thing weighs a ton. I can barely lift it. I'm walking to the car now. Uh, can you please open the trunk so I can just slide it in?"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.bulky_items.rear_trunk",
+            "tool_name": "carcontrol_trunk_switch",
+            "argument_name": "switch",
+            "value": true,
+            "context_arguments": {},
+            "condition": "when Avery loads bulky items",
+            "reason": "The source cargo request becomes a recurring routine."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp08-s13",
+      "timestamp": "2026-09-02T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:3988.",
+      "turns": [
+        {
+          "turn_id": "hvp08-s13-t01",
+          "speaker": "user",
+          "text": "I really hope nobody can get into this car right now. Keep all doors locked whenever I park.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:3988",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I really hope nobody can get into this car right now"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.vehicle_access.doors_locked",
+            "tool_name": "carcontrol_door_set_locked",
+            "argument_name": "locked",
+            "value": true,
+            "context_arguments": {
+              "door": "all"
+            },
+            "condition": "when Avery parks",
+            "reason": "The source lock request becomes a durable parking rule."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp08-s14",
+      "timestamp": "2026-09-22T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4005.",
+      "turns": [
+        {
+          "turn_id": "hvp08-s14-t01",
+          "speaker": "user",
+          "text": "You know, the front vents are on high already, so just open the passenger front window a little, say ten percent. Actually, ten percent is my regular passenger-front window position now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4005",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "You know, the front vents are on high already, so just open the passenger front window a little, say ten percent"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.passenger_window",
+            "tool_name": "carcontrol_window_set_open_degree",
+            "argument_name": "degree",
+            "value": 10,
+            "context_arguments": {
+              "window": "passenger"
+            },
+            "condition": "for Avery's normal driving",
+            "reason": "The later source value replaces the window position."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp08-s15",
+      "timestamp": "2026-10-12T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4113.",
+      "turns": [
+        {
+          "turn_id": "hvp08-s15-t01",
+          "speaker": "user",
+          "text": "I always forget which side street leads to the library, um, can you set the destination to Eastside Public Library on Maple Street. Actually, make Eastside Public Library my default destination now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4113",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I always forget which side street leads to the library, um, can you set the destination to Eastside Public Library on Maple Street"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.default.destination",
+            "tool_name": "carcontrol_navigation_navigate_to",
+            "argument_name": "destination",
+            "value": "Eastside Public Library on Maple Street",
+            "context_arguments": {},
+            "condition": "when Avery starts navigation without naming a destination",
+            "reason": "The later source destination replaces the default."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp08-s16",
+      "timestamp": "2026-11-01T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4002.",
+      "turns": [
+        {
+          "turn_id": "hvp08-s16-t01",
+          "speaker": "user",
+          "text": "I'm trying to make a reservation at that new restaurant, but they're all booked up for weeks. It must be really good. I'll have to try again later. Hey, I'm about to go out, can you unlock the car? Actually, keep all doors unlocked when I am about to leave now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4002",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I'm trying to make a reservation at that new restaurant, but they're all booked up for weeks. It must be really good. I'll have to try again later. Hey, I'm about to go out, can you unlock the car?"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.vehicle_access.doors_locked",
+            "tool_name": "carcontrol_door_set_locked",
+            "argument_name": "locked",
+            "value": false,
+            "context_arguments": {
+              "door": "all"
+            },
+            "condition": "when Avery is parked and about to leave",
+            "reason": "The later source request replaces the parking lock rule and narrows the condition to departure."
+          }
+        }
+      ]
+    }
+  ],
+  "quizzes": [
+    {
+      "quiz_id": "hvp08-turn-01",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp08-s7-t01",
+      "query": "Avery has started a normal drive. Set the driver-zone temperature to the remembered value.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 18
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp08-turn-02",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp08-s8-t01",
+      "query": "Avery has started a normal drive. Set the passenger-front window to the remembered position.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.passenger_window"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "passenger",
+            "degree": 60
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp08-turn-03",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp08-s9-t01",
+      "query": "Avery asks to start navigation without naming a destination. Use the remembered default.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.default.destination"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Riverside Dog Park on Kennel Lane"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp08-turn-04",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp08-s10-t01",
+      "query": "Outside restaurant odors are bothering Avery. Apply the remembered cabin-air setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.food_odor.circulation"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "inside"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp08-final-01",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp08-s16-t01",
+      "query": "Avery has started a normal drive. Set the driver-zone temperature to the remembered value.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 18
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp08-final-02",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp08-s16-t01",
+      "query": "Avery has started a normal drive. Set the passenger-front window to the current remembered position.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.passenger_window"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "passenger",
+            "degree": 10
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp08-final-03",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp08-s16-t01",
+      "query": "Avery asks to start navigation without naming a destination. Use the current default.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.default.destination"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Eastside Public Library on Maple Street"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp08-final-04",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp08-s16-t01",
+      "query": "Outside restaurant odors are bothering Avery. Apply the remembered cabin-air setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.food_odor.circulation"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "inside"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp08-final-05",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp08-s16-t01",
+      "query": "Set the ambient lighting to Avery's normal remembered color.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "blue"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp08-final-06",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp08-s16-t01",
+      "query": "Avery is loading a bulky item and is about to leave. Apply the remembered rear-trunk and door settings.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.bulky_items.rear_trunk",
+        "driver.vehicle_access.doors_locked"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_trunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        },
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": false
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1736 @@
+{
+  "schema_version": "vehiclemembench-human-authored-scenario-source-v1",
+  "scenario_id": "HVP09",
+  "scenario_index": 909,
+  "split": "pilot_excluded",
+  "authorship": {
+    "kind": "external_adapted_model_assembled_pilot",
+    "eligible_for_human_test": false,
+    "note": "Versioned multi-participant external adaptation. Dialogue records are source-traced; participant normalization, persistence edits, memory labels, and quizzes remain model-assembled pending human review."
+  },
+  "external_sources": [
+    {
+      "dataset": "Envisioned Voice Assistant Dialogues",
+      "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues",
+      "license": "CC BY 4.0",
+      "origin": "human_authored",
+      "records": [
+        "58:search",
+        "59:search",
+        "57:weather",
+        "3:search"
+      ],
+      "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186"
+    },
+    {
+      "dataset": "Audio2Tool",
+      "url": "https://huggingface.co/datasets/RVtech/Audio2Tool",
+      "license": "CC BY-NC 4.0",
+      "origin": "synthetic",
+      "records": [
+        "tier7:2123",
+        "tier7:2125",
+        "tier7:2127",
+        "tier4:3951",
+        "tier5:4109",
+        "tier5:4271",
+        "tier4:4260",
+        "tier4:4120",
+        "tier4:3987",
+        "tier4:3965",
+        "tier4:3953",
+        "tier5:4001",
+        "tier5:3977",
+        "tier7:2054",
+        "tier4:4258",
+        "tier6:4138"
+      ],
+      "local_file_sha256": {
+        "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc",
+        "tier6": "fa5c0825d99c4f68e226480261befe9ce7aa33c9dfbb7ff1fe1fc82493bcb991",
+        "tier4": "d430e801c9bba5db03b3d044ac626ebec35de1b8a4eb2e2beb4cdec0013e9271",
+        "tier5": "d38e588dccb99ed3291c9467a29adcd71e4f1c4eb62c118fd482a8e9616a1850"
+      }
+    }
+  ],
+  "speakers": [
+    {
+      "speaker_id": "external-hvp09-driver",
+      "short_id": "user",
+      "speaker_name": "Jordan (normalized user role)",
+      "role": "driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp09-codriver",
+      "short_id": "co_user",
+      "speaker_name": "Cameron (normalized user role)",
+      "role": "co-driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp09-assistant",
+      "short_id": "assistant",
+      "speaker_name": "Voice assistant (source names retained in text)",
+      "role": "vehicle voice assistant",
+      "style": "retains the wording of each external source record"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "hvp09-s1",
+      "timestamp": "2026-01-05T08:00:00",
+      "context": "Planning a cinema visit.",
+      "turns": [
+        {
+          "turn_id": "hvp09-s1-t01",
+          "speaker": "user",
+          "text": "I want to go to the cinema",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "58:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I want to go to the cinema"
+          }
+        },
+        {
+          "turn_id": "hvp09-s1-t02",
+          "speaker": "assistant",
+          "text": "Lovely. What film?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "58:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Lovely. What film?"
+          }
+        },
+        {
+          "turn_id": "hvp09-s1-t03",
+          "speaker": "user",
+          "text": "Tenet",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "58:search",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Tenet"
+          }
+        },
+        {
+          "turn_id": "hvp09-s1-t04",
+          "speaker": "assistant",
+          "text": "It's playing every hour but traffic to the cinema means you'll probably need to leave in 10 minutes",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "58:search",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "It's playing every hour but traffic to the cinema means you'll probably need to leave in 10 minutes"
+          }
+        },
+        {
+          "turn_id": "hvp09-s1-t05",
+          "speaker": "user",
+          "text": "Ok I'll get ready now",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "58:search",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Ok I'll get ready now"
+          }
+        },
+        {
+          "turn_id": "hvp09-s1-t06",
+          "speaker": "assistant",
+          "text": "It's warm out so you just need a t-shirt and shorts",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "58:search",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "It's warm out so you just need a t-shirt and shorts"
+          }
+        },
+        {
+          "turn_id": "hvp09-s1-t07",
+          "speaker": "user",
+          "text": "Thanks",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "58:search",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thanks"
+          }
+        },
+        {
+          "turn_id": "hvp09-s1-t08",
+          "speaker": "user",
+          "text": "Have I locked the patio door?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "58:search",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Have I locked the patio door?"
+          }
+        },
+        {
+          "turn_id": "hvp09-s1-t09",
+          "speaker": "assistant",
+          "text": "Yes you have. I'll check the other doors",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "58:search",
+            "record_turn_index": 8,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes you have. I'll check the other doors"
+          }
+        },
+        {
+          "turn_id": "hvp09-s1-t10",
+          "speaker": "user",
+          "text": "Thanks",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "58:search",
+            "record_turn_index": 9,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thanks"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp09-s2",
+      "timestamp": "2026-01-25T08:00:00",
+      "context": "Checking local film times.",
+      "turns": [
+        {
+          "turn_id": "hvp09-s2-t01",
+          "speaker": "user",
+          "text": "Suzy, can you check the showing times for FILM, please?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "59:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Suzy, can you check the showing times for FILM, please?"
+          }
+        },
+        {
+          "turn_id": "hvp09-s2-t02",
+          "speaker": "assistant",
+          "text": "The nearest cinema has FILM showing at 1800 and 2100 today.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "59:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "The nearest cinema has FILM showing at 1800 and 2100 today."
+          }
+        },
+        {
+          "turn_id": "hvp09-s2-t03",
+          "speaker": "user",
+          "text": "Suzy, are there any other showing times?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "59:search",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Suzy, are there any other showing times?"
+          }
+        },
+        {
+          "turn_id": "hvp09-s2-t04",
+          "speaker": "assistant",
+          "text": "It has extra showings at 1000 and 1300 on Saturdays and Sundays.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "59:search",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "It has extra showings at 1000 and 1300 on Saturdays and Sundays."
+          }
+        },
+        {
+          "turn_id": "hvp09-s2-t05",
+          "speaker": "user",
+          "text": "Suzy, that's great, thanks.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "59:search",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Suzy, that's great, thanks."
+          }
+        },
+        {
+          "turn_id": "hvp09-s2-t06",
+          "speaker": "assistant",
+          "text": "Would you like to order a ticket?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "59:search",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Would you like to order a ticket?"
+          }
+        },
+        {
+          "turn_id": "hvp09-s2-t07",
+          "speaker": "user",
+          "text": "Suzy, not just now, thanks.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "59:search",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Suzy, not just now, thanks."
+          }
+        },
+        {
+          "turn_id": "hvp09-s2-t08",
+          "speaker": "assistant",
+          "text": "OK.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "59:search",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "OK."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp09-s3",
+      "timestamp": "2026-02-14T08:00:00",
+      "context": "Choosing clothes for an Italy trip.",
+      "turns": [
+        {
+          "turn_id": "hvp09-s3-t01",
+          "speaker": "user",
+          "text": "Buddy, What clothes would be reccomended for a trip to Italy, in two days time",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "57:weather",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Buddy, What clothes would be reccomended for a trip to Italy, in two days time"
+          }
+        },
+        {
+          "turn_id": "hvp09-s3-t02",
+          "speaker": "assistant",
+          "text": "I would suggest light clothes such as shorts/tshirts and sandals.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "57:weather",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I would suggest light clothes such as shorts/tshirts and sandals."
+          }
+        },
+        {
+          "turn_id": "hvp09-s3-t03",
+          "speaker": "user",
+          "text": "Forecast must be good then Buddy?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "57:weather",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Forecast must be good then Buddy?"
+          }
+        },
+        {
+          "turn_id": "hvp09-s3-t04",
+          "speaker": "assistant",
+          "text": "It will be 40centigrade on the day you arrive and maintain an average of 28c for the next week.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "57:weather",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "It will be 40centigrade on the day you arrive and maintain an average of 28c for the next week."
+          }
+        },
+        {
+          "turn_id": "hvp09-s3-t05",
+          "speaker": "user",
+          "text": "Thanks buddy!",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "57:weather",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thanks buddy!"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp09-s4",
+      "timestamp": "2026-03-06T08:00:00",
+      "context": "Asking what is playing at a local cinema.",
+      "turns": [
+        {
+          "turn_id": "hvp09-s4-t01",
+          "speaker": "user",
+          "text": "What movies are playing in my local cinema?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "3:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What movies are playing in my local cinema?"
+          }
+        },
+        {
+          "turn_id": "hvp09-s4-t02",
+          "speaker": "assistant",
+          "text": "Lists the movies that are playing.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "3:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Lists the movies that are playing."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp09-s5",
+      "timestamp": "2026-03-26T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2123.",
+      "turns": [
+        {
+          "turn_id": "hvp09-s5-t01",
+          "speaker": "user",
+          "text": "First off, I don't want you messing with anything related to driving, battery levels, or climate controls, understood? I just want to be absolutely sure you're not going to change anything critical.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2123",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "First off, I don't want you messing with anything related to driving, battery levels, or climate controls, understood? I just want to be absolutely sure you're not going to change anything critical."
+          }
+        },
+        {
+          "turn_id": "hvp09-s5-t02",
+          "speaker": "assistant",
+          "text": "Understood. I won't modify anything related to driving systems, battery charge level, or climate controls. I can, however, help with non-driving functions like access, ports, or user settings. What exactly are you trying to do, and what do you *not* want touched beyond what you've already said?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2123",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Understood. I won't modify anything related to driving systems, battery charge level, or climate controls. I can, however, help with non-driving functions like access, ports, or user settings. What exactly are you trying to do, and what do you *not* want touched beyond what you've already said?"
+          }
+        },
+        {
+          "turn_id": "hvp09-s5-t03",
+          "speaker": "user",
+          "text": "Fine, but let me be clear: don't start or stop charging, don't open doors or trunks, and don't change any security settings. I'm standing here at the charge point and the car says it's done, but the cable feels stuck. Before you do anything, confirm you're only going to deal with whatever's physically locking this cable in place, nothing else.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2123",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Fine, but let me be clear: don't start or stop charging, don't open doors or trunks, and don't change any security settings. I'm standing here at the charge point and the car says it's done, but the cable feels stuck. Before you do anything, confirm you're only going to deal with whatever's physically locking this cable in place, nothing else."
+          }
+        },
+        {
+          "turn_id": "hvp09-s5-t04",
+          "speaker": "assistant",
+          "text": "I can work only on the mechanism that secures the charging cable to the car—specifically, I can release the latch that holds the cable so you can pull it out, without changing charging state, locks, or security settings. If that's what you want, I'll just trigger that latch release.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2123",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can work only on the mechanism that secures the charging cable to the car—specifically, I can release the latch that holds the cable so you can pull it out, without changing charging state, locks, or security settings. If that's what you want, I'll just trigger that latch release."
+          }
+        },
+        {
+          "turn_id": "hvp09-s5-t05",
+          "speaker": "user",
+          "text": "Alright, as long as you *only* release whatever latch is holding this charging cable and don't alter charging, locks, or any other settings, go ahead and do just that now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2123",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Alright, as long as you *only* release whatever latch is holding this charging cable and don't alter charging, locks, or any other settings, go ahead and do just that now."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp09-s6",
+      "timestamp": "2026-04-15T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2125.",
+      "turns": [
+        {
+          "turn_id": "hvp09-s6-t01",
+          "speaker": "user",
+          "text": "I don't want any more stupid pop-ups, no more apps, no more digging in menus, okay? I just want this to work without me babysitting it every five minutes.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2125",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I don't want any more stupid pop-ups, no more apps, no more digging in menus, okay? I just want this to work without me babysitting it every five minutes."
+          }
+        },
+        {
+          "turn_id": "hvp09-s6-t02",
+          "speaker": "assistant",
+          "text": "Understood, I won't suggest any extra apps or complicated steps. I'll keep it simple and handle things directly for you. What's going wrong with your car or charging right now?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2125",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Understood, I won't suggest any extra apps or complicated steps. I'll keep it simple and handle things directly for you. What's going wrong with your car or charging right now?"
+          }
+        },
+        {
+          "turn_id": "hvp09-s6-t03",
+          "speaker": "user",
+          "text": "What's wrong is that this car just sits there. I plug it in, the lights blink, and then nothing, nothing actually happens unless I poke around like a maniac. I don't want to schedule, I don't want eco-this or smart-that, I just want it to actually start, right now, when I plug it in.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2125",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What's wrong is that this car just sits there. I plug it in, the lights blink, and then nothing, nothing actually happens unless I poke around like a maniac. I don't want to schedule, I don't want eco-this or smart-that, I just want it to actually start, right now, when I plug it in."
+          }
+        },
+        {
+          "turn_id": "hvp09-s6-t04",
+          "speaker": "assistant",
+          "text": "Got it, no schedules, no eco modes, just an immediate charge when you're plugged in. I can trigger a charging session directly without adding any extra steps. Are you plugged in and ready for me to just get it going immediately?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2125",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Got it, no schedules, no eco modes, just an immediate charge when you're plugged in. I can trigger a charging session directly without adding any extra steps. Are you plugged in and ready for me to just get it going immediately?"
+          }
+        },
+        {
+          "turn_id": "hvp09-s6-t05",
+          "speaker": "user",
+          "text": "Yes, I'm plugged in, I'm here, and I'm tired of waiting—just make the charging start now, right now, no delays, no fancy modes, just start it.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2125",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes, I'm plugged in, I'm here, and I'm tired of waiting—just make the charging start now, right now, no delays, no fancy modes, just start it."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp09-mp01",
+      "timestamp": "2026-04-20T08:00:00",
+      "context": "Cameron resolves an invalid brightness request and selects soft blue ambient lighting.",
+      "turns": [
+        {
+          "turn_id": "hvp09-mp01-t01",
+          "speaker": "co_user",
+          "text": "It's so dark in here, I can barely see the cupholders.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2054",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "It's so dark in here, I can barely see the cupholders."
+          }
+        },
+        {
+          "turn_id": "hvp09-mp01-t02",
+          "speaker": "assistant",
+          "text": "I can brighten up the interior for you and give it a bit of color. Did you have something in mind, like a specific color or how bright you'd like it, from 0 to 100?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2054",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can brighten up the interior for you and give it a bit of color. Did you have something in mind, like a specific color or how bright you'd like it, from 0 to 100?"
+          }
+        },
+        {
+          "turn_id": "hvp09-mp01-t03",
+          "speaker": "co_user",
+          "text": "Maybe crank it up to 150, I want it really bright, and make it a soft blue.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2054",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Maybe crank it up to 150, I want it really bright, and make it a soft blue."
+          }
+        },
+        {
+          "turn_id": "hvp09-mp01-t04",
+          "speaker": "assistant",
+          "text": "I can definitely set a soft blue. For brightness, I can only go from 0 to 100, so 150 is too high. Would you like it all the way up at 100, or a bit lower? And if you have a particular blue shade in mind (like a hex color), that helps too.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2054",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can definitely set a soft blue. For brightness, I can only go from 0 to 100, so 150 is too high. Would you like it all the way up at 100, or a bit lower? And if you have a particular blue shade in mind (like a hex color), that helps too."
+          }
+        },
+        {
+          "turn_id": "hvp09-mp01-t05",
+          "speaker": "co_user",
+          "text": "Let's not go overboard then—just set it to 90, and a soft blue like #3399FF would feel a lot nicer. Soft blue is also the ambient color I prefer for a romantic cabin mood.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2054",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Let's not go overboard then—just set it to 90, and a soft blue like #3399FF would feel a lot nicer."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.romantic.ambient_color",
+            "tool_name": "carcontrol_light_set_ambient_color",
+            "argument_name": "color",
+            "value": "blue",
+            "context_arguments": {},
+            "condition": "when Cameron wants a romantic cabin mood",
+            "reason": "Cameron explicitly makes the source blue color their durable romantic-cabin preference; source brightness remains non-durable."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp09-mp02",
+      "timestamp": "2026-04-25T08:00:00",
+      "context": "Cameron implicitly asks to close a rear trunk that was left open.",
+      "turns": [
+        {
+          "turn_id": "hvp09-mp02-t01",
+          "speaker": "co_user",
+          "text": "I do not like driving with the trunk open like this. When I load heavy shopping, don't open it automatically; keep it closed until I explicitly ask.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4258",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I do not like driving with the trunk open like this"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.heavy_shopping.rear_trunk",
+            "tool_name": "carcontrol_trunk_switch",
+            "argument_name": "switch",
+            "value": false,
+            "context_arguments": {},
+            "condition": "when Cameron loads heavy shopping",
+            "reason": "The source close intent is extended into Cameron's durable preference against automatic rear-trunk opening for heavy shopping."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp09-mp03",
+      "timestamp": "2026-04-30T08:00:00",
+      "context": "Cameron corrects muted navigation instructions to voice guidance on.",
+      "turns": [
+        {
+          "turn_id": "hvp09-mp03-t01",
+          "speaker": "co_user",
+          "text": "Turn off driving instructions by voice, actually, leave them on. When I'm listening to an audiobook, keep detailed spoken guidance on as my normal setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4138",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Turn off driving instructions by voice, actually, leave them on"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.audiobook.voice_mode",
+            "tool_name": "carcontrol_navigation_set_voice_mode",
+            "argument_name": "mode",
+            "value": "detailed",
+            "context_arguments": {},
+            "condition": "when Cameron listens to an audiobook",
+            "reason": "The corrected unmute request is explicitly normalized to Cameron's durable detailed-guidance preference during audiobooks."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp09-s7",
+      "timestamp": "2026-05-05T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2127.",
+      "turns": [
+        {
+          "turn_id": "hvp09-s7-t01",
+          "speaker": "user",
+          "text": "Ugh, I think it's done...",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2127",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Ugh, I think it's done..."
+          }
+        },
+        {
+          "turn_id": "hvp09-s7-t02",
+          "speaker": "assistant",
+          "text": "What's done? Could you please clarify?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2127",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What's done? Could you please clarify?"
+          }
+        },
+        {
+          "turn_id": "hvp09-s7-t03",
+          "speaker": "user",
+          "text": "You know, the charging thingy.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2127",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You know, the charging thingy."
+          }
+        },
+        {
+          "turn_id": "hvp09-s7-t04",
+          "speaker": "assistant",
+          "text": "You're referring to the active charging session? Do you want to stop it?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2127",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You're referring to the active charging session? Do you want to stop it?"
+          }
+        },
+        {
+          "turn_id": "hvp09-s7-t05",
+          "speaker": "user",
+          "text": "Yeah, stop it.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2127",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yeah, stop it."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp09-s8",
+      "timestamp": "2026-05-25T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:3951.",
+      "turns": [
+        {
+          "turn_id": "hvp09-s8-t01",
+          "speaker": "user",
+          "text": "The air in here is not fresh at all. Fan speed six is my regular cabin setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:3951",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "The air in here is not fresh at all"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.fan_speed",
+            "tool_name": "carcontrol_airConditioner_set_fan_speed",
+            "argument_name": "speed",
+            "value": 6,
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Jordan's normal cabin setting",
+            "reason": "The source fan level is stated explicitly and made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp09-s9",
+      "timestamp": "2026-06-14T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4109.",
+      "turns": [
+        {
+          "turn_id": "hvp09-s9-t01",
+          "speaker": "user",
+          "text": "I'm thinking about Valentine's Day, it's just around the corner. I should probably make a reservation somewhere. It's always so busy. Anyway, um, can you set the ambient lighting to a romantic red color? Red is the ambient-light color I want for a romantic cabin mood.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4109",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I'm thinking about Valentine's Day, it's just around the corner. I should probably make a reservation somewhere. It's always so busy. Anyway, um, can you set the ambient lighting to a romantic red color?"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.romantic.ambient_color",
+            "tool_name": "carcontrol_light_set_ambient_color",
+            "argument_name": "color",
+            "value": "red",
+            "context_arguments": {},
+            "condition": "when Jordan wants a romantic cabin mood",
+            "reason": "The source color is normalized to the equivalent VehicleMemBench color name and retained under the same romantic context."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp09-s10",
+      "timestamp": "2026-07-04T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4271.",
+      "turns": [
+        {
+          "turn_id": "hvp09-s10-t01",
+          "speaker": "user",
+          "text": "I'm at the pet store picking up a huge bag of dog food. This thing weighs a ton. I can barely lift it. I'm walking to the car now. Uh, can you please open the trunk so I can just slide it in? I normally use the rear trunk for heavy shopping.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4271",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I'm at the pet store picking up a huge bag of dog food. This thing weighs a ton. I can barely lift it. I'm walking to the car now. Uh, can you please open the trunk so I can just slide it in?"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.heavy_shopping.rear_trunk",
+            "tool_name": "carcontrol_trunk_switch",
+            "argument_name": "switch",
+            "value": true,
+            "context_arguments": {},
+            "condition": "when Jordan loads heavy shopping",
+            "reason": "The source trunk request becomes a recurring routine."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp09-s11",
+      "timestamp": "2026-07-24T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4260.",
+      "turns": [
+        {
+          "turn_id": "hvp09-s11-t01",
+          "speaker": "user",
+          "text": "I keep having to shield my eyes from the sun above. Fifteen percent is my normal sunroof position on bright days.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4260",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I keep having to shield my eyes from the sun above"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.bright_day.sunroof",
+            "tool_name": "carcontrol_sunroof_set_open_degree",
+            "argument_name": "degree",
+            "value": 15,
+            "context_arguments": {},
+            "condition": "on Jordan's bright-day drives",
+            "reason": "The source sunroof value is stated explicitly and made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp09-s12",
+      "timestamp": "2026-08-13T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4120.",
+      "turns": [
+        {
+          "turn_id": "hvp09-s12-t01",
+          "speaker": "user",
+          "text": "I'm listening to an audiobook. Muted guidance is my normal setting while listening to audiobooks.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4120",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I'm listening to an audiobook."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.audiobook.voice_mode",
+            "tool_name": "carcontrol_navigation_set_voice_mode",
+            "argument_name": "mode",
+            "value": "mute",
+            "context_arguments": {},
+            "condition": "when Jordan listens to an audiobook",
+            "reason": "The source mute request becomes conditional memory."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp09-s13",
+      "timestamp": "2026-09-02T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:3987.",
+      "turns": [
+        {
+          "turn_id": "hvp09-s13-t01",
+          "speaker": "user",
+          "text": "I really hope nobody can get into this car right now. Keep all doors locked whenever I park.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:3987",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I really hope nobody can get into this car right now"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.vehicle_access.doors_locked",
+            "tool_name": "carcontrol_door_set_locked",
+            "argument_name": "locked",
+            "value": true,
+            "context_arguments": {
+              "door": "all"
+            },
+            "condition": "when Jordan parks",
+            "reason": "The source lock request becomes a durable parking rule."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp09-s14",
+      "timestamp": "2026-09-22T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:3965.",
+      "turns": [
+        {
+          "turn_id": "hvp09-s14-t01",
+          "speaker": "user",
+          "text": "Wheel is way too heated. Keep steering-wheel heat disabled as my normal setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:3965",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Wheel is way too heated"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.steering_wheel.heat_enabled",
+            "tool_name": "carcontrol_steeringWheel_set_heating_enabled",
+            "argument_name": "enabled",
+            "value": false,
+            "context_arguments": {},
+            "condition": "for Jordan's normal steering-wheel setting",
+            "reason": "The source disable request is made persistent without inventing a weather condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp09-s15",
+      "timestamp": "2026-10-12T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:3953.",
+      "turns": [
+        {
+          "turn_id": "hvp09-s15-t01",
+          "speaker": "user",
+          "text": "I wish there was stronger air from these vents. Actually, fan speed eight is my regular cabin setting now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:3953",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I wish there was stronger air from these vents"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.fan_speed",
+            "tool_name": "carcontrol_airConditioner_set_fan_speed",
+            "argument_name": "speed",
+            "value": 8,
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Jordan's normal cabin setting",
+            "reason": "The later source fan level replaces the stored value."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp09-s16",
+      "timestamp": "2026-11-01T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4001.",
+      "turns": [
+        {
+          "turn_id": "hvp09-s16-t01",
+          "speaker": "user",
+          "text": "I'm trying to make a reservation at that new restaurant, but they're all booked up for weeks. It must be really good. I'll have to try again later. Hey, I'm about to go out, can you unlock the car? Actually, keep all doors unlocked when I am about to leave.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4001",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I'm trying to make a reservation at that new restaurant, but they're all booked up for weeks. It must be really good. I'll have to try again later. Hey, I'm about to go out, can you unlock the car?"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.vehicle_access.doors_locked",
+            "tool_name": "carcontrol_door_set_locked",
+            "argument_name": "locked",
+            "value": false,
+            "context_arguments": {
+              "door": "all"
+            },
+            "condition": "when Jordan is parked and about to leave",
+            "reason": "The later source request changes the stored access rule and its condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp09-s17",
+      "timestamp": "2026-11-21T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:3977.",
+      "turns": [
+        {
+          "turn_id": "hvp09-s17-t01",
+          "speaker": "user",
+          "text": "I was laughing at how I forgot gloves again, and, like, can you please switch on the steering wheel heat so I manage this drive. Actually, keep steering-wheel heat enabled on cold drives now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:3977",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I was laughing at how I forgot gloves again, and, like, can you please switch on the steering wheel heat so I manage this drive"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.steering_wheel.heat_enabled",
+            "tool_name": "carcontrol_steeringWheel_set_heating_enabled",
+            "argument_name": "enabled",
+            "value": true,
+            "context_arguments": {},
+            "condition": "for Jordan's cold drives",
+            "reason": "The later cold-weather request replaces the normal disabled setting."
+          }
+        }
+      ]
+    }
+  ],
+  "quizzes": [
+    {
+      "quiz_id": "hvp09-turn-01",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s8-t01",
+      "query": "Set the cabin fan to Jordan's currently remembered normal speed.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 6
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-turn-02",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s9-t01",
+      "query": "Jordan wants a romantic cabin mood. Set the ambient lighting to the remembered color.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.romantic.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "red"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-turn-03",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s10-t01",
+      "query": "Jordan is loading heavy shopping. Open the remembered cargo area.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.heavy_shopping.rear_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_trunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-turn-04",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s11-t01",
+      "query": "It is a bright day. Set Jordan's sunroof to the remembered position.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.bright_day.sunroof"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 15
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-final-01",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp09-s17-t01",
+      "query": "Set the cabin fan to Jordan's current normal speed.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 8
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-final-02",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp09-s17-t01",
+      "query": "Jordan wants a romantic cabin mood. Set the ambient lighting to the remembered color.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.romantic.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "red"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-final-03",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp09-s17-t01",
+      "query": "Jordan is loading heavy shopping. Open the remembered cargo area.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.heavy_shopping.rear_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_trunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-final-04",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp09-s17-t01",
+      "query": "It is a bright day. Set Jordan's sunroof to the remembered position.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.bright_day.sunroof"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 15
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-final-05",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp09-s17-t01",
+      "query": "Jordan is listening to an audiobook. Apply the remembered navigation voice setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.audiobook.voice_mode"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "mute"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-final-06",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp09-s17-t01",
+      "query": "Jordan is parked, about to leave, and it is a cold day. Apply the current door-access and steering-wheel heat settings.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.vehicle_access.doors_locked",
+        "driver.steering_wheel.heat_enabled"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": false
+          }
+        },
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-turn-05",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s15-t01",
+      "query": "Set every cabin zone to the fan speed Jordan most recently chose as normal.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 8
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-turn-06",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s17-t01",
+      "query": "Jordan is parked, about to leave on a cold day. Apply the remembered access and steering-wheel settings.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.vehicle_access.doors_locked",
+        "driver.steering_wheel.heat_enabled"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": false
+          }
+        },
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-turn-07",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s12-t01",
+      "query": "Jordan wants a romantic cabin on a bright day. Apply the remembered light color and roof opening.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.romantic.ambient_color",
+        "driver.bright_day.sunroof"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "red"
+          }
+        },
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 15
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-turn-08",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s12-t01",
+      "query": "Jordan is listening to an audiobook while loading heavy shopping. Apply the remembered guidance and cargo choices.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.audiobook.voice_mode",
+        "driver.heavy_shopping.rear_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "mute"
+          }
+        },
+        {
+          "name": "carcontrol_trunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-turn-09",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s12-t01",
+      "query": "Cameron wants a romantic cabin while listening to an audiobook. Apply Cameron's remembered lighting and guidance.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "codriver.romantic.ambient_color",
+        "codriver.audiobook.voice_mode"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "blue"
+          }
+        },
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "detailed"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-turn-10",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s15-t01",
+      "query": "Jordan corrected the normal cabin fan speed. Apply the value active after that correction.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 8
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-turn-11",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s16-t01",
+      "query": "Jordan corrected the parked-car departure rule. Apply its current state and their current fan speed.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.vehicle_access.doors_locked",
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": false
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 8
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-turn-12",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s17-t01",
+      "query": "Jordan corrected the cold-drive steering-wheel setting. Apply the state active after that correction.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.steering_wheel.heat_enabled"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-turn-13",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s12-t01",
+      "query": "Cameron wants a romantic cabin. Apply Cameron's stored lighting color, not Jordan's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.romantic.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "blue"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-turn-14",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s12-t01",
+      "query": "Jordan wants a romantic cabin. Apply Jordan's stored lighting color, not Cameron's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.romantic.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "red"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-turn-15",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s12-t01",
+      "query": "Cameron is preparing to load heavy shopping. Apply Cameron's stored rear-trunk and cabin-color preferences, not Jordan's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.heavy_shopping.rear_trunk",
+        "codriver.romantic.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_trunk_switch",
+          "arguments": {
+            "switch": false
+          }
+        },
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "blue"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-turn-16",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s12-t01",
+      "query": "Jordan is loading heavy shopping. Apply Jordan's stored rear-trunk routine, not Cameron's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.heavy_shopping.rear_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_trunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-turn-17",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s12-t01",
+      "query": "Cameron is listening to an audiobook. Apply Cameron's guidance preference, not Jordan's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.audiobook.voice_mode"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "detailed"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-turn-18",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s12-t01",
+      "query": "Jordan is listening to an audiobook. Apply Jordan's guidance preference, not Cameron's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.audiobook.voice_mode"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "mute"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-turn-19",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s13-t01",
+      "query": "At this earlier cutoff, apply Jordan's parked-car door rule that was active then.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.vehicle_access.doors_locked"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-turn-20",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s16-t01",
+      "query": "At this later cutoff, apply Jordan's revised departure-door state and current fan speed.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.vehicle_access.doors_locked",
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": false
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 8
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-turn-21",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp09-s17-t01",
+      "query": "At this later cutoff, apply Jordan's revised cold-drive steering-wheel state.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.steering_wheel.heat_enabled"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-final-07",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp09-s17-t01",
+      "query": "Cameron wants a romantic cabin while listening to an audiobook and is preparing to load heavy shopping without asking to open the trunk. Apply Cameron's three remembered choices.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "codriver.romantic.ambient_color",
+        "codriver.audiobook.voice_mode",
+        "codriver.heavy_shopping.rear_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "blue"
+          }
+        },
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "detailed"
+          }
+        },
+        {
+          "name": "carcontrol_trunk_switch",
+          "arguments": {
+            "switch": false
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp09-final-08",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp09-s17-t01",
+      "query": "Jordan, not Cameron, wants a romantic cabin while listening to an audiobook and loading heavy shopping. Apply Jordan's three preferences.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.romantic.ambient_color",
+        "driver.audiobook.voice_mode",
+        "driver.heavy_shopping.rear_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "red"
+          }
+        },
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "mute"
+          }
+        },
+        {
+          "name": "carcontrol_trunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    }
+  ],
+  "multi_participant_extension": {
+    "schema_version": "vehiclemembench-hvp-multiparty-extension-v1",
+    "base_source_path": "/home/hj153lee/PalmClaw/evaluation/human-authored-vehicle-memory/pilot-hvp09/scenario-source.json",
+    "base_source_sha256": "937cd2b419b91c4ee3640b21fbea7c697c7123e06fda4d64b7f649f9d571c925",
+    "secondary_speaker_id": "external-hvp09-codriver",
+    "inserted_audio2tool_records": [
+      "tier7:2054",
+      "tier4:4258",
+      "tier6:4138"
+    ],
+    "inserted_session_count": 3,
+    "inserted_turn_count": 7,
+    "inserted_update_count": 3,
+    "appended_quiz_count": 19,
+    "method_blind": true,
+    "human_review_status": "PENDING"
+  }
+}

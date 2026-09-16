@@ -1,0 +1,173 @@
+{
+  "added_quiz_distribution": {
+    "FINAL::preference_conflict": 1,
+    "TURN::coreference_resolution": 5,
+    "TURN::error_correction": 2,
+    "TURN::preference_conflict": 7,
+    "TURN::state_shift": 4
+  },
+  "checks": {
+    "added_query_uniqueness": "PASS",
+    "base_quizzes_unchanged": "PASS",
+    "base_sessions_unchanged": "PASS",
+    "base_source_hash": "PASS",
+    "derived_source_hash": "PASS",
+    "extension_counts": "PASS",
+    "inserted_source_records_disjoint": "PASS",
+    "multiple_memory_owners": "PASS",
+    "official_builder_validation": "PASS",
+    "preference_conflict::hvp15-final-07": "PASS",
+    "preference_conflict::hvp15-turn-12": "PASS",
+    "preference_conflict::hvp15-turn-13": "PASS",
+    "preference_conflict::hvp15-turn-14": "PASS",
+    "preference_conflict::hvp15-turn-15": "PASS",
+    "preference_conflict::hvp15-turn-16": "PASS",
+    "preference_conflict::hvp15-turn-17": "PASS",
+    "preference_conflict::hvp15-turn-18": "PASS",
+    "preference_conflict_action_difference::hvp15-final-07": "PASS",
+    "preference_conflict_action_difference::hvp15-turn-12": "PASS",
+    "preference_conflict_action_difference::hvp15-turn-13": "PASS",
+    "preference_conflict_action_difference::hvp15-turn-14": "PASS",
+    "preference_conflict_action_difference::hvp15-turn-15": "PASS",
+    "preference_conflict_action_difference::hvp15-turn-16": "PASS",
+    "preference_conflict_action_difference::hvp15-turn-17": "PASS",
+    "preference_conflict_action_difference::hvp15-turn-18": "PASS",
+    "scenario_quota": "PASS"
+  },
+  "preference_conflict_audit": [
+    {
+      "gold_evidence": [
+        "- [2026-04-20 08:00] carcontrol_airConditioner_set_fan_speed.speed; value=3; context=(zone=\"all\"); condition=for Morgan's normal cabin setting"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-10-12 08:00] carcontrol_airConditioner_set_fan_speed.speed; value=8; context=(zone=\"all\"); condition=for Rowan's normal cabin setting"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-10-12 08:00] carcontrol_airConditioner_set_fan_speed.speed; value=8; context=(zone=\"all\"); condition=for Rowan's normal cabin setting"
+      ],
+      "quiz_id": "hvp15-turn-12"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-10-12 08:00] carcontrol_airConditioner_set_fan_speed.speed; value=8; context=(zone=\"all\"); condition=for Rowan's normal cabin setting"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-20 08:00] carcontrol_airConditioner_set_fan_speed.speed; value=3; context=(zone=\"all\"); condition=for Morgan's normal cabin setting"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-20 08:00] carcontrol_airConditioner_set_fan_speed.speed; value=3; context=(zone=\"all\"); condition=for Morgan's normal cabin setting"
+      ],
+      "quiz_id": "hvp15-turn-13"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-04-25 08:00] carcontrol_airConditioner_set_temperature.temperature; value=23; context=(zone=\"driver\"); condition=for Morgan's normal driving"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-11-01 08:00] carcontrol_airConditioner_set_temperature.temperature; value=18; context=(zone=\"driver\"); condition=for Rowan's normal driving"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-11-01 08:00] carcontrol_airConditioner_set_temperature.temperature; value=18; context=(zone=\"driver\"); condition=for Rowan's normal driving"
+      ],
+      "quiz_id": "hvp15-turn-14"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-11-01 08:00] carcontrol_airConditioner_set_temperature.temperature; value=18; context=(zone=\"driver\"); condition=for Rowan's normal driving"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-25 08:00] carcontrol_airConditioner_set_temperature.temperature; value=23; context=(zone=\"driver\"); condition=for Morgan's normal driving"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-25 08:00] carcontrol_airConditioner_set_temperature.temperature; value=23; context=(zone=\"driver\"); condition=for Morgan's normal driving"
+      ],
+      "quiz_id": "hvp15-turn-15"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-04-25 08:00] carcontrol_airConditioner_set_temperature.temperature; value=23; context=(zone=\"driver\"); condition=for Morgan's normal driving",
+        "- [2026-04-30 08:00] carcontrol_music_switch.switch; value=false; condition=when Morgan's audiobook stops unexpectedly"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-07-24 08:00] carcontrol_music_switch.switch; value=true; condition=when Rowan's audiobook stops unexpectedly",
+        "- [2026-11-01 08:00] carcontrol_airConditioner_set_temperature.temperature; value=18; context=(zone=\"driver\"); condition=for Rowan's normal driving"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-07-24 08:00] carcontrol_music_switch.switch; value=true; condition=when Rowan's audiobook stops unexpectedly",
+        "- [2026-11-01 08:00] carcontrol_airConditioner_set_temperature.temperature; value=18; context=(zone=\"driver\"); condition=for Rowan's normal driving"
+      ],
+      "quiz_id": "hvp15-turn-16"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-07-24 08:00] carcontrol_music_switch.switch; value=true; condition=when Rowan's audiobook stops unexpectedly"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-30 08:00] carcontrol_music_switch.switch; value=false; condition=when Morgan's audiobook stops unexpectedly"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-30 08:00] carcontrol_music_switch.switch; value=false; condition=when Morgan's audiobook stops unexpectedly"
+      ],
+      "quiz_id": "hvp15-turn-17"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-04-20 08:00] carcontrol_airConditioner_set_fan_speed.speed; value=3; context=(zone=\"all\"); condition=for Morgan's normal cabin setting",
+        "- [2026-04-25 08:00] carcontrol_airConditioner_set_temperature.temperature; value=23; context=(zone=\"driver\"); condition=for Morgan's normal driving",
+        "- [2026-04-30 08:00] carcontrol_music_switch.switch; value=false; condition=when Morgan's audiobook stops unexpectedly"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-07-24 08:00] carcontrol_music_switch.switch; value=true; condition=when Rowan's audiobook stops unexpectedly",
+        "- [2026-10-12 08:00] carcontrol_airConditioner_set_fan_speed.speed; value=8; context=(zone=\"all\"); condition=for Rowan's normal cabin setting",
+        "- [2026-11-01 08:00] carcontrol_airConditioner_set_temperature.temperature; value=18; context=(zone=\"driver\"); condition=for Rowan's normal driving"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-07-24 08:00] carcontrol_music_switch.switch; value=true; condition=when Rowan's audiobook stops unexpectedly",
+        "- [2026-10-12 08:00] carcontrol_airConditioner_set_fan_speed.speed; value=8; context=(zone=\"all\"); condition=for Rowan's normal cabin setting",
+        "- [2026-11-01 08:00] carcontrol_airConditioner_set_temperature.temperature; value=18; context=(zone=\"driver\"); condition=for Rowan's normal driving"
+      ],
+      "quiz_id": "hvp15-turn-18"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-10-12 08:00] carcontrol_airConditioner_set_fan_speed.speed; value=8; context=(zone=\"all\"); condition=for Rowan's normal cabin setting",
+        "- [2026-11-01 08:00] carcontrol_airConditioner_set_temperature.temperature; value=18; context=(zone=\"driver\"); condition=for Rowan's normal driving",
+        "- [2026-07-24 08:00] carcontrol_music_switch.switch; value=true; condition=when Rowan's audiobook stops unexpectedly"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-20 08:00] carcontrol_airConditioner_set_fan_speed.speed; value=3; context=(zone=\"all\"); condition=for Morgan's normal cabin setting",
+        "- [2026-04-25 08:00] carcontrol_airConditioner_set_temperature.temperature; value=23; context=(zone=\"driver\"); condition=for Morgan's normal driving",
+        "- [2026-04-30 08:00] carcontrol_music_switch.switch; value=false; condition=when Morgan's audiobook stops unexpectedly"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-20 08:00] carcontrol_airConditioner_set_fan_speed.speed; value=3; context=(zone=\"all\"); condition=for Morgan's normal cabin setting",
+        "- [2026-04-25 08:00] carcontrol_airConditioner_set_temperature.temperature; value=23; context=(zone=\"driver\"); condition=for Morgan's normal driving",
+        "- [2026-04-30 08:00] carcontrol_music_switch.switch; value=false; condition=when Morgan's audiobook stops unexpectedly"
+      ],
+      "quiz_id": "hvp15-final-07"
+    }
+  ],
+  "scenario_id": "HVP15",
+  "schema_version": "vehiclemembench-hvp-multiparty-validation-v1",
+  "scope": "deterministic validation; semantic review remains separate",
+  "semantic_review_status": "PENDING",
+  "statistics": {
+    "active_memory_slot_count": 10,
+    "add_count": 10,
+    "distinct_memory_tool_count": 7,
+    "final_quiz_count": 7,
+    "noop_count": 48,
+    "quiz_tool_call_count": 44,
+    "replace_count": 3,
+    "session_count": 19,
+    "speaker_count": 3,
+    "turn_count": 61,
+    "turn_quiz_count": 22,
+    "update_count": 13
+  },
+  "status": "PASS",
+  "update_owners": {
+    "external-hvp15-codriver": 3,
+    "external-hvp15-driver": 10
+  }
+}

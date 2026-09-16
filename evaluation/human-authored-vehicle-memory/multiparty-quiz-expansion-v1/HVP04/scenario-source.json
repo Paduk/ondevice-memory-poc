@@ -1,0 +1,1728 @@
+{
+  "schema_version": "vehiclemembench-human-authored-scenario-source-v1",
+  "scenario_id": "HVP04",
+  "scenario_index": 904,
+  "split": "pilot_excluded",
+  "authorship": {
+    "kind": "external_adapted_model_assembled_pilot",
+    "eligible_for_human_test": false,
+    "note": "Versioned multi-participant external adaptation. Dialogue records are source-traced; participant normalization, persistence edits, memory labels, and quizzes remain model-assembled pending human review."
+  },
+  "external_sources": [
+    {
+      "dataset": "Envisioned Voice Assistant Dialogues",
+      "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues",
+      "license": "CC BY 4.0",
+      "origin": "human_authored",
+      "records": [
+        "119:open",
+        "189:open",
+        "92:search",
+        "62:open"
+      ],
+      "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186"
+    },
+    {
+      "dataset": "Audio2Tool",
+      "url": "https://huggingface.co/datasets/RVtech/Audio2Tool",
+      "license": "CC BY-NC 4.0",
+      "origin": "synthetic",
+      "records": [
+        "tier7:1982",
+        "tier7:1989",
+        "tier7:1995",
+        "tier7:2000",
+        "tier7:2002",
+        "tier7:2004",
+        "tier4:3993",
+        "tier6:3965",
+        "tier6:4001",
+        "tier6:4005",
+        "tier6:4007",
+        "tier7:2102",
+        "tier7:241",
+        "tier7:340"
+      ],
+      "local_file_sha256": {
+        "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc",
+        "tier4": "d430e801c9bba5db03b3d044ac626ebec35de1b8a4eb2e2beb4cdec0013e9271",
+        "tier6": "fa5c0825d99c4f68e226480261befe9ce7aa33c9dfbb7ff1fe1fc82493bcb991"
+      }
+    }
+  ],
+  "speakers": [
+    {
+      "speaker_id": "external-hvp04-driver",
+      "short_id": "user",
+      "speaker_name": "Jordan (normalized user role)",
+      "role": "driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp04-codriver",
+      "short_id": "co_user",
+      "speaker_name": "Casey (normalized user role)",
+      "role": "co-driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp04-assistant",
+      "short_id": "assistant",
+      "speaker_name": "Voice assistant (source names retained in text)",
+      "role": "vehicle voice assistant",
+      "style": "retains the wording of each external source record"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "hvp04-s1",
+      "timestamp": "2026-01-13T15:10:00",
+      "context": "The driver asks for help after taking a wrong turn.",
+      "turns": [
+        {
+          "turn_id": "hvp04-s1-t01",
+          "speaker": "user",
+          "text": "Wanda what is the weather in Italy over the next 2 days?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "119:open",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Wanda what is the weather in Italy over the next 2 days?"
+          }
+        },
+        {
+          "turn_id": "hvp04-s1-t02",
+          "speaker": "assistant",
+          "text": "The weather is warm and sunny, 25 degrees with a low chance of rain",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "119:open",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "The weather is warm and sunny, 25 degrees with a low chance of rain"
+          }
+        },
+        {
+          "turn_id": "hvp04-s1-t03",
+          "speaker": "user",
+          "text": "Wanda I've taken a wrong turn. Direct me home please",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "119:open",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Wanda I've taken a wrong turn. Direct me home please"
+          }
+        },
+        {
+          "turn_id": "hvp04-s1-t04",
+          "speaker": "user",
+          "text": "Loading up the satnav now, take the next left",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "119:open",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Loading up the satnav now, take the next left"
+          }
+        },
+        {
+          "turn_id": "hvp04-s1-t05",
+          "speaker": "assistant",
+          "text": "Follow this road for 1 mile.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "119:open",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Follow this road for 1 mile."
+          }
+        },
+        {
+          "turn_id": "hvp04-s1-t06",
+          "speaker": "assistant",
+          "text": "Take the next right",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "119:open",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Take the next right"
+          }
+        },
+        {
+          "turn_id": "hvp04-s1-t07",
+          "speaker": "user",
+          "text": "Take the next left and home will be on the right",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "119:open",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Take the next left and home will be on the right"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp04-s2",
+      "timestamp": "2026-02-16T11:35:00",
+      "context": "The assistant diverts the route to a petrol station.",
+      "turns": [
+        {
+          "turn_id": "hvp04-s2-t01",
+          "speaker": "assistant",
+          "text": "Hi, you've got 20 miles of petrol left, its time to fill up soon",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "189:open",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hi, you've got 20 miles of petrol left, its time to fill up soon"
+          }
+        },
+        {
+          "turn_id": "hvp04-s2-t02",
+          "speaker": "user",
+          "text": "I hadn't realised. Is there a petrol station nearby?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "189:open",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I hadn't realised. Is there a petrol station nearby?"
+          }
+        },
+        {
+          "turn_id": "hvp04-s2-t03",
+          "speaker": "assistant",
+          "text": "There is a petrol station 8 miles away, would you like to head there now",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "189:open",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "There is a petrol station 8 miles away, would you like to head there now"
+          }
+        },
+        {
+          "turn_id": "hvp04-s2-t04",
+          "speaker": "user",
+          "text": "Yes please",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "189:open",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes please"
+          }
+        },
+        {
+          "turn_id": "hvp04-s2-t05",
+          "speaker": "assistant",
+          "text": "All sorted, I have diverted our journey, just follow the directions and you will reach the petrol station in around 13 minutes",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "189:open",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "All sorted, I have diverted our journey, just follow the directions and you will reach the petrol station in around 13 minutes"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp04-s3",
+      "timestamp": "2026-03-22T18:20:00",
+      "context": "The driver chooses a cinema showing and asks for the usual seat location.",
+      "turns": [
+        {
+          "turn_id": "hvp04-s3-t01",
+          "speaker": "user",
+          "text": "Alexa, I think I might go to the cinema this evening, what time are the blockbuster films on?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "92:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Alexa, I think I might go to the cinema this evening, what time are the blockbuster films on?"
+          }
+        },
+        {
+          "turn_id": "hvp04-s3-t02",
+          "speaker": "assistant",
+          "text": "There are a few blockbusters showing this evening, though you have already seen all but one, are you interested in watching one again, or should I look only for the new one?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "92:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "There are a few blockbusters showing this evening, though you have already seen all but one, are you interested in watching one again, or should I look only for the new one?"
+          }
+        },
+        {
+          "turn_id": "hvp04-s3-t03",
+          "speaker": "user",
+          "text": "Just the new one please",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "92:search",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Just the new one please"
+          }
+        },
+        {
+          "turn_id": "hvp04-s3-t04",
+          "speaker": "assistant",
+          "text": "Star Wars Episode X is on at 19:30, 21:50 and 22:50. If you leave in 10 minutes you could still catch the 19:30 one, as the traffic is light between here and the cinema.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "92:search",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Star Wars Episode X is on at 19:30, 21:50 and 22:50. If you leave in 10 minutes you could still catch the 19:30 one, as the traffic is light between here and the cinema."
+          }
+        },
+        {
+          "turn_id": "hvp04-s3-t05",
+          "speaker": "user",
+          "text": "Excellent, I will go for the 19:30",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "92:search",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Excellent, I will go for the 19:30"
+          }
+        },
+        {
+          "turn_id": "hvp04-s3-t06",
+          "speaker": "assistant",
+          "text": "Do you want me to book you a seat then?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "92:search",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Do you want me to book you a seat then?"
+          }
+        },
+        {
+          "turn_id": "hvp04-s3-t07",
+          "speaker": "user",
+          "text": "Yes please",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "92:search",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes please"
+          }
+        },
+        {
+          "turn_id": "hvp04-s3-t08",
+          "speaker": "assistant",
+          "text": "Usual location in the cinema",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "92:search",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Usual location in the cinema"
+          }
+        },
+        {
+          "turn_id": "hvp04-s3-t09",
+          "speaker": "user",
+          "text": "Yes please",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "92:search",
+            "record_turn_index": 8,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes please"
+          }
+        },
+        {
+          "turn_id": "hvp04-s3-t10",
+          "speaker": "assistant",
+          "text": "OK then, that is all booked for you. Enjoy the evening.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "92:search",
+            "record_turn_index": 9,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "OK then, that is all booked for you. Enjoy the evening."
+          }
+        },
+        {
+          "turn_id": "hvp04-s3-t11",
+          "speaker": "user",
+          "text": "Thank you",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "92:search",
+            "record_turn_index": 10,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thank you"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp04-s4",
+      "timestamp": "2026-04-12T08:05:00",
+      "context": "The driver asks the assistant to report changes to the current journey.",
+      "turns": [
+        {
+          "turn_id": "hvp04-s4-t01",
+          "speaker": "user",
+          "text": "Please can you give me all updates regarding our chosen journey",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "62:open",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Please can you give me all updates regarding our chosen journey"
+          }
+        },
+        {
+          "turn_id": "hvp04-s4-t02",
+          "speaker": "assistant",
+          "text": "Ofcourse I will let you know if there are any changes with our journey",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "62:open",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Ofcourse I will let you know if there are any changes with our journey"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp04-mp01",
+      "timestamp": "2026-04-17T08:05:00",
+      "context": "Casey chooses a warm driver-area temperature before selecting cooling mode.",
+      "turns": [
+        {
+          "turn_id": "hvp04-mp01-t01",
+          "speaker": "co_user",
+          "text": "Set temperature twenty-eight degrees.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2102",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Set temperature twenty-eight degrees."
+          }
+        },
+        {
+          "turn_id": "hvp04-mp01-t02",
+          "speaker": "assistant",
+          "text": "I'll set the cabin temperature to 28 degrees Celsius with automatic climate control. Would you like to adjust the HVAC mode as well?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2102",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'll set the cabin temperature to 28 degrees Celsius with automatic climate control. Would you like to adjust the HVAC mode as well?"
+          }
+        },
+        {
+          "turn_id": "hvp04-mp01-t03",
+          "speaker": "co_user",
+          "text": "Change it to cooling mode. Twenty-eight is also my usual driver-zone temperature in this car.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2102",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Change it to cooling mode."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.driver_zone.temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 28,
+            "context_arguments": {
+              "zone": "driver"
+            },
+            "condition": "for Casey's normal driving",
+            "reason": "The externally sourced vehicle temperature is scoped to Casey's persistent driver-zone preference."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp04-mp02",
+      "timestamp": "2026-04-22T08:05:00",
+      "context": "Casey selects a strong but non-maximum fan speed.",
+      "turns": [
+        {
+          "turn_id": "hvp04-mp02-t01",
+          "speaker": "co_user",
+          "text": "Fan too slow, make strong!",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:241",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Fan too slow, make strong!"
+          }
+        },
+        {
+          "turn_id": "hvp04-mp02-t02",
+          "speaker": "assistant",
+          "text": "You want to increase the fan speed? Which device do you want to control? We have fan_1 and fan_2.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:241",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You want to increase the fan speed? Which device do you want to control? We have fan_1 and fan_2."
+          }
+        },
+        {
+          "turn_id": "hvp04-mp02-t03",
+          "speaker": "co_user",
+          "text": "Um, first one.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:241",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Um, first one."
+          }
+        },
+        {
+          "turn_id": "hvp04-mp02-t04",
+          "speaker": "assistant",
+          "text": "Do you want to set it to a specific speed or mode? We have Auto, On, and Off modes, and speed from 1 to 10.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:241",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Do you want to set it to a specific speed or mode? We have Auto, On, and Off modes, and speed from 1 to 10."
+          }
+        },
+        {
+          "turn_id": "hvp04-mp02-t05",
+          "speaker": "co_user",
+          "text": "Make Auto, but strong, like 8! Eight is also my usual front-zone fan speed in the car.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:241",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Make Auto, but strong, like 8!"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.front.fan_speed",
+            "tool_name": "carcontrol_airConditioner_set_fan_speed",
+            "argument_name": "speed",
+            "value": 8,
+            "context_arguments": {
+              "zone": "front"
+            },
+            "condition": "for Casey's normal driving",
+            "reason": "The externally sourced explicit fan speed is adapted into Casey's persistent front-zone vehicle preference."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp04-mp03",
+      "timestamp": "2026-04-27T08:05:00",
+      "context": "Casey confirms that the entrance should be secured before leaving.",
+      "turns": [
+        {
+          "turn_id": "hvp04-mp03-t01",
+          "speaker": "co_user",
+          "text": "I'm heading out for the evening and I want to make sure the front door is secure.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:340",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'm heading out for the evening and I want to make sure the front door is secure."
+          }
+        },
+        {
+          "turn_id": "hvp04-mp03-t02",
+          "speaker": "assistant",
+          "text": "I can help you lock your front door. Would you like me to lock the front door now?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:340",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can help you lock your front door. Would you like me to lock the front door now?"
+          }
+        },
+        {
+          "turn_id": "hvp04-mp03-t03",
+          "speaker": "co_user",
+          "text": "Yes, please lock the front door for me. I also keep every vehicle door locked when I park at home.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:340",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Yes, please lock the front door for me."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.home_parking.doors_locked",
+            "tool_name": "carcontrol_door_set_locked",
+            "argument_name": "locked",
+            "value": true,
+            "context_arguments": {
+              "door": "all"
+            },
+            "condition": "when Casey is parked at home",
+            "reason": "The externally sourced security action is adapted into Casey's persistent all-door home-parking rule."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp04-s5",
+      "timestamp": "2026-05-03T09:15:00",
+      "context": "The driver establishes a personal front-zone temperature.",
+      "turns": [
+        {
+          "turn_id": "hvp04-s5-t01",
+          "speaker": "user",
+          "text": "I don't want it to be too hot in here...",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1982",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I don't want it to be too hot in here..."
+          }
+        },
+        {
+          "turn_id": "hvp04-s5-t02",
+          "speaker": "assistant",
+          "text": "What temperature would you prefer? We can adjust the climate control for a specific zone.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1982",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What temperature would you prefer? We can adjust the climate control for a specific zone."
+          }
+        },
+        {
+          "turn_id": "hvp04-s5-t03",
+          "speaker": "user",
+          "text": "Not the back seats, just the front... and not too cold either...",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1982",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Not the back seats, just the front... and not too cold either..."
+          }
+        },
+        {
+          "turn_id": "hvp04-s5-t04",
+          "speaker": "assistant",
+          "text": "So you want to adjust the temperature for the Driver or Passenger zone? And what's a comfortable temperature for you?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1982",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "So you want to adjust the temperature for the Driver or Passenger zone? And what's a comfortable temperature for you?"
+          }
+        },
+        {
+          "turn_id": "hvp04-s5-t05",
+          "speaker": "user",
+          "text": "Yeah, just the Driver zone, and like 22 degrees or something. Please remember 22 degrees as my usual driver-zone temperature.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1982",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Yeah, just the Driver zone, and like 22 degrees or something."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.driver_zone.temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 22,
+            "context_arguments": {
+              "zone": "driver"
+            },
+            "condition": "for Jordan's normal driving",
+            "reason": "The source setting is minimally adapted into a durable driver-zone temperature preference."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp04-s6",
+      "timestamp": "2026-06-07T06:40:00",
+      "context": "The driver establishes a front-trunk routine and a cold-weather steering-wheel setting.",
+      "turns": [
+        {
+          "turn_id": "hvp04-s6-t01",
+          "speaker": "user",
+          "text": "Need to open frunk.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2004",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Need to open frunk."
+          }
+        },
+        {
+          "turn_id": "hvp04-s6-t02",
+          "speaker": "assistant",
+          "text": "I can help you open the front trunk. Would you like me to open it now?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2004",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can help you open the front trunk. Would you like me to open it now?"
+          }
+        },
+        {
+          "turn_id": "hvp04-s6-t03",
+          "speaker": "user",
+          "text": "Yeah do it. When I load groceries, keep opening the front trunk as my usual routine.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2004",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Yeah do it."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.grocery.front_trunk",
+            "tool_name": "carcontrol_frontTrunk_switch",
+            "argument_name": "switch",
+            "value": true,
+            "context_arguments": {},
+            "condition": "when Jordan loads groceries",
+            "reason": "The source confirmation is minimally adapted into a recurring front-trunk routine."
+          }
+        },
+        {
+          "turn_id": "hvp04-s6-t04",
+          "speaker": "user",
+          "text": "I'm getting chilly while driving, it would be great if that thing on steering wheel get warm",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1989",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'm getting chilly while driving, it would be great if that thing on steering wheel get warm"
+          }
+        },
+        {
+          "turn_id": "hvp04-s6-t05",
+          "speaker": "assistant",
+          "text": "You want to use the steering wheel heater? It's currently off. Do you want me to turn it on?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1989",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You want to use the steering wheel heater? It's currently off. Do you want me to turn it on?"
+          }
+        },
+        {
+          "turn_id": "hvp04-s6-t06",
+          "speaker": "user",
+          "text": "Yes, do that for me, make it work. Keep the steering-wheel heater on for my chilly drives.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1989",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Yes, do that for me, make it work"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.chilly_drive.steering_heat",
+            "tool_name": "carcontrol_steeringWheel_set_heating_enabled",
+            "argument_name": "enabled",
+            "value": true,
+            "context_arguments": {},
+            "condition": "for Jordan's chilly drives",
+            "reason": "The source confirmation is minimally adapted into a durable cold-weather steering-wheel preference."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp04-s7",
+      "timestamp": "2026-07-11T14:25:00",
+      "context": "The driver sets fresh-air and window preferences during a warm ride.",
+      "turns": [
+        {
+          "turn_id": "hvp04-s7-t01",
+          "speaker": "user",
+          "text": "I no want bad air in car, no make me sick",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1995",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I no want bad air in car, no make me sick"
+          }
+        },
+        {
+          "turn_id": "hvp04-s7-t02",
+          "speaker": "assistant",
+          "text": "I understand, you want to improve the air quality in the car. What kind of air quality mode are you looking for?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1995",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I understand, you want to improve the air quality in the car. What kind of air quality mode are you looking for?"
+          }
+        },
+        {
+          "turn_id": "hvp04-s7-t03",
+          "speaker": "user",
+          "text": "Not auto, I want air come from outside, make me feel fresh. Keep outside air as my usual whole-cabin circulation setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1995",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Not auto, I want air come from outside, make me feel fresh"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.all.circulation",
+            "tool_name": "carcontrol_airConditioner_set_circulation",
+            "argument_name": "circulation",
+            "value": "outside",
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Jordan's normal driving",
+            "reason": "The source outside-air request is minimally adapted into a durable circulation preference."
+          }
+        },
+        {
+          "turn_id": "hvp04-s7-t04",
+          "speaker": "user",
+          "text": "Vent windows.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2000",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Vent windows."
+          }
+        },
+        {
+          "turn_id": "hvp04-s7-t05",
+          "speaker": "assistant",
+          "text": "I understand you'd like to vent the windows. This will slightly lower all windows to help cool the cabin. Would you like me to proceed with this action?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2000",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I understand you'd like to vent the windows. This will slightly lower all windows to help cool the cabin. Would you like me to proceed with this action?"
+          }
+        },
+        {
+          "turn_id": "hvp04-s7-t06",
+          "speaker": "user",
+          "text": "Affirmative.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2000",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Affirmative."
+          }
+        },
+        {
+          "turn_id": "hvp04-s7-t07",
+          "speaker": "user",
+          "text": "Hey, um, sorry, I'm still getting used to this car stuff. The window on my side is kind of letting in too much air, but I don't really know the right way to fix it with the screen thing.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2002",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hey, um, sorry, I'm still getting used to this car stuff. The window on my side is kind of letting in too much air, but I don't really know the right way to fix it with the screen thing."
+          }
+        },
+        {
+          "turn_id": "hvp04-s7-t08",
+          "speaker": "assistant",
+          "text": "No worries at all, I can help with that. When you say the window on your side, are you sitting in the driver's seat or the front passenger seat? And do you want it more closed or more open than it is now?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2002",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "No worries at all, I can help with that. When you say the window on your side, are you sitting in the driver's seat or the front passenger seat? And do you want it more closed or more open than it is now?"
+          }
+        },
+        {
+          "turn_id": "hvp04-s7-t09",
+          "speaker": "user",
+          "text": "Yeah, I'm in the driver's seat. I just want it mostly shut, but not all the way, so it's just a little bit open near the top. Save 20 percent open as my usual driver-side window position.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2002",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Yeah, I'm in the driver's seat. I just want it mostly shut, but not all the way, so it's just a little bit open near the top."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.driver.window_position",
+            "tool_name": "carcontrol_window_set_open_degree",
+            "argument_name": "degree",
+            "value": 20,
+            "context_arguments": {
+              "window": "driver"
+            },
+            "condition": "for Jordan's normal driving",
+            "reason": "The source mostly-shut request is minimally adapted to its source record's numeric Tool target and mapped to the benchmark driver-side window."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp04-s8",
+      "timestamp": "2026-08-09T10:30:00",
+      "context": "The driver revises the normal driver-window position and adds a front fan preference.",
+      "turns": [
+        {
+          "turn_id": "hvp04-s8-t01",
+          "speaker": "user",
+          "text": "I think it's about to rain. Actually, keep my usual driver-side window fully closed from now on.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:3993",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I think it's about to rain."
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.driver.window_position",
+            "tool_name": "carcontrol_window_set_open_degree",
+            "argument_name": "degree",
+            "value": 0,
+            "context_arguments": {
+              "window": "driver"
+            },
+            "condition": "for Jordan's normal driving",
+            "reason": "The inferred source close action replaces the previously stored 20-percent normal driver-window position."
+          }
+        },
+        {
+          "turn_id": "hvp04-s8-t02",
+          "speaker": "user",
+          "text": "Set the blower to 9, actually put it at 5. From now on, keep my usual front-zone fan at level 5.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:3965",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Set the blower to 9, actually put it at 5"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.front.fan_speed",
+            "tool_name": "carcontrol_airConditioner_set_fan_speed",
+            "argument_name": "speed",
+            "value": 5,
+            "context_arguments": {
+              "zone": "front"
+            },
+            "condition": "for Jordan's normal driving",
+            "reason": "The source parameter correction is minimally adapted into a durable front-zone fan preference."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp04-s9",
+      "timestamp": "2026-09-04T16:50:00",
+      "context": "The driver establishes a home-parking door rule and revises the driver-front window position.",
+      "turns": [
+        {
+          "turn_id": "hvp04-s9-t01",
+          "speaker": "user",
+          "text": "Secure the center console, no no, cancel and unlock the car. Keep all doors unlocked when I am parked at home.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4001",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Secure the center console, no no, cancel and unlock the car"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.home_parking.doors_locked",
+            "tool_name": "carcontrol_door_set_locked",
+            "argument_name": "locked",
+            "value": false,
+            "context_arguments": {
+              "door": "all"
+            },
+            "condition": "when Jordan is parked at home",
+            "reason": "The source tool correction is minimally adapted into an explicit home-parking door rule."
+          }
+        },
+        {
+          "turn_id": "hvp04-s9-t02",
+          "speaker": "user",
+          "text": "Adjust the suspension, never mind, just open the driver front window to fifty five percent. Replace my usual driver-side position with 55 percent.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4005",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Adjust the suspension, never mind, just open the driver front window to fifty five percent"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.driver.window_position",
+            "tool_name": "carcontrol_window_set_open_degree",
+            "argument_name": "degree",
+            "value": 55,
+            "context_arguments": {
+              "window": "driver"
+            },
+            "condition": "for Jordan's normal driving",
+            "reason": "The source tool correction replaces the previously stored 20-percent driver-side window position."
+          }
+        },
+        {
+          "turn_id": "hvp04-s9-t03",
+          "speaker": "user",
+          "text": "Start parking assist, actually cancel that and roll the driver front window down ninety percent. Replace my usual driver-side position with 90 percent.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4007",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Start parking assist, actually cancel that and roll the driver front window down ninety percent"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.driver.window_position",
+            "tool_name": "carcontrol_window_set_open_degree",
+            "argument_name": "degree",
+            "value": 90,
+            "context_arguments": {
+              "window": "driver"
+            },
+            "condition": "for Jordan's normal driving",
+            "reason": "The later source correction replaces the intermediate 55-percent window position with 90 percent."
+          }
+        }
+      ]
+    }
+  ],
+  "quizzes": [
+    {
+      "quiz_id": "hvp04-turn-01",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s5-t05",
+      "query": "Restore Jordan's usual driver-zone temperature.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.driver_zone.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 22
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-02",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s6-t06",
+      "query": "Jordan is driving in chilly weather. Apply the remembered steering-wheel setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.chilly_drive.steering_heat"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-03",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s7-t09",
+      "query": "Set Jordan's currently remembered driver-side window position.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.driver.window_position"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "driver",
+            "degree": 20
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-04",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s8-t02",
+      "query": "Apply Jordan's normal front-zone fan speed.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.front.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "front",
+            "speed": 5
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-final-01",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp04-s9-t03",
+      "query": "Restore Jordan's normal driver-zone temperature.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.driver_zone.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 22
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-final-02",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp04-s9-t03",
+      "query": "Apply Jordan's usual whole-cabin circulation setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.all.circulation"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "outside"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-final-03",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp04-s9-t03",
+      "query": "Jordan is loading groceries. Apply the remembered front-trunk routine.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.grocery.front_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_frontTrunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-final-04",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp04-s9-t03",
+      "query": "Jordan is driving in chilly weather. Apply the remembered steering-wheel setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.chilly_drive.steering_heat"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-final-05",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp04-s9-t03",
+      "query": "Apply Jordan's latest normal driver-side window position.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.driver.window_position"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "driver",
+            "degree": 90
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-final-06",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp04-s9-t03",
+      "query": "Jordan is parked at home and wants the normal front-zone airflow. Apply the remembered door-access and fan settings.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.home_parking.doors_locked",
+        "driver.front.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": false
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "front",
+            "speed": 5
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-05",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s5-t05",
+      "query": "Jordan points to the climate area around the driver's seat. Put that zone where Jordan normally keeps it.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.driver_zone.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 22
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-06",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s6-t03",
+      "query": "Jordan has groceries and asks to open the compartment up front used for that load. Open that one.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.grocery.front_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_frontTrunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-07",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s6-t06",
+      "query": "Jordan's hands are cold during a chilly drive. Apply the remembered setting for what they are holding.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.chilly_drive.steering_heat"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-08",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s7-t09",
+      "query": "Jordan wants fresh air. Use their usual source for the whole cabin and leave the pane beside them at its remembered opening.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.all.circulation",
+        "driver.driver.window_position"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "outside"
+          }
+        },
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "driver",
+            "degree": 20
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-09",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s8-t02",
+      "query": "Jordan says the front airflow should go back to the strength they settled on. Apply that one.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.front.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "front",
+            "speed": 5
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-10",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s9-t03",
+      "query": "Jordan is parked at home. Set every entry point their way, then restore the temperature around the driver's seat.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.home_parking.doors_locked",
+        "driver.driver_zone.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": false
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 22
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-11",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s8-t02",
+      "query": "Jordan withdrew fan level nine. Apply the corrected normal front-zone value.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.front.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "front",
+            "speed": 5
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-12",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s9-t03",
+      "query": "For Jordan's driver window, ignore the suspension and parking-assist requests and use the final corrected opening.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.driver.window_position"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "driver",
+            "degree": 90
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-13",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s5-t05",
+      "query": "Casey is driving. Apply Casey's usual driver-zone temperature, not Jordan's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.driver_zone.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 28
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-14",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s5-t05",
+      "query": "Jordan is driving. Apply Jordan's usual driver-zone temperature, not Casey's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.driver_zone.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 22
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-15",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s8-t02",
+      "query": "Casey is driving. Apply Casey's usual front fan speed, not Jordan's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.front.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "front",
+            "speed": 8
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-16",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s8-t02",
+      "query": "Jordan is driving. Apply Jordan's usual front fan speed, not Casey's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.front.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "front",
+            "speed": 5
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-17",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s9-t03",
+      "query": "Casey is parked at home. Apply Casey's all-door rule, not Jordan's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.home_parking.doors_locked"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-18",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s9-t03",
+      "query": "Jordan is parked at home. Apply Jordan's all-door rule, not Casey's, and restore Jordan's front fan speed.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.home_parking.doors_locked",
+        "driver.front.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": false
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "front",
+            "speed": 5
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-19",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s7-t09",
+      "query": "Before Jordan's later changes, put the driver window at its first remembered normal opening.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.driver.window_position"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "driver",
+            "degree": 20
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-20",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s8-t02",
+      "query": "Jordan next changed the usual driver window to fully closed. Apply that checkpoint together with the new front fan setting.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.driver.window_position",
+        "driver.front.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "driver",
+            "degree": 0
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "front",
+            "speed": 5
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-21",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s9-t02",
+      "query": "After the next replacement, apply Jordan's intermediate driver-window opening.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.driver.window_position"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "driver",
+            "degree": 55
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-turn-22",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp04-s9-t03",
+      "query": "Jordan replaced the driver-window opening once more. Apply only its newest remembered position.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.driver.window_position"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "driver",
+            "degree": 90
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp04-final-07",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp04-s9-t03",
+      "query": "Casey is driving and then parks at home. Put the driver's climate area and front airflow where they usually keep them, then secure every door their way.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "codriver.driver_zone.temperature",
+        "codriver.front.fan_speed",
+        "codriver.home_parking.doors_locked"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 28
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "front",
+            "speed": 8
+          }
+        },
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": true
+          }
+        }
+      ]
+    }
+  ],
+  "multi_participant_extension": {
+    "schema_version": "vehiclemembench-hvp-multiparty-extension-v1",
+    "base_source_path": "/home/hj153lee/PalmClaw/evaluation/human-authored-vehicle-memory/pilot-hv04/scenario-source.json",
+    "base_source_sha256": "9bdcaa1ad3aff31a95233132073cfe08ef1762155846194d47bf0b02b541d708",
+    "secondary_speaker_id": "external-hvp04-codriver",
+    "inserted_audio2tool_records": [
+      "tier7:2102",
+      "tier7:241",
+      "tier7:340"
+    ],
+    "inserted_session_count": 3,
+    "inserted_turn_count": 11,
+    "inserted_update_count": 3,
+    "appended_quiz_count": 19,
+    "method_blind": true,
+    "human_review_status": "PENDING"
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "eligible_for_human_test": false,
+  "external_adaptation": {
+    "dataset_turn_counts": {
+      "Audio2Tool": 15,
+      "Envisioned Voice Assistant Dialogues": 15
+    },
+    "externally_sourced_turn_count": 30,
+    "externally_sourced_turn_rate": 1.0,
+    "origin_turn_counts": {
+      "human_authored": 15,
+      "synthetic": 15
+    },
+    "reuse_mode_turn_counts": {
+      "explicit_nonvehicle_calibration_wrapper": 15,
+      "source_inspired_single_intent_rewrite": 6,
+      "verbatim_text_role_normalized": 9
+    },
+    "source_catalog": [
+      {
+        "dataset": "Envisioned Voice Assistant Dialogues",
+        "license": "CC BY 4.0",
+        "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186",
+        "origin": "human_authored",
+        "records": [
+          "27:search",
+          "27:conversational",
+          "29:conversational"
+        ],
+        "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues"
+      },
+      {
+        "dataset": "Audio2Tool",
+        "license": "CC BY-NC 4.0",
+        "local_file_sha256": {
+          "tier5": "d38e588dccb99ed3291c9467a29adcd71e4f1c4eb62c118fd482a8e9616a1850",
+          "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc"
+        },
+        "origin": "synthetic",
+        "records": [
+          "tier7:9",
+          "tier7:10",
+          "tier7:11",
+          "tier5:4021",
+          "tier5:4023",
+          "tier5:4025",
+          "tier5:4027",
+          "tier5:4029",
+          "tier5:4035"
+        ],
+        "url": "https://huggingface.co/datasets/RVtech/Audio2Tool"
+      }
+    ]
+  },
+  "files": {
+    "dialogue.jsonl": {
+      "row_count": 30,
+      "sha256": "728bf5b9c8e6e708175ada71fb6b35c7178c153ac0ead46e7918712844ef2713"
+    },
+    "final_quiz.jsonl": {
+      "row_count": 8,
+      "sha256": "e01a3d9f7e56aa1b7c6c62a887461b1304f04469aa2ad0c3e89073384077b889"
+    },
+    "memory_snapshots.jsonl": {
+      "row_count": 30,
+      "sha256": "c89fbe1c176d1f6bfc4c7d33566f987daa940acfbe32fb40a8084eb248c1cb15"
+    },
+    "patch.jsonl": {
+      "row_count": 30,
+      "sha256": "dbb0c058738cfb80d1b690cee4b84ba11e4d6ff7c4029926876d160f72b0ce7f"
+    },
+    "turn_quiz.jsonl": {
+      "row_count": 8,
+      "sha256": "1be3a14d3083c4076a425019e136b3a398200b571266e823e4e9474fdf8d0ef8"
+    }
+  },
+  "final_memory": {
+    "active_slot_ids": [
+      "driver.default.temperature",
+      "codriver.default.music_volume",
+      "driver.default.ambient_color",
+      "codriver.default.temperature"
+    ],
+    "sha256": "c5da358d179704358db42402e9763548666df8d7f67f4bcdf79c7d770ecff72b",
+    "turn_id": "hve03-s12-t01"
+  },
+  "scenario_id": "HVE03",
+  "scenario_index": 923,
+  "schema_version": "vehiclemembench-human-authored-pilot-manifest-v1",
+  "source_path": "/home/hj153lee/PalmClaw/evaluation/human-authored-vehicle-memory/easy-explicit-v2/HVE03/scenario-source.json",
+  "source_sha256": "d2f40d75053102261af9e8846fdb861c5851e1dcb9878915734724b36f17ce6a",
+  "split": "pilot_excluded",
+  "statistics": {
+    "active_memory_slot_count": 4,
+    "add_count": 4,
+    "distinct_memory_tool_count": 3,
+    "final_quiz_count": 8,
+    "noop_count": 24,
+    "quiz_tool_call_count": 16,
+    "replace_count": 2,
+    "session_count": 12,
+    "speaker_count": 3,
+    "turn_count": 30,
+    "turn_quiz_count": 8,
+    "update_count": 6
+  },
+  "validation": {
+    "chronology_and_unique_ids": "PASS",
+    "final_quiz_uses_final_snapshot": "PASS",
+    "noop_memory_identity": "PASS",
+    "official_tool_json_schema": "PASS",
+    "official_vehicleworld_simulator": "PASS",
+    "patch_replay_all_turns": "PASS",
+    "quiz_evidence_active_at_cutoff": "PASS",
+    "source_contract": "PASS"
+  }
+}

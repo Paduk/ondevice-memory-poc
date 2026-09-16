@@ -1,0 +1,129 @@
+{
+  "eligible_for_human_test": false,
+  "external_adaptation": {
+    "dataset_turn_counts": {
+      "Audio2Tool": 36,
+      "Envisioned Voice Assistant Dialogues": 25
+    },
+    "externally_sourced_turn_count": 61,
+    "externally_sourced_turn_rate": 1.0,
+    "origin_turn_counts": {
+      "human_authored": 25,
+      "synthetic": 36
+    },
+    "reuse_mode_turn_counts": {
+      "minimal_persistence_adaptation": 13,
+      "verbatim_text_role_normalized": 48
+    },
+    "source_catalog": [
+      {
+        "dataset": "Envisioned Voice Assistant Dialogues",
+        "license": "CC BY 4.0",
+        "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186",
+        "origin": "human_authored",
+        "records": [
+          "119:open",
+          "189:open",
+          "92:search",
+          "62:open"
+        ],
+        "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues"
+      },
+      {
+        "dataset": "Audio2Tool",
+        "license": "CC BY-NC 4.0",
+        "local_file_sha256": {
+          "tier4": "d430e801c9bba5db03b3d044ac626ebec35de1b8a4eb2e2beb4cdec0013e9271",
+          "tier6": "fa5c0825d99c4f68e226480261befe9ce7aa33c9dfbb7ff1fe1fc82493bcb991",
+          "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc"
+        },
+        "origin": "synthetic",
+        "records": [
+          "tier7:1982",
+          "tier7:1989",
+          "tier7:1995",
+          "tier7:2000",
+          "tier7:2002",
+          "tier7:2004",
+          "tier4:3993",
+          "tier6:3965",
+          "tier6:4001",
+          "tier6:4005",
+          "tier6:4007",
+          "tier7:2102",
+          "tier7:241",
+          "tier7:340"
+        ],
+        "url": "https://huggingface.co/datasets/RVtech/Audio2Tool"
+      }
+    ]
+  },
+  "files": {
+    "dialogue.jsonl": {
+      "row_count": 61,
+      "sha256": "a86b36404bbc2f386fe0f932a7066de32737452f7c6fd5f68fc126f7e2ad495a"
+    },
+    "final_quiz.jsonl": {
+      "row_count": 7,
+      "sha256": "b0cd44a80737b25cd5c831331a068f517879ff4d401fa01ab4ec0d3f0d6b6fe1"
+    },
+    "memory_snapshots.jsonl": {
+      "row_count": 61,
+      "sha256": "ea6ea7946429979a436c12a7d67602ac22c62e0aa491954e32cd26b63bc08d11"
+    },
+    "patch.jsonl": {
+      "row_count": 61,
+      "sha256": "ce8255df5125957c3c9e3fdd682675015dc95819a9374665aa71bdeaf809134a"
+    },
+    "turn_quiz.jsonl": {
+      "row_count": 22,
+      "sha256": "7baeccf0de01082755e7457532a299ef37eb46f5b22cec605518e506be4d693e"
+    }
+  },
+  "final_memory": {
+    "active_slot_ids": [
+      "codriver.driver_zone.temperature",
+      "codriver.front.fan_speed",
+      "codriver.home_parking.doors_locked",
+      "driver.driver_zone.temperature",
+      "driver.grocery.front_trunk",
+      "driver.chilly_drive.steering_heat",
+      "driver.all.circulation",
+      "driver.driver.window_position",
+      "driver.front.fan_speed",
+      "driver.home_parking.doors_locked"
+    ],
+    "sha256": "c6987adc10a978c87edde26771b11f39db4823aae273331187713a3d2c033850",
+    "turn_id": "hvp04-s9-t03"
+  },
+  "scenario_id": "HVP04",
+  "scenario_index": 904,
+  "schema_version": "vehiclemembench-human-authored-pilot-manifest-v1",
+  "source_path": "/home/hj153lee/PalmClaw/evaluation/human-authored-vehicle-memory/multiparty-quiz-expansion-v1/HVP04/scenario-source.json",
+  "source_sha256": "5cdf15c262b2f5c4f7fcc60faf0dcb48a03067d6b52a6a020d99a2e3db36aa87",
+  "split": "pilot_excluded",
+  "statistics": {
+    "active_memory_slot_count": 10,
+    "add_count": 10,
+    "distinct_memory_tool_count": 7,
+    "final_quiz_count": 7,
+    "noop_count": 48,
+    "quiz_tool_call_count": 36,
+    "replace_count": 3,
+    "session_count": 12,
+    "speaker_count": 3,
+    "turn_count": 61,
+    "turn_quiz_count": 22,
+    "update_count": 13
+  },
+  "validation": {
+    "chronology_and_unique_ids": "PASS",
+    "final_quiz_uses_final_snapshot": "PASS",
+    "noop_memory_identity": "PASS",
+    "official_tool_json_schema": "PASS",
+    "official_vehicleworld_simulator": "PASS",
+    "patch_replay_all_turns": "PASS",
+    "quiz_evidence_active_at_cutoff": "PASS",
+    "source_contract": "PASS"
+  }
+}

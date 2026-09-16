@@ -1,0 +1,1604 @@
+{
+  "schema_version": "vehiclemembench-human-authored-scenario-source-v1",
+  "scenario_id": "HVP06",
+  "scenario_index": 906,
+  "split": "pilot_excluded",
+  "authorship": {
+    "kind": "external_adapted_model_assembled_pilot",
+    "eligible_for_human_test": false,
+    "note": "Versioned multi-participant external adaptation. Dialogue records are source-traced; participant normalization, persistence edits, memory labels, and quizzes remain model-assembled pending human review."
+  },
+  "external_sources": [
+    {
+      "dataset": "Envisioned Voice Assistant Dialogues",
+      "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues",
+      "license": "CC BY 4.0",
+      "origin": "human_authored",
+      "records": [
+        "81:open",
+        "110:open",
+        "196:open",
+        "132:open"
+      ],
+      "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186"
+    },
+    {
+      "dataset": "Audio2Tool",
+      "url": "https://huggingface.co/datasets/RVtech/Audio2Tool",
+      "license": "CC BY-NC 4.0",
+      "origin": "synthetic",
+      "records": [
+        "tier7:2081",
+        "tier7:2090",
+        "tier7:2057",
+        "tier7:2117",
+        "tier7:2119",
+        "tier7:2135",
+        "tier6:4117",
+        "tier6:3989",
+        "tier6:4233",
+        "tier5:4236",
+        "tier5:3989",
+        "tier6:4271"
+      ],
+      "local_file_sha256": {
+        "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc",
+        "tier6": "fa5c0825d99c4f68e226480261befe9ce7aa33c9dfbb7ff1fe1fc82493bcb991",
+        "tier4": "d430e801c9bba5db03b3d044ac626ebec35de1b8a4eb2e2beb4cdec0013e9271",
+        "tier5": "d38e588dccb99ed3291c9467a29adcd71e4f1c4eb62c118fd482a8e9616a1850"
+      }
+    }
+  ],
+  "speakers": [
+    {
+      "speaker_id": "external-hvp06-driver",
+      "short_id": "user",
+      "speaker_name": "Riley (normalized user role)",
+      "role": "driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp06-codriver",
+      "short_id": "co_user",
+      "speaker_name": "Quinn (normalized user role)",
+      "role": "co-driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp06-assistant",
+      "short_id": "assistant",
+      "speaker_name": "Voice assistant (source names retained in text)",
+      "role": "vehicle voice assistant",
+      "style": "retains the wording of each external source record"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "hvp06-s1",
+      "timestamp": "2026-01-05T08:00:00",
+      "context": "Booking flights, a familiar hotel, and a meal.",
+      "turns": [
+        {
+          "turn_id": "hvp06-s1-t01",
+          "speaker": "user",
+          "text": "Hi Mickey, I need to book 3 adult flights to Paris the first Saturday in July returning the following Friday. Please book with British Airways flying from the local airport I want to fly out early morning and return mid afternoon.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "81:open",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hi Mickey, I need to book 3 adult flights to Paris the first Saturday in July returning the following Friday. Please book with British Airways flying from the local airport I want to fly out early morning and return mid afternoon."
+          }
+        },
+        {
+          "turn_id": "hvp06-s1-t02",
+          "speaker": "assistant",
+          "text": "Ok give me 5 minutes.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "81:open",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Ok give me 5 minutes."
+          }
+        },
+        {
+          "turn_id": "hvp06-s1-t03",
+          "speaker": "assistant",
+          "text": "Flights booked. Do you need a hotel?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "81:open",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Flights booked. Do you need a hotel?"
+          }
+        },
+        {
+          "turn_id": "hvp06-s1-t04",
+          "speaker": "user",
+          "text": "Yes please. same one as last year. I need a family room on room only basis",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "81:open",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes please. same one as last year. I need a family room on room only basis"
+          }
+        },
+        {
+          "turn_id": "hvp06-s1-t05",
+          "speaker": "assistant",
+          "text": "Ok, the prices are £10 per night higher than last yea. Should I go ahead and book.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "81:open",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Ok, the prices are £10 per night higher than last yea. Should I go ahead and book."
+          }
+        },
+        {
+          "turn_id": "hvp06-s1-t06",
+          "speaker": "user",
+          "text": "yes please, oh and can you book an evening meal for 3 in the hotel restaurant too",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "81:open",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "yes please, oh and can you book an evening meal for 3 in the hotel restaurant too"
+          }
+        },
+        {
+          "turn_id": "hvp06-s1-t07",
+          "speaker": "assistant",
+          "text": "All booked and conformations sent to your email address",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "81:open",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "All booked and conformations sent to your email address"
+          }
+        },
+        {
+          "turn_id": "hvp06-s1-t08",
+          "speaker": "user",
+          "text": "Thank you",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "81:open",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thank you"
+          }
+        },
+        {
+          "turn_id": "hvp06-s1-t09",
+          "speaker": "assistant",
+          "text": "Enjoy your trip",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "81:open",
+            "record_turn_index": 8,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Enjoy your trip"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp06-s2",
+      "timestamp": "2026-01-25T08:00:00",
+      "context": "Comparing public-transport options and arrival time.",
+      "turns": [
+        {
+          "turn_id": "hvp06-s2-t01",
+          "speaker": "user",
+          "text": "What is the fastest route to X from here via public transport?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "110:open",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What is the fastest route to X from here via public transport?"
+          }
+        },
+        {
+          "turn_id": "hvp06-s2-t02",
+          "speaker": "assistant",
+          "text": "Would you like to take a train or a bus?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "110:open",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Would you like to take a train or a bus?"
+          }
+        },
+        {
+          "turn_id": "hvp06-s2-t03",
+          "speaker": "user",
+          "text": "The train",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "110:open",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "The train"
+          }
+        },
+        {
+          "turn_id": "hvp06-s2-t04",
+          "speaker": "assistant",
+          "text": "The quickest route is to walk to X station and take the X train at X hours.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "110:open",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "The quickest route is to walk to X station and take the X train at X hours."
+          }
+        },
+        {
+          "turn_id": "hvp06-s2-t05",
+          "speaker": "user",
+          "text": "When will I arrive?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "110:open",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "When will I arrive?"
+          }
+        },
+        {
+          "turn_id": "hvp06-s2-t06",
+          "speaker": "assistant",
+          "text": "The train is scheduled to arrive at X hours",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "110:open",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "The train is scheduled to arrive at X hours"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp06-s3",
+      "timestamp": "2026-02-14T08:00:00",
+      "context": "Finding 24-hour service stations along a long trip.",
+      "turns": [
+        {
+          "turn_id": "hvp06-s3-t01",
+          "speaker": "user",
+          "text": "Jarvis, I’m travelling from Lands end to Bristol please tell me which service stations are open 24hrs along the way",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "196:open",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Jarvis, I’m travelling from Lands end to Bristol please tell me which service stations are open 24hrs along the way"
+          }
+        },
+        {
+          "turn_id": "hvp06-s3-t02",
+          "speaker": "assistant",
+          "text": "Okay Molly, please wait whilst I find out the service stations which will be open.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "196:open",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Okay Molly, please wait whilst I find out the service stations which will be open."
+          }
+        },
+        {
+          "turn_id": "hvp06-s3-t03",
+          "speaker": "user",
+          "text": "Thanks",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "196:open",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thanks"
+          }
+        },
+        {
+          "turn_id": "hvp06-s3-t04",
+          "speaker": "assistant",
+          "text": "Molly, I have found 3 stations which are open 24hrs, would you like me to store them onto your satnav",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "196:open",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Molly, I have found 3 stations which are open 24hrs, would you like me to store them onto your satnav"
+          }
+        },
+        {
+          "turn_id": "hvp06-s3-t05",
+          "speaker": "user",
+          "text": "Yes please, thank you Jarvis",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "196:open",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes please, thank you Jarvis"
+          }
+        },
+        {
+          "turn_id": "hvp06-s3-t06",
+          "speaker": "assistant",
+          "text": "All stored, You’re welcome.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "196:open",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "All stored, You’re welcome."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp06-s4",
+      "timestamp": "2026-03-06T08:00:00",
+      "context": "Checking driving time and traffic for Blackpool.",
+      "turns": [
+        {
+          "turn_id": "hvp06-s4-t01",
+          "speaker": "user",
+          "text": "Can you tell me how long it would take to get to blackpool",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "132:open",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Can you tell me how long it would take to get to blackpool"
+          }
+        },
+        {
+          "turn_id": "hvp06-s4-t02",
+          "speaker": "assistant",
+          "text": "Yes that will take around 3 hours",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "132:open",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes that will take around 3 hours"
+          }
+        },
+        {
+          "turn_id": "hvp06-s4-t03",
+          "speaker": "user",
+          "text": "Is there any traffic or road works on the route",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "132:open",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Is there any traffic or road works on the route"
+          }
+        },
+        {
+          "turn_id": "hvp06-s4-t04",
+          "speaker": "assistant",
+          "text": "No",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "132:open",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "No"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp06-s5",
+      "timestamp": "2026-03-26T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2081.",
+      "turns": [
+        {
+          "turn_id": "hvp06-s5-t01",
+          "speaker": "user",
+          "text": "Um, excuse me, I don't want to know about the temperature or anything, but can you tell me something about, you know, the car's security?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2081",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Um, excuse me, I don't want to know about the temperature or anything, but can you tell me something about, you know, the car's security?"
+          }
+        },
+        {
+          "turn_id": "hvp06-s5-t02",
+          "speaker": "assistant",
+          "text": "Ah, you'd like to know about the car's security features? Which specific aspect would you like to know about?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2081",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Ah, you'd like to know about the car's security features? Which specific aspect would you like to know about?"
+          }
+        },
+        {
+          "turn_id": "hvp06-s5-t03",
+          "speaker": "user",
+          "text": "Well, I was wondering if everything is, you know, safe and secure...",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2081",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Well, I was wondering if everything is, you know, safe and secure..."
+          }
+        },
+        {
+          "turn_id": "hvp06-s5-t04",
+          "speaker": "assistant",
+          "text": "I understand your concern. Are you asking if the doors are locked, perhaps?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2081",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I understand your concern. Are you asking if the doors are locked, perhaps?"
+          }
+        },
+        {
+          "turn_id": "hvp06-s5-t05",
+          "speaker": "user",
+          "text": "Oh, yes! That's exactly what I was trying to ask. Are the doors locked?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2081",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Oh, yes! That's exactly what I was trying to ask. Are the doors locked?"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp06-s6",
+      "timestamp": "2026-04-15T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2090.",
+      "turns": [
+        {
+          "turn_id": "hvp06-s6-t01",
+          "speaker": "user",
+          "text": "Um, excuse me? Can you tell me if the, uh, camera thingy is on?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2090",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Um, excuse me? Can you tell me if the, uh, camera thingy is on?"
+          }
+        },
+        {
+          "turn_id": "hvp06-s6-t02",
+          "speaker": "assistant",
+          "text": "I think you might be referring to Sentry Mode. Is that correct?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2090",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I think you might be referring to Sentry Mode. Is that correct?"
+          }
+        },
+        {
+          "turn_id": "hvp06-s6-t03",
+          "speaker": "user",
+          "text": "Oh, yes! That's the one. I mean, I want to know if it's, you know, watching or something.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2090",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Oh, yes! That's the one. I mean, I want to know if it's, you know, watching or something."
+          }
+        },
+        {
+          "turn_id": "hvp06-s6-t04",
+          "speaker": "assistant",
+          "text": "I understand. To confirm, you want to know if Sentry Mode is currently active, right?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2090",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I understand. To confirm, you want to know if Sentry Mode is currently active, right?"
+          }
+        },
+        {
+          "turn_id": "hvp06-s6-t05",
+          "speaker": "user",
+          "text": "Yes, that's it! Can you please check?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2090",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes, that's it! Can you please check?"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp06-mp01",
+      "timestamp": "2026-04-20T08:00:00",
+      "context": "Quinn asks to clear condensation from only the front windshield.",
+      "turns": [
+        {
+          "turn_id": "hvp06-mp01-t01",
+          "speaker": "co_user",
+          "text": "I have a feeling this is going to be a good day. I'm in a great mood for some reason. You know, um, the front windshield has a lot of condensation, can you turn on the front defrost? Front-only defrost is also my regular setting on cold drives.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4236",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I have a feeling this is going to be a good day. I'm in a great mood for some reason. You know, um, the front windshield has a lot of condensation, can you turn on the front defrost?"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.cold_drive.defrost",
+            "tool_name": "carcontrol_airConditioner_set_mode",
+            "argument_name": "mode",
+            "value": "defrost",
+            "context_arguments": {
+              "zone": "front"
+            },
+            "condition": "for Quinn's cold drives",
+            "reason": "The vehicle-specific front-defrost request is made into Quinn's durable cold-drive setting."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp06-mp02",
+      "timestamp": "2026-04-25T08:00:00",
+      "context": "Quinn distinguishes an emergency filtration request from their usual cabin-air preference.",
+      "turns": [
+        {
+          "turn_id": "hvp06-mp02-t01",
+          "speaker": "co_user",
+          "text": "I'm not sure what that smell is outside, but it's making me nervous. It smells... chemical. Let's not take any chances. Put on the bioweapon defense mode. I'm serious. For ordinary driving, though, just recirculate the cabin air; make that my usual setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:3989",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I'm not sure what that smell is outside, but it's making me nervous. It smells... chemical. Let's not take any chances. Put on the bioweapon defense mode. I'm serious."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.air_quality.circulation",
+            "tool_name": "carcontrol_airConditioner_set_circulation",
+            "argument_name": "circulation",
+            "value": "inside",
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Quinn's normal cabin-air setting",
+            "reason": "Quinn separately states an explicit, durable recirculation preference for ordinary driving."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp06-mp03",
+      "timestamp": "2026-04-30T08:00:00",
+      "context": "Quinn corrects an unrelated door request to closing the rear trunk.",
+      "turns": [
+        {
+          "turn_id": "hvp06-mp03-t01",
+          "speaker": "co_user",
+          "text": "Unlock the doors, no wait, close the rear trunk instead. Keeping it closed is also my regular routine when my bags are loaded.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4271",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Unlock the doors, no wait, close the rear trunk instead"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.luggage.rear_trunk",
+            "tool_name": "carcontrol_trunk_switch",
+            "argument_name": "switch",
+            "value": false,
+            "context_arguments": {},
+            "condition": "when Quinn's bags are loaded",
+            "reason": "The corrected rear-trunk close action is made into Quinn's recurring luggage routine."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp06-s7",
+      "timestamp": "2026-05-05T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2057.",
+      "turns": [
+        {
+          "turn_id": "hvp06-s7-t01",
+          "speaker": "user",
+          "text": "Start navigation.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2057",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Start navigation."
+          }
+        },
+        {
+          "turn_id": "hvp06-s7-t02",
+          "speaker": "assistant",
+          "text": "Destination not specified. State destination.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2057",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Destination not specified. State destination."
+          }
+        },
+        {
+          "turn_id": "hvp06-s7-t03",
+          "speaker": "user",
+          "text": "Navigate to 221B Baker Street, London. When I start navigation without naming a place, that's where I usually mean.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2057",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Navigate to 221B Baker Street, London."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.default.destination",
+            "tool_name": "carcontrol_navigation_navigate_to",
+            "argument_name": "destination",
+            "value": "221B Baker Street, London",
+            "context_arguments": {},
+            "condition": "when Riley starts navigation without specifying a destination",
+            "reason": "The explicit source destination is adapted into a default-destination rule."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp06-s8",
+      "timestamp": "2026-05-25T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2117.",
+      "turns": [
+        {
+          "turn_id": "hvp06-s8-t01",
+          "speaker": "user",
+          "text": "I'm going for a drive, but it's really cold outside.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2117",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'm going for a drive, but it's really cold outside."
+          }
+        },
+        {
+          "turn_id": "hvp06-s8-t02",
+          "speaker": "assistant",
+          "text": "Would you like to defrost the front windshield, rear window, or both?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2117",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Would you like to defrost the front windshield, rear window, or both?"
+          }
+        },
+        {
+          "turn_id": "hvp06-s8-t03",
+          "speaker": "user",
+          "text": "Can you turn on the defroster for the front windshield only? On cold drives I normally only clear the front glass.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2117",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Can you turn on the defroster for the front windshield only?"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.cold_drive.defrost",
+            "tool_name": "carcontrol_airConditioner_set_mode",
+            "argument_name": "mode",
+            "value": "defrost",
+            "context_arguments": {
+              "zone": "front"
+            },
+            "condition": "for Riley's cold drives",
+            "reason": "The front-defrost request is made into a durable cold-weather setting."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp06-s9",
+      "timestamp": "2026-06-14T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2119.",
+      "turns": [
+        {
+          "turn_id": "hvp06-s9-t01",
+          "speaker": "user",
+          "text": "I'd like to adjust the air quality in the car.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2119",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'd like to adjust the air quality in the car."
+          }
+        },
+        {
+          "turn_id": "hvp06-s9-t02",
+          "speaker": "assistant",
+          "text": "Would you like to enable or disable cabin air recirculation?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2119",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Would you like to enable or disable cabin air recirculation?"
+          }
+        },
+        {
+          "turn_id": "hvp06-s9-t03",
+          "speaker": "user",
+          "text": "I think I'd like to enable it. Inside air is the setting I normally use for cabin air quality.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2119",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I think I'd like to enable it."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.air_quality.circulation",
+            "tool_name": "carcontrol_airConditioner_set_circulation",
+            "argument_name": "circulation",
+            "value": "inside",
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Riley's normal cabin-air setting",
+            "reason": "The source recirculation choice is made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp06-s10",
+      "timestamp": "2026-07-04T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2135.",
+      "turns": [
+        {
+          "turn_id": "hvp06-s10-t01",
+          "speaker": "user",
+          "text": "Running late. Need stuff out.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2135",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Running late. Need stuff out."
+          }
+        },
+        {
+          "turn_id": "hvp06-s10-t02",
+          "speaker": "assistant",
+          "text": "I can open a cargo area for you so you can grab your things. Do you want me to open the front trunk or the rear liftgate?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2135",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can open a cargo area for you so you can grab your things. Do you want me to open the front trunk or the rear liftgate?"
+          }
+        },
+        {
+          "turn_id": "hvp06-s10-t03",
+          "speaker": "user",
+          "text": "Rear. Just do it. My bags normally go in the rear, so use that one whenever I'm loading up.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2135",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Rear. Just do it."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.luggage.rear_trunk",
+            "tool_name": "carcontrol_trunk_switch",
+            "argument_name": "switch",
+            "value": true,
+            "context_arguments": {},
+            "condition": "when Riley loads bags",
+            "reason": "The source rear-liftgate action is made into a recurring routine."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp06-s11",
+      "timestamp": "2026-07-24T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:4117.",
+      "turns": [
+        {
+          "turn_id": "hvp06-s11-t01",
+          "speaker": "user",
+          "text": "Cancel this route, never mind, switch the route to Home. If I don't name a place from now on, take me Home.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4117",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Cancel this route, never mind, switch the route to Home"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.default.destination",
+            "tool_name": "carcontrol_navigation_navigate_to",
+            "argument_name": "destination",
+            "value": "Home",
+            "context_arguments": {},
+            "condition": "when Riley starts navigation without specifying a destination",
+            "reason": "The source correction replaces the previous default destination."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp06-s12",
+      "timestamp": "2026-08-13T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:3989.",
+      "turns": [
+        {
+          "turn_id": "hvp06-s12-t01",
+          "speaker": "user",
+          "text": "Keep it on Bioweapon Defense, no wait, open up to fresh air. Fresh outside air suits me better now; make that my normal cabin-air setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:3989",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Keep it on Bioweapon Defense, no wait, open up to fresh air"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.air_quality.circulation",
+            "tool_name": "carcontrol_airConditioner_set_circulation",
+            "argument_name": "circulation",
+            "value": "outside",
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Riley's normal cabin-air setting",
+            "reason": "The source Fresh Air correction replaces inside recirculation."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp06-s13",
+      "timestamp": "2026-09-02T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:4233.",
+      "turns": [
+        {
+          "turn_id": "hvp06-s13-t01",
+          "speaker": "user",
+          "text": "Start defrosting the rear window... actually, do both front and rear. From now on I want both front and rear cleared on cold drives.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4233",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Start defrosting the rear window... actually, do both front and rear"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.cold_drive.defrost",
+            "tool_name": "carcontrol_airConditioner_set_mode",
+            "argument_name": "mode",
+            "value": "defrost",
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Riley's cold drives",
+            "reason": "The later source request broadens defrost from front only to all zones."
+          }
+        }
+      ]
+    }
+  ],
+  "quizzes": [
+    {
+      "quiz_id": "hvp06-turn-01",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s7-t03",
+      "query": "Riley says to start navigation without naming a place. Use the default destination.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.default.destination"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "221B Baker Street, London"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-turn-02",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s8-t03",
+      "query": "It is a cold drive. Clear the glass the way Riley currently prefers.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.cold_drive.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "front",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-turn-03",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s9-t03",
+      "query": "Apply Riley's current normal cabin-air setting.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.air_quality.circulation"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "inside"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-turn-04",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s10-t03",
+      "query": "Riley is loading bags. Open the cargo area normally used for them.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.luggage.rear_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_trunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-final-01",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp06-s13-t01",
+      "query": "Riley starts navigation without naming a place. Use the current default.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.default.destination"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Home"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-final-02",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp06-s13-t01",
+      "query": "It is a cold drive. Clear the glass using Riley's current preference.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.cold_drive.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "all",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-final-03",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp06-s13-t01",
+      "query": "Apply Riley's current normal cabin-air setting.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.air_quality.circulation"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "outside"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-final-04",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp06-s13-t01",
+      "query": "Riley is loading bags. Open the cargo area normally used for them.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.luggage.rear_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_trunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-final-05",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp06-s13-t01",
+      "query": "On a cold trip, start Riley's default route and clear the glass as preferred.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.default.destination",
+        "driver.cold_drive.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Home"
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "all",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-final-06",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp06-s13-t01",
+      "query": "Start Riley's default route and apply the normal cabin-air setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.default.destination",
+        "driver.air_quality.circulation"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Home"
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "outside"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-turn-05",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s11-t01",
+      "query": "Riley starts guidance but leaves the place unstated. Take them to the location that now fills that blank.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.default.destination"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Home"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-turn-06",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s13-t01",
+      "query": "It is a cold drive for Riley. Clear both pieces of glass they most recently included.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.cold_drive.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "all",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-turn-07",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s12-t01",
+      "query": "Riley wants the cabin air drawn the way they now prefer it. Apply that source to every zone and start their default route.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.air_quality.circulation",
+        "driver.default.destination"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "outside"
+          }
+        },
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Home"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-turn-08",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s10-t03",
+      "query": "Riley is loading bags. Open the cargo compartment at the back that they use for those.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.luggage.rear_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_trunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-turn-09",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s11-t01",
+      "query": "Riley did not name a place and has bags to load. Start the route they mean and open the compartment they use.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.default.destination",
+        "driver.luggage.rear_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Home"
+          }
+        },
+        {
+          "name": "carcontrol_trunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-turn-10",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s13-t01",
+      "query": "On Riley's cold trip, clear the glass in their latest scope and use their current cabin-air source.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.cold_drive.defrost",
+        "driver.air_quality.circulation"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "all",
+            "mode": "defrost"
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "outside"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-turn-11",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s11-t01",
+      "query": "Riley canceled the old London address and corrected the unnamed destination. Navigate to the replacement.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.default.destination"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Home"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-turn-12",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s12-t01",
+      "query": "Riley replaced inside air after rejecting Bioweapon Defense. Apply the corrected normal circulation.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.air_quality.circulation"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "outside"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-turn-13",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s13-t01",
+      "query": "Quinn is on a cold drive. Apply Quinn's stored defrost scope, not Riley's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.cold_drive.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "front",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-turn-14",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s13-t01",
+      "query": "Riley is on a cold drive. Apply Riley's current stored defrost scope, not Quinn's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.cold_drive.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "all",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-turn-15",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s12-t01",
+      "query": "Quinn is using the cabin. Apply Quinn's normal air source, not Riley's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.air_quality.circulation"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "inside"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-turn-16",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s12-t01",
+      "query": "Riley is using the cabin. Apply Riley's normal air source, not Quinn's, and start Riley's default route.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.air_quality.circulation",
+        "driver.default.destination"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "outside"
+          }
+        },
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Home"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-turn-17",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s10-t03",
+      "query": "Quinn's bags are loaded. Apply Quinn's rear-trunk routine, not Riley's, and use Quinn's cabin-air source.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.luggage.rear_trunk",
+        "codriver.air_quality.circulation"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_trunk_switch",
+          "arguments": {
+            "switch": false
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "inside"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-turn-18",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s10-t03",
+      "query": "Riley is loading bags. Apply Riley's rear-trunk routine, not Quinn's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.luggage.rear_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_trunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-turn-19",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s8-t03",
+      "query": "At this earlier cutoff, apply Riley's cold-drive defrost scope that was active then.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.cold_drive.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "front",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-turn-20",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s12-t01",
+      "query": "Riley's cabin-air preference has changed. Apply the value active at this cutoff and start the latest default route.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.air_quality.circulation",
+        "driver.default.destination"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "outside"
+          }
+        },
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Home"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-turn-21",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp06-s13-t01",
+      "query": "Riley revised the cold-drive defrost scope. Apply the value active at this later cutoff.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.cold_drive.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "all",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp06-final-07",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp06-s13-t01",
+      "query": "Quinn is on a cold trip with the bags already loaded. Clear only the glass they specified, use their normal cabin-air source, and leave the rear cargo compartment in their stored state.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "codriver.cold_drive.defrost",
+        "codriver.air_quality.circulation",
+        "codriver.luggage.rear_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "front",
+            "mode": "defrost"
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "inside"
+          }
+        },
+        {
+          "name": "carcontrol_trunk_switch",
+          "arguments": {
+            "switch": false
+          }
+        }
+      ]
+    }
+  ],
+  "multi_participant_extension": {
+    "schema_version": "vehiclemembench-hvp-multiparty-extension-v1",
+    "base_source_path": "/home/hj153lee/PalmClaw/evaluation/human-authored-vehicle-memory/pilot-hvp06/scenario-source.json",
+    "base_source_sha256": "4cffc67253cd9bb90e787433209128afce08cfa3e200fd63299cba5326c25720",
+    "secondary_speaker_id": "external-hvp06-codriver",
+    "inserted_audio2tool_records": [
+      "tier5:4236",
+      "tier5:3989",
+      "tier6:4271"
+    ],
+    "inserted_session_count": 3,
+    "inserted_turn_count": 3,
+    "inserted_update_count": 3,
+    "appended_quiz_count": 18,
+    "method_blind": true,
+    "human_review_status": "PENDING"
+  }
+}

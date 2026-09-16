@@ -1,0 +1,1171 @@
+{
+  "digests": {
+    "all_source_files_sha256": "71a6cb5b6c9d975666da155d613b77b53bd105a9faa6a7a89bb49943e7ae0511",
+    "baseline_quiz_files_sha256": "eb01d7a128686a4669ae9ef3cdb0bcde21aae7805cf9959b791fccf4b5ab79a4",
+    "baseline_quiz_ids_sha256": "3d526c0a8da254c88b52f69d783035f2f1d918f51eea1f7b01aa984018dc70a1",
+    "core_files_sha256": "9cab67f801aff4b89a91d1779aa9dbe5bc7571288cc168cee646325a20486c12"
+  },
+  "distributions": {
+    "gold_call_tool": {
+      "carcontrol_airConditioner_set_circulation": 20,
+      "carcontrol_airConditioner_set_fan_speed": 13,
+      "carcontrol_airConditioner_set_mode": 16,
+      "carcontrol_airConditioner_set_temperature": 25,
+      "carcontrol_door_set_locked": 10,
+      "carcontrol_frontTrunk_switch": 12,
+      "carcontrol_light_set_ambient_color": 13,
+      "carcontrol_music_set_volume": 10,
+      "carcontrol_music_switch": 9,
+      "carcontrol_navigation_navigate_to": 18,
+      "carcontrol_navigation_set_voice_mode": 17,
+      "carcontrol_radio_switch": 1,
+      "carcontrol_seat_set_heating_level": 2,
+      "carcontrol_seat_set_ventilation_speed": 10,
+      "carcontrol_steeringWheel_set_heating_enabled": 11,
+      "carcontrol_sunroof_set_open_degree": 12,
+      "carcontrol_trunk_switch": 10,
+      "carcontrol_window_set_open_degree": 14
+    },
+    "quiz_type": {
+      "FINAL": 120,
+      "TURN": 80
+    },
+    "quiz_type_by_reasoning_type": {
+      "FINAL::conditional_constraint": 64,
+      "FINAL::error_correction": 39,
+      "FINAL::state_shift": 17,
+      "TURN::conditional_constraint": 34,
+      "TURN::error_correction": 1,
+      "TURN::state_shift": 45
+    },
+    "reasoning_type": {
+      "conditional_constraint": 98,
+      "error_correction": 40,
+      "state_shift": 62
+    }
+  },
+  "immutability_contract": {
+    "baseline_quiz_files": [
+      "turn_quiz.jsonl",
+      "final_quiz.jsonl"
+    ],
+    "core_files": [
+      "dialogue.jsonl",
+      "memory_snapshots.jsonl",
+      "patch.jsonl"
+    ],
+    "rule": "Do not modify source files; write expanded quizzes to a versioned sibling dataset."
+  },
+  "purpose": "immutable baseline for adding quizzes without changing dialogue or gold memory",
+  "scenario_ids": [
+    "HVP01",
+    "HVP02",
+    "HVP03",
+    "HVP04",
+    "HVP05",
+    "HVP06",
+    "HVP07",
+    "HVP08",
+    "HVP09",
+    "HVP10",
+    "HVP11",
+    "HVP12",
+    "HVP13",
+    "HVP14",
+    "HVP15",
+    "HVP16",
+    "HVP17",
+    "HVP18",
+    "HVP19",
+    "HVP20"
+  ],
+  "scenarios": [
+    {
+      "counts": {
+        "dialogue_turns": 50,
+        "final_quizzes": 6,
+        "noops": 40,
+        "turn_quizzes": 4,
+        "updates": 10
+      },
+      "files": {
+        "dialogue.jsonl": {
+          "bytes": 33519,
+          "row_count": 50,
+          "sha256": "8a0aa739514f536ae49c206410d6b8c46ba84df908f409efce6720ff3ebdfb69"
+        },
+        "final_quiz.jsonl": {
+          "bytes": 91889,
+          "row_count": 6,
+          "sha256": "f758d5386e2e60a8aa034ded5af4a4d8a0f81c1950cd009c6afcce5dab66fd1b"
+        },
+        "manifest.json": {
+          "bytes": 4047,
+          "sha256": "b524565a66b218d58996e17bfa79520a406ab0648a550f6e8e221e3e41e1e3ee"
+        },
+        "memory_snapshots.jsonl": {
+          "bytes": 31441,
+          "row_count": 50,
+          "sha256": "a8de369bdf910c6a2c63d13ad8ac69e5c758028f9deb1e42bbc0b18bbfd38dde"
+        },
+        "patch.jsonl": {
+          "bytes": 92916,
+          "row_count": 50,
+          "sha256": "f203cbab9821b20cc6734cc5e3b1c6fd4a2e583f5410438cbffb30aca695aed5"
+        },
+        "turn_quiz.jsonl": {
+          "bytes": 60931,
+          "row_count": 4,
+          "sha256": "1133c33ac8318bd1ca7e57ffb693611bb797d707eb80f1208ad2edcf7f16529f"
+        }
+      },
+      "quiz_type_reasoning_distribution": {
+        "FINAL::conditional_constraint": 3,
+        "FINAL::error_correction": 2,
+        "FINAL::state_shift": 1,
+        "TURN::conditional_constraint": 1,
+        "TURN::state_shift": 3
+      },
+      "reasoning_type_distribution": {
+        "conditional_constraint": 4,
+        "error_correction": 2,
+        "state_shift": 4
+      },
+      "scenario_id": "HVP01",
+      "scenario_index": 901
+    },
+    {
+      "counts": {
+        "dialogue_turns": 50,
+        "final_quizzes": 6,
+        "noops": 40,
+        "turn_quizzes": 4,
+        "updates": 10
+      },
+      "files": {
+        "dialogue.jsonl": {
+          "bytes": 34335,
+          "row_count": 50,
+          "sha256": "c37bc96264a24574ad9552ec2fd6f9bd25d8ce8dda87d26cbf06bb42579c9fee"
+        },
+        "final_quiz.jsonl": {
+          "bytes": 91933,
+          "row_count": 6,
+          "sha256": "f960a94903848dfef05f954e0d3d0fd5448a599747dda3037862434d175a0b70"
+        },
+        "manifest.json": {
+          "bytes": 4067,
+          "sha256": "c22a88a936f4459db73a9d23f94aa7b828dbfde033a38833b401a097d7c756e6"
+        },
+        "memory_snapshots.jsonl": {
+          "bytes": 31379,
+          "row_count": 50,
+          "sha256": "595886efdc0c588cffc1a86ca1853c8d689d604850c4c0d2509a1b7449aa38cc"
+        },
+        "patch.jsonl": {
+          "bytes": 93216,
+          "row_count": 50,
+          "sha256": "0e3c37056dbe2816f54f0aca56b800479e90e8cd6e2373542ba288ff93366621"
+        },
+        "turn_quiz.jsonl": {
+          "bytes": 60983,
+          "row_count": 4,
+          "sha256": "f6f1f2b0c7024cc4db1f2a0fb83aa5d5b1eb6e8e8f084f6b77fa5b4947e0dfc2"
+        }
+      },
+      "quiz_type_reasoning_distribution": {
+        "FINAL::conditional_constraint": 3,
+        "FINAL::error_correction": 1,
+        "FINAL::state_shift": 2,
+        "TURN::conditional_constraint": 1,
+        "TURN::state_shift": 3
+      },
+      "reasoning_type_distribution": {
+        "conditional_constraint": 4,
+        "error_correction": 1,
+        "state_shift": 5
+      },
+      "scenario_id": "HVP02",
+      "scenario_index": 902
+    },
+    {
+      "counts": {
+        "dialogue_turns": 50,
+        "final_quizzes": 6,
+        "noops": 40,
+        "turn_quizzes": 4,
+        "updates": 10
+      },
+      "files": {
+        "dialogue.jsonl": {
+          "bytes": 36044,
+          "row_count": 50,
+          "sha256": "3b6c488e681c5421445a2b7fd83eecf8cd5a1efa1e6f58aca2ba6cc978b21f03"
+        },
+        "final_quiz.jsonl": {
+          "bytes": 91862,
+          "row_count": 6,
+          "sha256": "019e92d695179c63a23b19c8f271eca36118ba96006fdf6f5fab45e30ffae0f6"
+        },
+        "manifest.json": {
+          "bytes": 3749,
+          "sha256": "e195a0d3d356e6723ac203b085162a9ac1e7a021f3caf0e9ea2ed839f699822b"
+        },
+        "memory_snapshots.jsonl": {
+          "bytes": 43299,
+          "row_count": 50,
+          "sha256": "1a0b47e3ce39057d7567bc07a580bd5bb18a1ed40b42bfd0f1fc329cf81c5079"
+        },
+        "patch.jsonl": {
+          "bytes": 105050,
+          "row_count": 50,
+          "sha256": "59949f2775b4908f8a2435ff73cf606b05d23416c95eb105326a99b5cbfc0a2e"
+        },
+        "turn_quiz.jsonl": {
+          "bytes": 61129,
+          "row_count": 4,
+          "sha256": "3e3623c5384c971f6683e24c2cd444bc2a660a04e18a852089d717df3268d571"
+        }
+      },
+      "quiz_type_reasoning_distribution": {
+        "FINAL::conditional_constraint": 3,
+        "FINAL::error_correction": 2,
+        "FINAL::state_shift": 1,
+        "TURN::conditional_constraint": 3,
+        "TURN::state_shift": 1
+      },
+      "reasoning_type_distribution": {
+        "conditional_constraint": 6,
+        "error_correction": 2,
+        "state_shift": 2
+      },
+      "scenario_id": "HVP03",
+      "scenario_index": 903
+    },
+    {
+      "counts": {
+        "dialogue_turns": 50,
+        "final_quizzes": 6,
+        "noops": 40,
+        "turn_quizzes": 4,
+        "updates": 10
+      },
+      "files": {
+        "dialogue.jsonl": {
+          "bytes": 35307,
+          "row_count": 50,
+          "sha256": "82c7570a986243453c5e29d87230951f3305a15de82163341ff924b5d469094c"
+        },
+        "final_quiz.jsonl": {
+          "bytes": 91748,
+          "row_count": 6,
+          "sha256": "8066d120b3a010e13e21ff018c3c47ef4f63fff9e5fbb2f1e4435ff43ac33d22"
+        },
+        "manifest.json": {
+          "bytes": 3909,
+          "sha256": "7db8dff1a9ce065cac81a52a0b89e79823a33bcb59e85c0ba3cd4fa906a42245"
+        },
+        "memory_snapshots.jsonl": {
+          "bytes": 36825,
+          "row_count": 50,
+          "sha256": "1a48711606652904dcacbaf2525bd6bede8efa3c85240efcd88296065e4bd519"
+        },
+        "patch.jsonl": {
+          "bytes": 98310,
+          "row_count": 50,
+          "sha256": "48431d88e58f4549083ef2194b15e1e9c47570c24d70765a549013095a538522"
+        },
+        "turn_quiz.jsonl": {
+          "bytes": 61004,
+          "row_count": 4,
+          "sha256": "070b632978c1e3c4327589cb466aeec14a135074e46f9ce6c85d98e7825e2d23"
+        }
+      },
+      "quiz_type_reasoning_distribution": {
+        "FINAL::conditional_constraint": 5,
+        "FINAL::error_correction": 1,
+        "TURN::conditional_constraint": 3,
+        "TURN::state_shift": 1
+      },
+      "reasoning_type_distribution": {
+        "conditional_constraint": 8,
+        "error_correction": 1,
+        "state_shift": 1
+      },
+      "scenario_id": "HVP04",
+      "scenario_index": 904
+    },
+    {
+      "counts": {
+        "dialogue_turns": 50,
+        "final_quizzes": 6,
+        "noops": 43,
+        "turn_quizzes": 4,
+        "updates": 7
+      },
+      "files": {
+        "dialogue.jsonl": {
+          "bytes": 35116,
+          "row_count": 50,
+          "sha256": "b715806b3a0b2f98bcd55f450627c923de605d7635d4789b59e946cb19975ce2"
+        },
+        "final_quiz.jsonl": {
+          "bytes": 91440,
+          "row_count": 6,
+          "sha256": "1765846fa5b29931833290d93b74bf3443fadd0c5f6f848e0996cc635d30da48"
+        },
+        "manifest.json": {
+          "bytes": 3863,
+          "sha256": "3aa707a2e72495a95566b6bd1642fdcb5b4cccc2bf3d8829193feda1caecc2a6"
+        },
+        "memory_snapshots.jsonl": {
+          "bytes": 27060,
+          "row_count": 50,
+          "sha256": "8837efbc45c15ba42d74bb1804e2ef32d92cad21033b02079ae29caa300e0f3c"
+        },
+        "patch.jsonl": {
+          "bytes": 89317,
+          "row_count": 50,
+          "sha256": "eecaa4e97ad5aea9e944d8afa7f651d3a331e5b561fbb52184fe87c0ddd9eea6"
+        },
+        "turn_quiz.jsonl": {
+          "bytes": 60871,
+          "row_count": 4,
+          "sha256": "c6e0b9e44fd65d251f2d43129eeed0ada5f50a6dfc1a0e2e679f0b57a785d695"
+        }
+      },
+      "quiz_type_reasoning_distribution": {
+        "FINAL::conditional_constraint": 4,
+        "FINAL::error_correction": 2,
+        "TURN::conditional_constraint": 2,
+        "TURN::error_correction": 1,
+        "TURN::state_shift": 1
+      },
+      "reasoning_type_distribution": {
+        "conditional_constraint": 6,
+        "error_correction": 3,
+        "state_shift": 1
+      },
+      "scenario_id": "HVP05",
+      "scenario_index": 905
+    },
+    {
+      "counts": {
+        "dialogue_turns": 50,
+        "final_quizzes": 6,
+        "noops": 43,
+        "turn_quizzes": 4,
+        "updates": 7
+      },
+      "files": {
+        "dialogue.jsonl": {
+          "bytes": 33536,
+          "row_count": 50,
+          "sha256": "e9c716e90609e201081711699f2e1ed24cec48129a6006a475702dda168eec3b"
+        },
+        "final_quiz.jsonl": {
+          "bytes": 92041,
+          "row_count": 6,
+          "sha256": "2cccbd98a3e2c909401dc59d8f698b86f49a2b340d9e1eec6fc476ddb419a0fa"
+        },
+        "manifest.json": {
+          "bytes": 3830,
+          "sha256": "8bdbcda84a5a5e5aed4e52ed2c99949ee19e9ef47875d5dfe2b58bfbe178fc70"
+        },
+        "memory_snapshots.jsonl": {
+          "bytes": 29370,
+          "row_count": 50,
+          "sha256": "a8d70d0e0d0c7a9cc0d47f86f490e7850f1b4664fe7aba2edcd459ddde94be9b"
+        },
+        "patch.jsonl": {
+          "bytes": 90060,
+          "row_count": 50,
+          "sha256": "c257da8957f19c8112328331950e63bf134a94bfd124c897a242021e12144147"
+        },
+        "turn_quiz.jsonl": {
+          "bytes": 61068,
+          "row_count": 4,
+          "sha256": "ae846e734fd2736cdc0f04cdb7d52d5af2d5ee51cd6e24123a999572d2f3440f"
+        }
+      },
+      "quiz_type_reasoning_distribution": {
+        "FINAL::conditional_constraint": 3,
+        "FINAL::error_correction": 3,
+        "TURN::conditional_constraint": 2,
+        "TURN::state_shift": 2
+      },
+      "reasoning_type_distribution": {
+        "conditional_constraint": 5,
+        "error_correction": 3,
+        "state_shift": 2
+      },
+      "scenario_id": "HVP06",
+      "scenario_index": 906
+    },
+    {
+      "counts": {
+        "dialogue_turns": 50,
+        "final_quizzes": 6,
+        "noops": 43,
+        "turn_quizzes": 4,
+        "updates": 7
+      },
+      "files": {
+        "dialogue.jsonl": {
+          "bytes": 37537,
+          "row_count": 50,
+          "sha256": "d6e4ab769553d1a1f596c98759b6730b755c18dca4328c53462a023acc45a038"
+        },
+        "final_quiz.jsonl": {
+          "bytes": 91489,
+          "row_count": 6,
+          "sha256": "6389ba7146490bae48414739b86edcae7002927a940909da19a2cf3c0fd88fbd"
+        },
+        "manifest.json": {
+          "bytes": 3842,
+          "sha256": "d5ddfd1ccc473d791bb916acc62f7c575b46ef49308d3b794be37177c6fbd2e1"
+        },
+        "memory_snapshots.jsonl": {
+          "bytes": 28597,
+          "row_count": 50,
+          "sha256": "601a7f061f8cd0cde8514f96a925c8adeb0ed97e2b0f98ff05abdda6aa05ff03"
+        },
+        "patch.jsonl": {
+          "bytes": 93461,
+          "row_count": 50,
+          "sha256": "2fc06e6f7ccc4d4f0e6195c3cd3f39993adf18f532e09552585481c8af9acb8e"
+        },
+        "turn_quiz.jsonl": {
+          "bytes": 60919,
+          "row_count": 4,
+          "sha256": "74fb385d8a8711b54525eefcd7580a42ab53b9a0cc1e42a1ef7028c8cd7334be"
+        }
+      },
+      "quiz_type_reasoning_distribution": {
+        "FINAL::conditional_constraint": 3,
+        "FINAL::error_correction": 2,
+        "FINAL::state_shift": 1,
+        "TURN::conditional_constraint": 2,
+        "TURN::state_shift": 2
+      },
+      "reasoning_type_distribution": {
+        "conditional_constraint": 5,
+        "error_correction": 2,
+        "state_shift": 3
+      },
+      "scenario_id": "HVP07",
+      "scenario_index": 907
+    },
+    {
+      "counts": {
+        "dialogue_turns": 50,
+        "final_quizzes": 6,
+        "noops": 40,
+        "turn_quizzes": 4,
+        "updates": 10
+      },
+      "files": {
+        "dialogue.jsonl": {
+          "bytes": 35143,
+          "row_count": 50,
+          "sha256": "b0ec8772f2d37a382373551d6ce8f20b8a6d5618d229e63cbf3c742dca59d6f5"
+        },
+        "final_quiz.jsonl": {
+          "bytes": 91929,
+          "row_count": 6,
+          "sha256": "6681affb013a78c23fe1758a720e67d9a93260b5ddc3e6a608fd62dc7765ffc9"
+        },
+        "manifest.json": {
+          "bytes": 4034,
+          "sha256": "3d9e5fa11449daf10390044be1da1b650f353fdd715c85c1cbca678637a1d9fe"
+        },
+        "memory_snapshots.jsonl": {
+          "bytes": 31729,
+          "row_count": 50,
+          "sha256": "9db315ca500b7e64c8bdf829375e03e45680a3d1c56f5bab8245b54d2b10677f"
+        },
+        "patch.jsonl": {
+          "bytes": 95539,
+          "row_count": 50,
+          "sha256": "525507f5ae24df58a2f6fdc4ab8e444e3966ee5315f3e5f3f56e75035c2e17fb"
+        },
+        "turn_quiz.jsonl": {
+          "bytes": 61257,
+          "row_count": 4,
+          "sha256": "22be01acc65bc54392ace9a051161cca3375d95867839d0126eb93087e1a8cb6"
+        }
+      },
+      "quiz_type_reasoning_distribution": {
+        "FINAL::conditional_constraint": 2,
+        "FINAL::error_correction": 2,
+        "FINAL::state_shift": 2,
+        "TURN::conditional_constraint": 1,
+        "TURN::state_shift": 3
+      },
+      "reasoning_type_distribution": {
+        "conditional_constraint": 3,
+        "error_correction": 2,
+        "state_shift": 5
+      },
+      "scenario_id": "HVP08",
+      "scenario_index": 908
+    },
+    {
+      "counts": {
+        "dialogue_turns": 50,
+        "final_quizzes": 6,
+        "noops": 40,
+        "turn_quizzes": 4,
+        "updates": 10
+      },
+      "files": {
+        "dialogue.jsonl": {
+          "bytes": 36042,
+          "row_count": 50,
+          "sha256": "0a19dee799aebfcae888f2dcb0d7c6d76e17a19d212330144aeb8e685fc56055"
+        },
+        "final_quiz.jsonl": {
+          "bytes": 91634,
+          "row_count": 6,
+          "sha256": "8865e70f2e14a0477e539e8c569389ba7f16db4634e07bc00c10e7d7193d1b20"
+        },
+        "manifest.json": {
+          "bytes": 4061,
+          "sha256": "65c0298d553541cae5ea7d78633c4d92e0e0f9ae9dc4dd4a5db7b72d2d23ecdc"
+        },
+        "memory_snapshots.jsonl": {
+          "bytes": 30814,
+          "row_count": 50,
+          "sha256": "2575976e93358085fca1567ebe4a862ec9b7c1d9f4a5d4a802990ed02f1186ce"
+        },
+        "patch.jsonl": {
+          "bytes": 95224,
+          "row_count": 50,
+          "sha256": "a60d73751c1e726e7fb080f87f70932e690a0c372234445a1395f0946a73e1db"
+        },
+        "turn_quiz.jsonl": {
+          "bytes": 60919,
+          "row_count": 4,
+          "sha256": "d757b1a18d958d628e66056a1c053f359d60b5d02d008006fbad466c7410c667"
+        }
+      },
+      "quiz_type_reasoning_distribution": {
+        "FINAL::conditional_constraint": 4,
+        "FINAL::error_correction": 2,
+        "TURN::conditional_constraint": 3,
+        "TURN::state_shift": 1
+      },
+      "reasoning_type_distribution": {
+        "conditional_constraint": 7,
+        "error_correction": 2,
+        "state_shift": 1
+      },
+      "scenario_id": "HVP09",
+      "scenario_index": 909
+    },
+    {
+      "counts": {
+        "dialogue_turns": 50,
+        "final_quizzes": 6,
+        "noops": 40,
+        "turn_quizzes": 4,
+        "updates": 10
+      },
+      "files": {
+        "dialogue.jsonl": {
+          "bytes": 35215,
+          "row_count": 50,
+          "sha256": "e12eaf870d7773b2a167cc57b536b342ec6f599e2ccb0824e8d973d91876268d"
+        },
+        "final_quiz.jsonl": {
+          "bytes": 91870,
+          "row_count": 6,
+          "sha256": "f8d7f14efdc05aec4c56218a17e9d656976451fed645cb3bc322f85c11318c99"
+        },
+        "manifest.json": {
+          "bytes": 4038,
+          "sha256": "9d09fbc0b8ad1dd0f37f1f45dde0009dde39a6ad1fb70fc285e863f247ed6ddb"
+        },
+        "memory_snapshots.jsonl": {
+          "bytes": 31875,
+          "row_count": 50,
+          "sha256": "17471e40fa6dfdcb767dda09530caaee695fbfdbde3f2b8d33639b34bbe28423"
+        },
+        "patch.jsonl": {
+          "bytes": 95553,
+          "row_count": 50,
+          "sha256": "ac61afa57d8dbbaf4e19f1e7452412102d427e858eda8bf5758e055df507f1c1"
+        },
+        "turn_quiz.jsonl": {
+          "bytes": 61122,
+          "row_count": 4,
+          "sha256": "83b0407801a45a3d4afe297ddc46fa97af1349bd9187b43e46837714cd09d903"
+        }
+      },
+      "quiz_type_reasoning_distribution": {
+        "FINAL::conditional_constraint": 3,
+        "FINAL::error_correction": 2,
+        "FINAL::state_shift": 1,
+        "TURN::conditional_constraint": 2,
+        "TURN::state_shift": 2
+      },
+      "reasoning_type_distribution": {
+        "conditional_constraint": 5,
+        "error_correction": 2,
+        "state_shift": 3
+      },
+      "scenario_id": "HVP10",
+      "scenario_index": 910
+    },
+    {
+      "counts": {
+        "dialogue_turns": 50,
+        "final_quizzes": 6,
+        "noops": 40,
+        "turn_quizzes": 4,
+        "updates": 10
+      },
+      "files": {
+        "dialogue.jsonl": {
+          "bytes": 37523,
+          "row_count": 50,
+          "sha256": "874b63370b9df14e64eedc5b34d93777581f5db33fa6449a75cb5a6e1d2c7bd3"
+        },
+        "final_quiz.jsonl": {
+          "bytes": 91877,
+          "row_count": 6,
+          "sha256": "c94a2549b244f12b7a6929a115f5f26bef653af5736a49de0fe473cba1e7c743"
+        },
+        "manifest.json": {
+          "bytes": 4052,
+          "sha256": "fce6c89bae765ca155399cd81da6c99c6b3608a64d3a399cd64baef991f74b73"
+        },
+        "memory_snapshots.jsonl": {
+          "bytes": 31570,
+          "row_count": 50,
+          "sha256": "59c6f0bb8e8c782d3c5ff505297cbd10cf027b6b53c966cf77bf34a659ed60ef"
+        },
+        "patch.jsonl": {
+          "bytes": 97204,
+          "row_count": 50,
+          "sha256": "fbb3d888dbfd54e0badc53a61f58379816870e2430b1afecf139cde5c120eb59"
+        },
+        "turn_quiz.jsonl": {
+          "bytes": 61000,
+          "row_count": 4,
+          "sha256": "fe64e45b17d80d1f9e8c9e4211906a1e0483eb1fac1a67c3161b4e415bc83a6d"
+        }
+      },
+      "quiz_type_reasoning_distribution": {
+        "FINAL::conditional_constraint": 1,
+        "FINAL::error_correction": 2,
+        "FINAL::state_shift": 3,
+        "TURN::conditional_constraint": 1,
+        "TURN::state_shift": 3
+      },
+      "reasoning_type_distribution": {
+        "conditional_constraint": 2,
+        "error_correction": 2,
+        "state_shift": 6
+      },
+      "scenario_id": "HVP11",
+      "scenario_index": 911
+    },
+    {
+      "counts": {
+        "dialogue_turns": 50,
+        "final_quizzes": 6,
+        "noops": 40,
+        "turn_quizzes": 4,
+        "updates": 10
+      },
+      "files": {
+        "dialogue.jsonl": {
+          "bytes": 35185,
+          "row_count": 50,
+          "sha256": "21995dc264af97229ac196c2df9118d3bf39739b4f7a4f6a71b5ba69d39c4e48"
+        },
+        "final_quiz.jsonl": {
+          "bytes": 91905,
+          "row_count": 6,
+          "sha256": "c404b8186c81ee3e7ce604b8cc3576f6d4129411daf0e651078fb1ae8dec2f6c"
+        },
+        "manifest.json": {
+          "bytes": 4048,
+          "sha256": "e20c86a8fec0c2cd2374a12b084b2d28fc64166b726d803ce9918b244108b73c"
+        },
+        "memory_snapshots.jsonl": {
+          "bytes": 31445,
+          "row_count": 50,
+          "sha256": "432cd14b12045e9d5ff4db941828121bfabe1bd64d589170809182f4fc3ec22e"
+        },
+        "patch.jsonl": {
+          "bytes": 94648,
+          "row_count": 50,
+          "sha256": "a6c47913ac744ca05ba49a5ec32a250f4bd0624559340d5dbc8b9f6354e7662c"
+        },
+        "turn_quiz.jsonl": {
+          "bytes": 61052,
+          "row_count": 4,
+          "sha256": "1797cde8477bbceb841b89815e292fb56a05c9d4742c2e5da772c98411644448"
+        }
+      },
+      "quiz_type_reasoning_distribution": {
+        "FINAL::conditional_constraint": 3,
+        "FINAL::error_correction": 2,
+        "FINAL::state_shift": 1,
+        "TURN::conditional_constraint": 2,
+        "TURN::state_shift": 2
+      },
+      "reasoning_type_distribution": {
+        "conditional_constraint": 5,
+        "error_correction": 2,
+        "state_shift": 3
+      },
+      "scenario_id": "HVP12",
+      "scenario_index": 912
+    },
+    {
+      "counts": {
+        "dialogue_turns": 50,
+        "final_quizzes": 6,
+        "noops": 40,
+        "turn_quizzes": 4,
+        "updates": 10
+      },
+      "files": {
+        "dialogue.jsonl": {
+          "bytes": 35153,
+          "row_count": 50,
+          "sha256": "7fa25c6a373bb035dce0c3fd04933d483fc2a0f2b274bb99fb97a140aaa96836"
+        },
+        "final_quiz.jsonl": {
+          "bytes": 91736,
+          "row_count": 6,
+          "sha256": "a0c8d5fd47752db419bb92c846f2a4198794630a557e55026b3ee5392ce58668"
+        },
+        "manifest.json": {
+          "bytes": 4031,
+          "sha256": "0a4e4054a60b60041ea0b56ec2d31fdf10871510cb22f80a44e330f20cc982c7"
+        },
+        "memory_snapshots.jsonl": {
+          "bytes": 31549,
+          "row_count": 50,
+          "sha256": "0cbbf7f17bbf0c1f4bee3eeb661898cd76e094dbec5d871154e4bb75d9600cf6"
+        },
+        "patch.jsonl": {
+          "bytes": 94782,
+          "row_count": 50,
+          "sha256": "eb5377a3c6a999ae014c8ad922e714a4e42f6cfd0de89dd931e23ec3a70763c2"
+        },
+        "turn_quiz.jsonl": {
+          "bytes": 61100,
+          "row_count": 4,
+          "sha256": "dc54daf313b8ac7ccf10e4909469fe6d277473464820b77f2e3377fdfeed556c"
+        }
+      },
+      "quiz_type_reasoning_distribution": {
+        "FINAL::conditional_constraint": 3,
+        "FINAL::error_correction": 2,
+        "FINAL::state_shift": 1,
+        "TURN::conditional_constraint": 1,
+        "TURN::state_shift": 3
+      },
+      "reasoning_type_distribution": {
+        "conditional_constraint": 4,
+        "error_correction": 2,
+        "state_shift": 4
+      },
+      "scenario_id": "HVP13",
+      "scenario_index": 913
+    },
+    {
+      "counts": {
+        "dialogue_turns": 50,
+        "final_quizzes": 6,
+        "noops": 40,
+        "turn_quizzes": 4,
+        "updates": 10
+      },
+      "files": {
+        "dialogue.jsonl": {
+          "bytes": 33746,
+          "row_count": 50,
+          "sha256": "f4c7c9b48d60faf40cc5cfa3169c431df68510fa7c9739efec5498452655eade"
+        },
+        "final_quiz.jsonl": {
+          "bytes": 91656,
+          "row_count": 6,
+          "sha256": "d0a06462f6d4bced3cfc9ec5e6a72e75f24f7a172b5b30bc7e6c5580f6915e45"
+        },
+        "manifest.json": {
+          "bytes": 4015,
+          "sha256": "e4a61a8f5950e57131838eaec35c8457cd79931495a021e3f69a4f84f532818b"
+        },
+        "memory_snapshots.jsonl": {
+          "bytes": 30816,
+          "row_count": 50,
+          "sha256": "e1b448a0d1ce5c95c451c38ebecb0400d22313cbec0f797ad2a0471a9336bf58"
+        },
+        "patch.jsonl": {
+          "bytes": 92571,
+          "row_count": 50,
+          "sha256": "037b1d077a00499e67e68a59529ea41573daf16c70a387650eaf16841c951278"
+        },
+        "turn_quiz.jsonl": {
+          "bytes": 60959,
+          "row_count": 4,
+          "sha256": "b81cf74f9b6c8c423e6afd94f91c0f9296e3e4452f2c082220b103524ec75d1b"
+        }
+      },
+      "quiz_type_reasoning_distribution": {
+        "FINAL::conditional_constraint": 3,
+        "FINAL::error_correction": 3,
+        "TURN::conditional_constraint": 2,
+        "TURN::state_shift": 2
+      },
+      "reasoning_type_distribution": {
+        "conditional_constraint": 5,
+        "error_correction": 3,
+        "state_shift": 2
+      },
+      "scenario_id": "HVP14",
+      "scenario_index": 914
+    },
+    {
+      "counts": {
+        "dialogue_turns": 50,
+        "final_quizzes": 6,
+        "noops": 40,
+        "turn_quizzes": 4,
+        "updates": 10
+      },
+      "files": {
+        "dialogue.jsonl": {
+          "bytes": 34717,
+          "row_count": 50,
+          "sha256": "1505fce66f0ff423ad941fca0242244ca3950b8572ac5d489301a40d3cddecb7"
+        },
+        "final_quiz.jsonl": {
+          "bytes": 91707,
+          "row_count": 6,
+          "sha256": "82406433838e9734d8cdde31c2432d6e382428d44b75b2cf27cc78fc701ccadb"
+        },
+        "manifest.json": {
+          "bytes": 4016,
+          "sha256": "8c48152f4b940fe480308af9a7cc51f5e3c4acec6f50e8a718a0847e9bebd33c"
+        },
+        "memory_snapshots.jsonl": {
+          "bytes": 36145,
+          "row_count": 50,
+          "sha256": "1097e5c571bac47cef825b16f08f1d9d6654899bc15df0c3be5ef69b29e3e452"
+        },
+        "patch.jsonl": {
+          "bytes": 98409,
+          "row_count": 50,
+          "sha256": "2db5c98ac373a83f11b7bfa8b7ee614c0e95c8da595a13241caff01c8b40d839"
+        },
+        "turn_quiz.jsonl": {
+          "bytes": 61079,
+          "row_count": 4,
+          "sha256": "d35008de167918c0b22a74e08e88e37315589019f5a2f1c86e0621afc9f4d013"
+        }
+      },
+      "quiz_type_reasoning_distribution": {
+        "FINAL::conditional_constraint": 3,
+        "FINAL::error_correction": 3,
+        "TURN::conditional_constraint": 1,
+        "TURN::state_shift": 3
+      },
+      "reasoning_type_distribution": {
+        "conditional_constraint": 4,
+        "error_correction": 3,
+        "state_shift": 3
+      },
+      "scenario_id": "HVP15",
+      "scenario_index": 915
+    },
+    {
+      "counts": {
+        "dialogue_turns": 50,
+        "final_quizzes": 6,
+        "noops": 40,
+        "turn_quizzes": 4,
+        "updates": 10
+      },
+      "files": {
+        "dialogue.jsonl": {
+          "bytes": 34814,
+          "row_count": 50,
+          "sha256": "5cc1b1b75c631b51a5413b89f1b789161f55b9e869dd7ceefa88881db6547999"
+        },
+        "final_quiz.jsonl": {
+          "bytes": 91756,
+          "row_count": 6,
+          "sha256": "9c782404a606b218df85e5264f42a12113d9bbfaccebc953a55f343ed51bcf88"
+        },
+        "manifest.json": {
+          "bytes": 4019,
+          "sha256": "527c46b8783364fd088a7839296cc119595254e5b732cbab5a623272a97ebcbd"
+        },
+        "memory_snapshots.jsonl": {
+          "bytes": 34738,
+          "row_count": 50,
+          "sha256": "6dc31508a6c09747c6a9bbf54bfd7f6ecea679a784e59c275113f2dfb1c50292"
+        },
+        "patch.jsonl": {
+          "bytes": 96921,
+          "row_count": 50,
+          "sha256": "ca9e9ea2df166e6a6a6b0936d964e537d4f6ee0c3339f55de413c5a05325faa3"
+        },
+        "turn_quiz.jsonl": {
+          "bytes": 60981,
+          "row_count": 4,
+          "sha256": "8e950f726159057ca0e4d77b03c36464ff4a7ec94c16c2fa3f56f7752548dc44"
+        }
+      },
+      "quiz_type_reasoning_distribution": {
+        "FINAL::conditional_constraint": 5,
+        "FINAL::error_correction": 1,
+        "TURN::conditional_constraint": 3,
+        "TURN::state_shift": 1
+      },
+      "reasoning_type_distribution": {
+        "conditional_constraint": 8,
+        "error_correction": 1,
+        "state_shift": 1
+      },
+      "scenario_id": "HVP16",
+      "scenario_index": 916
+    },
+    {
+      "counts": {
+        "dialogue_turns": 50,
+        "final_quizzes": 6,
+        "noops": 40,
+        "turn_quizzes": 4,
+        "updates": 10
+      },
+      "files": {
+        "dialogue.jsonl": {
+          "bytes": 34570,
+          "row_count": 50,
+          "sha256": "996bce69359fde2455929d237b372afc6226613d0f092264524f5c7fc46183a3"
+        },
+        "final_quiz.jsonl": {
+          "bytes": 91876,
+          "row_count": 6,
+          "sha256": "b72823af2c18e6041d9b0fdd0222c46d4c284920c0e70da280d47994e1039363"
+        },
+        "manifest.json": {
+          "bytes": 4031,
+          "sha256": "282f0ba50784f1096d04b193c580ba441883695f8de127369dc75cc54cd299ab"
+        },
+        "memory_snapshots.jsonl": {
+          "bytes": 31799,
+          "row_count": 50,
+          "sha256": "82999922efc6e8fd39ef1ac532e14cd9f15f69333f45be784e1fdfc4458693ae"
+        },
+        "patch.jsonl": {
+          "bytes": 94746,
+          "row_count": 50,
+          "sha256": "493a4fcebd5dfe39f8065ad8d6b5ca5430beea79387a4b780ef4438fdb713fa8"
+        },
+        "turn_quiz.jsonl": {
+          "bytes": 61081,
+          "row_count": 4,
+          "sha256": "17441e5485198245568d024b1ba845be4a163cc308c782f20ea0a637df214cf9"
+        }
+      },
+      "quiz_type_reasoning_distribution": {
+        "FINAL::conditional_constraint": 3,
+        "FINAL::error_correction": 2,
+        "FINAL::state_shift": 1,
+        "TURN::conditional_constraint": 1,
+        "TURN::state_shift": 3
+      },
+      "reasoning_type_distribution": {
+        "conditional_constraint": 4,
+        "error_correction": 2,
+        "state_shift": 4
+      },
+      "scenario_id": "HVP17",
+      "scenario_index": 917
+    },
+    {
+      "counts": {
+        "dialogue_turns": 50,
+        "final_quizzes": 6,
+        "noops": 40,
+        "turn_quizzes": 4,
+        "updates": 10
+      },
+      "files": {
+        "dialogue.jsonl": {
+          "bytes": 35185,
+          "row_count": 50,
+          "sha256": "b3c4d5d02cfe9656931c0dad2c8fc23fd6f1a4804a406dfd09ffb544c9020f15"
+        },
+        "final_quiz.jsonl": {
+          "bytes": 91820,
+          "row_count": 6,
+          "sha256": "9c764eebc7d2b0fb3842972926b49cd2b8323646324482b72bb81b3b05cd7ea4"
+        },
+        "manifest.json": {
+          "bytes": 4055,
+          "sha256": "58747dab15b5b30321ec46ca4919b68fa73ff46bb97daf26cf6ff62ab4587864"
+        },
+        "memory_snapshots.jsonl": {
+          "bytes": 31847,
+          "row_count": 50,
+          "sha256": "666b9a60c7b878dbe41c9b7b7818bb8611fcd6ac4c31e120bacbe20163f91e4c"
+        },
+        "patch.jsonl": {
+          "bytes": 95249,
+          "row_count": 50,
+          "sha256": "405feb0afb2146a566c16e6eb2e1fad64afb4db6303225bb24c7cffc15312716"
+        },
+        "turn_quiz.jsonl": {
+          "bytes": 61100,
+          "row_count": 4,
+          "sha256": "fa9999aab62ad98f8fb460d62daa5a671a026b18c219656eeff57018c08bb392"
+        }
+      },
+      "quiz_type_reasoning_distribution": {
+        "FINAL::conditional_constraint": 4,
+        "FINAL::error_correction": 2,
+        "TURN::conditional_constraint": 1,
+        "TURN::state_shift": 3
+      },
+      "reasoning_type_distribution": {
+        "conditional_constraint": 5,
+        "error_correction": 2,
+        "state_shift": 3
+      },
+      "scenario_id": "HVP18",
+      "scenario_index": 918
+    },
+    {
+      "counts": {
+        "dialogue_turns": 50,
+        "final_quizzes": 6,
+        "noops": 40,
+        "turn_quizzes": 4,
+        "updates": 10
+      },
+      "files": {
+        "dialogue.jsonl": {
+          "bytes": 36235,
+          "row_count": 50,
+          "sha256": "8c9bcd76ce1ca61e3de18592f7921306e0a3ac3355fdcb31f2538b142f4c9460"
+        },
+        "final_quiz.jsonl": {
+          "bytes": 91765,
+          "row_count": 6,
+          "sha256": "8e98b9d0c3c8b6c1f83f11fcd24ba1a6e94f340452680e9f7a56489707dba68f"
+        },
+        "manifest.json": {
+          "bytes": 4049,
+          "sha256": "bce1b2df47172e7dc40eff121cdf59aec43ca6023c08a4483b546be1b5a53d7f"
+        },
+        "memory_snapshots.jsonl": {
+          "bytes": 31854,
+          "row_count": 50,
+          "sha256": "f353cbfcf1a8fc31f28bd500c17d78c8093e42263d69888b951a14429fd937bf"
+        },
+        "patch.jsonl": {
+          "bytes": 96280,
+          "row_count": 50,
+          "sha256": "b2ace664555905d84be30296eba70027b023c1a1235fde14d35bd4630f4fcf72"
+        },
+        "turn_quiz.jsonl": {
+          "bytes": 61108,
+          "row_count": 4,
+          "sha256": "30278cd5d73a839cfeece8cbee96dc47ea286b8188c91984a38a27c915a78c0b"
+        }
+      },
+      "quiz_type_reasoning_distribution": {
+        "FINAL::conditional_constraint": 3,
+        "FINAL::error_correction": 2,
+        "FINAL::state_shift": 1,
+        "TURN::conditional_constraint": 1,
+        "TURN::state_shift": 3
+      },
+      "reasoning_type_distribution": {
+        "conditional_constraint": 4,
+        "error_correction": 2,
+        "state_shift": 4
+      },
+      "scenario_id": "HVP19",
+      "scenario_index": 919
+    },
+    {
+      "counts": {
+        "dialogue_turns": 50,
+        "final_quizzes": 6,
+        "noops": 40,
+        "turn_quizzes": 4,
+        "updates": 10
+      },
+      "files": {
+        "dialogue.jsonl": {
+          "bytes": 33606,
+          "row_count": 50,
+          "sha256": "5f23c7ad8e25a64c9147607da035f0010465ec22e1fdb1a1f3c80ffd56bdc2b0"
+        },
+        "final_quiz.jsonl": {
+          "bytes": 91850,
+          "row_count": 6,
+          "sha256": "9ad7a7338ef26861c4c7b77bf18c31ac854f76f949df63f2a0dde00e2f6f1915"
+        },
+        "manifest.json": {
+          "bytes": 4038,
+          "sha256": "bd09fcd1c123e84516c3f127c1c2a2349e2feccfd9480438d5810ea842b7ab81"
+        },
+        "memory_snapshots.jsonl": {
+          "bytes": 31791,
+          "row_count": 50,
+          "sha256": "8f68a5cd0f4d4acfdf9c55f7c880a42e81198ddf96fe9d922a0cc843868bff0e"
+        },
+        "patch.jsonl": {
+          "bytes": 93592,
+          "row_count": 50,
+          "sha256": "fd3e247709c7f1cbd7721e702ce83cb964146048eeb924c90beeff6782262a73"
+        },
+        "turn_quiz.jsonl": {
+          "bytes": 61028,
+          "row_count": 4,
+          "sha256": "e62f41689458835cf4ec6a1d65bd13d6077173d4e04a606a79a48c1713072b31"
+        }
+      },
+      "quiz_type_reasoning_distribution": {
+        "FINAL::conditional_constraint": 3,
+        "FINAL::error_correction": 1,
+        "FINAL::state_shift": 2,
+        "TURN::conditional_constraint": 1,
+        "TURN::state_shift": 3
+      },
+      "reasoning_type_distribution": {
+        "conditional_constraint": 4,
+        "error_correction": 1,
+        "state_shift": 5
+      },
+      "scenario_id": "HVP20",
+      "scenario_index": 920
+    }
+  ],
+  "schema_version": "vehiclemembench-hvp-quiz-expansion-baseline-freeze-v1",
+  "source_root": "/home/hj153lee/PalmClaw/memory_training/data/human-authored-v2",
+  "totals": {
+    "dialogue_turns": 1000,
+    "final_quizzes": 120,
+    "gold_calls": 223,
+    "memory_snapshots": 1000,
+    "noops": 809,
+    "patch_rows": 1000,
+    "quizzes": 200,
+    "scenarios": 20,
+    "turn_quizzes": 80,
+    "updates": 191
+  }
+}

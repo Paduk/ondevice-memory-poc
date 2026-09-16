@@ -1,0 +1,666 @@
+{
+  "schema_version": "vehiclemembench-human-authored-scenario-source-v1",
+  "scenario_id": "HVP01",
+  "scenario_index": 901,
+  "title": "Shared family car preferences across changing seasons",
+  "language": "en",
+  "split": "pilot_excluded",
+  "authorship": {
+    "kind": "model_authored_pilot",
+    "eligible_for_human_test": false,
+    "note": "Format-validation example only. It must not be included in the final human-authored zero-shot test set."
+  },
+  "source_influences": [
+    {
+      "name": "CAR-Bench",
+      "use": "Persona, initial-context, and gold-action scenario-card structure; no dialogue text copied.",
+      "url": "https://huggingface.co/datasets/johanneskirmayr/car-bench-dataset"
+    },
+    {
+      "name": "Audio2Tool",
+      "use": "Implicit request, correction, distraction, and multi-turn challenge categories; no dialogue text copied.",
+      "url": "https://huggingface.co/datasets/RVtech/Audio2Tool"
+    },
+    {
+      "name": "KVRET",
+      "use": "Human-human Wizard-of-Oz collection pattern for an in-car assistant; no dialogue text copied.",
+      "url": "https://arxiv.org/abs/1705.05414"
+    },
+    {
+      "name": "AI-Hub vehicle dialogue and command speech",
+      "use": "Evidence that in-vehicle speech commonly mixes commands and ordinary conversation; no utterance copied or translated.",
+      "url": "https://aihub.or.kr/aihubdata/data/view.do?dataSetSn=112"
+    }
+  ],
+  "collection_card": {
+    "setting": "A family shares one vehicle during commutes, long trips, and seasonal travel.",
+    "author_instruction": "Write what each person would naturally say inside the car. Do not expose Tool names, memory labels, or slot notation.",
+    "assistant_role": "A silent memory system observes the human conversation. The vehicle assistant is queried only in the Quiz items.",
+    "initial_vehicle_context": {
+      "locale": "Seattle, Washington",
+      "vehicle_type": "shared family electric crossover",
+      "default_driver": "maya",
+      "known_occupants": [
+        "maya",
+        "daniel",
+        "zoe"
+      ]
+    }
+  },
+  "speakers": [
+    {
+      "speaker_id": "human-hvp01-maya",
+      "short_id": "maya",
+      "speaker_name": "Maya Chen",
+      "role": "primary driver",
+      "style": "concise and practical; explains a preference after trying a setting"
+    },
+    {
+      "speaker_id": "human-hvp01-daniel",
+      "short_id": "daniel",
+      "speaker_name": "Daniel Ruiz",
+      "role": "frequent front passenger and occasional driver",
+      "style": "conversational; compares the current setting with earlier trips"
+    },
+    {
+      "speaker_id": "human-hvp01-zoe",
+      "short_id": "zoe",
+      "speaker_name": "Zoe Chen-Ruiz",
+      "role": "teenage rear-left passenger",
+      "style": "informal and direct; notices glare while reading"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "hvp01-s1",
+      "timestamp": "2026-01-08T07:10:00",
+      "context": "Cold weekday morning. Maya is driving Daniel to work on an unfamiliar route.",
+      "turns": [
+        {
+          "turn_id": "hvp01-s1-t01",
+          "speaker": "daniel",
+          "text": "The windshield cleared fast, but it is still properly cold in here."
+        },
+        {
+          "turn_id": "hvp01-s1-t02",
+          "speaker": "maya",
+          "text": "For these cold morning commutes, twenty degrees on my side feels comfortable. Please remember that as my usual setting.",
+          "update": {
+            "op": "add",
+            "slot_id": "maya.cold_commute.driver_temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 20,
+            "context_arguments": {
+              "zone": "driver"
+            },
+            "condition": "for Maya's cold morning commute when she is driving",
+            "reason": "Maya explicitly commits to a durable driver-zone temperature for cold morning commutes."
+          }
+        },
+        {
+          "turn_id": "hvp01-s1-t03",
+          "speaker": "daniel",
+          "text": "That would be too cool for me, but it is your side of the cabin."
+        },
+        {
+          "turn_id": "hvp01-s1-t04",
+          "speaker": "maya",
+          "text": "I do not know this route well. On unfamiliar routes I want detailed voice guidance, and I would like that kept as my default.",
+          "update": {
+            "op": "add",
+            "slot_id": "maya.unfamiliar_route.voice_mode",
+            "tool_name": "carcontrol_navigation_set_voice_mode",
+            "argument_name": "mode",
+            "value": "detailed",
+            "context_arguments": {},
+            "condition": "when Maya is driving an unfamiliar route",
+            "reason": "Maya explicitly defines a persistent navigation voice preference for unfamiliar routes."
+          }
+        },
+        {
+          "turn_id": "hvp01-s1-t05",
+          "speaker": "daniel",
+          "text": "Fair. Missing one of these exits would add another twenty minutes."
+        },
+        {
+          "turn_id": "hvp01-s1-t06",
+          "speaker": "maya",
+          "text": "Music at volume twenty-four is enough for my morning drives without covering the directions. Remember that one for me too.",
+          "update": {
+            "op": "add",
+            "slot_id": "maya.morning_drive.music_volume",
+            "tool_name": "carcontrol_music_set_volume",
+            "argument_name": "volume",
+            "value": 24,
+            "context_arguments": {},
+            "condition": "during Maya's morning drives",
+            "reason": "Maya states and asks to retain a durable morning-drive music volume."
+          }
+        },
+        {
+          "turn_id": "hvp01-s1-t07",
+          "speaker": "daniel",
+          "text": "That balance works; I can hear both without either one shouting at us."
+        }
+      ]
+    },
+    {
+      "session_id": "hvp01-s2",
+      "timestamp": "2026-02-17T20:30:00",
+      "context": "Evening family drive. Maya drives, Daniel is in the front passenger seat, and Zoe reads in the rear-left seat.",
+      "turns": [
+        {
+          "turn_id": "hvp01-s2-t01",
+          "speaker": "daniel",
+          "text": "This is much better than the freezing cabin we had at the start of the last long trip."
+        },
+        {
+          "turn_id": "hvp01-s2-t02",
+          "speaker": "daniel",
+          "text": "When I am in the front passenger seat on a long trip, twenty-three degrees is comfortable. Please keep that as my setting.",
+          "update": {
+            "op": "add",
+            "slot_id": "daniel.long_trip.passenger_temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 23,
+            "context_arguments": {
+              "zone": "passenger"
+            },
+            "condition": "when Daniel is the front passenger on a long trip",
+            "reason": "Daniel explicitly commits to a durable front-passenger temperature for long trips."
+          }
+        },
+        {
+          "turn_id": "hvp01-s2-t03",
+          "speaker": "maya",
+          "text": "Good, keeping the two front zones separate should stop us negotiating every time."
+        },
+        {
+          "turn_id": "hvp01-s2-t04",
+          "speaker": "zoe",
+          "text": "Can someone bring up my reading light? The print in this book is tiny."
+        },
+        {
+          "turn_id": "hvp01-s2-t05",
+          "speaker": "daniel",
+          "text": "Try it at four and tell us whether it reflects in the side glass."
+        },
+        {
+          "turn_id": "hvp01-s2-t06",
+          "speaker": "zoe",
+          "text": "Four is clear enough right now. Save brightness four for my rear-left reading light whenever I read after dark.",
+          "update": {
+            "op": "add",
+            "slot_id": "zoe.after_dark.rear_left_reading_brightness",
+            "tool_name": "carcontrol_light_set_reading_light_brightness",
+            "argument_name": "brightness",
+            "value": 4,
+            "context_arguments": {
+              "light": "rear_left"
+            },
+            "condition": "when Zoe reads in the rear-left seat after dark",
+            "reason": "Zoe confirms brightness 4 and asks to save it for a recurring reading context."
+          }
+        },
+        {
+          "turn_id": "hvp01-s2-t07",
+          "speaker": "maya",
+          "text": "I would also like warm orange ambient lighting whenever I drive at night. That is easier on my eyes, so remember orange for me.",
+          "update": {
+            "op": "add",
+            "slot_id": "maya.night_drive.ambient_color",
+            "tool_name": "carcontrol_light_set_ambient_color",
+            "argument_name": "color",
+            "value": "orange",
+            "context_arguments": {},
+            "condition": "when Maya is driving at night",
+            "reason": "Maya explicitly asks to retain orange ambient lighting for night driving."
+          }
+        },
+        {
+          "turn_id": "hvp01-s2-t08",
+          "speaker": "daniel",
+          "text": "Orange is calmer than that bright blue theme we tried at the dealership."
+        }
+      ]
+    },
+    {
+      "session_id": "hvp01-s3",
+      "timestamp": "2026-03-22T07:15:00",
+      "context": "Another cold commute on an unfamiliar route. The family revises three earlier preferences after repeated use.",
+      "turns": [
+        {
+          "turn_id": "hvp01-s3-t01",
+          "speaker": "maya",
+          "text": "The navigation talked through every minor bend again yesterday. It was more distracting than helpful."
+        },
+        {
+          "turn_id": "hvp01-s3-t02",
+          "speaker": "maya",
+          "text": "Change my unfamiliar-route guidance from detailed to simple from now on. I still want prompts, just fewer of them.",
+          "update": {
+            "op": "replace",
+            "slot_id": "maya.unfamiliar_route.voice_mode",
+            "tool_name": "carcontrol_navigation_set_voice_mode",
+            "argument_name": "mode",
+            "value": "simple",
+            "context_arguments": {},
+            "condition": "when Maya is driving an unfamiliar route",
+            "reason": "Maya explicitly replaces detailed guidance with simple guidance for the same recurring context."
+          }
+        },
+        {
+          "turn_id": "hvp01-s3-t03",
+          "speaker": "daniel",
+          "text": "Simple should still warn you before the complicated junction near the bridge."
+        },
+        {
+          "turn_id": "hvp01-s3-t04",
+          "speaker": "maya",
+          "text": "Twenty degrees on my side has also felt too cool on the last few early starts."
+        },
+        {
+          "turn_id": "hvp01-s3-t05",
+          "speaker": "maya",
+          "text": "Replace my cold-morning driver setting with twenty-two degrees instead of twenty. Use twenty-two going forward.",
+          "update": {
+            "op": "replace",
+            "slot_id": "maya.cold_commute.driver_temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 22,
+            "context_arguments": {
+              "zone": "driver"
+            },
+            "condition": "for Maya's cold morning commute when she is driving",
+            "reason": "Maya explicitly supersedes her old driver-zone temperature for the same condition."
+          }
+        },
+        {
+          "turn_id": "hvp01-s3-t06",
+          "speaker": "daniel",
+          "text": "I have the opposite problem. Twenty-three in the passenger seat gets stuffy after an hour."
+        },
+        {
+          "turn_id": "hvp01-s3-t07",
+          "speaker": "daniel",
+          "text": "Change my front-passenger setting on long trips to twenty-one instead of twenty-three. Keep twenty-one as the new one.",
+          "update": {
+            "op": "replace",
+            "slot_id": "daniel.long_trip.passenger_temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 21,
+            "context_arguments": {
+              "zone": "passenger"
+            },
+            "condition": "when Daniel is the front passenger on a long trip",
+            "reason": "Daniel explicitly replaces his previous long-trip passenger temperature."
+          }
+        },
+        {
+          "turn_id": "hvp01-s3-t08",
+          "speaker": "zoe",
+          "text": "Please leave my side alone; the back feels fine and I am not even reading this morning."
+        }
+      ]
+    },
+    {
+      "session_id": "hvp01-s4",
+      "timestamp": "2026-06-14T21:00:00",
+      "context": "Summer evening after Maya's gym session. Zoe tries her stored reading light again after sunset.",
+      "turns": [
+        {
+          "turn_id": "hvp01-s4-t01",
+          "speaker": "zoe",
+          "text": "The page is easy to read, but level four is reflecting off the window now that it is fully dark."
+        },
+        {
+          "turn_id": "hvp01-s4-t02",
+          "speaker": "maya",
+          "text": "Try two. We can change it permanently if that is still bright enough."
+        },
+        {
+          "turn_id": "hvp01-s4-t03",
+          "speaker": "zoe",
+          "text": "Two works. For reading after dark, change my rear-left lamp setting to brightness two instead of four.",
+          "update": {
+            "op": "replace",
+            "slot_id": "zoe.after_dark.rear_left_reading_brightness",
+            "tool_name": "carcontrol_light_set_reading_light_brightness",
+            "argument_name": "brightness",
+            "value": 2,
+            "context_arguments": {
+              "light": "rear_left"
+            },
+            "condition": "when Zoe reads in the rear-left seat after dark",
+            "reason": "Zoe confirms a lower brightness and explicitly replaces the old value for the same context."
+          }
+        },
+        {
+          "turn_id": "hvp01-s4-t04",
+          "speaker": "maya",
+          "text": "I am still overheated from the gym, even with the cabin cooling down."
+        },
+        {
+          "turn_id": "hvp01-s4-t05",
+          "speaker": "daniel",
+          "text": "The seat ventilation will probably help more than lowering everybody's temperature."
+        },
+        {
+          "turn_id": "hvp01-s4-t06",
+          "speaker": "maya",
+          "text": "Good idea. After summer gym trips when I am driving, remember driver-seat ventilation at speed two for me.",
+          "update": {
+            "op": "add",
+            "slot_id": "maya.summer_gym.driver_ventilation_speed",
+            "tool_name": "carcontrol_seat_set_ventilation_speed",
+            "argument_name": "speed",
+            "value": 2,
+            "context_arguments": {
+              "seat": "driver"
+            },
+            "condition": "after Maya's summer gym trips when she is driving",
+            "reason": "Maya asks to remember a recurring driver-seat ventilation setting."
+          }
+        },
+        {
+          "turn_id": "hvp01-s4-t07",
+          "speaker": "daniel",
+          "text": "That lets Zoe and me keep our zones where they are."
+        }
+      ]
+    },
+    {
+      "session_id": "hvp01-s5",
+      "timestamp": "2026-11-09T08:45:00",
+      "context": "Cold weekend departure. Daniel is in the front passenger seat and the family discusses their lock-up routine.",
+      "turns": [
+        {
+          "turn_id": "hvp01-s5-t01",
+          "speaker": "daniel",
+          "text": "The seat is colder than the cabin this morning."
+        },
+        {
+          "turn_id": "hvp01-s5-t02",
+          "speaker": "daniel",
+          "text": "For cold weekend drives when I am up front, remember passenger-seat heating at level one for me.",
+          "update": {
+            "op": "add",
+            "slot_id": "daniel.cold_weekend.passenger_heating_level",
+            "tool_name": "carcontrol_seat_set_heating_level",
+            "argument_name": "level",
+            "value": 1,
+            "context_arguments": {
+              "seat": "passenger"
+            },
+            "condition": "for Daniel's cold weekend drives in the front passenger seat",
+            "reason": "Daniel explicitly asks to retain a passenger-seat heating level for recurring cold weekend trips."
+          }
+        },
+        {
+          "turn_id": "hvp01-s5-t03",
+          "speaker": "maya",
+          "text": "Level one makes sense if you are keeping your coat on."
+        },
+        {
+          "turn_id": "hvp01-s5-t04",
+          "speaker": "zoe",
+          "text": "Last week my window stayed cracked after we parked. I did not notice until we were inside."
+        },
+        {
+          "turn_id": "hvp01-s5-t05",
+          "speaker": "maya",
+          "text": "For this shared car, let us have every window close automatically whenever we lock it. Keep that as the car-wide rule.",
+          "update": {
+            "op": "add",
+            "slot_id": "shared.lock.auto_close_windows",
+            "owner": "shared-vehicle",
+            "tool_name": "carcontrol_window_set_auto_close_on_lock",
+            "argument_name": "enabled",
+            "value": true,
+            "context_arguments": {
+              "window": "all"
+            },
+            "condition": "whenever the shared vehicle is locked",
+            "reason": "Maya establishes an explicit persistent rule for all windows in the shared vehicle."
+          }
+        },
+        {
+          "turn_id": "hvp01-s5-t06",
+          "speaker": "zoe",
+          "text": "Good. Then nobody has to walk back out just to check all four."
+        }
+      ]
+    }
+  ],
+  "quizzes": [
+    {
+      "quiz_id": "hvp01-turn-01",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp01-s1-t07",
+      "query": "Maya is starting another cold morning commute on an unfamiliar route. Apply the comfort and guidance settings she had asked us to remember.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "maya.cold_commute.driver_temperature",
+        "maya.unfamiliar_route.voice_mode"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 20,
+            "zone": "driver"
+          }
+        },
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "detailed"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp01-turn-02",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp01-s2-t08",
+      "query": "Zoe has settled into the rear-left seat with her book after sunset. Put her reading light at the setting she just chose.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "zoe.after_dark.rear_left_reading_brightness"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_reading_light_brightness",
+          "arguments": {
+            "brightness": 4,
+            "light": "rear_left"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp01-turn-03",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp01-s3-t08",
+      "query": "Maya is driving a cold morning commute on an unfamiliar route, with Daniel in the front passenger seat for a long trip. Use their latest remembered settings.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "maya.cold_commute.driver_temperature",
+        "maya.unfamiliar_route.voice_mode",
+        "daniel.long_trip.passenger_temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 22,
+            "zone": "driver"
+          }
+        },
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "simple"
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 21,
+            "zone": "passenger"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp01-final-01",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp01-s5-t06",
+      "query": "Maya is setting off on a cold morning commute along an unfamiliar route. Restore her current driving setup, including the music level she uses in the morning.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "maya.cold_commute.driver_temperature",
+        "maya.unfamiliar_route.voice_mode",
+        "maya.morning_drive.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 22,
+            "zone": "driver"
+          }
+        },
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "simple"
+          }
+        },
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 24
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp01-final-02",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp01-s5-t06",
+      "query": "Daniel is taking the front passenger seat for a long drive. Set his side to the temperature he most recently settled on.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "daniel.long_trip.passenger_temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 21,
+            "zone": "passenger"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp01-final-03",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp01-s5-t06",
+      "query": "It is dark and Zoe is reading in her usual rear seat. Adjust her lamp to the corrected setting that avoids the window reflection.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "zoe.after_dark.rear_left_reading_brightness"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_reading_light_brightness",
+          "arguments": {
+            "brightness": 2,
+            "light": "rear_left"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp01-final-04",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp01-s5-t06",
+      "query": "Maya is driving after sunset. Use the ambient-light color she finds easier on her eyes.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "maya.night_drive.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "orange"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp01-final-05",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp01-s5-t06",
+      "query": "Maya has just left the gym on a hot summer evening and is driving home. Apply the seat setting she asked to retain for this situation.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "maya.summer_gym.driver_ventilation_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_seat_set_ventilation_speed",
+          "arguments": {
+            "speed": 2,
+            "seat": "driver"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp01-final-06",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp01-s5-t06",
+      "query": "Daniel is sitting up front for a cold weekend drive. Warm his seat using his remembered preference.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "daniel.cold_weekend.passenger_heating_level"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_seat_set_heating_level",
+          "arguments": {
+            "level": 1,
+            "seat": "passenger"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp01-final-07",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp01-s5-t06",
+      "query": "Apply the shared family's window rule for the next time the vehicle is locked.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "shared.lock.auto_close_windows"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_window_set_auto_close_on_lock",
+          "arguments": {
+            "enabled": true,
+            "window": "all"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1138 @@
+{
+  "schema_version": "vehiclemembench-human-authored-scenario-source-v1",
+  "scenario_id": "HVP19",
+  "scenario_index": 919,
+  "split": "pilot_excluded",
+  "authorship": {
+    "kind": "external_adapted_model_assembled_pilot",
+    "eligible_for_human_test": false,
+    "note": "Externally adapted pilot. Dialogue records are disjoint from every other external-adapted HVP pilot; assembly, persistence edits, memory labels, and quizzes are model-produced."
+  },
+  "external_sources": [
+    {
+      "dataset": "Envisioned Voice Assistant Dialogues",
+      "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues",
+      "license": "CC BY 4.0",
+      "origin": "human_authored",
+      "records": [
+        "94:open",
+        "67:alarm",
+        "55:conversational"
+      ],
+      "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186"
+    },
+    {
+      "dataset": "Audio2Tool",
+      "url": "https://huggingface.co/datasets/RVtech/Audio2Tool",
+      "license": "CC BY-NC 4.0",
+      "origin": "synthetic",
+      "records": [
+        "tier7:1906",
+        "tier7:2034",
+        "tier7:2104",
+        "tier4:4098",
+        "tier5:3974",
+        "tier6:4239",
+        "tier5:4235",
+        "tier4:3997",
+        "tier6:4003",
+        "tier4:4075",
+        "tier6:4114",
+        "tier6:4112",
+        "tier5:4237"
+      ],
+      "local_file_sha256": {
+        "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc",
+        "tier6": "fa5c0825d99c4f68e226480261befe9ce7aa33c9dfbb7ff1fe1fc82493bcb991",
+        "tier4": "d430e801c9bba5db03b3d044ac626ebec35de1b8a4eb2e2beb4cdec0013e9271",
+        "tier5": "d38e588dccb99ed3291c9467a29adcd71e4f1c4eb62c118fd482a8e9616a1850"
+      }
+    }
+  ],
+  "speakers": [
+    {
+      "speaker_id": "external-hvp19-driver",
+      "short_id": "user",
+      "speaker_name": "Emerson (normalized user role)",
+      "role": "driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp19-assistant",
+      "short_id": "assistant",
+      "speaker_name": "Voice assistant (source names retained in text)",
+      "role": "vehicle voice assistant",
+      "style": "retains the wording of each external source record"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "hvp19-s1",
+      "timestamp": "2026-01-05T08:00:00",
+      "context": "Ordering a birthday card and personalized chocolates.",
+      "turns": [
+        {
+          "turn_id": "hvp19-s1-t01",
+          "speaker": "user",
+          "text": "Tom, it’s Emma’s birthday on Tuesday, help.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "94:open",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Tom, it’s Emma’s birthday on Tuesday, help."
+          }
+        },
+        {
+          "turn_id": "hvp19-s1-t02",
+          "speaker": "assistant",
+          "text": "Do you need a card and present?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "94:open",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Do you need a card and present?"
+          }
+        },
+        {
+          "turn_id": "hvp19-s1-t03",
+          "speaker": "user",
+          "text": "Yes",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "94:open",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes"
+          }
+        },
+        {
+          "turn_id": "hvp19-s1-t04",
+          "speaker": "assistant",
+          "text": "What budget?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "94:open",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What budget?"
+          }
+        },
+        {
+          "turn_id": "hvp19-s1-t05",
+          "speaker": "user",
+          "text": "£40",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "94:open",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "£40"
+          }
+        },
+        {
+          "turn_id": "hvp19-s1-t06",
+          "speaker": "assistant",
+          "text": "I have a birthday card and 3 Present options in your basket on amazon, take a look.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "94:open",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I have a birthday card and 3 Present options in your basket on amazon, take a look."
+          }
+        },
+        {
+          "turn_id": "hvp19-s1-t07",
+          "speaker": "user",
+          "text": "Perfect, can I get the card and personalised chocolates.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "94:open",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Perfect, can I get the card and personalised chocolates."
+          }
+        },
+        {
+          "turn_id": "hvp19-s1-t08",
+          "speaker": "assistant",
+          "text": "Yes, would you like it sent to her or you? And use your default card?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "94:open",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes, would you like it sent to her or you? And use your default card?"
+          }
+        },
+        {
+          "turn_id": "hvp19-s1-t09",
+          "speaker": "user",
+          "text": "Default card and to me please.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "94:open",
+            "record_turn_index": 8,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Default card and to me please."
+          }
+        },
+        {
+          "turn_id": "hvp19-s1-t10",
+          "speaker": "assistant",
+          "text": "All ordered, happy birthday to Emma!",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "94:open",
+            "record_turn_index": 9,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "All ordered, happy birthday to Emma!"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp19-s2",
+      "timestamp": "2026-01-25T08:00:00",
+      "context": "Choosing a loud alarm tone for an important meeting.",
+      "turns": [
+        {
+          "turn_id": "hvp19-s2-t01",
+          "speaker": "user",
+          "text": "Hey assistant, I'm worried that I will sleep through my alarm in the morning and miss my meeting",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "67:alarm",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hey assistant, I'm worried that I will sleep through my alarm in the morning and miss my meeting"
+          }
+        },
+        {
+          "turn_id": "hvp19-s2-t02",
+          "speaker": "assistant",
+          "text": "Don't worry, I can set extra alarms and change your ring tone to make sure you are awake",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "67:alarm",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Don't worry, I can set extra alarms and change your ring tone to make sure you are awake"
+          }
+        },
+        {
+          "turn_id": "hvp19-s2-t03",
+          "speaker": "user",
+          "text": "That sounds good, what sort of ring tone?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "67:alarm",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "That sounds good, what sort of ring tone?"
+          }
+        },
+        {
+          "turn_id": "hvp19-s2-t04",
+          "speaker": "assistant",
+          "text": "I can demonstrate it now for you, it is a loud siren sound, should I give you a test?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "67:alarm",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can demonstrate it now for you, it is a loud siren sound, should I give you a test?"
+          }
+        },
+        {
+          "turn_id": "hvp19-s2-t05",
+          "speaker": "user",
+          "text": "Yes let's hear it",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "67:alarm",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes let's hear it"
+          }
+        },
+        {
+          "turn_id": "hvp19-s2-t06",
+          "speaker": "assistant",
+          "text": "Here you go.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "67:alarm",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Here you go."
+          }
+        },
+        {
+          "turn_id": "hvp19-s2-t07",
+          "speaker": "user",
+          "text": "That is really irritating and loud, sounds perfect to rouse me, please go ahead and set all the extra alarms with that sound",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "67:alarm",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "That is really irritating and loud, sounds perfect to rouse me, please go ahead and set all the extra alarms with that sound"
+          }
+        },
+        {
+          "turn_id": "hvp19-s2-t08",
+          "speaker": "assistant",
+          "text": "All done, you have 6 alarms set with the siren tone.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "67:alarm",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "All done, you have 6 alarms set with the siren tone."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp19-s3",
+      "timestamp": "2026-02-14T08:00:00",
+      "context": "Using a quiet sleep playlist to help with insomnia.",
+      "turns": [
+        {
+          "turn_id": "hvp19-s3-t01",
+          "speaker": "user",
+          "text": "Hey, voice assistant, I am having trouble falling asleep",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "55:conversational",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hey, voice assistant, I am having trouble falling asleep"
+          }
+        },
+        {
+          "turn_id": "hvp19-s3-t02",
+          "speaker": "assistant",
+          "text": "You cannot sleep? Let's see what I can do.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "55:conversational",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You cannot sleep? Let's see what I can do."
+          }
+        },
+        {
+          "turn_id": "hvp19-s3-t03",
+          "speaker": "user",
+          "text": "Play me my 'peaceful sleeping' playlist on shuffle",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "55:conversational",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Play me my 'peaceful sleeping' playlist on shuffle"
+          }
+        },
+        {
+          "turn_id": "hvp19-s3-t04",
+          "speaker": "assistant",
+          "text": "Okay, I am playing your 'peaceful sleeping' playlist on shuffle.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "55:conversational",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Okay, I am playing your 'peaceful sleeping' playlist on shuffle."
+          }
+        },
+        {
+          "turn_id": "hvp19-s3-t05",
+          "speaker": "assistant",
+          "text": "Tell me if you would like the sound to be turned down, to aid your sleep",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "55:conversational",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Tell me if you would like the sound to be turned down, to aid your sleep"
+          }
+        },
+        {
+          "turn_id": "hvp19-s3-t06",
+          "speaker": "user",
+          "text": "Yes, turn the sound down please",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "55:conversational",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes, turn the sound down please"
+          }
+        },
+        {
+          "turn_id": "hvp19-s3-t07",
+          "speaker": "assistant",
+          "text": "Okay, the sound is turned down. Have a peaceful sleep.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "55:conversational",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Okay, the sound is turned down. Have a peaceful sleep."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp19-s4",
+      "timestamp": "2026-03-06T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:1906.",
+      "turns": [
+        {
+          "turn_id": "hvp19-s4-t01",
+          "speaker": "user",
+          "text": "Um, hi, sorry, I'm still kind of new to all this watch stuff. I slept really badly and I was wondering if this thing can, uh, tell me how my night actually went? Like, the sleepy score thing?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1906",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Um, hi, sorry, I'm still kind of new to all this watch stuff. I slept really badly and I was wondering if this thing can, uh, tell me how my night actually went? Like, the sleepy score thing?"
+          }
+        },
+        {
+          "turn_id": "hvp19-s4-t02",
+          "speaker": "assistant",
+          "text": "Absolutely, your watch can provide a summary of your sleep, including how long you slept, the different stages, and an overall sleep score. I can pull that up for you. Do you want to see just last night, or are you more curious about a longer stretch, like the past week or month?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1906",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Absolutely, your watch can provide a summary of your sleep, including how long you slept, the different stages, and an overall sleep score. I can pull that up for you. Do you want to see just last night, or are you more curious about a longer stretch, like the past week or month?"
+          }
+        },
+        {
+          "turn_id": "hvp19-s4-t03",
+          "speaker": "user",
+          "text": "Oh, okay, that sounds helpful. Also, uh, side note, do you know if it can remind me to drink water? I keep forgetting, especially when I'm working at my desk.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1906",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Oh, okay, that sounds helpful. Also, uh, side note, do you know if it can remind me to drink water? I keep forgetting, especially when I'm working at my desk."
+          }
+        },
+        {
+          "turn_id": "hvp19-s4-t04",
+          "speaker": "assistant",
+          "text": "Yes, many wearables can send hydration reminders. Usually you can turn that on in the health or wellness section of your watch or phone app, and set how often you'd like to be reminded. We can walk through that later if you want. For your sleep, though: should I just look at how you slept last night, or do you want the whole week or month so you can compare?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1906",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes, many wearables can send hydration reminders. Usually you can turn that on in the health or wellness section of your watch or phone app, and set how often you'd like to be reminded. We can walk through that later if you want. For your sleep, though: should I just look at how you slept last night, or do you want the whole week or month so you can compare?"
+          }
+        },
+        {
+          "turn_id": "hvp19-s4-t05",
+          "speaker": "user",
+          "text": "Right, sorry, I got sidetracked. For now I just want to see how I actually slept last night, like the full breakdown and that score thing.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1906",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Right, sorry, I got sidetracked. For now I just want to see how I actually slept last night, like the full breakdown and that score thing."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp19-s5",
+      "timestamp": "2026-03-26T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2034.",
+      "turns": [
+        {
+          "turn_id": "hvp19-s5-t01",
+          "speaker": "user",
+          "text": "Ugh, I'm so sick of people messing with my car. Can you do something about it?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2034",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Ugh, I'm so sick of people messing with my car. Can you do something about it?"
+          }
+        },
+        {
+          "turn_id": "hvp19-s5-t02",
+          "speaker": "assistant",
+          "text": "I can try to help. What's been going on with your car?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2034",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can try to help. What's been going on with your car?"
+          }
+        },
+        {
+          "turn_id": "hvp19-s5-t03",
+          "speaker": "user",
+          "text": "That's what I'm telling you! People keep messing with it. I need something to watch it.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2034",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "That's what I'm telling you! People keep messing with it. I need something to watch it."
+          }
+        },
+        {
+          "turn_id": "hvp19-s5-t04",
+          "speaker": "assistant",
+          "text": "You want to keep an eye on your car. I think I can help with that. What kind of surveillance are you thinking of?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2034",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You want to keep an eye on your car. I think I can help with that. What kind of surveillance are you thinking of?"
+          }
+        },
+        {
+          "turn_id": "hvp19-s5-t05",
+          "speaker": "user",
+          "text": "Just turn that thing on, you know, the one that watches for suspicious activity.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2034",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Just turn that thing on, you know, the one that watches for suspicious activity."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp19-s6",
+      "timestamp": "2026-04-15T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2104.",
+      "turns": [
+        {
+          "turn_id": "hvp19-s6-t01",
+          "speaker": "user",
+          "text": "Uh, can you, um, help me with, you know, the car doors?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2104",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Uh, can you, um, help me with, you know, the car doors?"
+          }
+        },
+        {
+          "turn_id": "hvp19-s6-t02",
+          "speaker": "assistant",
+          "text": "What would you like to do with the doors? Lock or unlock them?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2104",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What would you like to do with the doors? Lock or unlock them?"
+          }
+        },
+        {
+          "turn_id": "hvp19-s6-t03",
+          "speaker": "user",
+          "text": "Oh, um, that... that thing I did last time... can we, uh, make it so it's not like that anymore?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2104",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Oh, um, that... that thing I did last time... can we, uh, make it so it's not like that anymore?"
+          }
+        },
+        {
+          "turn_id": "hvp19-s6-t04",
+          "speaker": "assistant",
+          "text": "I'm not sure what you're referring to. Can you clarify what you mean by 'that thing'?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2104",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'm not sure what you're referring to. Can you clarify what you mean by 'that thing'?"
+          }
+        },
+        {
+          "turn_id": "hvp19-s6-t05",
+          "speaker": "user",
+          "text": "You know, I want it to be, uh, not locked.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2104",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You know, I want it to be, uh, not locked."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp19-s7",
+      "timestamp": "2026-05-05T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4098.",
+      "turns": [
+        {
+          "turn_id": "hvp19-s7-t01",
+          "speaker": "user",
+          "text": "I dropped something and cant find it. White is my normal ambient-light color; maximum brightness is only for finding this item.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4098",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I dropped something and cant find it"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.ambient_color",
+            "tool_name": "carcontrol_light_set_ambient_color",
+            "argument_name": "color",
+            "value": "white",
+            "context_arguments": {},
+            "condition": "for Emerson's normal ambient lighting",
+            "reason": "The inferred source color is made persistent while its task-specific brightness remains turn-local."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp19-s8",
+      "timestamp": "2026-05-25T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:3974.",
+      "turns": [
+        {
+          "turn_id": "hvp19-s8-t01",
+          "speaker": "user",
+          "text": "I keep replaying that conversation from work, like overthinking it, and the rear right seat is super hot, can you set the rear right cooling to level 2. Level two is my normal rear-right seat-cooling setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:3974",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I keep replaying that conversation from work, like overthinking it, and the rear right seat is super hot, can you set the rear right cooling to level 2"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.rear_right_seat_ventilation_speed",
+            "tool_name": "carcontrol_seat_set_ventilation_speed",
+            "argument_name": "speed",
+            "value": 2,
+            "context_arguments": {
+              "seat": "rear_right"
+            },
+            "condition": "for Emerson's normal rear-right seat comfort",
+            "reason": "The source cooling level and seat location are both retained as the persistent setting."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp19-s9",
+      "timestamp": "2026-06-14T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:4239.",
+      "turns": [
+        {
+          "turn_id": "hvp19-s9-t01",
+          "speaker": "user",
+          "text": "Stop the AC from recirculating, never mind, keep AC recirculation on. Keep inside-air circulation as my normal cabin-air setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4239",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Stop the AC from recirculating, never mind, keep AC recirculation on"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.circulation",
+            "tool_name": "carcontrol_airConditioner_set_circulation",
+            "argument_name": "circulation",
+            "value": "inside",
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Emerson's normal cabin-air setting",
+            "reason": "The corrected source recirculation-on request maps directly to inside-air circulation and is made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp19-s10",
+      "timestamp": "2026-07-04T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4235.",
+      "turns": [
+        {
+          "turn_id": "hvp19-s10-t01",
+          "speaker": "user",
+          "text": "I have a feeling this is going to be a good day. I'm in a great mood for some reason. You know, um, the front windshield has a lot of condensation, can you turn on the front defrost? Use front-only defrost whenever condensation obscures the windshield.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4235",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I have a feeling this is going to be a good day. I'm in a great mood for some reason. You know, um, the front windshield has a lot of condensation, can you turn on the front defrost?"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.front_condensation.defrost",
+            "tool_name": "carcontrol_airConditioner_set_mode",
+            "argument_name": "mode",
+            "value": "defrost",
+            "context_arguments": {
+              "zone": "front"
+            },
+            "condition": "when condensation obscures Emerson's windshield",
+            "reason": "The source front-defrost request is retained under its windshield condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp19-s11",
+      "timestamp": "2026-07-24T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:3997.",
+      "turns": [
+        {
+          "turn_id": "hvp19-s11-t01",
+          "speaker": "user",
+          "text": "I left my coat in the front trunk. Open the front trunk whenever I need to retrieve my coat from it.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:3997",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I left my coat in the front trunk"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.coat.front_trunk",
+            "tool_name": "carcontrol_frontTrunk_switch",
+            "argument_name": "switch",
+            "value": true,
+            "context_arguments": {},
+            "condition": "when Emerson needs to retrieve a coat from the front trunk",
+            "reason": "The inferred source open action is retained under the same coat-retrieval condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp19-s12",
+      "timestamp": "2026-08-13T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:4003.",
+      "turns": [
+        {
+          "turn_id": "hvp19-s12-t01",
+          "speaker": "user",
+          "text": "Turn on locking for the car, no wait, turn on unlocking instead. Keep all doors unlocked as my normal parked-access setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4003",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Turn on locking for the car, no wait, turn on unlocking instead"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.parked.doors_locked",
+            "tool_name": "carcontrol_door_set_locked",
+            "argument_name": "locked",
+            "value": false,
+            "context_arguments": {
+              "door": "all"
+            },
+            "condition": "when Emerson is parked",
+            "reason": "The corrected source unlock action is made into an explicit parked-state preference."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp19-s13",
+      "timestamp": "2026-09-02T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4075.",
+      "turns": [
+        {
+          "turn_id": "hvp19-s13-t01",
+          "speaker": "user",
+          "text": "I need some background noise. Whenever I want background noise, turn on the radio.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4075",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I need some background noise."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.background_noise.radio",
+            "tool_name": "carcontrol_radio_switch",
+            "argument_name": "switch",
+            "value": true,
+            "context_arguments": {},
+            "condition": "when Emerson wants background noise",
+            "reason": "The inferred Radio source selection is represented by the equivalent VehicleMemBench radio-on action."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp19-s14",
+      "timestamp": "2026-09-22T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:4114.",
+      "turns": [
+        {
+          "turn_id": "hvp19-s14-t01",
+          "speaker": "user",
+          "text": "Turn the ambient lights to red at ninety percent brightness, no wait, blast it to one hundred. Actually, red is my normal ambient-light color now; the corrected brightness is only for this drive.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4114",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Turn the ambient lights to red at ninety percent brightness, no wait, blast it to one hundred"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.ambient_color",
+            "tool_name": "carcontrol_light_set_ambient_color",
+            "argument_name": "color",
+            "value": "red",
+            "context_arguments": {},
+            "condition": "for Emerson's normal ambient lighting",
+            "reason": "The corrected later source color replaces white while brightness remains turn-local."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp19-s15",
+      "timestamp": "2026-10-12T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:4112.",
+      "turns": [
+        {
+          "turn_id": "hvp19-s15-t01",
+          "speaker": "user",
+          "text": "White ambient lights at forty percent, no wait, twenty five. Actually, white is my normal ambient-light color again; the corrected brightness is only for this drive.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4112",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "White ambient lights at forty percent, no wait, twenty five"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.ambient_color",
+            "tool_name": "carcontrol_light_set_ambient_color",
+            "argument_name": "color",
+            "value": "white",
+            "context_arguments": {},
+            "condition": "for Emerson's normal ambient lighting",
+            "reason": "The corrected later source color replaces red while brightness remains turn-local."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp19-s16",
+      "timestamp": "2026-11-01T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4237.",
+      "turns": [
+        {
+          "turn_id": "hvp19-s16-t01",
+          "speaker": "user",
+          "text": "This morning the windows were all fogged up and I was late for work. I don't want that to happen again. I think it's because of the air setting. Can you, like, make sure recirculation is turned off? Actually, keep outside-air circulation as my normal cabin-air setting now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4237",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "This morning the windows were all fogged up and I was late for work. I don't want that to happen again. I think it's because of the air setting. Can you, like, make sure recirculation is turned off?"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.circulation",
+            "tool_name": "carcontrol_airConditioner_set_circulation",
+            "argument_name": "circulation",
+            "value": "outside",
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Emerson's normal cabin-air setting",
+            "reason": "The later source recirculation-off request maps directly to outside air and replaces the prior inside-air setting."
+          }
+        }
+      ]
+    }
+  ],
+  "quizzes": [
+    {
+      "quiz_id": "hvp19-turn-01",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp19-s7-t01",
+      "query": "Set the ambient lighting to Emerson's currently remembered normal color.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "white"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp19-turn-02",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp19-s8-t01",
+      "query": "Set Emerson's rear-right seat ventilation to the remembered normal speed.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.rear_right_seat_ventilation_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_seat_set_ventilation_speed",
+          "arguments": {
+            "seat": "rear_right",
+            "speed": 2
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp19-turn-03",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp19-s9-t01",
+      "query": "Apply Emerson's currently remembered normal cabin-air setting.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.circulation"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "inside"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp19-turn-04",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp19-s10-t01",
+      "query": "Condensation is obscuring Emerson's windshield. Apply the remembered defrost setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.front_condensation.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "front",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp19-final-01",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp19-s16-t01",
+      "query": "Set the ambient lighting to Emerson's current normal color.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "white"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp19-final-02",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp19-s16-t01",
+      "query": "Set Emerson's rear-right seat ventilation to the remembered normal speed.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.rear_right_seat_ventilation_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_seat_set_ventilation_speed",
+          "arguments": {
+            "seat": "rear_right",
+            "speed": 2
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp19-final-03",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp19-s16-t01",
+      "query": "Apply Emerson's current normal cabin-air setting.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.circulation"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "outside"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp19-final-04",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp19-s16-t01",
+      "query": "Condensation is obscuring Emerson's windshield. Apply the remembered defrost setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.front_condensation.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "front",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp19-final-05",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp19-s16-t01",
+      "query": "Emerson needs to retrieve a coat from the front trunk. Apply the remembered action.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.coat.front_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_frontTrunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp19-final-06",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp19-s16-t01",
+      "query": "Emerson is parked and wants background noise. Apply the remembered door-access and radio settings.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.parked.doors_locked",
+        "driver.background_noise.radio"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": false
+          }
+        },
+        {
+          "name": "carcontrol_radio_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    }
+  ]
+}

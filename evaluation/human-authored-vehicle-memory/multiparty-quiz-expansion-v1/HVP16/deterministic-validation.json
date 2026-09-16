@@ -1,0 +1,176 @@
+{
+  "added_quiz_distribution": {
+    "FINAL::preference_conflict": 1,
+    "TURN::coreference_resolution": 5,
+    "TURN::error_correction": 2,
+    "TURN::preference_conflict": 7,
+    "TURN::state_shift": 4
+  },
+  "checks": {
+    "added_query_uniqueness": "PASS",
+    "base_quizzes_unchanged": "PASS",
+    "base_sessions_unchanged": "PASS",
+    "base_source_hash": "PASS",
+    "derived_source_hash": "PASS",
+    "extension_counts": "PASS",
+    "inserted_source_records_disjoint": "PASS",
+    "multiple_memory_owners": "PASS",
+    "official_builder_validation": "PASS",
+    "preference_conflict::hvp16-final-07": "PASS",
+    "preference_conflict::hvp16-turn-12": "PASS",
+    "preference_conflict::hvp16-turn-13": "PASS",
+    "preference_conflict::hvp16-turn-14": "PASS",
+    "preference_conflict::hvp16-turn-15": "PASS",
+    "preference_conflict::hvp16-turn-16": "PASS",
+    "preference_conflict::hvp16-turn-17": "PASS",
+    "preference_conflict::hvp16-turn-18": "PASS",
+    "preference_conflict_action_difference::hvp16-final-07": "PASS",
+    "preference_conflict_action_difference::hvp16-turn-12": "PASS",
+    "preference_conflict_action_difference::hvp16-turn-13": "PASS",
+    "preference_conflict_action_difference::hvp16-turn-14": "PASS",
+    "preference_conflict_action_difference::hvp16-turn-15": "PASS",
+    "preference_conflict_action_difference::hvp16-turn-16": "PASS",
+    "preference_conflict_action_difference::hvp16-turn-17": "PASS",
+    "preference_conflict_action_difference::hvp16-turn-18": "PASS",
+    "scenario_quota": "PASS"
+  },
+  "preference_conflict_audit": [
+    {
+      "gold_evidence": [
+        "- [2026-04-20 08:00] carcontrol_sunroof_set_open_degree.degree; value=100; condition=for Avery's normal sunroof setting"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-11-01 08:00] carcontrol_sunroof_set_open_degree.degree; value=0; condition=for Reese's normal sunroof setting"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-11-01 08:00] carcontrol_sunroof_set_open_degree.degree; value=0; condition=for Reese's normal sunroof setting"
+      ],
+      "quiz_id": "hvp16-turn-12"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-11-01 08:00] carcontrol_sunroof_set_open_degree.degree; value=0; condition=for Reese's normal sunroof setting",
+        "- [2026-08-13 08:00] carcontrol_window_set_open_degree.degree; value=50; context=(window=\"driver\"); condition=for Reese's normal driving"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-20 08:00] carcontrol_sunroof_set_open_degree.degree; value=100; condition=for Avery's normal sunroof setting"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-20 08:00] carcontrol_sunroof_set_open_degree.degree; value=100; condition=for Avery's normal sunroof setting"
+      ],
+      "quiz_id": "hvp16-turn-13"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-04-25 08:00] carcontrol_music_switch.switch; value=false; condition=when Avery's audio playback has stopped",
+        "- [2026-04-30 08:00] carcontrol_airConditioner_set_temperature.temperature; value=20; context=(zone=\"driver\"); condition=for Avery's normal driving"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-07-04 08:00] carcontrol_music_switch.switch; value=true; condition=when Reese's audio playback has stopped"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-07-04 08:00] carcontrol_music_switch.switch; value=true; condition=when Reese's audio playback has stopped"
+      ],
+      "quiz_id": "hvp16-turn-14"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-07-04 08:00] carcontrol_music_switch.switch; value=true; condition=when Reese's audio playback has stopped"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-25 08:00] carcontrol_music_switch.switch; value=false; condition=when Avery's audio playback has stopped"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-25 08:00] carcontrol_music_switch.switch; value=false; condition=when Avery's audio playback has stopped"
+      ],
+      "quiz_id": "hvp16-turn-15"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-04-20 08:00] carcontrol_sunroof_set_open_degree.degree; value=100; condition=for Avery's normal sunroof setting",
+        "- [2026-04-25 08:00] carcontrol_music_switch.switch; value=false; condition=when Avery's audio playback has stopped",
+        "- [2026-04-30 08:00] carcontrol_airConditioner_set_temperature.temperature; value=20; context=(zone=\"driver\"); condition=for Avery's normal driving"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-07-04 08:00] carcontrol_music_switch.switch; value=true; condition=when Reese's audio playback has stopped",
+        "- [2026-11-01 08:00] carcontrol_sunroof_set_open_degree.degree; value=0; condition=for Reese's normal sunroof setting"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-07-04 08:00] carcontrol_music_switch.switch; value=true; condition=when Reese's audio playback has stopped",
+        "- [2026-11-01 08:00] carcontrol_sunroof_set_open_degree.degree; value=0; condition=for Reese's normal sunroof setting"
+      ],
+      "quiz_id": "hvp16-turn-16"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-11-01 08:00] carcontrol_sunroof_set_open_degree.degree; value=0; condition=for Reese's normal sunroof setting",
+        "- [2026-07-04 08:00] carcontrol_music_switch.switch; value=true; condition=when Reese's audio playback has stopped",
+        "- [2026-08-13 08:00] carcontrol_window_set_open_degree.degree; value=50; context=(window=\"driver\"); condition=for Reese's normal driving"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-20 08:00] carcontrol_sunroof_set_open_degree.degree; value=100; condition=for Avery's normal sunroof setting",
+        "- [2026-04-25 08:00] carcontrol_music_switch.switch; value=false; condition=when Avery's audio playback has stopped"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-20 08:00] carcontrol_sunroof_set_open_degree.degree; value=100; condition=for Avery's normal sunroof setting",
+        "- [2026-04-25 08:00] carcontrol_music_switch.switch; value=false; condition=when Avery's audio playback has stopped"
+      ],
+      "quiz_id": "hvp16-turn-17"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-04-20 08:00] carcontrol_sunroof_set_open_degree.degree; value=100; condition=for Avery's normal sunroof setting",
+        "- [2026-04-25 08:00] carcontrol_music_switch.switch; value=false; condition=when Avery's audio playback has stopped"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-07-04 08:00] carcontrol_music_switch.switch; value=true; condition=when Reese's audio playback has stopped",
+        "- [2026-11-01 08:00] carcontrol_sunroof_set_open_degree.degree; value=0; condition=for Reese's normal sunroof setting"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-07-04 08:00] carcontrol_music_switch.switch; value=true; condition=when Reese's audio playback has stopped",
+        "- [2026-11-01 08:00] carcontrol_sunroof_set_open_degree.degree; value=0; condition=for Reese's normal sunroof setting"
+      ],
+      "quiz_id": "hvp16-turn-18"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-11-01 08:00] carcontrol_sunroof_set_open_degree.degree; value=0; condition=for Reese's normal sunroof setting",
+        "- [2026-07-04 08:00] carcontrol_music_switch.switch; value=true; condition=when Reese's audio playback has stopped",
+        "- [2026-08-13 08:00] carcontrol_window_set_open_degree.degree; value=50; context=(window=\"driver\"); condition=for Reese's normal driving",
+        "- [2026-09-02 08:00] carcontrol_steeringWheel_set_heating_enabled.enabled; value=true; condition=when Reese's hands feel cold"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-20 08:00] carcontrol_sunroof_set_open_degree.degree; value=100; condition=for Avery's normal sunroof setting",
+        "- [2026-04-25 08:00] carcontrol_music_switch.switch; value=false; condition=when Avery's audio playback has stopped"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-20 08:00] carcontrol_sunroof_set_open_degree.degree; value=100; condition=for Avery's normal sunroof setting",
+        "- [2026-04-25 08:00] carcontrol_music_switch.switch; value=false; condition=when Avery's audio playback has stopped"
+      ],
+      "quiz_id": "hvp16-final-07"
+    }
+  ],
+  "scenario_id": "HVP16",
+  "schema_version": "vehiclemembench-hvp-multiparty-validation-v1",
+  "scope": "deterministic validation; semantic review remains separate",
+  "semantic_review_status": "PENDING",
+  "statistics": {
+    "active_memory_slot_count": 10,
+    "add_count": 10,
+    "distinct_memory_tool_count": 8,
+    "final_quiz_count": 7,
+    "noop_count": 46,
+    "quiz_tool_call_count": 49,
+    "replace_count": 3,
+    "session_count": 19,
+    "speaker_count": 3,
+    "turn_count": 59,
+    "turn_quiz_count": 22,
+    "update_count": 13
+  },
+  "status": "PASS",
+  "update_owners": {
+    "external-hvp16-codriver": 3,
+    "external-hvp16-driver": 10
+  }
+}

@@ -1,0 +1,1147 @@
+{
+  "schema_version": "vehiclemembench-human-authored-scenario-source-v1",
+  "scenario_id": "HVP11",
+  "scenario_index": 911,
+  "split": "pilot_excluded",
+  "authorship": {
+    "kind": "external_adapted_model_assembled_pilot",
+    "eligible_for_human_test": false,
+    "note": "Externally adapted pilot. Dialogue records are disjoint from every other external-adapted HVP pilot; assembly, persistence edits, memory labels, and quizzes are model-produced."
+  },
+  "external_sources": [
+    {
+      "dataset": "Envisioned Voice Assistant Dialogues",
+      "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues",
+      "license": "CC BY 4.0",
+      "origin": "human_authored",
+      "records": [
+        "84:search",
+        "85:search",
+        "81:search",
+        "16:search"
+      ],
+      "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186"
+    },
+    {
+      "dataset": "Audio2Tool",
+      "url": "https://huggingface.co/datasets/RVtech/Audio2Tool",
+      "license": "CC BY-NC 4.0",
+      "origin": "synthetic",
+      "records": [
+        "tier7:2095",
+        "tier7:2098",
+        "tier7:2101",
+        "tier4:3961",
+        "tier5:3962",
+        "tier4:4095",
+        "tier4:4119",
+        "tier4:3952",
+        "tier4:3990",
+        "tier4:4100",
+        "tier4:3954",
+        "tier5:4208",
+        "tier5:4114"
+      ],
+      "local_file_sha256": {
+        "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc",
+        "tier6": "fa5c0825d99c4f68e226480261befe9ce7aa33c9dfbb7ff1fe1fc82493bcb991",
+        "tier4": "d430e801c9bba5db03b3d044ac626ebec35de1b8a4eb2e2beb4cdec0013e9271",
+        "tier5": "d38e588dccb99ed3291c9467a29adcd71e4f1c4eb62c118fd482a8e9616a1850"
+      }
+    }
+  ],
+  "speakers": [
+    {
+      "speaker_id": "external-hvp11-driver",
+      "short_id": "user",
+      "speaker_name": "Quinn (normalized user role)",
+      "role": "driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp11-assistant",
+      "short_id": "assistant",
+      "speaker_name": "Voice assistant (source names retained in text)",
+      "role": "vehicle voice assistant",
+      "style": "retains the wording of each external source record"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "hvp11-s1",
+      "timestamp": "2026-01-05T08:00:00",
+      "context": "Checking cinema times in London.",
+      "turns": [
+        {
+          "turn_id": "hvp11-s1-t01",
+          "speaker": "user",
+          "text": "MightyLegs, what times is 'Jaws 7' showing at Odeon London today",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "84:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "MightyLegs, what times is 'Jaws 7' showing at Odeon London today"
+          }
+        },
+        {
+          "turn_id": "hvp11-s1-t02",
+          "speaker": "assistant",
+          "text": "Accessing cinema times for Odeon London. Which film do you want to see?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "84:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Accessing cinema times for Odeon London. Which film do you want to see?"
+          }
+        },
+        {
+          "turn_id": "hvp11-s1-t03",
+          "speaker": "user",
+          "text": "Jaws 7",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "84:search",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Jaws 7"
+          }
+        },
+        {
+          "turn_id": "hvp11-s1-t04",
+          "speaker": "assistant",
+          "text": "Jaws 7 is playing today at 3.30 4.30 5.30 6.30.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "84:search",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Jaws 7 is playing today at 3.30 4.30 5.30 6.30."
+          }
+        },
+        {
+          "turn_id": "hvp11-s1-t05",
+          "speaker": "assistant",
+          "text": "Would you like me to book tickets",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "84:search",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Would you like me to book tickets"
+          }
+        },
+        {
+          "turn_id": "hvp11-s1-t06",
+          "speaker": "user",
+          "text": "Yes please. Book 8 tickets for 5.30",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "84:search",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes please. Book 8 tickets for 5.30"
+          }
+        },
+        {
+          "turn_id": "hvp11-s1-t07",
+          "speaker": "assistant",
+          "text": "8 tickets for Jaws 7 at 5.30 showing at Odeon London. Is this correct?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "84:search",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "8 tickets for Jaws 7 at 5.30 showing at Odeon London. Is this correct?"
+          }
+        },
+        {
+          "turn_id": "hvp11-s1-t08",
+          "speaker": "user",
+          "text": "Yes",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "84:search",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes"
+          }
+        },
+        {
+          "turn_id": "hvp11-s1-t09",
+          "speaker": "assistant",
+          "text": "Total payment of £95 from card ************* is this ok?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "84:search",
+            "record_turn_index": 8,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Total payment of £95 from card ************* is this ok?"
+          }
+        },
+        {
+          "turn_id": "hvp11-s1-t10",
+          "speaker": "user",
+          "text": "Yes thank you",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "84:search",
+            "record_turn_index": 9,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes thank you"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp11-s2",
+      "timestamp": "2026-01-25T08:00:00",
+      "context": "Choosing a film at a local cinema.",
+      "turns": [
+        {
+          "turn_id": "hvp11-s2-t01",
+          "speaker": "user",
+          "text": "Jones, what films are on?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "85:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Jones, what films are on?"
+          }
+        },
+        {
+          "turn_id": "hvp11-s2-t02",
+          "speaker": "assistant",
+          "text": "The cinema is open until 10pm, what kind of film would you like to see?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "85:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "The cinema is open until 10pm, what kind of film would you like to see?"
+          }
+        },
+        {
+          "turn_id": "hvp11-s2-t03",
+          "speaker": "user",
+          "text": "Either funny or a horror",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "85:search",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Either funny or a horror"
+          }
+        },
+        {
+          "turn_id": "hvp11-s2-t04",
+          "speaker": "assistant",
+          "text": "Sorry, there are no horror films showing right now. The film “funny film 2” is screening at 9pm, would you like me to book you a ticket?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "85:search",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Sorry, there are no horror films showing right now. The film “funny film 2” is screening at 9pm, would you like me to book you a ticket?"
+          }
+        },
+        {
+          "turn_id": "hvp11-s2-t05",
+          "speaker": "user",
+          "text": "Two tickets at 9pm please",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "85:search",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Two tickets at 9pm please"
+          }
+        },
+        {
+          "turn_id": "hvp11-s2-t06",
+          "speaker": "assistant",
+          "text": "That’s booked for you and I’ve text you the confirmation.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "85:search",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "That’s booked for you and I’ve text you the confirmation."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp11-s3",
+      "timestamp": "2026-02-14T08:00:00",
+      "context": "Checking cinema opening times.",
+      "turns": [
+        {
+          "turn_id": "hvp11-s3-t01",
+          "speaker": "user",
+          "text": "Hi Mickey, can you check the opening times of my nearest cinema please.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "81:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hi Mickey, can you check the opening times of my nearest cinema please."
+          }
+        },
+        {
+          "turn_id": "hvp11-s3-t02",
+          "speaker": "assistant",
+          "text": "The nearest cinema to you is Blantyre and it opens at 11am",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "81:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "The nearest cinema to you is Blantyre and it opens at 11am"
+          }
+        },
+        {
+          "turn_id": "hvp11-s3-t03",
+          "speaker": "user",
+          "text": "Can you book me a ticket for the first screening of Twinkle Twinkle?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "81:search",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Can you book me a ticket for the first screening of Twinkle Twinkle?"
+          }
+        },
+        {
+          "turn_id": "hvp11-s3-t04",
+          "speaker": "assistant",
+          "text": "One ticket booked for 11.30. your ticket is on your phone. Enjoy the movie",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "81:search",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "One ticket booked for 11.30. your ticket is on your phone. Enjoy the movie"
+          }
+        },
+        {
+          "turn_id": "hvp11-s3-t05",
+          "speaker": "user",
+          "text": "Thanks",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "81:search",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thanks"
+          }
+        },
+        {
+          "turn_id": "hvp11-s3-t06",
+          "speaker": "assistant",
+          "text": "Always happy to help",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "81:search",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Always happy to help"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp11-s4",
+      "timestamp": "2026-03-06T08:00:00",
+      "context": "Opening local cinema listings.",
+      "turns": [
+        {
+          "turn_id": "hvp11-s4-t01",
+          "speaker": "user",
+          "text": "Dotty what’s on at the movies",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "16:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Dotty what’s on at the movies"
+          }
+        },
+        {
+          "turn_id": "hvp11-s4-t02",
+          "speaker": "assistant",
+          "text": "I’ll open the web page for you to check your local listings",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "16:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I’ll open the web page for you to check your local listings"
+          }
+        },
+        {
+          "turn_id": "hvp11-s4-t03",
+          "speaker": "user",
+          "text": "Thanks",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "16:search",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thanks"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp11-s5",
+      "timestamp": "2026-03-26T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2095.",
+      "turns": [
+        {
+          "turn_id": "hvp11-s5-t01",
+          "speaker": "user",
+          "text": "Don't wanna be stuck with old software",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2095",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Don't wanna be stuck with old software"
+          }
+        },
+        {
+          "turn_id": "hvp11-s5-t02",
+          "speaker": "assistant",
+          "text": "What seems to be the issue with your current software? Is it causing any problems?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2095",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What seems to be the issue with your current software? Is it causing any problems?"
+          }
+        },
+        {
+          "turn_id": "hvp11-s5-t03",
+          "speaker": "user",
+          "text": "Just wanna make sure I have the latest features",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2095",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Just wanna make sure I have the latest features"
+          }
+        },
+        {
+          "turn_id": "hvp11-s5-t04",
+          "speaker": "assistant",
+          "text": "Okay, so you want to update your software. Have you downloaded the latest update?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2095",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Okay, so you want to update your software. Have you downloaded the latest update?"
+          }
+        },
+        {
+          "turn_id": "hvp11-s5-t05",
+          "speaker": "user",
+          "text": "Yeah, it's been waiting for installation",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2095",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yeah, it's been waiting for installation"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp11-s6",
+      "timestamp": "2026-04-15T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2098.",
+      "turns": [
+        {
+          "turn_id": "hvp11-s6-t01",
+          "speaker": "user",
+          "text": "I rotated the tires yesterday and now that warning light came back on again. Are you sure it's actually reading the right things, and not just making it up?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2098",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I rotated the tires yesterday and now that warning light came back on again. Are you sure it's actually reading the right things, and not just making it up?"
+          }
+        },
+        {
+          "turn_id": "hvp11-s6-t02",
+          "speaker": "assistant",
+          "text": "It's very possible your car's tire pressure system still thinks the old wheel positions or even old sensor IDs are in place. When you rotate wheels or change sensors, the system sometimes needs to relearn which sensor is where. That warning light you're seeing is likely it complaining that what it's hearing from the sensors doesn't match what it expects.\n\nTo be more certain, you could first check actual tire pressures with a physical gauge and compare them to the door-jamb sticker. If those are fine and the light still stays on after a bit of driving, then having the system relearn the sensors is usually the next step. Your car typically has a menu option or a procedure that tells it to wipe what it knows and listen again for the current sensors.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2098",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "It's very possible your car's tire pressure system still thinks the old wheel positions or even old sensor IDs are in place. When you rotate wheels or change sensors, the system sometimes needs to relearn which sensor is where. That warning light you're seeing is likely it complaining that what it's hearing from the sensors doesn't match what it expects.\n\nTo be more certain, you could first check actual tire pressures with a physical gauge and compare them to the door-jamb sticker. If those are fine and the light still stays on after a bit of driving, then having the system relearn the sensors is usually the next step. Your car typically has a menu option or a procedure that tells it to wipe what it knows and listen again for the current sensors."
+          }
+        },
+        {
+          "turn_id": "hvp11-s6-t03",
+          "speaker": "user",
+          "text": "I already checked them with a gauge; they're all spot on. The light still sticks around, though. Are you absolutely sure it isn't just some glitch that'll clear on its own?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2098",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I already checked them with a gauge; they're all spot on. The light still sticks around, though. Are you absolutely sure it isn't just some glitch that'll clear on its own?"
+          }
+        },
+        {
+          "turn_id": "hvp11-s6-t04",
+          "speaker": "assistant",
+          "text": "If the pressures are correct and the light persists after a normal drive cycle, it's unlikely to clear on its own. The system is probably confused about the sensor IDs or positions rather than the pressures themselves. Having it relearn the sensors forces it to forget the old mapping and register the ones actually on the car now.\n\nIn many modern systems, this relearn process is safe: it doesn't change any mechanical settings, it just refreshes what it knows about which sensors it should be listening to. If there were a deeper fault—like a dead sensor battery or a damaged module—you'd usually see a specific error code when it tries to relearn.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2098",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "If the pressures are correct and the light persists after a normal drive cycle, it's unlikely to clear on its own. The system is probably confused about the sensor IDs or positions rather than the pressures themselves. Having it relearn the sensors forces it to forget the old mapping and register the ones actually on the car now.\n\nIn many modern systems, this relearn process is safe: it doesn't change any mechanical settings, it just refreshes what it knows about which sensors it should be listening to. If there were a deeper fault—like a dead sensor battery or a damaged module—you'd usually see a specific error code when it tries to relearn."
+          }
+        },
+        {
+          "turn_id": "hvp11-s6-t05",
+          "speaker": "user",
+          "text": "So if I let it do that relearn thing you're talking about right now, you're saying it'll just update what it listens to and I can finally see if that light is legit or not?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2098",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "So if I let it do that relearn thing you're talking about right now, you're saying it'll just update what it listens to and I can finally see if that light is legit or not?"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp11-s7",
+      "timestamp": "2026-05-05T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2101.",
+      "turns": [
+        {
+          "turn_id": "hvp11-s7-t01",
+          "speaker": "user",
+          "text": "I don't want the wipers to be in the way when I'm trying to clean the windshield. Is there some kind of service position they can go to?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2101",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I don't want the wipers to be in the way when I'm trying to clean the windshield. Is there some kind of service position they can go to?"
+          }
+        },
+        {
+          "turn_id": "hvp11-s7-t02",
+          "speaker": "assistant",
+          "text": "Yes, I can help you with that. I can activate the wiper service mode which will move your windshield wipers to a position that makes them easier to clean or replace. Would you like me to do that for you?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2101",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes, I can help you with that. I can activate the wiper service mode which will move your windshield wipers to a position that makes them easier to clean or replace. Would you like me to do that for you?"
+          }
+        },
+        {
+          "turn_id": "hvp11-s7-t03",
+          "speaker": "user",
+          "text": "Are you sure that's safe? I don't want to damage anything. Can you verify that this is an actual feature of the car?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2101",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Are you sure that's safe? I don't want to damage anything. Can you verify that this is an actual feature of the car?"
+          }
+        },
+        {
+          "turn_id": "hvp11-s7-t04",
+          "speaker": "assistant",
+          "text": "I understand your concern for safety. Yes, this is absolutely a standard feature in your vehicle specifically designed for maintenance. The wiper service mode safely positions the wipers away from their resting position so you can clean or replace them. The car's system is designed to handle this function without any risk of damage.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2101",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I understand your concern for safety. Yes, this is absolutely a standard feature in your vehicle specifically designed for maintenance. The wiper service mode safely positions the wipers away from their resting position so you can clean or replace them. The car's system is designed to handle this function without any risk of damage."
+          }
+        },
+        {
+          "turn_id": "hvp11-s7-t05",
+          "speaker": "user",
+          "text": "Well, if you're certain it's safe, could you please activate that service position for the wipers? But I want to double-check - this will definitely move them to where I can replace them, right?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2101",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Well, if you're certain it's safe, could you please activate that service position for the wipers? But I want to double-check - this will definitely move them to where I can replace them, right?"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp11-s8",
+      "timestamp": "2026-05-25T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:3961.",
+      "turns": [
+        {
+          "turn_id": "hvp11-s8-t01",
+          "speaker": "user",
+          "text": "The air has a bit of a bite. Level one is my regular driver-seat heat setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:3961",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "The air has a bit of a bite."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.seat_heat",
+            "tool_name": "carcontrol_seat_set_heating_level",
+            "argument_name": "level",
+            "value": 1,
+            "context_arguments": {
+              "seat": "driver"
+            },
+            "condition": "for Quinn's normal driver-seat comfort",
+            "reason": "The source heat level is stated explicitly and made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp11-s9",
+      "timestamp": "2026-06-14T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:3962.",
+      "turns": [
+        {
+          "turn_id": "hvp11-s9-t01",
+          "speaker": "user",
+          "text": "So the playlist is on shuffle and it keeps picking old songs, you know, it is kinda funny, but the front passenger is chilly, could you raise the passenger temperature to twenty three degrees. Twenty-three degrees is my regular passenger-zone setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:3962",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "So the playlist is on shuffle and it keeps picking old songs, you know, it is kinda funny, but the front passenger is chilly, could you raise the passenger temperature to twenty three degrees"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.passenger_temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 23,
+            "context_arguments": {
+              "zone": "passenger"
+            },
+            "condition": "for Quinn's normal passenger-zone climate",
+            "reason": "The explicit source temperature is made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp11-s10",
+      "timestamp": "2026-07-04T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4095.",
+      "turns": [
+        {
+          "turn_id": "hvp11-s10-t01",
+          "speaker": "user",
+          "text": "I'm feeling a little blue. Blue is my normal ambient-light color.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4095",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I'm feeling a little blue."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.ambient_color",
+            "tool_name": "carcontrol_light_set_ambient_color",
+            "argument_name": "color",
+            "value": "blue",
+            "context_arguments": {},
+            "condition": "for Quinn's normal ambient lighting",
+            "reason": "The source color is normalized to the equivalent VehicleMemBench color name and made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp11-s11",
+      "timestamp": "2026-07-24T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4119.",
+      "turns": [
+        {
+          "turn_id": "hvp11-s11-t01",
+          "speaker": "user",
+          "text": "I'm listening to an audiobook. Muted guidance is my normal setting while listening to audiobooks.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4119",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I'm listening to an audiobook."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.audiobook.voice_mode",
+            "tool_name": "carcontrol_navigation_set_voice_mode",
+            "argument_name": "mode",
+            "value": "mute",
+            "context_arguments": {},
+            "condition": "when Quinn listens to an audiobook",
+            "reason": "The source mute request becomes conditional memory."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp11-s12",
+      "timestamp": "2026-08-13T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:3952.",
+      "turns": [
+        {
+          "turn_id": "hvp11-s12-t01",
+          "speaker": "user",
+          "text": "The air in here is not fresh at all. Fan speed six is my regular cabin setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:3952",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "The air in here is not fresh at all"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.fan_speed",
+            "tool_name": "carcontrol_airConditioner_set_fan_speed",
+            "argument_name": "speed",
+            "value": 6,
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Quinn's normal cabin setting",
+            "reason": "The source fan level is stated explicitly and made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp11-s13",
+      "timestamp": "2026-09-02T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:3990.",
+      "turns": [
+        {
+          "turn_id": "hvp11-s13-t01",
+          "speaker": "user",
+          "text": "I don't trust this parking garage. Keep all doors locked whenever I park.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:3990",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I don't trust this parking garage."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.vehicle_access.doors_locked",
+            "tool_name": "carcontrol_door_set_locked",
+            "argument_name": "locked",
+            "value": true,
+            "context_arguments": {
+              "door": "all"
+            },
+            "condition": "when Quinn parks",
+            "reason": "The source lock request becomes a durable parking rule."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp11-s14",
+      "timestamp": "2026-09-22T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4100.",
+      "turns": [
+        {
+          "turn_id": "hvp11-s14-t01",
+          "speaker": "user",
+          "text": "I am exhausted, wish I was already pulling up at home. Use Home as my default destination.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4100",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I am exhausted, wish I was already pulling up at home"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.default.destination",
+            "tool_name": "carcontrol_navigation_navigate_to",
+            "argument_name": "destination",
+            "value": "Home",
+            "context_arguments": {},
+            "condition": "when Quinn starts navigation without naming a destination",
+            "reason": "The source destination becomes a persistent default."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp11-s15",
+      "timestamp": "2026-10-12T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:3954.",
+      "turns": [
+        {
+          "turn_id": "hvp11-s15-t01",
+          "speaker": "user",
+          "text": "I wish there was stronger air from these vents. Actually, fan speed eight is my regular cabin setting now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:3954",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I wish there was stronger air from these vents"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.fan_speed",
+            "tool_name": "carcontrol_airConditioner_set_fan_speed",
+            "argument_name": "speed",
+            "value": 8,
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Quinn's normal cabin setting",
+            "reason": "The later source fan level replaces the stored value."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp11-s16",
+      "timestamp": "2026-11-01T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4208.",
+      "turns": [
+        {
+          "turn_id": "hvp11-s16-t01",
+          "speaker": "user",
+          "text": "Okay, I see them waiting over there by the entrance. I hope I'm not too late. It's always so hard to find parking in this area. Oh, I need to grab my jacket from the back seat, uh, can you disengage the locks? Actually, keep all doors unlocked when I am about to leave now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4208",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Okay, I see them waiting over there by the entrance. I hope I'm not too late. It's always so hard to find parking in this area. Oh, I need to grab my jacket from the back seat, uh, can you disengage the locks?"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.vehicle_access.doors_locked",
+            "tool_name": "carcontrol_door_set_locked",
+            "argument_name": "locked",
+            "value": false,
+            "context_arguments": {
+              "door": "all"
+            },
+            "condition": "when Quinn is parked and about to leave",
+            "reason": "The later source request changes the stored access rule and its condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp11-s17",
+      "timestamp": "2026-11-21T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4114.",
+      "turns": [
+        {
+          "turn_id": "hvp11-s17-t01",
+          "speaker": "user",
+          "text": "I always forget which side street leads to the library, um, can you set the destination to Eastside Public Library on Maple Street. Actually, make Eastside Public Library my default destination now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4114",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I always forget which side street leads to the library, um, can you set the destination to Eastside Public Library on Maple Street"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.default.destination",
+            "tool_name": "carcontrol_navigation_navigate_to",
+            "argument_name": "destination",
+            "value": "Eastside Public Library on Maple Street",
+            "context_arguments": {},
+            "condition": "when Quinn starts navigation without naming a destination",
+            "reason": "The later source destination replaces Home."
+          }
+        }
+      ]
+    }
+  ],
+  "quizzes": [
+    {
+      "quiz_id": "hvp11-turn-01",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp11-s8-t01",
+      "query": "Set the driver-seat heat to Quinn's remembered normal level.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.seat_heat"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_seat_set_heating_level",
+          "arguments": {
+            "seat": "driver",
+            "level": 1
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp11-turn-02",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp11-s9-t01",
+      "query": "Set the front-passenger temperature to Quinn's remembered normal value.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.passenger_temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "passenger",
+            "temperature": 23
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp11-turn-03",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp11-s10-t01",
+      "query": "Set the ambient lighting to Quinn's remembered normal color.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "blue"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp11-turn-04",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp11-s11-t01",
+      "query": "Quinn is listening to an audiobook. Apply the remembered navigation voice setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.audiobook.voice_mode"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "mute"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp11-final-01",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp11-s17-t01",
+      "query": "Set the driver-seat heat to Quinn's remembered normal level.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.seat_heat"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_seat_set_heating_level",
+          "arguments": {
+            "seat": "driver",
+            "level": 1
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp11-final-02",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp11-s17-t01",
+      "query": "Set the front-passenger temperature to Quinn's remembered normal value.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.passenger_temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "passenger",
+            "temperature": 23
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp11-final-03",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp11-s17-t01",
+      "query": "Set the ambient lighting to Quinn's remembered normal color.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "blue"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp11-final-04",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp11-s17-t01",
+      "query": "Quinn is listening to an audiobook. Apply the remembered navigation voice setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.audiobook.voice_mode"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "mute"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp11-final-05",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp11-s17-t01",
+      "query": "Set the cabin fan to Quinn's current normal speed.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 8
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp11-final-06",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp11-s17-t01",
+      "query": "Quinn is parked, about to leave, and asks to start navigation without naming a destination. Apply the current door-access and destination defaults.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.vehicle_access.doors_locked",
+        "driver.default.destination"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": false
+          }
+        },
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Eastside Public Library on Maple Street"
+          }
+        }
+      ]
+    }
+  ]
+}

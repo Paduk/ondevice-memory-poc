@@ -1,0 +1,154 @@
+{
+  "added_quiz_distribution": {
+    "FINAL::coreference_resolution": 1,
+    "FINAL::preference_conflict": 1,
+    "TURN::coreference_resolution": 5,
+    "TURN::error_correction": 3,
+    "TURN::preference_conflict": 6,
+    "TURN::state_shift": 3
+  },
+  "checks": {
+    "added_query_uniqueness": "PASS",
+    "base_quizzes_unchanged": "PASS",
+    "base_sessions_unchanged": "PASS",
+    "base_source_hash": "PASS",
+    "derived_source_hash": "PASS",
+    "extension_counts": "PASS",
+    "inserted_source_records_disjoint": "PASS",
+    "multiple_memory_owners": "PASS",
+    "official_builder_validation": "PASS",
+    "preference_conflict::hvp10-final-08": "PASS",
+    "preference_conflict::hvp10-turn-13": "PASS",
+    "preference_conflict::hvp10-turn-14": "PASS",
+    "preference_conflict::hvp10-turn-15": "PASS",
+    "preference_conflict::hvp10-turn-16": "PASS",
+    "preference_conflict::hvp10-turn-17": "PASS",
+    "preference_conflict::hvp10-turn-18": "PASS",
+    "preference_conflict_action_difference::hvp10-final-08": "PASS",
+    "preference_conflict_action_difference::hvp10-turn-13": "PASS",
+    "preference_conflict_action_difference::hvp10-turn-14": "PASS",
+    "preference_conflict_action_difference::hvp10-turn-15": "PASS",
+    "preference_conflict_action_difference::hvp10-turn-16": "PASS",
+    "preference_conflict_action_difference::hvp10-turn-17": "PASS",
+    "preference_conflict_action_difference::hvp10-turn-18": "PASS",
+    "scenario_quota": "PASS"
+  },
+  "preference_conflict_audit": [
+    {
+      "gold_evidence": [
+        "- [2026-04-20 08:00] carcontrol_airConditioner_set_temperature.temperature; value=28; context=(zone=\"passenger\"); condition=for Dakota's normal passenger-zone climate"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-05-05 08:00] carcontrol_airConditioner_set_temperature.temperature; value=23; context=(zone=\"passenger\"); condition=for Taylor's normal passenger-zone climate"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-05-05 08:00] carcontrol_airConditioner_set_temperature.temperature; value=23; context=(zone=\"passenger\"); condition=for Taylor's normal passenger-zone climate"
+      ],
+      "quiz_id": "hvp10-turn-13"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-05-05 08:00] carcontrol_airConditioner_set_temperature.temperature; value=23; context=(zone=\"passenger\"); condition=for Taylor's normal passenger-zone climate"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-20 08:00] carcontrol_airConditioner_set_temperature.temperature; value=28; context=(zone=\"passenger\"); condition=for Dakota's normal passenger-zone climate"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-20 08:00] carcontrol_airConditioner_set_temperature.temperature; value=28; context=(zone=\"passenger\"); condition=for Dakota's normal passenger-zone climate"
+      ],
+      "quiz_id": "hvp10-turn-14"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-04-25 08:00] carcontrol_airConditioner_set_mode.mode; value=\"defrost\"; context=(zone=\"all\"); condition=when Dakota needs to clear the rear glass"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-09-02 08:00] carcontrol_airConditioner_set_mode.mode; value=\"defrost\"; context=(zone=\"rear\"); condition=when Taylor needs to clear the rear glass"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-09-02 08:00] carcontrol_airConditioner_set_mode.mode; value=\"defrost\"; context=(zone=\"rear\"); condition=when Taylor needs to clear the rear glass"
+      ],
+      "quiz_id": "hvp10-turn-15"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-09-02 08:00] carcontrol_airConditioner_set_mode.mode; value=\"defrost\"; context=(zone=\"rear\"); condition=when Taylor needs to clear the rear glass"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-25 08:00] carcontrol_airConditioner_set_mode.mode; value=\"defrost\"; context=(zone=\"all\"); condition=when Dakota needs to clear the rear glass"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-25 08:00] carcontrol_airConditioner_set_mode.mode; value=\"defrost\"; context=(zone=\"all\"); condition=when Dakota needs to clear the rear glass"
+      ],
+      "quiz_id": "hvp10-turn-16"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-04-20 08:00] carcontrol_airConditioner_set_temperature.temperature; value=28; context=(zone=\"passenger\"); condition=for Dakota's normal passenger-zone climate",
+        "- [2026-04-25 08:00] carcontrol_airConditioner_set_mode.mode; value=\"defrost\"; context=(zone=\"all\"); condition=when Dakota needs to clear the rear glass"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-05-05 08:00] carcontrol_airConditioner_set_temperature.temperature; value=23; context=(zone=\"passenger\"); condition=for Taylor's normal passenger-zone climate",
+        "- [2026-09-02 08:00] carcontrol_airConditioner_set_mode.mode; value=\"defrost\"; context=(zone=\"rear\"); condition=when Taylor needs to clear the rear glass"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-05-05 08:00] carcontrol_airConditioner_set_temperature.temperature; value=23; context=(zone=\"passenger\"); condition=for Taylor's normal passenger-zone climate",
+        "- [2026-09-02 08:00] carcontrol_airConditioner_set_mode.mode; value=\"defrost\"; context=(zone=\"rear\"); condition=when Taylor needs to clear the rear glass"
+      ],
+      "quiz_id": "hvp10-turn-17"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-05-05 08:00] carcontrol_airConditioner_set_temperature.temperature; value=23; context=(zone=\"passenger\"); condition=for Taylor's normal passenger-zone climate",
+        "- [2026-09-02 08:00] carcontrol_airConditioner_set_mode.mode; value=\"defrost\"; context=(zone=\"rear\"); condition=when Taylor needs to clear the rear glass"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-20 08:00] carcontrol_airConditioner_set_temperature.temperature; value=28; context=(zone=\"passenger\"); condition=for Dakota's normal passenger-zone climate",
+        "- [2026-04-25 08:00] carcontrol_airConditioner_set_mode.mode; value=\"defrost\"; context=(zone=\"all\"); condition=when Dakota needs to clear the rear glass"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-20 08:00] carcontrol_airConditioner_set_temperature.temperature; value=28; context=(zone=\"passenger\"); condition=for Dakota's normal passenger-zone climate",
+        "- [2026-04-25 08:00] carcontrol_airConditioner_set_mode.mode; value=\"defrost\"; context=(zone=\"all\"); condition=when Dakota needs to clear the rear glass"
+      ],
+      "quiz_id": "hvp10-turn-18"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-05-05 08:00] carcontrol_airConditioner_set_temperature.temperature; value=23; context=(zone=\"passenger\"); condition=for Taylor's normal passenger-zone climate",
+        "- [2026-09-02 08:00] carcontrol_airConditioner_set_mode.mode; value=\"defrost\"; context=(zone=\"rear\"); condition=when Taylor needs to clear the rear glass"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-20 08:00] carcontrol_airConditioner_set_temperature.temperature; value=28; context=(zone=\"passenger\"); condition=for Dakota's normal passenger-zone climate",
+        "- [2026-04-25 08:00] carcontrol_airConditioner_set_mode.mode; value=\"defrost\"; context=(zone=\"all\"); condition=when Dakota needs to clear the rear glass"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-20 08:00] carcontrol_airConditioner_set_temperature.temperature; value=28; context=(zone=\"passenger\"); condition=for Dakota's normal passenger-zone climate",
+        "- [2026-04-25 08:00] carcontrol_airConditioner_set_mode.mode; value=\"defrost\"; context=(zone=\"all\"); condition=when Dakota needs to clear the rear glass"
+      ],
+      "quiz_id": "hvp10-final-08"
+    }
+  ],
+  "scenario_id": "HVP10",
+  "schema_version": "vehiclemembench-hvp-multiparty-validation-v1",
+  "scope": "deterministic validation; semantic review remains separate",
+  "semantic_review_status": "PENDING",
+  "statistics": {
+    "active_memory_slot_count": 10,
+    "add_count": 10,
+    "distinct_memory_tool_count": 6,
+    "final_quiz_count": 8,
+    "noop_count": 46,
+    "quiz_tool_call_count": 39,
+    "replace_count": 3,
+    "session_count": 19,
+    "speaker_count": 3,
+    "turn_count": 59,
+    "turn_quiz_count": 21,
+    "update_count": 13
+  },
+  "status": "PASS",
+  "update_owners": {
+    "external-hvp10-codriver": 3,
+    "external-hvp10-driver": 10
+  }
+}

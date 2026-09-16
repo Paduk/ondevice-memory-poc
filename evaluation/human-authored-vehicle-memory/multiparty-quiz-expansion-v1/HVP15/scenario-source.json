@@ -1,0 +1,1828 @@
+{
+  "schema_version": "vehiclemembench-human-authored-scenario-source-v1",
+  "scenario_id": "HVP15",
+  "scenario_index": 915,
+  "split": "pilot_excluded",
+  "authorship": {
+    "kind": "external_adapted_model_assembled_pilot",
+    "eligible_for_human_test": false,
+    "note": "Versioned multi-participant external adaptation. Dialogue records are source-traced; participant normalization, persistence edits, memory labels, and quizzes remain model-assembled pending human review."
+  },
+  "external_sources": [
+    {
+      "dataset": "Envisioned Voice Assistant Dialogues",
+      "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues",
+      "license": "CC BY 4.0",
+      "origin": "human_authored",
+      "records": [
+        "82:weather",
+        "40:search",
+        "148:search"
+      ],
+      "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186"
+    },
+    {
+      "dataset": "Audio2Tool",
+      "url": "https://huggingface.co/datasets/RVtech/Audio2Tool",
+      "license": "CC BY-NC 4.0",
+      "origin": "synthetic",
+      "records": [
+        "tier7:2029",
+        "tier7:2073",
+        "tier7:2074",
+        "tier6:4238",
+        "tier5:3968",
+        "tier4:3947",
+        "tier5:4132",
+        "tier4:4082",
+        "tier5:3978",
+        "tier4:4255",
+        "tier6:4240",
+        "tier7:1984",
+        "tier5:3964",
+        "tier7:248",
+        "tier7:225",
+        "tier7:526"
+      ],
+      "local_file_sha256": {
+        "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc",
+        "tier6": "fa5c0825d99c4f68e226480261befe9ce7aa33c9dfbb7ff1fe1fc82493bcb991",
+        "tier4": "d430e801c9bba5db03b3d044ac626ebec35de1b8a4eb2e2beb4cdec0013e9271",
+        "tier5": "d38e588dccb99ed3291c9467a29adcd71e4f1c4eb62c118fd482a8e9616a1850"
+      }
+    }
+  ],
+  "speakers": [
+    {
+      "speaker_id": "external-hvp15-driver",
+      "short_id": "user",
+      "speaker_name": "Rowan (normalized user role)",
+      "role": "driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp15-codriver",
+      "short_id": "co_user",
+      "speaker_name": "Morgan (normalized user role)",
+      "role": "co-driver; external user identities normalized for the pilot",
+      "style": "retains the dialogue acts and values of each external record"
+    },
+    {
+      "speaker_id": "external-hvp15-assistant",
+      "short_id": "assistant",
+      "speaker_name": "Voice assistant (source names retained in text)",
+      "role": "vehicle voice assistant",
+      "style": "retains the wording of each external source record"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "hvp15-s1",
+      "timestamp": "2026-01-05T08:00:00",
+      "context": "Preparing a five-day packing list for Bologna.",
+      "turns": [
+        {
+          "turn_id": "hvp15-s1-t01",
+          "speaker": "user",
+          "text": "What clothing will i need for my trip on sunday?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "82:weather",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What clothing will i need for my trip on sunday?"
+          }
+        },
+        {
+          "turn_id": "hvp15-s1-t02",
+          "speaker": "assistant",
+          "text": "Where are you going exactly?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "82:weather",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Where are you going exactly?"
+          }
+        },
+        {
+          "turn_id": "hvp15-s1-t03",
+          "speaker": "user",
+          "text": "I am going to Bologna, Italy.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "82:weather",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I am going to Bologna, Italy."
+          }
+        },
+        {
+          "turn_id": "hvp15-s1-t04",
+          "speaker": "assistant",
+          "text": "The weather in Bologna on Sunday is fine, 20 C. It will be a pleasant week except for Tuesday when Heavy rain is expected.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "82:weather",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "The weather in Bologna on Sunday is fine, 20 C. It will be a pleasant week except for Tuesday when Heavy rain is expected."
+          }
+        },
+        {
+          "turn_id": "hvp15-s1-t05",
+          "speaker": "assistant",
+          "text": "Based on the weather forecast I would pack light and casual clothing with a raincoat.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "82:weather",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Based on the weather forecast I would pack light and casual clothing with a raincoat."
+          }
+        },
+        {
+          "turn_id": "hvp15-s1-t06",
+          "speaker": "user",
+          "text": "Thanks Jenkins. Can you give me a clothes inventory for 5 days in Bologna?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "82:weather",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thanks Jenkins. Can you give me a clothes inventory for 5 days in Bologna?"
+          }
+        },
+        {
+          "turn_id": "hvp15-s1-t07",
+          "speaker": "assistant",
+          "text": "Yes indeed. 6 Pairs of socks, 6 pairs of underwear, raincoat, 6 shirts, .....",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "82:weather",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes indeed. 6 Pairs of socks, 6 pairs of underwear, raincoat, 6 shirts, ....."
+          }
+        },
+        {
+          "turn_id": "hvp15-s1-t08",
+          "speaker": "user",
+          "text": "Thanks Jenkins, please email that to me",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "82:weather",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thanks Jenkins, please email that to me"
+          }
+        },
+        {
+          "turn_id": "hvp15-s1-t09",
+          "speaker": "assistant",
+          "text": "Done. Have a lovely trip.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "82:weather",
+            "record_turn_index": 8,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Done. Have a lovely trip."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp15-s2",
+      "timestamp": "2026-01-25T08:00:00",
+      "context": "Checking evening showings of a nearby film.",
+      "turns": [
+        {
+          "turn_id": "hvp15-s2-t01",
+          "speaker": "user",
+          "text": "please could you list the film times tonight at the local cinema",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "40:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "please could you list the film times tonight at the local cinema"
+          }
+        },
+        {
+          "turn_id": "hvp15-s2-t02",
+          "speaker": "assistant",
+          "text": "Is that the cinema closest by?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "40:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Is that the cinema closest by?"
+          }
+        },
+        {
+          "turn_id": "hvp15-s2-t03",
+          "speaker": "user",
+          "text": "yes",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "40:search",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "yes"
+          }
+        },
+        {
+          "turn_id": "hvp15-s2-t04",
+          "speaker": "assistant",
+          "text": "which film would you like to see",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "40:search",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "which film would you like to see"
+          }
+        },
+        {
+          "turn_id": "hvp15-s2-t05",
+          "speaker": "user",
+          "text": "tenet",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "40:search",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "tenet"
+          }
+        },
+        {
+          "turn_id": "hvp15-s2-t06",
+          "speaker": "assistant",
+          "text": "ok the film tenet is on at 7.30pm or 9pm at the cinema closest to you",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "40:search",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "ok the film tenet is on at 7.30pm or 9pm at the cinema closest to you"
+          }
+        },
+        {
+          "turn_id": "hvp15-s2-t07",
+          "speaker": "user",
+          "text": "thank you",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "40:search",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "thank you"
+          }
+        },
+        {
+          "turn_id": "hvp15-s2-t08",
+          "speaker": "assistant",
+          "text": "no problems enjoy the movie i have heard it is very good",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "40:search",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "no problems enjoy the movie i have heard it is very good"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp15-s3",
+      "timestamp": "2026-02-14T08:00:00",
+      "context": "Booking a local cinema showing.",
+      "turns": [
+        {
+          "turn_id": "hvp15-s3-t01",
+          "speaker": "user",
+          "text": "Audio, do you cover local cinema programmes?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "148:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Audio, do you cover local cinema programmes?"
+          }
+        },
+        {
+          "turn_id": "hvp15-s3-t02",
+          "speaker": "assistant",
+          "text": "Try Me",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "148:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Try Me"
+          }
+        },
+        {
+          "turn_id": "hvp15-s3-t03",
+          "speaker": "user",
+          "text": "Film time for the Fareham Odeon",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "148:search",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Film time for the Fareham Odeon"
+          }
+        },
+        {
+          "turn_id": "hvp15-s3-t04",
+          "speaker": "assistant",
+          "text": "Bambi, 6 thirty, Dragon's Blood 8 thirty",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "148:search",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Bambi, 6 thirty, Dragon's Blood 8 thirty"
+          }
+        },
+        {
+          "turn_id": "hvp15-s3-t05",
+          "speaker": "user",
+          "text": "Not much choice",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "148:search",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Not much choice"
+          }
+        },
+        {
+          "turn_id": "hvp15-s3-t06",
+          "speaker": "assistant",
+          "text": "Go for Bambi, a tear jerker",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "148:search",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Go for Bambi, a tear jerker"
+          }
+        },
+        {
+          "turn_id": "hvp15-s3-t07",
+          "speaker": "user",
+          "text": "OK, book me a slot",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "148:search",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "OK, book me a slot"
+          }
+        },
+        {
+          "turn_id": "hvp15-s3-t08",
+          "speaker": "assistant",
+          "text": "Will do",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "148:search",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Will do"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp15-s4",
+      "timestamp": "2026-03-06T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2029.",
+      "turns": [
+        {
+          "turn_id": "hvp15-s4-t01",
+          "speaker": "user",
+          "text": "Uh, can you, um, help me with the, uh, charging thingy?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2029",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Uh, can you, um, help me with the, uh, charging thingy?"
+          }
+        },
+        {
+          "turn_id": "hvp15-s4-t02",
+          "speaker": "assistant",
+          "text": "I'd be happy to help you with the charging port. However, I need to know what action to take. Do you want to open or close the charge port door?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2029",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'd be happy to help you with the charging port. However, I need to know what action to take. Do you want to open or close the charge port door?"
+          }
+        },
+        {
+          "turn_id": "hvp15-s4-t03",
+          "speaker": "user",
+          "text": "O-oh, um, open it, p-please.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2029",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "O-oh, um, open it, p-please."
+          }
+        },
+        {
+          "turn_id": "hvp15-s4-t04",
+          "speaker": "assistant",
+          "text": "Alright, I just need to confirm. You want to open the charge port door, correct?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2029",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Alright, I just need to confirm. You want to open the charge port door, correct?"
+          }
+        },
+        {
+          "turn_id": "hvp15-s4-t05",
+          "speaker": "user",
+          "text": "Y-yes, that's right. Open the charge port door.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2029",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Y-yes, that's right. Open the charge port door."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp15-s5",
+      "timestamp": "2026-03-26T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2073.",
+      "turns": [
+        {
+          "turn_id": "hvp15-s5-t01",
+          "speaker": "user",
+          "text": "Uh, hi… sorry, I'm still kinda new to all this car app stuff. My phone just popped up something about the battery being, um, degraded? But the car still charges fine. Is that… bad?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2073",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Uh, hi… sorry, I'm still kinda new to all this car app stuff. My phone just popped up something about the battery being, um, degraded? But the car still charges fine. Is that… bad?"
+          }
+        },
+        {
+          "turn_id": "hvp15-s5-t02",
+          "speaker": "assistant",
+          "text": "No problem at all, and it's good you asked. \"Degraded” usually just means the battery has lost a bit of its original capacity over time, which is normal. Your car can still work fine, but the range might slowly get shorter as the battery ages. If you like, I can check the battery's overall health for you, including how much of its original maximum capacity it can still hold.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2073",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "No problem at all, and it's good you asked. \"Degraded” usually just means the battery has lost a bit of its original capacity over time, which is normal. Your car can still work fine, but the range might slowly get shorter as the battery ages. If you like, I can check the battery's overall health for you, including how much of its original maximum capacity it can still hold."
+          }
+        },
+        {
+          "turn_id": "hvp15-s5-t03",
+          "speaker": "user",
+          "text": "Oh, okay, that makes sense. Also, uh, unrelated, my Bluetooth keeps grabbing my neighbor's speaker instead of my car, it's so weird. I'll fix that later though. For now, could you just, um… look at how healthy my car's big battery thing is? Like the long‑term health number or whatever it's called?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2073",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Oh, okay, that makes sense. Also, uh, unrelated, my Bluetooth keeps grabbing my neighbor's speaker instead of my car, it's so weird. I'll fix that later though. For now, could you just, um… look at how healthy my car's big battery thing is? Like the long‑term health number or whatever it's called?"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp15-s6",
+      "timestamp": "2026-04-15T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2074.",
+      "turns": [
+        {
+          "turn_id": "hvp15-s6-t01",
+          "speaker": "user",
+          "text": "how far have I gone?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2074",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "how far have I gone?"
+          }
+        },
+        {
+          "turn_id": "hvp15-s6-t02",
+          "speaker": "assistant",
+          "text": "I can provide you with the total distance traveled or the distance since the last reset. Which one would you like to know?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2074",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can provide you with the total distance traveled or the distance since the last reset. Which one would you like to know?"
+          }
+        },
+        {
+          "turn_id": "hvp15-s6-t03",
+          "speaker": "user",
+          "text": "total",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2074",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "total"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp15-mp01",
+      "timestamp": "2026-04-20T08:00:00",
+      "context": "Morgan discusses connected controls, is distracted by ambient lighting, and returns to an explicit fan-speed-three request.",
+      "turns": [
+        {
+          "turn_id": "hvp15-mp01-t01",
+          "speaker": "co_user",
+          "text": "I was just thinking about how much I rely on connected controls these days. My car's climate, lights, even phone integration are all linked. It's kind of wild when you stop and think about it.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:248",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite",
+            "original_text": "I was just thinking about how much I rely on my gadgets these days. My smart fan, the lights, even my coffee maker are all connected. It's kind of wild when you stop and think about it."
+          }
+        },
+        {
+          "turn_id": "hvp15-mp01-t02",
+          "speaker": "assistant",
+          "text": "It really is impressive how much vehicle technology has evolved. Do you normally let the cabin climate run automatically, or do you prefer to adjust it yourself?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:248",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite",
+            "original_text": "It really is impressive how much everyday tech has evolved. Since you use your smart fan and other devices so much, do you usually control them with routines, or do you prefer to adjust things manually as you go?"
+          }
+        },
+        {
+          "turn_id": "hvp15-mp01-t03",
+          "speaker": "co_user",
+          "text": "Honestly, a mix of both. Speaking of which, I keep forgetting to adjust the cabin fan, and it's been running a bit too strong. Anyway, I got distracted looking at ambient-light colors online.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:248",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite",
+            "original_text": "Honestly, a mix of both. Speaking of which, I keep forgetting to adjust the fan in the living room, and it's been running a bit too strong lately. Anyway, I got distracted looking at new smart bulbs online—have you seen those color-changing ones that sync with music?"
+          }
+        },
+        {
+          "turn_id": "hvp15-mp01-t04",
+          "speaker": "assistant",
+          "text": "Those colors can change the cabin mood. If the fan is too strong, we can dial it back; just tell me the speed you want.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:248",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite",
+            "original_text": "Yes, those are quite popular—people use them to match the mood for movies, parties, or even for focusing while working. If your living room fan is running too strong, we can dial it back or change how it runs so it's more comfortable for you. Just tell me how you'd like it to behave."
+          }
+        },
+        {
+          "turn_id": "hvp15-mp01-t05",
+          "speaker": "co_user",
+          "text": "Right, let's fix that: keep the cabin fan on, but only at speed 3. Speed three is also my regular all-cabin fan setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:248",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite_with_persistence",
+            "original_text": "Right, let's actually fix that: for the living room unit, I'd like it set to On but only at speed 3 so it's not blasting air at me."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.normal.fan_speed",
+            "tool_name": "carcontrol_airConditioner_set_fan_speed",
+            "argument_name": "speed",
+            "value": 3,
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Morgan's normal cabin setting",
+            "reason": "The source's distraction-and-return structure and explicit speed 3 are preserved in a disclosed home-to-vehicle fan rewrite."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp15-mp02",
+      "timestamp": "2026-04-25T08:00:00",
+      "context": "Morgan asks to warm the space and explicitly chooses 23 degrees.",
+      "turns": [
+        {
+          "turn_id": "hvp15-mp02-t01",
+          "speaker": "co_user",
+          "text": "I'm freezing",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:225",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'm freezing"
+          }
+        },
+        {
+          "turn_id": "hvp15-mp02-t02",
+          "speaker": "assistant",
+          "text": "Would you like to adjust the temperature? Maybe we can make it a bit warmer for you.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:225",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Would you like to adjust the temperature? Maybe we can make it a bit warmer for you."
+          }
+        },
+        {
+          "turn_id": "hvp15-mp02-t03",
+          "speaker": "co_user",
+          "text": "Yeah, that would be great. I think around 23 degrees should be good. Use twenty-three degrees for my driver zone during normal driving.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:225",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Yeah, that would be great. I think around 23 degrees should be good."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.normal.temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 23,
+            "context_arguments": {
+              "zone": "driver"
+            },
+            "condition": "for Morgan's normal driving",
+            "reason": "The source explicitly selects 23 degrees; the driver-zone scope and durable normal-driving condition are added for the pilot."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp15-mp03",
+      "timestamp": "2026-04-30T08:00:00",
+      "context": "A three-turn Pause confirmation is rewritten as an unexpectedly stopped in-car audiobook while preserving the requested action.",
+      "turns": [
+        {
+          "turn_id": "hvp15-mp03-t01",
+          "speaker": "co_user",
+          "text": "The audiobook stopped unexpectedly. Don't restart it yet.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:526",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite",
+            "original_text": "music's too loud... need quiet..."
+          }
+        },
+        {
+          "turn_id": "hvp15-mp03-t02",
+          "speaker": "assistant",
+          "text": "Understood. Would you like me to leave the audiobook paused?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:526",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite",
+            "original_text": "I understand you'd like the music to be quieter. Would you like me to pause the speaker for you?"
+          }
+        },
+        {
+          "turn_id": "hvp15-mp03-t03",
+          "speaker": "co_user",
+          "text": "Yeah, leave it paused. Whenever my audiobook stops unexpectedly, leave it paused instead of resuming it.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:526",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite_with_persistence",
+            "original_text": "yeah... pause it"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.audiobook.playback",
+            "tool_name": "carcontrol_music_switch",
+            "argument_name": "switch",
+            "value": false,
+            "context_arguments": {},
+            "condition": "when Morgan's audiobook stops unexpectedly",
+            "reason": "The source explicitly selects Pause; the disclosed rewrite makes the stopped-audiobook condition identical to the competing driver preference."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp15-s7",
+      "timestamp": "2026-05-05T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:4238.",
+      "turns": [
+        {
+          "turn_id": "hvp15-s7-t01",
+          "speaker": "user",
+          "text": "Turn on eco climate mode, no wait, leave the mode and simply turn recirculation off. Outside air is my regular cabin-air setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4238",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Turn on eco climate mode, no wait, leave the mode and simply turn recirculation off"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.circulation",
+            "tool_name": "carcontrol_airConditioner_set_circulation",
+            "argument_name": "circulation",
+            "value": "outside",
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Rowan's normal cabin-air setting",
+            "reason": "The corrected source circulation state is made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp15-s8",
+      "timestamp": "2026-05-25T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:3968.",
+      "turns": [
+        {
+          "turn_id": "hvp15-s8-t01",
+          "speaker": "user",
+          "text": "I'm trying to remember the name of that actor... he was in that movie about the space station. It's on the tip of my tongue. This is going to bother me all day. Oh, whatever. Um, can you just set the fan speed to seven? Fan speed seven is my regular cabin setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:3968",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I'm trying to remember the name of that actor... he was in that movie about the space station. It's on the tip of my tongue. This is going to bother me all day. Oh, whatever. Um, can you just set the fan speed to seven?"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.fan_speed",
+            "tool_name": "carcontrol_airConditioner_set_fan_speed",
+            "argument_name": "speed",
+            "value": 7,
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Rowan's normal cabin setting",
+            "reason": "The explicit source fan level is made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp15-s9",
+      "timestamp": "2026-06-14T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:3947.",
+      "turns": [
+        {
+          "turn_id": "hvp15-s9-t01",
+          "speaker": "user",
+          "text": "It's uncomfortably warm. Nineteen degrees is my regular driver-zone setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:3947",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "It's uncomfortably warm."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 19,
+            "context_arguments": {
+              "zone": "driver"
+            },
+            "condition": "for Rowan's normal driving",
+            "reason": "The inferred source temperature is stated explicitly and made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp15-s10",
+      "timestamp": "2026-07-04T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4132.",
+      "turns": [
+        {
+          "turn_id": "hvp15-s10-t01",
+          "speaker": "user",
+          "text": "So the directions for this part are really obvious and, um, the voice makes it feel like overkill, can you mute the navigation voice guidance for this stretch. Mute guidance on route segments where the directions are obvious.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4132",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "So the directions for this part are really obvious and, um, the voice makes it feel like overkill, can you mute the navigation voice guidance for this stretch"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.obvious_route.voice_mode",
+            "tool_name": "carcontrol_navigation_set_voice_mode",
+            "argument_name": "mode",
+            "value": "mute",
+            "context_arguments": {},
+            "condition": "when route directions are obvious to Rowan",
+            "reason": "The source mute request is retained under the same obvious-route condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp15-s11",
+      "timestamp": "2026-07-24T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4082.",
+      "turns": [
+        {
+          "turn_id": "hvp15-s11-t01",
+          "speaker": "user",
+          "text": "The audiobook just halted mid sentence. Resume playback whenever my audiobook stops unexpectedly.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4082",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "The audiobook just halted mid sentence"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.audiobook.playback",
+            "tool_name": "carcontrol_music_switch",
+            "argument_name": "switch",
+            "value": true,
+            "context_arguments": {},
+            "condition": "when Rowan's audiobook stops unexpectedly",
+            "reason": "The inferred source playback action is retained under its audiobook condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp15-s12",
+      "timestamp": "2026-08-13T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:3978.",
+      "turns": [
+        {
+          "turn_id": "hvp15-s12-t01",
+          "speaker": "user",
+          "text": "I was laughing at how I forgot gloves again, and, like, can you please switch on the steering wheel heat so I manage this drive. Keep steering-wheel heat enabled whenever I forget my gloves.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:3978",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I was laughing at how I forgot gloves again, and, like, can you please switch on the steering wheel heat so I manage this drive"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.no_gloves.wheel_heat",
+            "tool_name": "carcontrol_steeringWheel_set_heating_enabled",
+            "argument_name": "enabled",
+            "value": true,
+            "context_arguments": {},
+            "condition": "when Rowan has forgotten gloves",
+            "reason": "The source heat request is retained under the same missing-gloves condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp15-s13",
+      "timestamp": "2026-09-02T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4255.",
+      "turns": [
+        {
+          "turn_id": "hvp15-s13-t01",
+          "speaker": "user",
+          "text": "The liftgate is obstructing my view. Keep the rear trunk closed during normal driving.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4255",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "The liftgate is obstructing my view"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.rear_trunk",
+            "tool_name": "carcontrol_trunk_switch",
+            "argument_name": "switch",
+            "value": false,
+            "context_arguments": {},
+            "condition": "for Rowan's normal driving",
+            "reason": "The inferred source close action is made into an explicit normal-driving state."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp15-s14",
+      "timestamp": "2026-09-22T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:4240.",
+      "turns": [
+        {
+          "turn_id": "hvp15-s14-t01",
+          "speaker": "user",
+          "text": "Stop the AC from recirculating, never mind, keep AC recirculation on. Actually, inside circulation is my regular cabin-air setting now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4240",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Stop the AC from recirculating, never mind, keep AC recirculation on"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.circulation",
+            "tool_name": "carcontrol_airConditioner_set_circulation",
+            "argument_name": "circulation",
+            "value": "inside",
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Rowan's normal cabin-air setting",
+            "reason": "The corrected later source state replaces outside circulation."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp15-s15",
+      "timestamp": "2026-10-12T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:1984.",
+      "turns": [
+        {
+          "turn_id": "hvp15-s15-t01",
+          "speaker": "user",
+          "text": "Can you do something about the air in here?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1984",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Can you do something about the air in here?"
+          }
+        },
+        {
+          "turn_id": "hvp15-s15-t02",
+          "speaker": "assistant",
+          "text": "I can adjust the fan speed for you. Would you like to set it to a specific level or enable automatic control?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1984",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can adjust the fan speed for you. Would you like to set it to a specific level or enable automatic control?"
+          }
+        },
+        {
+          "turn_id": "hvp15-s15-t03",
+          "speaker": "user",
+          "text": "What levels can I choose from?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1984",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What levels can I choose from?"
+          }
+        },
+        {
+          "turn_id": "hvp15-s15-t04",
+          "speaker": "assistant",
+          "text": "You can choose from levels 1 to 10. Which one would you like to set it to?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1984",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You can choose from levels 1 to 10. Which one would you like to set it to?"
+          }
+        },
+        {
+          "turn_id": "hvp15-s15-t05",
+          "speaker": "user",
+          "text": "Set it to 8, please. Fan speed eight is my regular cabin setting now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1984",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Set it to 8, please."
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.fan_speed",
+            "tool_name": "carcontrol_airConditioner_set_fan_speed",
+            "argument_name": "speed",
+            "value": 8,
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Rowan's normal cabin setting",
+            "reason": "The later multi-turn source fan request replaces level seven."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp15-s16",
+      "timestamp": "2026-11-01T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:3964.",
+      "turns": [
+        {
+          "turn_id": "hvp15-s16-t01",
+          "speaker": "user",
+          "text": "My phone is about to die, I really hope I have a charger in here somewhere. This is always a problem. Um, you know, I'm getting hot, please set my temperature to eighteen degrees. Actually, eighteen degrees is my regular driver-zone setting now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:3964",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "My phone is about to die, I really hope I have a charger in here somewhere. This is always a problem. Um, you know, I'm getting hot, please set my temperature to eighteen degrees."
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 18,
+            "context_arguments": {
+              "zone": "driver"
+            },
+            "condition": "for Rowan's normal driving",
+            "reason": "The later source temperature replaces nineteen degrees."
+          }
+        }
+      ]
+    }
+  ],
+  "quizzes": [
+    {
+      "quiz_id": "hvp15-turn-01",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s7-t01",
+      "query": "Apply Rowan's currently remembered normal cabin-air setting.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.circulation"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "outside"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-02",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s8-t01",
+      "query": "Set the cabin fan to Rowan's currently remembered normal speed.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 7
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-03",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s9-t01",
+      "query": "Set the driver-zone temperature to Rowan's currently remembered normal value.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 19
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-04",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s10-t01",
+      "query": "The directions on this route segment are obvious to Rowan. Apply the remembered voice setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.obvious_route.voice_mode"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "mute"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-final-01",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp15-s16-t01",
+      "query": "Apply Rowan's current normal cabin-air setting.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.circulation"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "inside"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-final-02",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp15-s16-t01",
+      "query": "Set the cabin fan to Rowan's current normal speed.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 8
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-final-03",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp15-s16-t01",
+      "query": "Set the driver-zone temperature to Rowan's current normal value.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 18
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-final-04",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp15-s16-t01",
+      "query": "The directions on this route segment are obvious to Rowan. Apply the remembered voice setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.obvious_route.voice_mode"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "mute"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-final-05",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp15-s16-t01",
+      "query": "Rowan's audiobook has stopped unexpectedly. Apply the remembered playback preference.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.audiobook.playback"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-final-06",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp15-s16-t01",
+      "query": "Rowan has forgotten their gloves and begun a normal drive. Apply the remembered wheel-heat and rear-trunk settings.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.no_gloves.wheel_heat",
+        "driver.normal.rear_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        },
+        {
+          "name": "carcontrol_trunk_switch",
+          "arguments": {
+            "switch": false
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-05",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s8-t01",
+      "query": "Rowan begins a normal drive. Apply the cabin-air and fan settings remembered at this point.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.normal.circulation",
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "outside"
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 7
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-06",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s11-t01",
+      "query": "Rowan begins a normal drive and the audiobook stops unexpectedly. Apply Rowan's remembered climate and playback choices.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.normal.temperature",
+        "driver.audiobook.playback"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 19
+          }
+        },
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-07",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-mp03-t03",
+      "query": "Morgan begins a normal drive with the usual cabin fan, and the audiobook stops unexpectedly. Apply Morgan's three choices.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "codriver.normal.fan_speed",
+        "codriver.normal.temperature",
+        "codriver.audiobook.playback"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 3
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 23
+          }
+        },
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": false
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-08",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s13-t01",
+      "query": "Rowan starts a normal drive without gloves on a route segment with obvious directions. Apply the remembered guidance, wheel, and rear cargo-door settings.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.obvious_route.voice_mode",
+        "driver.no_gloves.wheel_heat",
+        "driver.normal.rear_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "mute"
+          }
+        },
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        },
+        {
+          "name": "carcontrol_trunk_switch",
+          "arguments": {
+            "switch": false
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-09",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s16-t01",
+      "query": "Rowan begins a normal drive. Apply the current cabin-air, fan, and driver-temperature settings.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.normal.circulation",
+        "driver.normal.fan_speed",
+        "driver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "inside"
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 8
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 18
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-10",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s15-t05",
+      "query": "Rowan revised the regular cabin fan setting. Apply the corrected speed.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 8
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-11",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s16-t01",
+      "query": "Rowan revised the regular driver-zone temperature. Apply the corrected setting.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 18
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-12",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s16-t01",
+      "query": "Apply Morgan's normal cabin-fan preference rather than Rowan's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 3
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-13",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s16-t01",
+      "query": "Apply Rowan's normal cabin-fan preference rather than Morgan's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 8
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-14",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s16-t01",
+      "query": "Morgan begins a normal drive. Apply Morgan's driver-temperature preference rather than Rowan's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 23
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-15",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s16-t01",
+      "query": "Rowan begins a normal drive. Apply Rowan's driver-temperature preference rather than Morgan's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 18
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-16",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s16-t01",
+      "query": "Morgan begins a normal drive and the audiobook stops unexpectedly. Apply Morgan's climate and playback preferences rather than Rowan's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.normal.temperature",
+        "codriver.audiobook.playback"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 23
+          }
+        },
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": false
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-17",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s16-t01",
+      "query": "Rowan's audiobook stops unexpectedly. Apply Rowan's playback preference rather than Morgan's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.audiobook.playback"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-18",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s16-t01",
+      "query": "Morgan, not Rowan, begins a normal drive with the usual cabin fan, and the audiobook stops unexpectedly. Apply Morgan's three preferences.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.normal.fan_speed",
+        "codriver.normal.temperature",
+        "codriver.audiobook.playback"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 3
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 23
+          }
+        },
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": false
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-19",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s13-t01",
+      "query": "At this earlier cutoff, apply Rowan's normal cabin-air setting that was active then.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.circulation"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "outside"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-20",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s14-t01",
+      "query": "After Rowan's cabin-air revision but before the fan revision, apply both normal settings stored at this cutoff.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.circulation",
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "inside"
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 7
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-21",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s14-t01",
+      "query": "Before Rowan revised the regular cabin fan, apply the fan setting active at this cutoff.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 7
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-turn-22",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp15-s15-t05",
+      "query": "After Rowan revised the regular cabin fan, apply the setting active at this cutoff.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 8
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp15-final-07",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp15-s16-t01",
+      "query": "Rowan, not Morgan, begins a normal drive with the usual cabin fan, and the audiobook stops unexpectedly. Apply Rowan's three current preferences.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.normal.fan_speed",
+        "driver.normal.temperature",
+        "driver.audiobook.playback"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 8
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 18
+          }
+        },
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    }
+  ],
+  "multi_participant_extension": {
+    "schema_version": "vehiclemembench-hvp-multiparty-extension-v1",
+    "base_source_path": "/home/hj153lee/PalmClaw/evaluation/human-authored-vehicle-memory/pilot-hvp15/scenario-source.json",
+    "base_source_sha256": "6170f19b598df70e6e4be7d6354c614eb548a7c59b432614241f4a1f336de32b",
+    "secondary_speaker_id": "external-hvp15-codriver",
+    "inserted_audio2tool_records": [
+      "tier7:248",
+      "tier7:225",
+      "tier7:526"
+    ],
+    "inserted_session_count": 3,
+    "inserted_turn_count": 11,
+    "inserted_update_count": 3,
+    "appended_quiz_count": 19,
+    "method_blind": true,
+    "human_review_status": "PENDING"
+  }
+}

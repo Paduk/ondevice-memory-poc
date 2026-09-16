@@ -1,0 +1,1794 @@
+{
+  "schema_version": "vehiclemembench-human-authored-scenario-source-v1",
+  "scenario_id": "HVP18",
+  "scenario_index": 918,
+  "split": "pilot_excluded",
+  "authorship": {
+    "kind": "external_adapted_model_assembled_pilot",
+    "eligible_for_human_test": false,
+    "note": "Versioned multi-participant external adaptation. Dialogue records are source-traced; participant normalization, persistence edits, memory labels, and quizzes remain model-assembled pending human review."
+  },
+  "external_sources": [
+    {
+      "dataset": "Envisioned Voice Assistant Dialogues",
+      "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues",
+      "license": "CC BY 4.0",
+      "origin": "human_authored",
+      "records": [
+        "88:weather",
+        "36:conversational",
+        "64:alarm"
+      ],
+      "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186"
+    },
+    {
+      "dataset": "Audio2Tool",
+      "url": "https://huggingface.co/datasets/RVtech/Audio2Tool",
+      "license": "CC BY-NC 4.0",
+      "origin": "synthetic",
+      "records": [
+        "tier7:1951",
+        "tier7:2019",
+        "tier7:2027",
+        "tier5:4108",
+        "tier5:3973",
+        "tier6:4207",
+        "tier4:4225",
+        "tier4:3995",
+        "tier4:4262",
+        "tier5:4234",
+        "tier6:4113",
+        "tier6:4209",
+        "tier4:4193",
+        "tier7:70",
+        "tier7:227",
+        "tier7:560"
+      ],
+      "local_file_sha256": {
+        "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc",
+        "tier6": "fa5c0825d99c4f68e226480261befe9ce7aa33c9dfbb7ff1fe1fc82493bcb991",
+        "tier4": "d430e801c9bba5db03b3d044ac626ebec35de1b8a4eb2e2beb4cdec0013e9271",
+        "tier5": "d38e588dccb99ed3291c9467a29adcd71e4f1c4eb62c118fd482a8e9616a1850"
+      }
+    }
+  ],
+  "speakers": [
+    {
+      "speaker_id": "external-hvp18-driver",
+      "short_id": "user",
+      "speaker_name": "Harper (normalized user role)",
+      "role": "driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp18-codriver",
+      "short_id": "co_user",
+      "speaker_name": "Riley (normalized user role)",
+      "role": "co-driver; external user identities normalized for the pilot",
+      "style": "retains the dialogue acts and explicit values of each external record"
+    },
+    {
+      "speaker_id": "external-hvp18-assistant",
+      "short_id": "assistant",
+      "speaker_name": "Voice assistant (source names retained in text)",
+      "role": "vehicle voice assistant",
+      "style": "retains the wording of each external source record"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "hvp18-s1",
+      "timestamp": "2026-01-05T08:00:00",
+      "context": "Preparing and sharing a holiday packing list.",
+      "turns": [
+        {
+          "turn_id": "hvp18-s1-t01",
+          "speaker": "user",
+          "text": "Assistant, I need a packing list for my holiday",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "88:weather",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Assistant, I need a packing list for my holiday"
+          }
+        },
+        {
+          "turn_id": "hvp18-s1-t02",
+          "speaker": "assistant",
+          "text": "Ok, where and when are you going?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "88:weather",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Ok, where and when are you going?"
+          }
+        },
+        {
+          "turn_id": "hvp18-s1-t03",
+          "speaker": "user",
+          "text": "It's the Italy trip in my calendar",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "88:weather",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "It's the Italy trip in my calendar"
+          }
+        },
+        {
+          "turn_id": "hvp18-s1-t04",
+          "speaker": "assistant",
+          "text": "Ok, I have compiled a list, would you like to hear it now?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "88:weather",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Ok, I have compiled a list, would you like to hear it now?"
+          }
+        },
+        {
+          "turn_id": "hvp18-s1-t05",
+          "speaker": "user",
+          "text": "Yes please",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "88:weather",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes please"
+          }
+        },
+        {
+          "turn_id": "hvp18-s1-t06",
+          "speaker": "assistant",
+          "text": "Five shirts, two jeans, underwear, swimwear, sunglasses, outdoor shoes, deck shoes, flip flops, and a hat.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "88:weather",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Five shirts, two jeans, underwear, swimwear, sunglasses, outdoor shoes, deck shoes, flip flops, and a hat."
+          }
+        },
+        {
+          "turn_id": "hvp18-s1-t07",
+          "speaker": "user",
+          "text": "Can you add my jacket too.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "88:weather",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Can you add my jacket too."
+          }
+        },
+        {
+          "turn_id": "hvp18-s1-t08",
+          "speaker": "assistant",
+          "text": "Ok, added. Tell me when you pack each item and I'll remove it from the list.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "88:weather",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Ok, added. Tell me when you pack each item and I'll remove it from the list."
+          }
+        },
+        {
+          "turn_id": "hvp18-s1-t09",
+          "speaker": "user",
+          "text": "Ok. Send the list to my phone too please.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "88:weather",
+            "record_turn_index": 8,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Ok. Send the list to my phone too please."
+          }
+        },
+        {
+          "turn_id": "hvp18-s1-t10",
+          "speaker": "assistant",
+          "text": "Ok, sent",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "88:weather",
+            "record_turn_index": 9,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Ok, sent"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp18-s2",
+      "timestamp": "2026-01-25T08:00:00",
+      "context": "Choosing a sleep cast to help with insomnia.",
+      "turns": [
+        {
+          "turn_id": "hvp18-s2-t01",
+          "speaker": "user",
+          "text": "Hey Ana, I can't sleep",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "36:conversational",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hey Ana, I can't sleep"
+          }
+        },
+        {
+          "turn_id": "hvp18-s2-t02",
+          "speaker": "assistant",
+          "text": "Sorry to hear that. Is there a specific problem you need help with?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "36:conversational",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Sorry to hear that. Is there a specific problem you need help with?"
+          }
+        },
+        {
+          "turn_id": "hvp18-s2-t03",
+          "speaker": "user",
+          "text": "No, I'm just having difficulty falling alseep",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "36:conversational",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "No, I'm just having difficulty falling alseep"
+          }
+        },
+        {
+          "turn_id": "hvp18-s2-t04",
+          "speaker": "assistant",
+          "text": "Do you want me to play you a relaxing playlist or sleep cast?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "36:conversational",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Do you want me to play you a relaxing playlist or sleep cast?"
+          }
+        },
+        {
+          "turn_id": "hvp18-s2-t05",
+          "speaker": "user",
+          "text": "Can you play me a sleep cast about going on holiday?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "36:conversational",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Can you play me a sleep cast about going on holiday?"
+          }
+        },
+        {
+          "turn_id": "hvp18-s2-t06",
+          "speaker": "assistant",
+          "text": "Sure, let me look through the library. I've found one I think you'll like - say  STOP  if you want to switch to a different story",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "36:conversational",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Sure, let me look through the library. I've found one I think you'll like - say  STOP  if you want to switch to a different story"
+          }
+        },
+        {
+          "turn_id": "hvp18-s2-t07",
+          "speaker": "user",
+          "text": "Thanks Ana",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "36:conversational",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thanks Ana"
+          }
+        },
+        {
+          "turn_id": "hvp18-s2-t08",
+          "speaker": "assistant",
+          "text": "No problem, sleep well",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "36:conversational",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "No problem, sleep well"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp18-s3",
+      "timestamp": "2026-02-14T08:00:00",
+      "context": "Planning a wake-up time for an early meeting.",
+      "turns": [
+        {
+          "turn_id": "hvp18-s3-t01",
+          "speaker": "user",
+          "text": "Hi Sally, I am going to bed now but please can you wake me up at 6.30 as I have a meeting to go to",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "64:alarm",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hi Sally, I am going to bed now but please can you wake me up at 6.30 as I have a meeting to go to"
+          }
+        },
+        {
+          "turn_id": "hvp18-s3-t02",
+          "speaker": "assistant",
+          "text": "Yes. I will call you in the morning, were is your meeting",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "64:alarm",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes. I will call you in the morning, were is your meeting"
+          }
+        },
+        {
+          "turn_id": "hvp18-s3-t03",
+          "speaker": "user",
+          "text": "It's in Hull and will take me 20 minutes to drive there",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "64:alarm",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "It's in Hull and will take me 20 minutes to drive there"
+          }
+        },
+        {
+          "turn_id": "hvp18-s3-t04",
+          "speaker": "assistant",
+          "text": "What time is the meeting ?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "64:alarm",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What time is the meeting ?"
+          }
+        },
+        {
+          "turn_id": "hvp18-s3-t05",
+          "speaker": "user",
+          "text": "8.00 tomorrow morning",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "64:alarm",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "8.00 tomorrow morning"
+          }
+        },
+        {
+          "turn_id": "hvp18-s3-t06",
+          "speaker": "assistant",
+          "text": "That's fine we will have plenty of time to get you there, good night",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "64:alarm",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "That's fine we will have plenty of time to get you there, good night"
+          }
+        },
+        {
+          "turn_id": "hvp18-s3-t07",
+          "speaker": "user",
+          "text": "Great, good night",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "64:alarm",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Great, good night"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp18-s4",
+      "timestamp": "2026-03-06T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:1951.",
+      "turns": [
+        {
+          "turn_id": "hvp18-s4-t01",
+          "speaker": "user",
+          "text": "I want to know my heart rate variability. Can you really get that data?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1951",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I want to know my heart rate variability. Can you really get that data?"
+          }
+        },
+        {
+          "turn_id": "hvp18-s4-t02",
+          "speaker": "assistant",
+          "text": "I can retrieve your Heart Rate Variability (HRV) data. Which period would you like to know about? Today, Yesterday, or Last Week?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1951",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can retrieve your Heart Rate Variability (HRV) data. Which period would you like to know about? Today, Yesterday, or Last Week?"
+          }
+        },
+        {
+          "turn_id": "hvp18-s4-t03",
+          "speaker": "user",
+          "text": "Are you sure those are the only options? Can you verify?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1951",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Are you sure those are the only options? Can you verify?"
+          }
+        },
+        {
+          "turn_id": "hvp18-s4-t04",
+          "speaker": "assistant",
+          "text": "Yes, I'm sure. The options are Today, Yesterday, or Last Week. Which one would you like to choose?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1951",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes, I'm sure. The options are Today, Yesterday, or Last Week. Which one would you like to choose?"
+          }
+        },
+        {
+          "turn_id": "hvp18-s4-t05",
+          "speaker": "user",
+          "text": "Okay, I'll choose... last week. Yes, show me last week's data.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:1951",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Okay, I'll choose... last week. Yes, show me last week's data."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp18-s5",
+      "timestamp": "2026-03-26T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2019.",
+      "turns": [
+        {
+          "turn_id": "hvp18-s5-t01",
+          "speaker": "user",
+          "text": "Hi, I'm having a bit of trouble getting my car to, uh, you know, come to me. I'm not really sure how to do it.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2019",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hi, I'm having a bit of trouble getting my car to, uh, you know, come to me. I'm not really sure how to do it."
+          }
+        },
+        {
+          "turn_id": "hvp18-s5-t02",
+          "speaker": "assistant",
+          "text": "You're referring to the remote parking feature. What kind of action are you trying to perform with your vehicle?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2019",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You're referring to the remote parking feature. What kind of action are you trying to perform with your vehicle?"
+          }
+        },
+        {
+          "turn_id": "hvp18-s5-t03",
+          "speaker": "user",
+          "text": "Oh, sorry about that. I got distracted thinking about my smart home's thermostat, it's a bit too cold in here. Anyway, I think I want my car to just, you know, drive itself to me. Is that possible?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2019",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Oh, sorry about that. I got distracted thinking about my smart home's thermostat, it's a bit too cold in here. Anyway, I think I want my car to just, you know, drive itself to me. Is that possible?"
+          }
+        },
+        {
+          "turn_id": "hvp18-s5-t04",
+          "speaker": "assistant",
+          "text": "Yes, that's possible with our Smart Summon feature. Would you like to use that or have the car come to you in a different way?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2019",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes, that's possible with our Smart Summon feature. Would you like to use that or have the car come to you in a different way?"
+          }
+        },
+        {
+          "turn_id": "hvp18-s5-t05",
+          "speaker": "user",
+          "text": "Yeah, that sounds great. Can you, uh, make my car do that Smart Summon thing so it comes to me?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2019",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yeah, that sounds great. Can you, uh, make my car do that Smart Summon thing so it comes to me?"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp18-s6",
+      "timestamp": "2026-04-15T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2027.",
+      "turns": [
+        {
+          "turn_id": "hvp18-s6-t01",
+          "speaker": "user",
+          "text": "Ugh, my car is charging so slowly! That's so annoying! It's taking forever!",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2027",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Ugh, my car is charging so slowly! That's so annoying! It's taking forever!"
+          }
+        },
+        {
+          "turn_id": "hvp18-s6-t02",
+          "speaker": "assistant",
+          "text": "I understand your frustration. It sounds like you're experiencing slow charging times. Would you like to adjust the charging settings?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2027",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I understand your frustration. It sounds like you're experiencing slow charging times. Would you like to adjust the charging settings?"
+          }
+        },
+        {
+          "turn_id": "hvp18-s6-t03",
+          "speaker": "user",
+          "text": "Yeah, that! The charging thingy... Can you just limit it or something? I don't want it to overload the circuit... You know, like it did last time...",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2027",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yeah, that! The charging thingy... Can you just limit it or something? I don't want it to overload the circuit... You know, like it did last time..."
+          }
+        },
+        {
+          "turn_id": "hvp18-s6-t04",
+          "speaker": "assistant",
+          "text": "I think I understand. You want to prevent overloading the electrical circuit. I can help you with that. What maximum current would you like to set? The default is 32 amps.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2027",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I think I understand. You want to prevent overloading the electrical circuit. I can help you with that. What maximum current would you like to set? The default is 32 amps."
+          }
+        },
+        {
+          "turn_id": "hvp18-s6-t05",
+          "speaker": "user",
+          "text": "Just set it to 25 amps already! Can't you see I'm in a hurry?!",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2027",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Just set it to 25 amps already! Can't you see I'm in a hurry?!"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp18-mp01",
+      "timestamp": "2026-04-20T08:00:00",
+      "context": "Riley says the interior lighting is too bright and explicitly chooses blue.",
+      "turns": [
+        {
+          "turn_id": "hvp18-mp01-t01",
+          "speaker": "co_user",
+          "text": "Mmm, the cabin lights are too bright. Make the ambient color blue.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:70",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite",
+            "original_text": "mmm... lights too bright... make it blue..."
+          }
+        },
+        {
+          "turn_id": "hvp18-mp01-t02",
+          "speaker": "assistant",
+          "text": "I can change the cabin ambient color to blue. Would you like me to set it now?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:70",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite",
+            "original_text": "I can change the light color to blue for you. Would you like me to set the living room light to blue?"
+          }
+        },
+        {
+          "turn_id": "hvp18-mp01-t03",
+          "speaker": "co_user",
+          "text": "Yeah, whatever, just make the ambient lighting blue. Blue is also my normal ambient-light color; brightness is only for this drive.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:70",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite_with_persistence",
+            "original_text": "yeah whatever... just make it blue"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.normal.ambient_color",
+            "tool_name": "carcontrol_light_set_ambient_color",
+            "argument_name": "color",
+            "value": "blue",
+            "context_arguments": {},
+            "condition": "for Riley's normal ambient lighting",
+            "reason": "The source explicitly requests blue; HSB 240 is normalized to blue while brightness remains turn-local."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp18-mp02",
+      "timestamp": "2026-04-25T08:00:00",
+      "context": "Riley says the cabin is too hot and explicitly chooses 20 degrees for all zones.",
+      "turns": [
+        {
+          "turn_id": "hvp18-mp02-t01",
+          "speaker": "co_user",
+          "text": "I don't want the cabin to be too hot, okay?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:227",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite",
+            "original_text": "I don't want it to be too hot in the living room, okay?"
+          }
+        },
+        {
+          "turn_id": "hvp18-mp02-t02",
+          "speaker": "assistant",
+          "text": "What temperature would you prefer? It is currently 21 degrees.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:227",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite",
+            "original_text": "What temperature would you prefer? It's currently set to 21 degrees Celsius."
+          }
+        },
+        {
+          "turn_id": "hvp18-mp02-t03",
+          "speaker": "co_user",
+          "text": "Around 20 degrees would be nice, but not just one seat. Use every cabin zone, please. Twenty degrees is also my normal all-zone cabin temperature.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:227",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "vehicle_domain_rewrite_with_persistence",
+            "original_text": "Um, I think around 20 degrees would be nice, but not in the bedroom, just the living room thermostat, please."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.normal.temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 20,
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Riley's normal cabin climate",
+            "reason": "The source explicitly selects 20 degrees; the all-zone scope and durable normal-climate condition are added for the pilot."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp18-mp03",
+      "timestamp": "2026-04-30T08:00:00",
+      "context": "Riley lowers in-car music after it masks traffic, briefly checks the map, and returns to an explicit volume of 20.",
+      "turns": [
+        {
+          "turn_id": "hvp18-mp03-t01",
+          "speaker": "co_user",
+          "text": "Music too loud. Can't hear traffic.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:560",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Music too loud. Can't hear traffic."
+          }
+        },
+        {
+          "turn_id": "hvp18-mp03-t02",
+          "speaker": "assistant",
+          "text": "I understand you'd like me to lower the volume. What level would you prefer, or should I just reduce it a bit from the current setting?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:560",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I understand you'd like me to lower the volume. What level would you prefer, or should I just reduce it a bit from the current setting?"
+          }
+        },
+        {
+          "turn_id": "hvp18-mp03-t03",
+          "speaker": "co_user",
+          "text": "Need to check map. Where's the exit? Wait...",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:560",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Need to check map. Where's the exit? Wait..."
+          }
+        },
+        {
+          "turn_id": "hvp18-mp03-t04",
+          "speaker": "assistant",
+          "text": "I can help you find the exit. Let me check the map for you. What highway or road are you currently on?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:560",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can help you find the exit. Let me check the map for you. What highway or road are you currently on?"
+          }
+        },
+        {
+          "turn_id": "hvp18-mp03-t05",
+          "speaker": "co_user",
+          "text": "Nevermind. Found it. Volume. Make it 20. Twenty is also my normal in-car music volume.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:560",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Nevermind. Found it. Volume. Make it 20."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.normal.music_volume",
+            "tool_name": "carcontrol_music_set_volume",
+            "argument_name": "volume",
+            "value": 20,
+            "context_arguments": {},
+            "condition": "for Riley's normal music playback",
+            "reason": "The source is already situated in traffic and explicitly returns from a map interruption to volume 20; only persistence is appended."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp18-s7",
+      "timestamp": "2026-05-05T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4108.",
+      "turns": [
+        {
+          "turn_id": "hvp18-s7-t01",
+          "speaker": "user",
+          "text": "I was remembering cotton candy at the fair, pink and blue, uh but just set the ambient lighting to cotton candy pink at 50 brightness. Keep pink as my normal ambient-light color; the requested brightness is only for this drive.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4108",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I was remembering cotton candy at the fair, pink and blue, uh but just set the ambient lighting to cotton candy pink at 50 brightness"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.ambient_color",
+            "tool_name": "carcontrol_light_set_ambient_color",
+            "argument_name": "color",
+            "value": "pink",
+            "context_arguments": {},
+            "condition": "for Harper's normal ambient lighting",
+            "reason": "The source hex color is normalized to pink while its one-time brightness is excluded from durable memory."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp18-s8",
+      "timestamp": "2026-05-25T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:3973.",
+      "turns": [
+        {
+          "turn_id": "hvp18-s8-t01",
+          "speaker": "user",
+          "text": "I keep replaying that conversation from work, like overthinking it, and the rear right seat is super hot, can you set the rear right cooling to level 2. Level two is my normal rear-right seat-cooling setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:3973",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I keep replaying that conversation from work, like overthinking it, and the rear right seat is super hot, can you set the rear right cooling to level 2"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.rear_right_seat_ventilation_speed",
+            "tool_name": "carcontrol_seat_set_ventilation_speed",
+            "argument_name": "speed",
+            "value": 2,
+            "context_arguments": {
+              "seat": "rear_right"
+            },
+            "condition": "for Harper's normal rear-right seat comfort",
+            "reason": "The source cooling level and seat location are both retained as the persistent setting."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp18-s9",
+      "timestamp": "2026-06-14T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:4207.",
+      "turns": [
+        {
+          "turn_id": "hvp18-s9-t01",
+          "speaker": "user",
+          "text": "Set the cabin to twenty three on heat, no wait, twenty four on auto instead. Twenty-four degrees is my regular cabin temperature; auto mode is only for this drive.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4207",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Set the cabin to twenty three on heat, no wait, twenty four on auto instead"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 24,
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Harper's normal cabin climate",
+            "reason": "The corrected source temperature is retained while HVAC mode remains turn-local."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp18-s10",
+      "timestamp": "2026-07-04T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4225.",
+      "turns": [
+        {
+          "turn_id": "hvp18-s10-t01",
+          "speaker": "user",
+          "text": "Can barely see out the side windows. Use outside air whenever the side windows are difficult to see through because of fog.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4225",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Can barely see out the side windows"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.side_window_fog.circulation",
+            "tool_name": "carcontrol_airConditioner_set_circulation",
+            "argument_name": "circulation",
+            "value": "outside",
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "when fog obscures Harper's side windows",
+            "reason": "The inferred fresh-air action is retained under the source visibility condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp18-s11",
+      "timestamp": "2026-07-24T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:3995.",
+      "turns": [
+        {
+          "turn_id": "hvp18-s11-t01",
+          "speaker": "user",
+          "text": "Front trunk is acting like it is locked shut. Open the front trunk whenever it seems locked shut.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:3995",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Front trunk is acting like it is locked shut"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.stuck.front_trunk",
+            "tool_name": "carcontrol_frontTrunk_switch",
+            "argument_name": "switch",
+            "value": true,
+            "context_arguments": {},
+            "condition": "when Harper's front trunk seems locked shut",
+            "reason": "The inferred source open action is retained under the same apparent-lock condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp18-s12",
+      "timestamp": "2026-08-13T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4262.",
+      "turns": [
+        {
+          "turn_id": "hvp18-s12-t01",
+          "speaker": "user",
+          "text": "Let's make it quieter. Keep the sunroof closed whenever cabin noise becomes distracting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4262",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Let's make it quieter."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.noisy_cabin.sunroof",
+            "tool_name": "carcontrol_sunroof_set_open_degree",
+            "argument_name": "degree",
+            "value": 0,
+            "context_arguments": {},
+            "condition": "when cabin noise is distracting to Harper",
+            "reason": "The inferred source close action is retained under its noise condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp18-s13",
+      "timestamp": "2026-09-02T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4234.",
+      "turns": [
+        {
+          "turn_id": "hvp18-s13-t01",
+          "speaker": "user",
+          "text": "You know, I am mostly worried about cars behind me, so, uh, please turn on the rear defroster only. Use rear-only defrost whenever I need clear rear visibility.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4234",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "You know, I am mostly worried about cars behind me, so, uh, please turn on the rear defroster only"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.rear_visibility.defrost",
+            "tool_name": "carcontrol_airConditioner_set_mode",
+            "argument_name": "mode",
+            "value": "defrost",
+            "context_arguments": {
+              "zone": "rear"
+            },
+            "condition": "when Harper needs to clear the rear glass",
+            "reason": "The source rear-defrost request is retained as a rear-visibility rule."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp18-s14",
+      "timestamp": "2026-09-22T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:4113.",
+      "turns": [
+        {
+          "turn_id": "hvp18-s14-t01",
+          "speaker": "user",
+          "text": "Turn the ambient lights to red at ninety percent brightness, no wait, blast it to one hundred. Actually, red is my normal ambient-light color now; the corrected brightness is only for this drive.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4113",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Turn the ambient lights to red at ninety percent brightness, no wait, blast it to one hundred"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.ambient_color",
+            "tool_name": "carcontrol_light_set_ambient_color",
+            "argument_name": "color",
+            "value": "red",
+            "context_arguments": {},
+            "condition": "for Harper's normal ambient lighting",
+            "reason": "The corrected later source color replaces pink while brightness remains turn-local."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp18-s15",
+      "timestamp": "2026-10-12T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:4209.",
+      "turns": [
+        {
+          "turn_id": "hvp18-s15-t01",
+          "speaker": "user",
+          "text": "Set a reminder, never mind, put the cabin at twenty one on min. Actually, twenty-one degrees is my regular cabin temperature now; the requested HVAC mode is only for this drive.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4209",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Set a reminder, never mind, put the cabin at twenty one on min"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 21,
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Harper's normal cabin climate",
+            "reason": "The corrected later source temperature replaces twenty-four degrees while HVAC mode remains turn-local."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp18-s16",
+      "timestamp": "2026-11-01T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4193.",
+      "turns": [
+        {
+          "turn_id": "hvp18-s16-t01",
+          "speaker": "user",
+          "text": "It is way too cold in this car. Actually, twenty-eight degrees is my regular cabin temperature now; heat mode is only for this drive.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4193",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "It is way too cold in this car"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 28,
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Harper's normal cabin climate",
+            "reason": "The later inferred source temperature replaces twenty-one degrees while HVAC mode remains turn-local."
+          }
+        }
+      ]
+    }
+  ],
+  "quizzes": [
+    {
+      "quiz_id": "hvp18-turn-01",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-s7-t01",
+      "query": "Set the ambient lighting to Harper's currently remembered normal color.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "pink"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-turn-02",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-s8-t01",
+      "query": "Set Harper's rear-right seat ventilation to the remembered normal speed.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.rear_right_seat_ventilation_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_seat_set_ventilation_speed",
+          "arguments": {
+            "seat": "rear_right",
+            "speed": 2
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-turn-03",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-s9-t01",
+      "query": "Set the cabin temperature to Harper's currently remembered normal value.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "all",
+            "temperature": 24
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-turn-04",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-s10-t01",
+      "query": "Fog is obscuring Harper's side windows. Apply the remembered circulation setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.side_window_fog.circulation"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "outside"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-final-01",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp18-s16-t01",
+      "query": "Set the ambient lighting and rear-right seat ventilation to Harper's current normal settings.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.ambient_color",
+        "driver.normal.rear_right_seat_ventilation_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "red"
+          }
+        },
+        {
+          "name": "carcontrol_seat_set_ventilation_speed",
+          "arguments": {
+            "seat": "rear_right",
+            "speed": 2
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-final-02",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp18-s16-t01",
+      "query": "Set the cabin temperature to Harper's current normal value.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "all",
+            "temperature": 28
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-final-03",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp18-s16-t01",
+      "query": "Fog is obscuring Harper's side windows. Apply the remembered circulation setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.side_window_fog.circulation"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "outside"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-final-04",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp18-s16-t01",
+      "query": "Harper's front trunk seems locked shut. Apply the remembered front-trunk action.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.stuck.front_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_frontTrunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-final-05",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp18-s16-t01",
+      "query": "Cabin noise is distracting Harper. Apply the remembered sunroof setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.noisy_cabin.sunroof"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 0
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-final-06",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp18-s16-t01",
+      "query": "Harper needs clear rear visibility. Apply the remembered defrost setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.rear_visibility.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "rear",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-turn-05",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-s8-t01",
+      "query": "Harper starts a routine drive. Restore the remembered interior glow and the cooling level for the back-right seat.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.normal.ambient_color",
+        "driver.normal.rear_right_seat_ventilation_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "pink"
+          }
+        },
+        {
+          "name": "carcontrol_seat_set_ventilation_speed",
+          "arguments": {
+            "seat": "rear_right",
+            "speed": 2
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-turn-06",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-mp03-t05",
+      "query": "Riley begins a normal drive and starts the usual music. Restore Riley's three stored settings.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "codriver.normal.ambient_color",
+        "codriver.normal.temperature",
+        "codriver.normal.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "blue"
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "all",
+            "temperature": 20
+          }
+        },
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 20
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-turn-07",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-s11-t01",
+      "query": "The panes beside Harper are clouded, and the compartment up front seems stuck shut. Apply Harper's two remembered responses.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.side_window_fog.circulation",
+        "driver.stuck.front_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_circulation",
+          "arguments": {
+            "zone": "all",
+            "circulation": "outside"
+          }
+        },
+        {
+          "name": "carcontrol_frontTrunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-turn-08",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-s13-t01",
+      "query": "Cabin noise is distracting Harper, who also needs to clear the glass behind the passengers. Apply both remembered actions.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.noisy_cabin.sunroof",
+        "driver.rear_visibility.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 0
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "rear",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-turn-09",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-s16-t01",
+      "query": "Harper begins a routine drive. Restore the current cabin warmth, interior glow, and cooling for the seat behind the passenger.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.normal.temperature",
+        "driver.normal.ambient_color",
+        "driver.normal.rear_right_seat_ventilation_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "all",
+            "temperature": 28
+          }
+        },
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "red"
+          }
+        },
+        {
+          "name": "carcontrol_seat_set_ventilation_speed",
+          "arguments": {
+            "seat": "rear_right",
+            "speed": 2
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-turn-10",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-s14-t01",
+      "query": "Harper replaced the original normal ambient color. Apply the corrected color active at this cutoff.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "red"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-turn-11",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-s16-t01",
+      "query": "After Harper's two temperature revisions, apply the corrected current cabin setting.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "all",
+            "temperature": 28
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-turn-12",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-s16-t01",
+      "query": "Apply Riley's normal ambient-light preference rather than Harper's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.normal.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "blue"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-turn-13",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-s16-t01",
+      "query": "Harper begins a normal drive. Apply Harper's current ambient color rather than Riley's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.normal.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "red"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-turn-14",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-s16-t01",
+      "query": "Riley begins a normal drive. Apply Riley's cabin temperature rather than Harper's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "all",
+            "temperature": 20
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-turn-15",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-s16-t01",
+      "query": "Harper begins a normal drive. Apply Harper's cabin temperature rather than Riley's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "all",
+            "temperature": 28
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-turn-16",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-s16-t01",
+      "query": "Riley, not Harper, begins a normal drive. Apply Riley's ambient color and cabin temperature.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.normal.ambient_color",
+        "codriver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "blue"
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "all",
+            "temperature": 20
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-turn-17",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-s16-t01",
+      "query": "Harper, not Riley, begins a normal drive. Apply Harper's ambient color and cabin temperature.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.normal.ambient_color",
+        "driver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "red"
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "all",
+            "temperature": 28
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-turn-18",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-s16-t01",
+      "query": "The current user is Riley, beginning a normal drive with the usual music. Choose Riley's ambient color and temperature rather than Harper's, and also restore Riley's music volume.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.normal.ambient_color",
+        "codriver.normal.temperature",
+        "codriver.normal.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "blue"
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "all",
+            "temperature": 20
+          }
+        },
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 20
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-turn-19",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-s7-t01",
+      "query": "Before Harper changed the normal ambient lighting, apply the color active at this early cutoff.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "pink"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-turn-20",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-s9-t01",
+      "query": "Before Harper revised the normal cabin temperature, apply the setting active at this cutoff.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "all",
+            "temperature": 24
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-turn-21",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp18-s15-t01",
+      "query": "After Harper's first temperature revision but before the final one, apply the setting active at this cutoff.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "all",
+            "temperature": 21
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp18-final-07",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp18-s16-t01",
+      "query": "Harper, rather than Riley, begins a normal drive. Apply Harper's current ambient color, cabin temperature, and rear-right seat cooling preference.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.normal.ambient_color",
+        "driver.normal.temperature",
+        "driver.normal.rear_right_seat_ventilation_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "red"
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "all",
+            "temperature": 28
+          }
+        },
+        {
+          "name": "carcontrol_seat_set_ventilation_speed",
+          "arguments": {
+            "seat": "rear_right",
+            "speed": 2
+          }
+        }
+      ]
+    }
+  ],
+  "multi_participant_extension": {
+    "schema_version": "vehiclemembench-hvp-multiparty-extension-v1",
+    "base_source_path": "/home/hj153lee/PalmClaw/evaluation/human-authored-vehicle-memory/pilot-hvp18/scenario-source.json",
+    "base_source_sha256": "7029e6ad0d4ae964a226231b34d2565b270609a86f6a98f3b6cb8f840e3ee641",
+    "secondary_speaker_id": "external-hvp18-codriver",
+    "inserted_audio2tool_records": [
+      "tier7:70",
+      "tier7:227",
+      "tier7:560"
+    ],
+    "inserted_session_count": 3,
+    "inserted_turn_count": 11,
+    "inserted_update_count": 3,
+    "appended_quiz_count": 18,
+    "method_blind": true,
+    "human_review_status": "PENDING"
+  }
+}

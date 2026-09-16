@@ -1,0 +1,925 @@
+{
+  "schema_version": "vehiclemembench-human-authored-scenario-source-v1",
+  "scenario_id": "HVE04",
+  "scenario_index": 924,
+  "split": "pilot_excluded",
+  "difficulty_stratum": "easy_natural_explicit_v1",
+  "difficulty_contract": {
+    "durable_updates_are_explicit": true,
+    "owner_named_in_every_update": true,
+    "owner_named_in_every_quiz": true,
+    "single_fact_single_tool_quizzes_only": true,
+    "implicit_coreference": false,
+    "multi_hop_reasoning": false,
+    "conditional_inference": false
+  },
+  "authorship": {
+    "kind": "external_adapted_model_assembled_pilot",
+    "eligible_for_human_test": false,
+    "note": "Easy natural-explicit external-adapted pilot. External source clauses, durable-preference rewrites, labels, and quizzes remain model-assisted pending independent human rewriting and review."
+  },
+  "external_sources": [
+    {
+      "dataset": "Envisioned Voice Assistant Dialogues",
+      "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues",
+      "license": "CC BY 4.0",
+      "origin": "human_authored",
+      "records": [
+        "31:search",
+        "32:conversational",
+        "45:conversational"
+      ],
+      "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186"
+    },
+    {
+      "dataset": "Audio2Tool",
+      "url": "https://huggingface.co/datasets/RVtech/Audio2Tool",
+      "license": "CC BY-NC 4.0",
+      "origin": "synthetic",
+      "records": [
+        "tier7:12",
+        "tier7:14",
+        "tier7:15",
+        "tier5:4039",
+        "tier5:4041",
+        "tier5:4043",
+        "tier5:4047",
+        "tier5:4055",
+        "tier5:4057"
+      ],
+      "local_file_sha256": {
+        "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc",
+        "tier5": "d38e588dccb99ed3291c9467a29adcd71e4f1c4eb62c118fd482a8e9616a1850"
+      }
+    }
+  ],
+  "speakers": [
+    {
+      "speaker_id": "external-hve04-driver",
+      "short_id": "user",
+      "speaker_name": "Harper",
+      "role": "primary driver",
+      "style": "source-record wording with natural, explicit durable preferences"
+    },
+    {
+      "speaker_id": "external-hve04-codriver",
+      "short_id": "co_user",
+      "speaker_name": "Jordan",
+      "role": "co-driver",
+      "style": "source-record wording with natural, explicit durable preferences"
+    },
+    {
+      "speaker_id": "external-hve04-assistant",
+      "short_id": "assistant",
+      "speaker_name": "Voice assistant",
+      "role": "voice assistant",
+      "style": "retains external source wording"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "hve04-s01",
+      "timestamp": "2026-02-05T09:00:00",
+      "context": "Externally sourced non-vehicle voice-assistant conversation; no durable vehicle preference is expressed.",
+      "turns": [
+        {
+          "speaker": "user",
+          "text": "What’s on at the Odean cinema at Port Solent ?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "31:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What’s on at the Odean cinema at Port Solent ?"
+          },
+          "turn_id": "hve04-s01-t01"
+        },
+        {
+          "speaker": "assistant",
+          "text": "The following films are showing today Xxx, Yyy, Zzz",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "31:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "The following films are showing today Xxx, Yyy, Zzz"
+          },
+          "turn_id": "hve04-s01-t02"
+        },
+        {
+          "speaker": "user",
+          "text": "Tell me the plot of Xxx, what is it about",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "31:search",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Tell me the plot of Xxx, what is it about"
+          },
+          "turn_id": "hve04-s01-t03"
+        },
+        {
+          "speaker": "assistant",
+          "text": "Xxx is a romantic comedy about a man and woman",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "31:search",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Xxx is a romantic comedy about a man and woman"
+          },
+          "turn_id": "hve04-s01-t04"
+        },
+        {
+          "speaker": "user",
+          "text": "What time does this film start?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "31:search",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What time does this film start?"
+          },
+          "turn_id": "hve04-s01-t05"
+        },
+        {
+          "speaker": "assistant",
+          "text": "The nest performance of Xxx is at 20.00",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "31:search",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "The nest performance of Xxx is at 20.00"
+          },
+          "turn_id": "hve04-s01-t06"
+        }
+      ]
+    },
+    {
+      "session_id": "hve04-s02",
+      "timestamp": "2026-02-12T09:00:00",
+      "context": "Harper naturally states one explicit, durable vehicle-profile setting.",
+      "turns": [
+        {
+          "speaker": "user",
+          "text": "The back of the car is almost sticking into the bike lane and, uh, that worries me, so could you summon it in reverse a bit more up the driveway. There's one preference I'd like you to remember. I'm Harper. The driver's side should normally be 22 degrees for me. Please save that as my regular choice.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4039",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "The back of the car is almost sticking into the bike lane and, uh, that worries me, so could you summon it in reverse a bit more up the driveway"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.default.temperature",
+            "owner": "external-hve04-driver",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 22,
+            "context_arguments": {
+              "zone": "driver"
+            },
+            "condition": "Harper's explicitly selected default vehicle profile",
+            "reason": "Harper explicitly asks to store this exact durable setting."
+          },
+          "turn_id": "hve04-s02-t01"
+        }
+      ]
+    },
+    {
+      "session_id": "hve04-s03",
+      "timestamp": "2026-02-19T09:00:00",
+      "context": "Externally sourced non-vehicle voice-assistant conversation; no durable vehicle preference is expressed.",
+      "turns": [
+        {
+          "speaker": "co_user",
+          "text": "voice assistant, i cant sleep, what can you suggest to help me?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "32:conversational",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "voice assistant, i cant sleep, what can you suggest to help me?"
+          },
+          "turn_id": "hve04-s03-t01"
+        },
+        {
+          "speaker": "assistant",
+          "text": "what would you like? I can play some calming music, or read some of your book to you.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "32:conversational",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "what would you like? I can play some calming music, or read some of your book to you."
+          },
+          "turn_id": "hve04-s03-t02"
+        },
+        {
+          "speaker": "co_user",
+          "text": "some calming music might work. I am hot and bothered and fidgety too",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "32:conversational",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "some calming music might work. I am hot and bothered and fidgety too"
+          },
+          "turn_id": "hve04-s03-t03"
+        },
+        {
+          "speaker": "assistant",
+          "text": "ok, here's some calming music. if you don't like it i have other options. would you like me to turn the temperature down also",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "32:conversational",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "ok, here's some calming music. if you don't like it i have other options. would you like me to turn the temperature down also"
+          },
+          "turn_id": "hve04-s03-t04"
+        },
+        {
+          "speaker": "co_user",
+          "text": "yes please and thank you",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "32:conversational",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "yes please and thank you"
+          },
+          "turn_id": "hve04-s03-t05"
+        }
+      ]
+    },
+    {
+      "session_id": "hve04-s04",
+      "timestamp": "2026-02-26T09:00:00",
+      "context": "Jordan naturally states one explicit, durable vehicle-profile setting.",
+      "turns": [
+        {
+          "speaker": "co_user",
+          "text": "So the mall parking lot is super crowded and I am standing by the main entrance and, you know, rather than me hunting for the car again, could you just use smart summon to bring it around to me. There's a regular setting I'd like ready the next time I get in. For clarity, this is Jordan. I normally listen at music volume 24. Please remember that for future rides.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4041",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "So the mall parking lot is super crowded and I am standing by the main entrance and, you know, rather than me hunting for the car again, could you just use smart summon to bring it around to me"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.default.music_volume",
+            "owner": "external-hve04-codriver",
+            "tool_name": "carcontrol_music_set_volume",
+            "argument_name": "volume",
+            "value": 24,
+            "context_arguments": {},
+            "condition": "Jordan's explicitly selected default vehicle profile",
+            "reason": "Jordan explicitly asks to store this exact durable setting."
+          },
+          "turn_id": "hve04-s04-t01"
+        }
+      ]
+    },
+    {
+      "session_id": "hve04-s05",
+      "timestamp": "2026-03-05T09:00:00",
+      "context": "Externally sourced non-vehicle voice-assistant conversation; no durable vehicle preference is expressed.",
+      "turns": [
+        {
+          "speaker": "user",
+          "text": "It’s bed time but I can’t fall asleep, can you help?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "45:conversational",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "It’s bed time but I can’t fall asleep, can you help?"
+          },
+          "turn_id": "hve04-s05-t01"
+        },
+        {
+          "speaker": "assistant",
+          "text": "Yes I can, close your eyes and think of nice things.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "45:conversational",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes I can, close your eyes and think of nice things."
+          },
+          "turn_id": "hve04-s05-t02"
+        },
+        {
+          "speaker": "user",
+          "text": "Thank you, I will try that.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "45:conversational",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thank you, I will try that."
+          },
+          "turn_id": "hve04-s05-t03"
+        },
+        {
+          "speaker": "assistant",
+          "text": "You’re welcome, good night.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "45:conversational",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You’re welcome, good night."
+          },
+          "turn_id": "hve04-s05-t04"
+        }
+      ]
+    },
+    {
+      "session_id": "hve04-s06",
+      "timestamp": "2026-03-12T09:00:00",
+      "context": "Harper naturally states one explicit, durable vehicle-profile setting.",
+      "turns": [
+        {
+          "speaker": "user",
+          "text": "You know, my back is still tight and twisting around to check the rear is not fun, so can you just, um, scan for a spot and automatically park us now. Here's how I normally like the car. This is Harper speaking. My preferred cabin-light color is purple. Please save that as my normal setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4043",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "You know, my back is still tight and twisting around to check the rear is not fun, so can you just, um, scan for a spot and automatically park us now"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.default.ambient_color",
+            "owner": "external-hve04-driver",
+            "tool_name": "carcontrol_light_set_ambient_color",
+            "argument_name": "color",
+            "value": "purple",
+            "context_arguments": {},
+            "condition": "Harper's explicitly selected default vehicle profile",
+            "reason": "Harper explicitly asks to store this exact durable setting."
+          },
+          "turn_id": "hve04-s06-t01"
+        }
+      ]
+    },
+    {
+      "session_id": "hve04-s07",
+      "timestamp": "2026-03-19T09:00:00",
+      "context": "Externally sourced residential smart-light conversation; explicitly outside the vehicle-memory domain.",
+      "turns": [
+        {
+          "speaker": "co_user",
+          "text": "Uh, I was wondering, um, if I could, you know, get some help with, uh, the lighting in my living room.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:12",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Uh, I was wondering, um, if I could, you know, get some help with, uh, the lighting in my living room."
+          },
+          "turn_id": "hve04-s07-t01"
+        },
+        {
+          "speaker": "assistant",
+          "text": "You'd like to control the lighting in your living room. Which light are you referring to?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:12",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You'd like to control the lighting in your living room. Which light are you referring to?"
+          },
+          "turn_id": "hve04-s07-t02"
+        },
+        {
+          "speaker": "co_user",
+          "text": "It, uh, it's the one I, um, turned on earlier. Can I, uh, turn it off now?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:12",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "It, uh, it's the one I, um, turned on earlier. Can I, uh, turn it off now?"
+          },
+          "turn_id": "hve04-s07-t03"
+        }
+      ]
+    },
+    {
+      "session_id": "hve04-s08",
+      "timestamp": "2026-03-26T09:00:00",
+      "context": "Harper naturally states one explicit, durable vehicle-profile setting.",
+      "turns": [
+        {
+          "speaker": "user",
+          "text": "I was looking at a map of charging stations and there is this gap that worries me, uh, before I drive that stretch, can you tell me the current battery status. I'd like this kept as my regular setting. Harper here. The old driver's-side temperature no longer suits me; keep 24 degrees as my new usual setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4047",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I was looking at a map of charging stations and there is this gap that worries me, uh, before I drive that stretch, can you tell me the current battery status"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.default.temperature",
+            "owner": "external-hve04-driver",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 24,
+            "context_arguments": {
+              "zone": "driver"
+            },
+            "condition": "Harper's explicitly selected default vehicle profile",
+            "reason": "Harper explicitly replaces the prior saved value."
+          },
+          "turn_id": "hve04-s08-t01"
+        }
+      ]
+    },
+    {
+      "session_id": "hve04-s09",
+      "timestamp": "2026-04-02T09:00:00",
+      "context": "Externally sourced residential smart-light conversation; explicitly outside the vehicle-memory domain.",
+      "turns": [
+        {
+          "speaker": "user",
+          "text": "Um, can you help me with, you know, the lights?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:14",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Um, can you help me with, you know, the lights?"
+          },
+          "turn_id": "hve04-s09-t01"
+        },
+        {
+          "speaker": "assistant",
+          "text": "Of course! Which light are you referring to? We have multiple lights in the house.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:14",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Of course! Which light are you referring to? We have multiple lights in the house."
+          },
+          "turn_id": "hve04-s09-t02"
+        },
+        {
+          "speaker": "user",
+          "text": "Oh, I mean, you know, the one in the living room. Can you, uh, turn it on?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:14",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Oh, I mean, you know, the one in the living room. Can you, uh, turn it on?"
+          },
+          "turn_id": "hve04-s09-t03"
+        }
+      ]
+    },
+    {
+      "session_id": "hve04-s10",
+      "timestamp": "2026-04-09T09:00:00",
+      "context": "Jordan naturally states one explicit, durable vehicle-profile setting.",
+      "turns": [
+        {
+          "speaker": "co_user",
+          "text": "The days are getting shorter, it's dark so early now. It's kind of depressing. Oh well. Time to plug in for the night. Can you open the charge port door? There's also a setting I use every time. This next preference is for Jordan's profile. Set my usual passenger-zone temperature to 21 degrees and keep it for future rides.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4055",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "The days are getting shorter, it's dark so early now. It's kind of depressing. Oh well. Time to plug in for the night. Can you open the charge port door?"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.default.temperature",
+            "owner": "external-hve04-codriver",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 21,
+            "context_arguments": {
+              "zone": "passenger"
+            },
+            "condition": "Jordan's explicitly selected default vehicle profile",
+            "reason": "Jordan explicitly asks to store this exact durable setting."
+          },
+          "turn_id": "hve04-s10-t01"
+        }
+      ]
+    },
+    {
+      "session_id": "hve04-s11",
+      "timestamp": "2026-04-16T09:00:00",
+      "context": "Externally sourced residential smart-light conversation; explicitly outside the vehicle-memory domain.",
+      "turns": [
+        {
+          "speaker": "co_user",
+          "text": "Turn on the light",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:15",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Turn on the light"
+          },
+          "turn_id": "hve04-s11-t01"
+        },
+        {
+          "speaker": "assistant",
+          "text": "Which light device would you like to turn on? The default is 'light_1'.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:15",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Which light device would you like to turn on? The default is 'light_1'."
+          },
+          "turn_id": "hve04-s11-t02"
+        },
+        {
+          "speaker": "co_user",
+          "text": "light_2",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:15",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "light_2"
+          },
+          "turn_id": "hve04-s11-t03"
+        }
+      ]
+    },
+    {
+      "session_id": "hve04-s12",
+      "timestamp": "2026-04-23T09:00:00",
+      "context": "Jordan naturally states one explicit, durable vehicle-profile setting.",
+      "turns": [
+        {
+          "speaker": "co_user",
+          "text": "I saw an article about new battery technology, it's supposed to double the range of EVs. That would be amazing. For now though, I'm running low. Uh, can you unlatch the charge port? Please keep this for my future drives. I'm Jordan. Replace my earlier music-volume preference with 30. That's my new regular level.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4057",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I saw an article about new battery technology, it's supposed to double the range of EVs. That would be amazing. For now though, I'm running low. Uh, can you unlatch the charge port?"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "codriver.default.music_volume",
+            "owner": "external-hve04-codriver",
+            "tool_name": "carcontrol_music_set_volume",
+            "argument_name": "volume",
+            "value": 30,
+            "context_arguments": {},
+            "condition": "Jordan's explicitly selected default vehicle profile",
+            "reason": "Jordan explicitly replaces the prior saved value."
+          },
+          "turn_id": "hve04-s12-t01"
+        }
+      ]
+    }
+  ],
+  "quizzes": [
+    {
+      "quiz_id": "hve04-turn-01",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hve04-s02-t01",
+      "query": "Please set the driver's side to the temperature Harper has saved.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.default.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 22,
+            "zone": "driver"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve04-turn-02",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hve04-s04-t01",
+      "query": "Please put the music at Jordan's saved volume.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "codriver.default.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 24
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve04-turn-03",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hve04-s06-t01",
+      "query": "Please set the cabin ambient lights to Harper's saved color.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.default.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "purple"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve04-turn-04",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hve04-s08-t01",
+      "query": "Use Harper's remembered temperature for the driver's side.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.default.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 24,
+            "zone": "driver"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve04-turn-05",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hve04-s10-t01",
+      "query": "Please set the passenger side to the temperature Jordan has saved.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "codriver.default.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 21,
+            "zone": "passenger"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve04-turn-06",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hve04-s12-t01",
+      "query": "Use the music volume remembered for Jordan.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "codriver.default.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 30
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve04-turn-07",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hve04-s02-t01",
+      "query": "Could you apply Harper's saved driver-side temperature now?",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.default.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 22,
+            "zone": "driver"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve04-turn-08",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hve04-s04-t01",
+      "query": "Could you apply Jordan's current music-volume preference?",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "codriver.default.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 24
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve04-final-01",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hve04-s12-t01",
+      "query": "Set the driver zone to Harper's current preferred temperature.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.default.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 24,
+            "zone": "driver"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve04-final-02",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hve04-s12-t01",
+      "query": "Please set the driver's side to the temperature Harper has saved.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.default.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 24,
+            "zone": "driver"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve04-final-03",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hve04-s12-t01",
+      "query": "Set the music to the level Jordan has saved.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "codriver.default.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 30
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve04-final-04",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hve04-s12-t01",
+      "query": "Please put the music at Jordan's saved volume.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "codriver.default.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 30
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve04-final-05",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hve04-s12-t01",
+      "query": "Use the ambient-light color remembered for Harper.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.default.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "purple"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve04-final-06",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hve04-s12-t01",
+      "query": "Could you apply Harper's current cabin-light color?",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.default.ambient_color"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_light_set_ambient_color",
+          "arguments": {
+            "color": "purple"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve04-final-07",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hve04-s12-t01",
+      "query": "Use Jordan's remembered temperature for the passenger side.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "codriver.default.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 21,
+            "zone": "passenger"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hve04-final-08",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hve04-s12-t01",
+      "query": "Could you apply Jordan's saved passenger-zone temperature now?",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "codriver.default.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "temperature": 21,
+            "zone": "passenger"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "added_quiz_distribution": {
+    "FINAL::coreference_resolution": 1,
+    "TURN::coreference_resolution": 6,
+    "TURN::error_correction": 2,
+    "TURN::preference_conflict": 6,
+    "TURN::state_shift": 4
+  },
+  "checks": {
+    "added_query_uniqueness": "PASS",
+    "base_quizzes_unchanged": "PASS",
+    "base_sessions_unchanged": "PASS",
+    "base_source_hash": "PASS",
+    "derived_source_hash": "PASS",
+    "extension_counts": "PASS",
+    "inserted_source_records_disjoint": "PASS",
+    "multiple_memory_owners": "PASS",
+    "official_builder_validation": "PASS",
+    "preference_conflict::hvp04-turn-13": "PASS",
+    "preference_conflict::hvp04-turn-14": "PASS",
+    "preference_conflict::hvp04-turn-15": "PASS",
+    "preference_conflict::hvp04-turn-16": "PASS",
+    "preference_conflict::hvp04-turn-17": "PASS",
+    "preference_conflict::hvp04-turn-18": "PASS",
+    "preference_conflict_action_difference::hvp04-turn-13": "PASS",
+    "preference_conflict_action_difference::hvp04-turn-14": "PASS",
+    "preference_conflict_action_difference::hvp04-turn-15": "PASS",
+    "preference_conflict_action_difference::hvp04-turn-16": "PASS",
+    "preference_conflict_action_difference::hvp04-turn-17": "PASS",
+    "preference_conflict_action_difference::hvp04-turn-18": "PASS",
+    "scenario_quota": "PASS"
+  },
+  "preference_conflict_audit": [
+    {
+      "gold_evidence": [
+        "- [2026-04-17 08:05] carcontrol_airConditioner_set_temperature.temperature; value=28; context=(zone=\"driver\"); condition=for Casey's normal driving"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-05-03 09:15] carcontrol_airConditioner_set_temperature.temperature; value=22; context=(zone=\"driver\"); condition=for Jordan's normal driving"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-05-03 09:15] carcontrol_airConditioner_set_temperature.temperature; value=22; context=(zone=\"driver\"); condition=for Jordan's normal driving"
+      ],
+      "quiz_id": "hvp04-turn-13"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-05-03 09:15] carcontrol_airConditioner_set_temperature.temperature; value=22; context=(zone=\"driver\"); condition=for Jordan's normal driving"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-17 08:05] carcontrol_airConditioner_set_temperature.temperature; value=28; context=(zone=\"driver\"); condition=for Casey's normal driving"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-17 08:05] carcontrol_airConditioner_set_temperature.temperature; value=28; context=(zone=\"driver\"); condition=for Casey's normal driving"
+      ],
+      "quiz_id": "hvp04-turn-14"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-04-22 08:05] carcontrol_airConditioner_set_fan_speed.speed; value=8; context=(zone=\"front\"); condition=for Casey's normal driving"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-08-09 10:30] carcontrol_airConditioner_set_fan_speed.speed; value=5; context=(zone=\"front\"); condition=for Jordan's normal driving"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-08-09 10:30] carcontrol_airConditioner_set_fan_speed.speed; value=5; context=(zone=\"front\"); condition=for Jordan's normal driving"
+      ],
+      "quiz_id": "hvp04-turn-15"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-08-09 10:30] carcontrol_airConditioner_set_fan_speed.speed; value=5; context=(zone=\"front\"); condition=for Jordan's normal driving"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-22 08:05] carcontrol_airConditioner_set_fan_speed.speed; value=8; context=(zone=\"front\"); condition=for Casey's normal driving"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-22 08:05] carcontrol_airConditioner_set_fan_speed.speed; value=8; context=(zone=\"front\"); condition=for Casey's normal driving"
+      ],
+      "quiz_id": "hvp04-turn-16"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-04-27 08:05] carcontrol_door_set_locked.locked; value=true; context=(door=\"all\"); condition=when Casey is parked at home"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-09-04 16:50] carcontrol_door_set_locked.locked; value=false; context=(door=\"all\"); condition=when Jordan is parked at home"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-09-04 16:50] carcontrol_door_set_locked.locked; value=false; context=(door=\"all\"); condition=when Jordan is parked at home"
+      ],
+      "quiz_id": "hvp04-turn-17"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-09-04 16:50] carcontrol_door_set_locked.locked; value=false; context=(door=\"all\"); condition=when Jordan is parked at home",
+        "- [2026-08-09 10:30] carcontrol_airConditioner_set_fan_speed.speed; value=5; context=(zone=\"front\"); condition=for Jordan's normal driving"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-22 08:05] carcontrol_airConditioner_set_fan_speed.speed; value=8; context=(zone=\"front\"); condition=for Casey's normal driving",
+        "- [2026-04-27 08:05] carcontrol_door_set_locked.locked; value=true; context=(door=\"all\"); condition=when Casey is parked at home"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-22 08:05] carcontrol_airConditioner_set_fan_speed.speed; value=8; context=(zone=\"front\"); condition=for Casey's normal driving",
+        "- [2026-04-27 08:05] carcontrol_door_set_locked.locked; value=true; context=(door=\"all\"); condition=when Casey is parked at home"
+      ],
+      "quiz_id": "hvp04-turn-18"
+    }
+  ],
+  "scenario_id": "HVP04",
+  "schema_version": "vehiclemembench-hvp-multiparty-validation-v1",
+  "scope": "deterministic validation; semantic review remains separate",
+  "semantic_review_status": "PENDING",
+  "statistics": {
+    "active_memory_slot_count": 10,
+    "add_count": 10,
+    "distinct_memory_tool_count": 7,
+    "final_quiz_count": 7,
+    "noop_count": 48,
+    "quiz_tool_call_count": 36,
+    "replace_count": 3,
+    "session_count": 12,
+    "speaker_count": 3,
+    "turn_count": 61,
+    "turn_quiz_count": 22,
+    "update_count": 13
+  },
+  "status": "PASS",
+  "update_owners": {
+    "external-hvp04-codriver": 3,
+    "external-hvp04-driver": 10
+  }
+}

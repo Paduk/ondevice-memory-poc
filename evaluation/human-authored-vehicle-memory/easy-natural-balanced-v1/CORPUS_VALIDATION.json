@@ -1,0 +1,185 @@
+{
+  "schema_version": "vehiclemembench-easy-natural-balanced-validation-v1",
+  "scenario_count": 20,
+  "aggregate": {
+    "turns": 600,
+    "updates": 120,
+    "noops": 480,
+    "quizzes": 320
+  },
+  "adjusted_half": {
+    "scenarios": 10,
+    "single_intent_updates": 60,
+    "naturally_framed_noop_sessions": 60
+  },
+  "validation": {
+    "gold_and_quiz_equivalence": "PASS",
+    "first_half_text_identity": "PASS",
+    "second_half_single_intent_updates": "PASS",
+    "second_half_natural_noop_framing": "PASS",
+    "source_trace_preservation": "PASS",
+    "derived_patch_and_tool_validation": "PASS"
+  },
+  "scenarios": [
+    {
+      "scenario_id": "HVE01",
+      "single_intent_updates": 0,
+      "framed_noop_sessions": 0,
+      "gold_equivalence": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE02",
+      "single_intent_updates": 0,
+      "framed_noop_sessions": 0,
+      "gold_equivalence": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE03",
+      "single_intent_updates": 0,
+      "framed_noop_sessions": 0,
+      "gold_equivalence": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE04",
+      "single_intent_updates": 0,
+      "framed_noop_sessions": 0,
+      "gold_equivalence": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE05",
+      "single_intent_updates": 0,
+      "framed_noop_sessions": 0,
+      "gold_equivalence": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE06",
+      "single_intent_updates": 0,
+      "framed_noop_sessions": 0,
+      "gold_equivalence": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE07",
+      "single_intent_updates": 0,
+      "framed_noop_sessions": 0,
+      "gold_equivalence": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE08",
+      "single_intent_updates": 0,
+      "framed_noop_sessions": 0,
+      "gold_equivalence": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE09",
+      "single_intent_updates": 0,
+      "framed_noop_sessions": 0,
+      "gold_equivalence": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE10",
+      "single_intent_updates": 0,
+      "framed_noop_sessions": 0,
+      "gold_equivalence": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE11",
+      "single_intent_updates": 6,
+      "framed_noop_sessions": 6,
+      "gold_equivalence": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE12",
+      "single_intent_updates": 6,
+      "framed_noop_sessions": 6,
+      "gold_equivalence": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE13",
+      "single_intent_updates": 6,
+      "framed_noop_sessions": 6,
+      "gold_equivalence": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE14",
+      "single_intent_updates": 6,
+      "framed_noop_sessions": 6,
+      "gold_equivalence": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE15",
+      "single_intent_updates": 6,
+      "framed_noop_sessions": 6,
+      "gold_equivalence": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE16",
+      "single_intent_updates": 6,
+      "framed_noop_sessions": 6,
+      "gold_equivalence": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE17",
+      "single_intent_updates": 6,
+      "framed_noop_sessions": 6,
+      "gold_equivalence": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE18",
+      "single_intent_updates": 6,
+      "framed_noop_sessions": 6,
+      "gold_equivalence": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE19",
+      "single_intent_updates": 6,
+      "framed_noop_sessions": 6,
+      "gold_equivalence": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE20",
+      "single_intent_updates": 6,
+      "framed_noop_sessions": 6,
+      "gold_equivalence": "PASS",
+      "builder_validation": "PASS",
+      "status": "PASS"
+    }
+  ]
+}

@@ -1,0 +1,1143 @@
+{
+  "schema_version": "vehiclemembench-human-authored-scenario-source-v1",
+  "scenario_id": "HVP13",
+  "scenario_index": 913,
+  "split": "pilot_excluded",
+  "authorship": {
+    "kind": "external_adapted_model_assembled_pilot",
+    "eligible_for_human_test": false,
+    "note": "Externally adapted pilot. Dialogue records are disjoint from every other external-adapted HVP pilot; assembly, persistence edits, memory labels, and quizzes are model-produced."
+  },
+  "external_sources": [
+    {
+      "dataset": "Envisioned Voice Assistant Dialogues",
+      "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues",
+      "license": "CC BY 4.0",
+      "origin": "human_authored",
+      "records": [
+        "20:open",
+        "49:weather",
+        "10:weather"
+      ],
+      "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186"
+    },
+    {
+      "dataset": "Audio2Tool",
+      "url": "https://huggingface.co/datasets/RVtech/Audio2Tool",
+      "license": "CC BY-NC 4.0",
+      "origin": "synthetic",
+      "records": [
+        "tier7:2032",
+        "tier7:2063",
+        "tier7:2146",
+        "tier6:3966",
+        "tier6:4006",
+        "tier6:3962",
+        "tier6:4234",
+        "tier5:4134",
+        "tier5:4092",
+        "tier5:3980",
+        "tier5:3966",
+        "tier6:3968",
+        "tier6:4008"
+      ],
+      "local_file_sha256": {
+        "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc",
+        "tier6": "fa5c0825d99c4f68e226480261befe9ce7aa33c9dfbb7ff1fe1fc82493bcb991",
+        "tier4": "d430e801c9bba5db03b3d044ac626ebec35de1b8a4eb2e2beb4cdec0013e9271",
+        "tier5": "d38e588dccb99ed3291c9467a29adcd71e4f1c4eb62c118fd482a8e9616a1850"
+      }
+    }
+  ],
+  "speakers": [
+    {
+      "speaker_id": "external-hvp13-driver",
+      "short_id": "user",
+      "speaker_name": "Cameron (normalized user role)",
+      "role": "driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp13-assistant",
+      "short_id": "assistant",
+      "speaker_name": "Voice assistant (source names retained in text)",
+      "role": "vehicle voice assistant",
+      "style": "retains the wording of each external source record"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "hvp13-s1",
+      "timestamp": "2026-01-05T08:00:00",
+      "context": "Planning food and invitations for a birthday party.",
+      "turns": [
+        {
+          "turn_id": "hvp13-s1-t01",
+          "speaker": "user",
+          "text": "It's my birthday on Saturday and I would like to plan a party",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "20:open",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "It's my birthday on Saturday and I would like to plan a party"
+          }
+        },
+        {
+          "turn_id": "hvp13-s1-t02",
+          "speaker": "assistant",
+          "text": "How can I help?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "20:open",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "How can I help?"
+          }
+        },
+        {
+          "turn_id": "hvp13-s1-t03",
+          "speaker": "user",
+          "text": "I need you to find me some exoti recipes I can make and serve",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "20:open",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I need you to find me some exoti recipes I can make and serve"
+          }
+        },
+        {
+          "turn_id": "hvp13-s1-t04",
+          "speaker": "assistant",
+          "text": "What about a Thai menu?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "20:open",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What about a Thai menu?"
+          }
+        },
+        {
+          "turn_id": "hvp13-s1-t05",
+          "speaker": "user",
+          "text": "Not too keen on that",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "20:open",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Not too keen on that"
+          }
+        },
+        {
+          "turn_id": "hvp13-s1-t06",
+          "speaker": "assistant",
+          "text": "Cajun menu is always popular",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "20:open",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Cajun menu is always popular"
+          }
+        },
+        {
+          "turn_id": "hvp13-s1-t07",
+          "speaker": "user",
+          "text": "Oh yes that sounds fun. Find me an authentic recipe menu I can use",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "20:open",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Oh yes that sounds fun. Find me an authentic recipe menu I can use"
+          }
+        },
+        {
+          "turn_id": "hvp13-s1-t08",
+          "speaker": "assistant",
+          "text": "What about the invitation? How many people do you want to invite?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "20:open",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What about the invitation? How many people do you want to invite?"
+          }
+        },
+        {
+          "turn_id": "hvp13-s1-t09",
+          "speaker": "user",
+          "text": "Select 20 of my closest friends from my contacts list and email then a luxury e-vite",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "20:open",
+            "record_turn_index": 8,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Select 20 of my closest friends from my contacts list and email then a luxury e-vite"
+          }
+        },
+        {
+          "turn_id": "hvp13-s1-t10",
+          "speaker": "assistant",
+          "text": "No problem. Invitations sent",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "20:open",
+            "record_turn_index": 9,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "No problem. Invitations sent"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp13-s2",
+      "timestamp": "2026-01-25T08:00:00",
+      "context": "Packing for a four-night trip to Florence.",
+      "turns": [
+        {
+          "turn_id": "hvp13-s2-t01",
+          "speaker": "user",
+          "text": "Hey assistant, help me pack for Italy",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "49:weather",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hey assistant, help me pack for Italy"
+          }
+        },
+        {
+          "turn_id": "hvp13-s2-t02",
+          "speaker": "assistant",
+          "text": "Which part of Italy and when?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "49:weather",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Which part of Italy and when?"
+          }
+        },
+        {
+          "turn_id": "hvp13-s2-t03",
+          "speaker": "user",
+          "text": "Two days time, I'm going to Florence",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "49:weather",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Two days time, I'm going to Florence"
+          }
+        },
+        {
+          "turn_id": "hvp13-s2-t04",
+          "speaker": "assistant",
+          "text": "No prob. Florence should be mild in two days time. How long are you staying for?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "49:weather",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "No prob. Florence should be mild in two days time. How long are you staying for?"
+          }
+        },
+        {
+          "turn_id": "hvp13-s2-t05",
+          "speaker": "user",
+          "text": "Four nights",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "49:weather",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Four nights"
+          }
+        },
+        {
+          "turn_id": "hvp13-s2-t06",
+          "speaker": "assistant",
+          "text": "Ok. The third day has a chance of rain but the temperature is mid 20s throughout so it shouldn't be cold. A light waterproof would be advised though.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "49:weather",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Ok. The third day has a chance of rain but the temperature is mid 20s throughout so it shouldn't be cold. A light waterproof would be advised though."
+          }
+        },
+        {
+          "turn_id": "hvp13-s2-t07",
+          "speaker": "user",
+          "text": "Thanks Assistant",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "49:weather",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thanks Assistant"
+          }
+        },
+        {
+          "turn_id": "hvp13-s2-t08",
+          "speaker": "assistant",
+          "text": "No probs, enjoy your trip.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "49:weather",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "No probs, enjoy your trip."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp13-s3",
+      "timestamp": "2026-02-14T08:00:00",
+      "context": "Choosing clothes for an upcoming Italy trip.",
+      "turns": [
+        {
+          "turn_id": "hvp13-s3-t01",
+          "speaker": "user",
+          "text": "hi assistant I am planning a trip soon and not sure what the weather will be like",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "10:weather",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "hi assistant I am planning a trip soon and not sure what the weather will be like"
+          }
+        },
+        {
+          "turn_id": "hvp13-s3-t02",
+          "speaker": "assistant",
+          "text": "where is you are travelling too?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "10:weather",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "where is you are travelling too?"
+          }
+        },
+        {
+          "turn_id": "hvp13-s3-t03",
+          "speaker": "user",
+          "text": "I am going to Italy, not sure what clothes I will need depending on the weather",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "10:weather",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I am going to Italy, not sure what clothes I will need depending on the weather"
+          }
+        },
+        {
+          "turn_id": "hvp13-s3-t04",
+          "speaker": "assistant",
+          "text": "thats not a problem I will research that for you, when are going?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "10:weather",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "thats not a problem I will research that for you, when are going?"
+          }
+        },
+        {
+          "turn_id": "hvp13-s3-t05",
+          "speaker": "user",
+          "text": "In two days",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "10:weather",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "In two days"
+          }
+        },
+        {
+          "turn_id": "hvp13-s3-t06",
+          "speaker": "assistant",
+          "text": "the weather in Italy is going to be warm",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "10:weather",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "the weather in Italy is going to be warm"
+          }
+        },
+        {
+          "turn_id": "hvp13-s3-t07",
+          "speaker": "user",
+          "text": "oh great, thanks assistant I will pack my summer clothes",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "10:weather",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "oh great, thanks assistant I will pack my summer clothes"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp13-s4",
+      "timestamp": "2026-03-06T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2032.",
+      "turns": [
+        {
+          "turn_id": "hvp13-s4-t01",
+          "speaker": "user",
+          "text": "Hi, I'm going on a road trip soon and I want to make sure my car is ready for charging. Can you help me with that?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2032",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hi, I'm going on a road trip soon and I want to make sure my car is ready for charging. Can you help me with that?"
+          }
+        },
+        {
+          "turn_id": "hvp13-s4-t02",
+          "speaker": "assistant",
+          "text": "I'd be happy to help you prepare your car for charging. What specifically would you like to do? Would you like to check your current charge level, find a charging station, or prepare your battery for fast charging?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2032",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'd be happy to help you prepare your car for charging. What specifically would you like to do? Would you like to check your current charge level, find a charging station, or prepare your battery for fast charging?"
+          }
+        },
+        {
+          "turn_id": "hvp13-s4-t03",
+          "speaker": "user",
+          "text": "Um, I think I want to prepare my battery for fast charging... is that a thing?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2032",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Um, I think I want to prepare my battery for fast charging... is that a thing?"
+          }
+        },
+        {
+          "turn_id": "hvp13-s4-t04",
+          "speaker": "assistant",
+          "text": "Yes, that's a thing! We can manually start battery preconditioning to prepare your car for DC fast charging. Would you like me to do that for you?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2032",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes, that's a thing! We can manually start battery preconditioning to prepare your car for DC fast charging. Would you like me to do that for you?"
+          }
+        },
+        {
+          "turn_id": "hvp13-s4-t05",
+          "speaker": "user",
+          "text": "Oh, yes please! That sounds great, thank you!",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2032",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Oh, yes please! That sounds great, thank you!"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp13-s5",
+      "timestamp": "2026-03-26T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2063.",
+      "turns": [
+        {
+          "turn_id": "hvp13-s5-t01",
+          "speaker": "user",
+          "text": "I need to find place for eat. My stomach making noise like angry cat.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2063",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I need to find place for eat. My stomach making noise like angry cat."
+          }
+        },
+        {
+          "turn_id": "hvp13-s5-t02",
+          "speaker": "assistant",
+          "text": "I understand you're hungry. Would you like me to search for food places nearby?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2063",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I understand you're hungry. Would you like me to search for food places nearby?"
+          }
+        },
+        {
+          "turn_id": "hvp13-s5-t03",
+          "speaker": "user",
+          "text": "Yes, food place good but wait... I remember my car battery getting low. Maybe we look for charging station first?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2063",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes, food place good but wait... I remember my car battery getting low. Maybe we look for charging station first?"
+          }
+        },
+        {
+          "turn_id": "hvp13-s5-t04",
+          "speaker": "assistant",
+          "text": "Of course, I can help you find charging stations instead. Would you like me to search for those nearby?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2063",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Of course, I can help you find charging stations instead. Would you like me to search for those nearby?"
+          }
+        },
+        {
+          "turn_id": "hvp13-s5-t05",
+          "speaker": "user",
+          "text": "No no, I change mind again. Food is more urgent for me now. Please find restaurant or food place.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2063",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "No no, I change mind again. Food is more urgent for me now. Please find restaurant or food place."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp13-s6",
+      "timestamp": "2026-04-15T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2146.",
+      "turns": [
+        {
+          "turn_id": "hvp13-s6-t01",
+          "speaker": "user",
+          "text": "Um, can you help me with my car's software? I think it's supposed to update or something?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2146",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Um, can you help me with my car's software? I think it's supposed to update or something?"
+          }
+        },
+        {
+          "turn_id": "hvp13-s6-t02",
+          "speaker": "assistant",
+          "text": "I'd be happy to help you with that. Can you please tell me what kind of software update you're referring to? Is it an Over-The-Air update?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2146",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'd be happy to help you with that. Can you please tell me what kind of software update you're referring to? Is it an Over-The-Air update?"
+          }
+        },
+        {
+          "turn_id": "hvp13-s6-t03",
+          "speaker": "user",
+          "text": "Oh, yeah! That's the one. I just want to know if it's working okay, I guess.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2146",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Oh, yeah! That's the one. I just want to know if it's working okay, I guess."
+          }
+        },
+        {
+          "turn_id": "hvp13-s6-t04",
+          "speaker": "assistant",
+          "text": "Great, I just need to check the status of the OTA update. Can you please confirm that you'd like me to check the status?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2146",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Great, I just need to check the status of the OTA update. Can you please confirm that you'd like me to check the status?"
+          }
+        },
+        {
+          "turn_id": "hvp13-s6-t05",
+          "speaker": "user",
+          "text": "Yes, please check if it's updating properly.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2146",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes, please check if it's updating properly."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp13-s7",
+      "timestamp": "2026-05-05T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:3966.",
+      "turns": [
+        {
+          "turn_id": "hvp13-s7-t01",
+          "speaker": "user",
+          "text": "Set the blower to 9, actually put it at 5. Fan speed five is my regular cabin setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:3966",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Set the blower to 9, actually put it at 5"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.fan_speed",
+            "tool_name": "carcontrol_airConditioner_set_fan_speed",
+            "argument_name": "speed",
+            "value": 5,
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Cameron's normal cabin setting",
+            "reason": "The corrected source fan level is made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp13-s8",
+      "timestamp": "2026-05-25T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:4006.",
+      "turns": [
+        {
+          "turn_id": "hvp13-s8-t01",
+          "speaker": "user",
+          "text": "Adjust the suspension, never mind, just open the driver front window to fifty five percent. Fifty-five percent is my regular driver-window position.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4006",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Adjust the suspension, never mind, just open the driver front window to fifty five percent"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.driver_window",
+            "tool_name": "carcontrol_window_set_open_degree",
+            "argument_name": "degree",
+            "value": 55,
+            "context_arguments": {
+              "window": "driver"
+            },
+            "condition": "for Cameron's normal driving",
+            "reason": "The corrected source window position is made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp13-s9",
+      "timestamp": "2026-06-14T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:3962.",
+      "turns": [
+        {
+          "turn_id": "hvp13-s9-t01",
+          "speaker": "user",
+          "text": "Rear right twenty eight degrees, actually twenty seven. Twenty-seven degrees is my regular rear-right temperature.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:3962",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Rear right twenty eight degrees, actually twenty seven"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.rear_right_temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 27,
+            "context_arguments": {
+              "zone": "rear_right"
+            },
+            "condition": "for Cameron's normal rear-right climate",
+            "reason": "The corrected source temperature is made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp13-s10",
+      "timestamp": "2026-07-04T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:4234.",
+      "turns": [
+        {
+          "turn_id": "hvp13-s10-t01",
+          "speaker": "user",
+          "text": "Start defrosting the rear window... actually, do both front and rear. Use front-and-rear defrost whenever frost blocks my visibility.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4234",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Start defrosting the rear window... actually, do both front and rear"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.frost.defrost",
+            "tool_name": "carcontrol_airConditioner_set_mode",
+            "argument_name": "mode",
+            "value": "defrost",
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "when frost blocks Cameron's visibility",
+            "reason": "The corrected source defrost scope becomes a durable visibility rule."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp13-s11",
+      "timestamp": "2026-07-24T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4134.",
+      "turns": [
+        {
+          "turn_id": "hvp13-s11-t01",
+          "speaker": "user",
+          "text": "I was telling this story about my boss and, um, every time I get to the punchline the car cuts in with some exit announcement, so can you please mute the navigation voice. Mute guidance whenever I am telling a story.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4134",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I was telling this story about my boss and, um, every time I get to the punchline the car cuts in with some exit announcement, so can you please mute the navigation voice"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.storytelling.voice_mode",
+            "tool_name": "carcontrol_navigation_set_voice_mode",
+            "argument_name": "mode",
+            "value": "mute",
+            "context_arguments": {},
+            "condition": "when Cameron is telling a story",
+            "reason": "The source mute request is retained under its explicit storytelling context."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp13-s12",
+      "timestamp": "2026-08-13T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4092.",
+      "turns": [
+        {
+          "turn_id": "hvp13-s12-t01",
+          "speaker": "user",
+          "text": "You know what's funny is that I used to hate this route but now I actually kind of like it, there's this nice view of the mountains, um anyway can you resume playing. Whenever my audio playback has stopped, resume it.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4092",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "You know what's funny is that I used to hate this route but now I actually kind of like it, there's this nice view of the mountains, um anyway can you resume playing"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.interrupted_audio.playback",
+            "tool_name": "carcontrol_music_switch",
+            "argument_name": "switch",
+            "value": true,
+            "context_arguments": {},
+            "condition": "when Cameron's audio playback has stopped",
+            "reason": "The source resume request becomes a recurring interrupted-playback preference."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp13-s13",
+      "timestamp": "2026-09-02T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:3980.",
+      "turns": [
+        {
+          "turn_id": "hvp13-s13-t01",
+          "speaker": "user",
+          "text": "You know, the sun is low and bright but not actually warm, so, like, please turn on the steering wheel heat so my hands feel better. Keep steering-wheel heat enabled whenever my hands feel cold.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:3980",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "You know, the sun is low and bright but not actually warm, so, like, please turn on the steering wheel heat so my hands feel better"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.cold_hands.wheel_heat",
+            "tool_name": "carcontrol_steeringWheel_set_heating_enabled",
+            "argument_name": "enabled",
+            "value": true,
+            "context_arguments": {},
+            "condition": "when Cameron's hands feel cold",
+            "reason": "The source heat request is retained under its explicit comfort condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp13-s14",
+      "timestamp": "2026-09-22T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:3966.",
+      "turns": [
+        {
+          "turn_id": "hvp13-s14-t01",
+          "speaker": "user",
+          "text": "So I just realized I am kind of shivering in here, like, did not notice at first, please set the fan speed to 1. Actually, fan speed one is my regular cabin setting now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:3966",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "So I just realized I am kind of shivering in here, like, did not notice at first, please set the fan speed to 1"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.fan_speed",
+            "tool_name": "carcontrol_airConditioner_set_fan_speed",
+            "argument_name": "speed",
+            "value": 1,
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Cameron's normal cabin setting",
+            "reason": "The later source fan level replaces the stored value."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp13-s15",
+      "timestamp": "2026-10-12T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:3968.",
+      "turns": [
+        {
+          "turn_id": "hvp13-s15-t01",
+          "speaker": "user",
+          "text": "Turn the fan to 10, I mean just 3 is fine. Actually, fan speed three is my regular cabin setting now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:3968",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Turn the fan to 10, I mean just 3 is fine"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.fan_speed",
+            "tool_name": "carcontrol_airConditioner_set_fan_speed",
+            "argument_name": "speed",
+            "value": 3,
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "for Cameron's normal cabin setting",
+            "reason": "The corrected later source value replaces fan level one."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp13-s16",
+      "timestamp": "2026-11-01T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:4008.",
+      "turns": [
+        {
+          "turn_id": "hvp13-s16-t01",
+          "speaker": "user",
+          "text": "Start parking assist, actually cancel that and roll the driver front window down ninety percent. Actually, ninety percent is my regular driver-window position now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4008",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Start parking assist, actually cancel that and roll the driver front window down ninety percent"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.driver_window",
+            "tool_name": "carcontrol_window_set_open_degree",
+            "argument_name": "degree",
+            "value": 90,
+            "context_arguments": {
+              "window": "driver"
+            },
+            "condition": "for Cameron's normal driving",
+            "reason": "The corrected later source value replaces the stored driver-window position."
+          }
+        }
+      ]
+    }
+  ],
+  "quizzes": [
+    {
+      "quiz_id": "hvp13-turn-01",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp13-s7-t01",
+      "query": "Set the cabin fan to Cameron's currently remembered normal speed.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 5
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp13-turn-02",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp13-s8-t01",
+      "query": "Set the driver window to Cameron's currently remembered normal position.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.driver_window"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "driver",
+            "degree": 55
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp13-turn-03",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp13-s9-t01",
+      "query": "Set the rear-right temperature to Cameron's remembered normal value.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.rear_right_temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "rear_right",
+            "temperature": 27
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp13-turn-04",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp13-s10-t01",
+      "query": "Frost is blocking Cameron's visibility. Apply the remembered defrost setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.frost.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "all",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp13-final-01",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp13-s16-t01",
+      "query": "Set the cabin fan to Cameron's current normal speed.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.fan_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_fan_speed",
+          "arguments": {
+            "zone": "all",
+            "speed": 3
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp13-final-02",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp13-s16-t01",
+      "query": "Set the driver window to Cameron's current normal position.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.driver_window"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_window_set_open_degree",
+          "arguments": {
+            "window": "driver",
+            "degree": 90
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp13-final-03",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp13-s16-t01",
+      "query": "Set the rear-right temperature to Cameron's remembered normal value.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.rear_right_temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "rear_right",
+            "temperature": 27
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp13-final-04",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp13-s16-t01",
+      "query": "Frost is blocking Cameron's visibility. Apply the remembered defrost setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.frost.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "all",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp13-final-05",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp13-s16-t01",
+      "query": "Cameron is telling a story. Apply the remembered navigation voice setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.storytelling.voice_mode"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "mute"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp13-final-06",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp13-s16-t01",
+      "query": "Cameron's audio playback has stopped and their hands feel cold. Apply both remembered settings.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.interrupted_audio.playback",
+        "driver.cold_hands.wheel_heat"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": true
+          }
+        },
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        }
+      ]
+    }
+  ]
+}

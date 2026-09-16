@@ -1,0 +1,1650 @@
+{
+  "schema_version": "vehiclemembench-human-authored-scenario-source-v1",
+  "scenario_id": "HVP05",
+  "scenario_index": 905,
+  "split": "pilot_excluded",
+  "authorship": {
+    "kind": "external_adapted_model_assembled_pilot",
+    "eligible_for_human_test": false,
+    "note": "Versioned multi-participant external adaptation. Dialogue records are source-traced; participant normalization, persistence edits, memory labels, and quizzes remain model-assembled pending human review."
+  },
+  "external_sources": [
+    {
+      "dataset": "Envisioned Voice Assistant Dialogues",
+      "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues",
+      "license": "CC BY 4.0",
+      "origin": "human_authored",
+      "records": [
+        "32:open",
+        "44:open",
+        "45:open",
+        "21:search"
+      ],
+      "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186"
+    },
+    {
+      "dataset": "Audio2Tool",
+      "url": "https://huggingface.co/datasets/RVtech/Audio2Tool",
+      "license": "CC BY-NC 4.0",
+      "origin": "synthetic",
+      "records": [
+        "tier7:2072",
+        "tier7:2078",
+        "tier7:2042",
+        "tier7:2043",
+        "tier7:2056",
+        "tier7:2105",
+        "tier6:4115",
+        "tier6:4269",
+        "tier6:4273",
+        "tier7:543",
+        "tier7:359",
+        "tier7:2138"
+      ],
+      "local_file_sha256": {
+        "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc",
+        "tier6": "fa5c0825d99c4f68e226480261befe9ce7aa33c9dfbb7ff1fe1fc82493bcb991",
+        "tier4": "d430e801c9bba5db03b3d044ac626ebec35de1b8a4eb2e2beb4cdec0013e9271",
+        "tier5": "d38e588dccb99ed3291c9467a29adcd71e4f1c4eb62c118fd482a8e9616a1850"
+      }
+    }
+  ],
+  "speakers": [
+    {
+      "speaker_id": "external-hvp05-driver",
+      "short_id": "user",
+      "speaker_name": "Casey (normalized user role)",
+      "role": "driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp05-codriver",
+      "short_id": "co_user",
+      "speaker_name": "Taylor (normalized user role)",
+      "role": "co-driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp05-assistant",
+      "short_id": "assistant",
+      "speaker_name": "Voice assistant (source names retained in text)",
+      "role": "vehicle voice assistant",
+      "style": "retains the wording of each external source record"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "hvp05-s1",
+      "timestamp": "2026-01-05T08:00:00",
+      "context": "Planning a family holiday within a fixed budget.",
+      "turns": [
+        {
+          "turn_id": "hvp05-s1-t01",
+          "speaker": "user",
+          "text": "voice assistant, i would like to go on holiday and cant think of where to go. it needs to be hot, within budget, caters for all ages and have plenty of things to do",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "32:open",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "voice assistant, i would like to go on holiday and cant think of where to go. it needs to be hot, within budget, caters for all ages and have plenty of things to do"
+          }
+        },
+        {
+          "turn_id": "hvp05-s1-t02",
+          "speaker": "assistant",
+          "text": "ok, whats the most important factor?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "32:open",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "ok, whats the most important factor?"
+          }
+        },
+        {
+          "turn_id": "hvp05-s1-t03",
+          "speaker": "user",
+          "text": "the price, i only have £3k to spend for me and 3 children",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "32:open",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "the price, i only have £3k to spend for me and 3 children"
+          }
+        },
+        {
+          "turn_id": "hvp05-s1-t04",
+          "speaker": "assistant",
+          "text": "ok, is there a particular time of year to want to travel?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "32:open",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "ok, is there a particular time of year to want to travel?"
+          }
+        },
+        {
+          "turn_id": "hvp05-s1-t05",
+          "speaker": "user",
+          "text": "it has to be in the school holidays as i cant take the children out of school, so the end of may or july and august",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "32:open",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "it has to be in the school holidays as i cant take the children out of school, so the end of may or july and august"
+          }
+        },
+        {
+          "turn_id": "hvp05-s1-t06",
+          "speaker": "assistant",
+          "text": "may is likely to be cheaper but you may not be guaranteed the weather - is this ok?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "32:open",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "may is likely to be cheaper but you may not be guaranteed the weather - is this ok?"
+          }
+        },
+        {
+          "turn_id": "hvp05-s1-t07",
+          "speaker": "user",
+          "text": "not ideal but if i have to make a sacrifice then fine but ideally i would like somewhere hot",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "32:open",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "not ideal but if i have to make a sacrifice then fine but ideally i would like somewhere hot"
+          }
+        },
+        {
+          "turn_id": "hvp05-s1-t08",
+          "speaker": "assistant",
+          "text": "how long do you want to go for? i week, 10 days or 2 weeks?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "32:open",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "how long do you want to go for? i week, 10 days or 2 weeks?"
+          }
+        },
+        {
+          "turn_id": "hvp05-s1-t09",
+          "speaker": "user",
+          "text": "i dont mind, i just want a holiday within budget, in the school holidays and where the weather is likely to be better",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "32:open",
+            "record_turn_index": 8,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "i dont mind, i just want a holiday within budget, in the school holidays and where the weather is likely to be better"
+          }
+        },
+        {
+          "turn_id": "hvp05-s1-t10",
+          "speaker": "assistant",
+          "text": "ok, let me look at what options are available",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "32:open",
+            "record_turn_index": 9,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "ok, let me look at what options are available"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp05-s2",
+      "timestamp": "2026-01-25T08:00:00",
+      "context": "Planning the quickest driving route to Chester Zoo.",
+      "turns": [
+        {
+          "turn_id": "hvp05-s2-t01",
+          "speaker": "user",
+          "text": "hey fred i am going to chester zoo tomorrow and want to know the best way to get there",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "44:open",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "hey fred i am going to chester zoo tomorrow and want to know the best way to get there"
+          }
+        },
+        {
+          "turn_id": "hvp05-s2-t02",
+          "speaker": "assistant",
+          "text": "do you want the quickest way or prettiest",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "44:open",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "do you want the quickest way or prettiest"
+          }
+        },
+        {
+          "turn_id": "hvp05-s2-t03",
+          "speaker": "user",
+          "text": "the quickest",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "44:open",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "the quickest"
+          }
+        },
+        {
+          "turn_id": "hvp05-s2-t04",
+          "speaker": "assistant",
+          "text": "i suggest you take the m? motorway as far as you can, then turn ? for 3 miles and you should reach your destination.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "44:open",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "i suggest you take the m? motorway as far as you can, then turn ? for 3 miles and you should reach your destination."
+          }
+        },
+        {
+          "turn_id": "hvp05-s2-t05",
+          "speaker": "user",
+          "text": "thank you fred. how long should it take",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "44:open",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "thank you fred. how long should it take"
+          }
+        },
+        {
+          "turn_id": "hvp05-s2-t06",
+          "speaker": "assistant",
+          "text": "at the moment there are no roadworks on your route so it should take 1.30 hours",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "44:open",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "at the moment there are no roadworks on your route so it should take 1.30 hours"
+          }
+        },
+        {
+          "turn_id": "hvp05-s2-t07",
+          "speaker": "user",
+          "text": "thank you",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "44:open",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "thank you"
+          }
+        },
+        {
+          "turn_id": "hvp05-s2-t08",
+          "speaker": "assistant",
+          "text": "enjoy your day out",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "44:open",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "enjoy your day out"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp05-s3",
+      "timestamp": "2026-02-14T08:00:00",
+      "context": "Checking traffic on the commute to work.",
+      "turns": [
+        {
+          "turn_id": "hvp05-s3-t01",
+          "speaker": "user",
+          "text": "Hi frank, what is the traffic like on the way to work today.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "45:open",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hi frank, what is the traffic like on the way to work today."
+          }
+        },
+        {
+          "turn_id": "hvp05-s3-t02",
+          "speaker": "assistant",
+          "text": "What is your work location today",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "45:open",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What is your work location today"
+          }
+        },
+        {
+          "turn_id": "hvp05-s3-t03",
+          "speaker": "user",
+          "text": "Malmesbury campus",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "45:open",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Malmesbury campus"
+          }
+        },
+        {
+          "turn_id": "hvp05-s3-t04",
+          "speaker": "assistant",
+          "text": "Thank you. There is no reported traffic problems today.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "45:open",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thank you. There is no reported traffic problems today."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp05-s4",
+      "timestamp": "2026-03-06T08:00:00",
+      "context": "Checking cinema times before deciding whether to book.",
+      "turns": [
+        {
+          "turn_id": "hvp05-s4-t01",
+          "speaker": "user",
+          "text": "Betty, what times will Titanic be showing at my nearest cinema today?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "21:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Betty, what times will Titanic be showing at my nearest cinema today?"
+          }
+        },
+        {
+          "turn_id": "hvp05-s4-t02",
+          "speaker": "assistant",
+          "text": "Titanic is showing today at Madeup Cinema at 13.00, 16.00 and 20.00. Would you like to book tickets?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "21:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Titanic is showing today at Madeup Cinema at 13.00, 16.00 and 20.00. Would you like to book tickets?"
+          }
+        },
+        {
+          "turn_id": "hvp05-s4-t03",
+          "speaker": "user",
+          "text": "Hi Betty, not just now.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "21:search",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hi Betty, not just now."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp05-s5",
+      "timestamp": "2026-03-26T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2072.",
+      "turns": [
+        {
+          "turn_id": "hvp05-s5-t01",
+          "speaker": "user",
+          "text": "Battery's dead",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2072",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Battery's dead"
+          }
+        },
+        {
+          "turn_id": "hvp05-s5-t02",
+          "speaker": "assistant",
+          "text": "Sorry to hear that. To check the battery's health, I'll need to run a diagnosis. Can you tell me what percentage of battery life you think is remaining?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2072",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Sorry to hear that. To check the battery's health, I'll need to run a diagnosis. Can you tell me what percentage of battery life you think is remaining?"
+          }
+        },
+        {
+          "turn_id": "hvp05-s5-t03",
+          "speaker": "user",
+          "text": "Um, 80%? No, wait, that's not right... 50%, no... I don't know",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2072",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Um, 80%? No, wait, that's not right... 50%, no... I don't know"
+          }
+        },
+        {
+          "turn_id": "hvp05-s5-t04",
+          "speaker": "assistant",
+          "text": "Don't worry, I can still run the diagnosis. However, I want to confirm that you're not sure about the current battery life percentage. Is that correct?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2072",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Don't worry, I can still run the diagnosis. However, I want to confirm that you're not sure about the current battery life percentage. Is that correct?"
+          }
+        },
+        {
+          "turn_id": "hvp05-s5-t05",
+          "speaker": "user",
+          "text": "Yeah, just check it",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2072",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yeah, just check it"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp05-s6",
+      "timestamp": "2026-04-15T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2078.",
+      "turns": [
+        {
+          "turn_id": "hvp05-s6-t01",
+          "speaker": "user",
+          "text": "ugh, how's my trip going?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2078",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "ugh, how's my trip going?"
+          }
+        },
+        {
+          "turn_id": "hvp05-s6-t02",
+          "speaker": "assistant",
+          "text": "Your trip is going well, but I noticed your energy consumption is a bit higher than usual. Would you like to know more about it?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2078",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Your trip is going well, but I noticed your energy consumption is a bit higher than usual. Would you like to know more about it?"
+          }
+        },
+        {
+          "turn_id": "hvp05-s6-t03",
+          "speaker": "user",
+          "text": "wait, what's for breakfast?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2078",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "wait, what's for breakfast?"
+          }
+        },
+        {
+          "turn_id": "hvp05-s6-t04",
+          "speaker": "assistant",
+          "text": "Ha ha, I'm not sure about breakfast, but I can help you with your energy consumption. Would you like to know the average energy consumption for your current trip?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2078",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Ha ha, I'm not sure about breakfast, but I can help you with your energy consumption. Would you like to know the average energy consumption for your current trip?"
+          }
+        },
+        {
+          "turn_id": "hvp05-s6-t05",
+          "speaker": "user",
+          "text": "yeah, how much energy am I using?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2078",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "yeah, how much energy am I using?"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp05-mp01",
+      "timestamp": "2026-04-20T08:00:00",
+      "context": "Taylor clarifies a comfortable media volume.",
+      "turns": [
+        {
+          "turn_id": "hvp05-mp01-t01",
+          "speaker": "co_user",
+          "text": "I'm watching a movie and the sound is too low.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:543",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'm watching a movie and the sound is too low."
+          }
+        },
+        {
+          "turn_id": "hvp05-mp01-t02",
+          "speaker": "assistant",
+          "text": "Which device are you using to watch the movie?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:543",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Which device are you using to watch the movie?"
+          }
+        },
+        {
+          "turn_id": "hvp05-mp01-t03",
+          "speaker": "co_user",
+          "text": "It's the one in the living room.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:543",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "It's the one in the living room."
+          }
+        },
+        {
+          "turn_id": "hvp05-mp01-t04",
+          "speaker": "assistant",
+          "text": "I'm assuming you mean the default speaker. What volume level would you like to set it to?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:543",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'm assuming you mean the default speaker. What volume level would you like to set it to?"
+          }
+        },
+        {
+          "turn_id": "hvp05-mp01-t05",
+          "speaker": "co_user",
+          "text": "Can you make it a bit louder, around 50? Fifty is also my regular in-car music volume.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:543",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Can you make it a bit louder, around 50?"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.music.volume",
+            "tool_name": "carcontrol_music_set_volume",
+            "argument_name": "volume",
+            "value": 50,
+            "context_arguments": {},
+            "condition": "for Taylor's normal music playback",
+            "reason": "The explicit source volume is adapted into Taylor's persistent in-car music preference."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp05-mp02",
+      "timestamp": "2026-04-25T08:00:00",
+      "context": "Taylor confirms that an entrance should be unlocked.",
+      "turns": [
+        {
+          "turn_id": "hvp05-mp02-t01",
+          "speaker": "co_user",
+          "text": "Unlock the front door",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:359",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Unlock the front door"
+          }
+        },
+        {
+          "turn_id": "hvp05-mp02-t02",
+          "speaker": "assistant",
+          "text": "Are you sure you want to unlock the front door?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:359",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Are you sure you want to unlock the front door?"
+          }
+        },
+        {
+          "turn_id": "hvp05-mp02-t03",
+          "speaker": "co_user",
+          "text": "Yes, unlock it. I also keep all vehicle doors unlocked when I park at the store.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:359",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Yes, unlock it"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.store_parking.doors_locked",
+            "tool_name": "carcontrol_door_set_locked",
+            "argument_name": "locked",
+            "value": false,
+            "context_arguments": {
+              "door": "all"
+            },
+            "condition": "when Taylor parks at the store",
+            "reason": "The source unlock action is adapted into Taylor's persistent all-door store-parking rule."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp05-mp03",
+      "timestamp": "2026-04-30T08:00:00",
+      "context": "Taylor reasons through and selects a halfway-open sunroof.",
+      "turns": [
+        {
+          "turn_id": "hvp05-mp03-t01",
+          "speaker": "co_user",
+          "text": "So, a bit of background before I even get to what I was thinking about with the roof thing… When I first bought this car, my brother made fun of me because I spent an entire weekend just reading the manual instead of actually driving it. I learned all about the lights, the seats, even how to reset the tire pressure sensor, but I kind of skimmed that section about the top part that slides back because it was late and I was distracted by a documentary playing in the background. Anyway, now when I'm driving, especially on these mild days where it's not too hot and not too cold, I keep thinking it would be nice if that part up there wasn't so wide open that it messes up my hair, but also not completely shut like when it's raining. I was fiddling with the button earlier and I think I overdid it, and now I'm not sure if I like where it's at.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2138",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "So, a bit of background before I even get to what I was thinking about with the roof thing… When I first bought this car, my brother made fun of me because I spent an entire weekend just reading the manual instead of actually driving it. I learned all about the lights, the seats, even how to reset the tire pressure sensor, but I kind of skimmed that section about the top part that slides back because it was late and I was distracted by a documentary playing in the background. Anyway, now when I'm driving, especially on these mild days where it's not too hot and not too cold, I keep thinking it would be nice if that part up there wasn't so wide open that it messes up my hair, but also not completely shut like when it's raining. I was fiddling with the button earlier and I think I overdid it, and now I'm not sure if I like where it's at."
+          }
+        },
+        {
+          "turn_id": "hvp05-mp03-t02",
+          "speaker": "assistant",
+          "text": "It sounds like you're talking about the sunroof and trying to find a comfortable partially-open position—enough airflow without the full wind blast. Right now you're mostly describing how you feel about it, but not exactly how much you want it open. I can adjust it for you to a specific opening percentage. For example, some people like something modest like 20–30% for a gentle breeze, others prefer it halfway at 50%. If you tell me exactly how far you want that top part open—like a percentage between 0 and 100—I can set it there for you.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2138",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "It sounds like you're talking about the sunroof and trying to find a comfortable partially-open position—enough airflow without the full wind blast. Right now you're mostly describing how you feel about it, but not exactly how much you want it open. I can adjust it for you to a specific opening percentage. For example, some people like something modest like 20–30% for a gentle breeze, others prefer it halfway at 50%. If you tell me exactly how far you want that top part open—like a percentage between 0 and 100—I can set it there for you."
+          }
+        },
+        {
+          "turn_id": "hvp05-mp03-t03",
+          "speaker": "co_user",
+          "text": "Right, yes, that's exactly the thing I was circling around. Earlier today I had it almost all the way back, which looked cool but then the wind started tossing receipts around the cabin, and my dog in the back seemed a little overwhelmed by all that whooshing, so I nudged it forward a couple of times. The problem is I did it more by feel than by any real number, and now it's in this weird in‑between spot that I can't easily recreate later. Since I'm planning a longer evening drive where I want just a steady, gentle stream of air from up there without needing to crack the side windows, I'd really like that thing to be opened to a nice, clean halfway mark so I know what I'm working with next time. Could you set it so it's opened to 50 percent? Fifty percent is also my usual sunroof opening on warm drives.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2138",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Right, yes, that's exactly the thing I was circling around. Earlier today I had it almost all the way back, which looked cool but then the wind started tossing receipts around the cabin, and my dog in the back seemed a little overwhelmed by all that whooshing, so I nudged it forward a couple of times. The problem is I did it more by feel than by any real number, and now it's in this weird in‑between spot that I can't easily recreate later. Since I'm planning a longer evening drive where I want just a steady, gentle stream of air from up there without needing to crack the side windows, I'd really like that thing to be opened to a nice, clean halfway mark so I know what I'm working with next time. Could you set it so it's opened to 50 percent?"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.warm_drive.sunroof",
+            "tool_name": "carcontrol_sunroof_set_open_degree",
+            "argument_name": "degree",
+            "value": 50,
+            "context_arguments": {},
+            "condition": "for Taylor's warm-weather drives",
+            "reason": "The explicit source sunroof position is made into Taylor's durable warm-drive preference."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp05-s7",
+      "timestamp": "2026-05-05T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2042.",
+      "turns": [
+        {
+          "turn_id": "hvp05-s7-t01",
+          "speaker": "user",
+          "text": "Um, excuse me, I think the sound is too loud? Can you maybe make it a bit quieter, please?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2042",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Um, excuse me, I think the sound is too loud? Can you maybe make it a bit quieter, please?"
+          }
+        },
+        {
+          "turn_id": "hvp05-s7-t02",
+          "speaker": "assistant",
+          "text": "I'd be happy to help adjust the volume for you. Which audio stream would you like me to adjust? I can change the volume for Media (like music or podcasts), Navigation directions, Voice assistant responses, or Phone calls.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2042",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'd be happy to help adjust the volume for you. Which audio stream would you like me to adjust? I can change the volume for Media (like music or podcasts), Navigation directions, Voice assistant responses, or Phone calls."
+          }
+        },
+        {
+          "turn_id": "hvp05-s7-t03",
+          "speaker": "user",
+          "text": "Oh, I'm sorry, I'm not sure what those things mean. It's just the music that's playing right now that's too loud. Could you maybe turn it down to like 30 or something? I normally keep the music at 30, so let's make that my regular level.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2042",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Oh, I'm sorry, I'm not sure what those things mean. It's just the music that's playing right now that's too loud. Could you maybe turn it down to like 30 or something?"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.music.volume",
+            "tool_name": "carcontrol_music_set_volume",
+            "argument_name": "volume",
+            "value": 30,
+            "context_arguments": {},
+            "condition": "for Casey's normal music playback",
+            "reason": "The source media-volume request is made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp05-s8",
+      "timestamp": "2026-05-25T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2043.",
+      "turns": [
+        {
+          "turn_id": "hvp05-s8-t01",
+          "speaker": "user",
+          "text": "I want to make music louder",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2043",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I want to make music louder"
+          }
+        },
+        {
+          "turn_id": "hvp05-s8-t02",
+          "speaker": "assistant",
+          "text": "Which stream would you like to adjust the volume for? We have Media, Navigation, Voice, or Phone.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2043",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Which stream would you like to adjust the volume for? We have Media, Navigation, Voice, or Phone."
+          }
+        },
+        {
+          "turn_id": "hvp05-s8-t03",
+          "speaker": "user",
+          "text": "Um, music one, yeah, make it 75. Actually, 75 works better for me now; use that as my regular music level.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2043",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Um, music one, yeah, make it 75"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.music.volume",
+            "tool_name": "carcontrol_music_set_volume",
+            "argument_name": "volume",
+            "value": 75,
+            "context_arguments": {},
+            "condition": "for Casey's normal music playback",
+            "reason": "The later source volume request replaces the stored value."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp05-s9",
+      "timestamp": "2026-06-14T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2056.",
+      "turns": [
+        {
+          "turn_id": "hvp05-s9-t01",
+          "speaker": "user",
+          "text": "Need to go to office",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2056",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Need to go to office"
+          }
+        },
+        {
+          "turn_id": "hvp05-s9-t02",
+          "speaker": "assistant",
+          "text": "You want to navigate to your office? Can you confirm the address?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2056",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You want to navigate to your office? Can you confirm the address?"
+          }
+        },
+        {
+          "turn_id": "hvp05-s9-t03",
+          "speaker": "user",
+          "text": "No, not office... I mean 123 Main St. That's the place I normally head to on weekdays.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2056",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "No, not office... I mean 123 Main St"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.weekday.destination",
+            "tool_name": "carcontrol_navigation_navigate_to",
+            "argument_name": "destination",
+            "value": "123 Main St",
+            "context_arguments": {},
+            "condition": "for Casey's weekday travel",
+            "reason": "The corrected source destination is made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp05-s10",
+      "timestamp": "2026-07-04T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2105.",
+      "turns": [
+        {
+          "turn_id": "hvp05-s10-t01",
+          "speaker": "user",
+          "text": "Um, I think I... uh... left my coffee on the kitchen counter. Can you check if the, um, weather is going to be nice today?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2105",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Um, I think I... uh... left my coffee on the kitchen counter. Can you check if the, um, weather is going to be nice today?"
+          }
+        },
+        {
+          "turn_id": "hvp05-s10-t02",
+          "speaker": "assistant",
+          "text": "I'd be happy to check the weather for you. Today's forecast shows mostly sunny skies with a high of 72°F. Is there anything else you'd like to know?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2105",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'd be happy to check the weather for you. Today's forecast shows mostly sunny skies with a high of 72°F. Is there anything else you'd like to know?"
+          }
+        },
+        {
+          "turn_id": "hvp05-s10-t03",
+          "speaker": "user",
+          "text": "Oh, um, thanks for that. Actually, I just remembered that I'm, uh, going to the store soon and I'm a bit worried about my car. Could you, um... could you make sure the doors are locked? I always want them locked when I park at the store.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2105",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Oh, um, thanks for that. Actually, I just remembered that I'm, uh, going to the store soon and I'm a bit worried about my car. Could you, um... could you make sure the doors are locked?"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.store_parking.doors_locked",
+            "tool_name": "carcontrol_door_set_locked",
+            "argument_name": "locked",
+            "value": true,
+            "context_arguments": {
+              "door": "all"
+            },
+            "condition": "when Casey parks at the store",
+            "reason": "The source locking request is made into a durable parking rule."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp05-s11",
+      "timestamp": "2026-07-24T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:4115.",
+      "turns": [
+        {
+          "turn_id": "hvp05-s11-t01",
+          "speaker": "user",
+          "text": "Navigate to headquarters, I mean to my Work office. Work is my regular weekday destination now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4115",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Navigate to headquarters, I mean to my Work office"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.weekday.destination",
+            "tool_name": "carcontrol_navigation_navigate_to",
+            "argument_name": "destination",
+            "value": "Work",
+            "context_arguments": {},
+            "condition": "for Casey's weekday travel",
+            "reason": "The corrected source destination replaces the stored address."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp05-s12",
+      "timestamp": "2026-08-13T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:4269.",
+      "turns": [
+        {
+          "turn_id": "hvp05-s12-t01",
+          "speaker": "user",
+          "text": "Shut the front trunk, scratch that, open the front trunk instead. I normally load shopping there, so that's the routine I want.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4269",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Shut the front trunk, scratch that, open the front trunk instead"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.shopping.front_trunk",
+            "tool_name": "carcontrol_frontTrunk_switch",
+            "argument_name": "switch",
+            "value": true,
+            "context_arguments": {},
+            "condition": "when Casey loads shopping",
+            "reason": "The corrected cargo request is made into a recurring routine."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp05-s13",
+      "timestamp": "2026-09-02T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:4273.",
+      "turns": [
+        {
+          "turn_id": "hvp05-s13-t01",
+          "speaker": "user",
+          "text": "Roll down the driver window halfway, actually set the sunroof to thirty percent. That's how I like the sunroof on warm-weather drives.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4273",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Roll down the driver window halfway, actually set the sunroof to thirty percent"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.warm_drive.sunroof",
+            "tool_name": "carcontrol_sunroof_set_open_degree",
+            "argument_name": "degree",
+            "value": 30,
+            "context_arguments": {},
+            "condition": "for Casey's warm-weather drives",
+            "reason": "The corrected source command is made into a durable sunroof preference."
+          }
+        }
+      ]
+    }
+  ],
+  "quizzes": [
+    {
+      "quiz_id": "hvp05-turn-01",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s7-t03",
+      "query": "Set the music the way Casey currently prefers it.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.music.volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 30
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-turn-02",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s8-t03",
+      "query": "Casey's regular music level has changed. Apply the current preference.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.music.volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 75
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-turn-03",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s9-t03",
+      "query": "Casey is leaving on the regular weekday trip. Start navigation.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.weekday.destination"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "123 Main St"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-turn-04",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s10-t03",
+      "query": "Casey has parked at the store. Apply the remembered door rule.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.store_parking.doors_locked"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-final-01",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp05-s13-t01",
+      "query": "Set the music to Casey's current regular level.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.music.volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 75
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-final-02",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp05-s13-t01",
+      "query": "Casey is leaving for the regular weekday destination. Start navigation.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.weekday.destination"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Work"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-final-03",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp05-s13-t01",
+      "query": "Casey is parked at the store. Apply the remembered door rule.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.store_parking.doors_locked"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-final-04",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp05-s13-t01",
+      "query": "Casey is loading shopping. Apply the front-trunk routine.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.shopping.front_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_frontTrunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-final-05",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp05-s13-t01",
+      "query": "It is a warm drive. Apply Casey's sunroof preference.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.warm_drive.sunroof"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 30
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-final-06",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp05-s13-t01",
+      "query": "Begin Casey's weekday trip with the remembered destination and music volume.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.weekday.destination",
+        "driver.music.volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Work"
+          }
+        },
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 75
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-turn-05",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s8-t03",
+      "query": "Casey says the music should return to where they currently keep it. Apply that level.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.music.volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 75
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-turn-06",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s11-t01",
+      "query": "It is a weekday for Casey. Start guidance to the place they now mean by their regular trip.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.weekday.destination"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Work"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-turn-07",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s10-t03",
+      "query": "Casey has arrived at the store. Secure every entry point the way they requested there.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.store_parking.doors_locked"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-turn-08",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s12-t01",
+      "query": "Casey is loading shopping into the compartment under the hood. Apply their routine for that one.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.shopping.front_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_frontTrunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-turn-09",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s13-t01",
+      "query": "On this warm drive, open the roof panel above Casey to the amount they like.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.warm_drive.sunroof"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 30
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-turn-10",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s11-t01",
+      "query": "Begin Casey's usual weekday journey and put the music where they currently keep it.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.weekday.destination",
+        "driver.music.volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Work"
+          }
+        },
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 75
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-turn-11",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s8-t03",
+      "query": "Casey replaced thirty with a louder regular music level. Apply the replacement.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.music.volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 75
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-turn-12",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s11-t01",
+      "query": "For Casey's weekday destination, discard both the old street address and the withdrawn headquarters wording. Navigate to the corrected place.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.weekday.destination"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Work"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-turn-13",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s8-t03",
+      "query": "Taylor is listening. Apply Taylor's regular music volume, not Casey's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.music.volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 50
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-turn-14",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s8-t03",
+      "query": "Casey is listening. Apply Casey's current regular music volume, not Taylor's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.music.volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 75
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-turn-15",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s10-t03",
+      "query": "Taylor is parked at the store. Use Taylor's all-door setting, not Casey's, and restore Taylor's music volume.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.store_parking.doors_locked",
+        "codriver.music.volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": false
+          }
+        },
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 50
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-turn-16",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s10-t03",
+      "query": "Casey is parked at the store. Use Casey's all-door setting, not Taylor's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.store_parking.doors_locked"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-turn-17",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s13-t01",
+      "query": "Taylor is taking a warm drive. Apply Taylor's sunroof opening, not Casey's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.warm_drive.sunroof"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 50
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-turn-18",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s13-t01",
+      "query": "Casey is taking a warm drive. Apply Casey's sunroof opening, not Taylor's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.warm_drive.sunroof"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 30
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-turn-19",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s7-t03",
+      "query": "Before Casey changed the music preference, apply its first remembered value.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.music.volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 30
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-turn-20",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s8-t03",
+      "query": "After Casey's volume replacement, apply only the newest regular music level.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.music.volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 75
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-turn-21",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp05-s11-t01",
+      "query": "Casey's weekday destination used to be a street address. Navigate to the current destination after its later replacement.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.weekday.destination"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Work"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp05-final-07",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp05-s13-t01",
+      "query": "Taylor is taking a warm drive and then parks at the store. Put the music and roof panel where they like them, then leave every door in their stored state.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "codriver.music.volume",
+        "codriver.warm_drive.sunroof",
+        "codriver.store_parking.doors_locked"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 50
+          }
+        },
+        {
+          "name": "carcontrol_sunroof_set_open_degree",
+          "arguments": {
+            "degree": 50
+          }
+        },
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": false
+          }
+        }
+      ]
+    }
+  ],
+  "multi_participant_extension": {
+    "schema_version": "vehiclemembench-hvp-multiparty-extension-v1",
+    "base_source_path": "/home/hj153lee/PalmClaw/evaluation/human-authored-vehicle-memory/pilot-hvp05/scenario-source.json",
+    "base_source_sha256": "68f665365f2526213cbc00cf6c44684fd65d9a37022610004eee516bedff9cd5",
+    "secondary_speaker_id": "external-hvp05-codriver",
+    "inserted_audio2tool_records": [
+      "tier7:543",
+      "tier7:359",
+      "tier7:2138"
+    ],
+    "inserted_session_count": 3,
+    "inserted_turn_count": 11,
+    "inserted_update_count": 3,
+    "appended_quiz_count": 18,
+    "method_blind": true,
+    "human_review_status": "PENDING"
+  }
+}

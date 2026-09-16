@@ -1,0 +1,1730 @@
+{
+  "schema_version": "vehiclemembench-human-authored-scenario-source-v1",
+  "scenario_id": "HVP02",
+  "scenario_index": 902,
+  "split": "pilot_excluded",
+  "authorship": {
+    "kind": "external_adapted_model_assembled_pilot",
+    "eligible_for_human_test": false,
+    "note": "Versioned multi-participant external adaptation. Dialogue records are source-traced; participant normalization, persistence edits, memory labels, and quizzes remain model-assembled pending human review."
+  },
+  "external_sources": [
+    {
+      "dataset": "Envisioned Voice Assistant Dialogues",
+      "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues",
+      "license": "CC BY 4.0",
+      "origin": "human_authored",
+      "records": [
+        "8:music",
+        "28:conversational",
+        "15:weather"
+      ],
+      "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186"
+    },
+    {
+      "dataset": "Audio2Tool",
+      "url": "https://huggingface.co/datasets/RVtech/Audio2Tool",
+      "license": "CC BY-NC 4.0",
+      "origin": "synthetic",
+      "records": [
+        "tier7:17",
+        "tier7:18",
+        "tier7:21",
+        "tier6:1081",
+        "tier6:3961",
+        "tier6:3973",
+        "tier6:4011",
+        "tier4:4256",
+        "tier6:4002",
+        "tier6:4135",
+        "tier6:1083",
+        "tier6:1089",
+        "tier6:1091",
+        "tier7:548",
+        "tier7:332",
+        "tier7:2067"
+      ],
+      "local_file_sha256": {
+        "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc",
+        "tier6": "fa5c0825d99c4f68e226480261befe9ce7aa33c9dfbb7ff1fe1fc82493bcb991",
+        "tier4": "d430e801c9bba5db03b3d044ac626ebec35de1b8a4eb2e2beb4cdec0013e9271",
+        "tier5": "d38e588dccb99ed3291c9467a29adcd71e4f1c4eb62c118fd482a8e9616a1850"
+      }
+    }
+  ],
+  "speakers": [
+    {
+      "speaker_id": "external-hvp02-driver",
+      "short_id": "user",
+      "speaker_name": "Robin (normalized user role)",
+      "role": "driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp02-codriver",
+      "short_id": "co_user",
+      "speaker_name": "Avery (normalized user role)",
+      "role": "co-driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp02-assistant",
+      "short_id": "assistant",
+      "speaker_name": "Voice assistant (source names retained in text)",
+      "role": "vehicle voice assistant",
+      "style": "retains the wording of each external source record"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "hvp02-s1",
+      "timestamp": "2026-01-05T08:00:00",
+      "context": "Choosing and playing music with a voice assistant.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s1-t01",
+          "speaker": "user",
+          "text": "Hey Nate, what should I cook tonight?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "8:music",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hey Nate, what should I cook tonight?"
+          }
+        },
+        {
+          "turn_id": "hvp02-s1-t02",
+          "speaker": "assistant",
+          "text": "For how many people are you cooking?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "8:music",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "For how many people are you cooking?"
+          }
+        },
+        {
+          "turn_id": "hvp02-s1-t03",
+          "speaker": "user",
+          "text": "Just for myself.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "8:music",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Just for myself."
+          }
+        },
+        {
+          "turn_id": "hvp02-s1-t04",
+          "speaker": "assistant",
+          "text": "What do you want eat?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "8:music",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What do you want eat?"
+          }
+        },
+        {
+          "turn_id": "hvp02-s1-t05",
+          "speaker": "user",
+          "text": "I love Italian cuisine.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "8:music",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I love Italian cuisine."
+          }
+        },
+        {
+          "turn_id": "hvp02-s1-t06",
+          "speaker": "assistant",
+          "text": "Would you like light or rich dish?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "8:music",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Would you like light or rich dish?"
+          }
+        },
+        {
+          "turn_id": "hvp02-s1-t07",
+          "speaker": "user",
+          "text": "I lean more towards rich dish.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "8:music",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I lean more towards rich dish."
+          }
+        },
+        {
+          "turn_id": "hvp02-s1-t08",
+          "speaker": "assistant",
+          "text": "I recommend spaghetti ala carbonara, would you like me to search for recipe?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "8:music",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I recommend spaghetti ala carbonara, would you like me to search for recipe?"
+          }
+        },
+        {
+          "turn_id": "hvp02-s1-t09",
+          "speaker": "user",
+          "text": "No, thank you, I would like to listen to a music whilst cooking though.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "8:music",
+            "record_turn_index": 8,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "No, thank you, I would like to listen to a music whilst cooking though."
+          }
+        },
+        {
+          "turn_id": "hvp02-s1-t10",
+          "speaker": "assistant",
+          "text": "I recommend Italian dinner music, may I recommend classical music?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "8:music",
+            "record_turn_index": 9,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I recommend Italian dinner music, may I recommend classical music?"
+          }
+        },
+        {
+          "turn_id": "hvp02-s1-t11",
+          "speaker": "user",
+          "text": "Yes, please.",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "8:music",
+            "record_turn_index": 10,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes, please."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-s2",
+      "timestamp": "2026-01-25T08:00:00",
+      "context": "Having a general voice-assistant conversation.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s2-t01",
+          "speaker": "user",
+          "text": "I can't get to sleep. Any suggestions?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "28:conversational",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can't get to sleep. Any suggestions?"
+          }
+        },
+        {
+          "turn_id": "hvp02-s2-t02",
+          "speaker": "assistant",
+          "text": "Have you tried counting sheep",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "28:conversational",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Have you tried counting sheep"
+          }
+        },
+        {
+          "turn_id": "hvp02-s2-t03",
+          "speaker": "user",
+          "text": "Baa, that does not work. Any others?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "28:conversational",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Baa, that does not work. Any others?"
+          }
+        },
+        {
+          "turn_id": "hvp02-s2-t04",
+          "speaker": "assistant",
+          "text": "Have you had a mug of drinking chocolate?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "28:conversational",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Have you had a mug of drinking chocolate?"
+          }
+        },
+        {
+          "turn_id": "hvp02-s2-t05",
+          "speaker": "user",
+          "text": "Done that",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "28:conversational",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Done that"
+          }
+        },
+        {
+          "turn_id": "hvp02-s2-t06",
+          "speaker": "assistant",
+          "text": "Have you taken a warm bath?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "28:conversational",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Have you taken a warm bath?"
+          }
+        },
+        {
+          "turn_id": "hvp02-s2-t07",
+          "speaker": "user",
+          "text": "Done that",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "28:conversational",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Done that"
+          }
+        },
+        {
+          "turn_id": "hvp02-s2-t08",
+          "speaker": "assistant",
+          "text": "How about I read you the Government's EU Withdrawal Agreement",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "28:conversational",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "How about I read you the Government's EU Withdrawal Agreement"
+          }
+        },
+        {
+          "turn_id": "hvp02-s2-t09",
+          "speaker": "user",
+          "text": "That will do it",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "28:conversational",
+            "record_turn_index": 8,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "That will do it"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-s3",
+      "timestamp": "2026-02-14T08:00:00",
+      "context": "Checking the weather before travel.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s3-t01",
+          "speaker": "user",
+          "text": "Hey google, I'm going to Italy this weekend, what's the weather like in Tuscany?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "15:weather",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hey google, I'm going to Italy this weekend, what's the weather like in Tuscany?"
+          }
+        },
+        {
+          "turn_id": "hvp02-s3-t02",
+          "speaker": "assistant",
+          "text": "Hi Rami, good morning, the forecast in Tuscany this weekend is clear and sunny, heights of 25 and lows of 16",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "15:weather",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hi Rami, good morning, the forecast in Tuscany this weekend is clear and sunny, heights of 25 and lows of 16"
+          }
+        },
+        {
+          "turn_id": "hvp02-s3-t03",
+          "speaker": "user",
+          "text": "Fantastic, what shall I pack for a 3 day trip?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "15:weather",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Fantastic, what shall I pack for a 3 day trip?"
+          }
+        },
+        {
+          "turn_id": "hvp02-s3-t04",
+          "speaker": "assistant",
+          "text": "Pack a pair of shorts, 3 t-shirs, swimming trunks, 3 pairs of underwear and socks - and perhaps take a smart outfit in case you go out to dinner",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "15:weather",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Pack a pair of shorts, 3 t-shirs, swimming trunks, 3 pairs of underwear and socks - and perhaps take a smart outfit in case you go out to dinner"
+          }
+        },
+        {
+          "turn_id": "hvp02-s3-t05",
+          "speaker": "user",
+          "text": "Thanks Google!",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "15:weather",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thanks Google!"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-s4",
+      "timestamp": "2026-03-06T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:17.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s4-t01",
+          "speaker": "user",
+          "text": "I don't want the living room lights to be off, but I'm not sure about the others.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:17",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I don't want the living room lights to be off, but I'm not sure about the others."
+          }
+        },
+        {
+          "turn_id": "hvp02-s4-t02",
+          "speaker": "assistant",
+          "text": "Which lights would you like to turn on? We have several options.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:17",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Which lights would you like to turn on? We have several options."
+          }
+        },
+        {
+          "turn_id": "hvp02-s4-t03",
+          "speaker": "user",
+          "text": "Not the ones in the bedroom, I'm thinking of the main room.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:17",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Not the ones in the bedroom, I'm thinking of the main room."
+          }
+        },
+        {
+          "turn_id": "hvp02-s4-t04",
+          "speaker": "assistant",
+          "text": "Just to confirm, you'd like the main room lights to be on, correct? Which specific light are you referring to?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:17",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Just to confirm, you'd like the main room lights to be on, correct? Which specific light are you referring to?"
+          }
+        },
+        {
+          "turn_id": "hvp02-s4-t05",
+          "speaker": "user",
+          "text": "Yes, the one we usually use, you know, the first one.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:17",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes, the one we usually use, you know, the first one."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-s5",
+      "timestamp": "2026-03-26T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:18.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s5-t01",
+          "speaker": "user",
+          "text": "You know, I was thinking about my living room and how it's always so dark in the evenings. I remember when I was a kid, my parents would always turn on the lights when it got dark. It was so cozy.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:18",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You know, I was thinking about my living room and how it's always so dark in the evenings. I remember when I was a kid, my parents would always turn on the lights when it got dark. It was so cozy."
+          }
+        },
+        {
+          "turn_id": "hvp02-s5-t02",
+          "speaker": "assistant",
+          "text": "I'd be happy to help you with your lighting. Which light would you like to control? You have 'light_1', 'light_2', and 'light_3' available.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:18",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'd be happy to help you with your lighting. Which light would you like to control? You have 'light_1', 'light_2', and 'light_3' available."
+          }
+        },
+        {
+          "turn_id": "hvp02-s5-t03",
+          "speaker": "user",
+          "text": "Oh, I think I'd like to turn on the one in the living room. That's usually 'light_1', right?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:18",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Oh, I think I'd like to turn on the one in the living room. That's usually 'light_1', right?"
+          }
+        },
+        {
+          "turn_id": "hvp02-s5-t04",
+          "speaker": "assistant",
+          "text": "That's correct! 'light_1' is the living room light. Would you like to turn it on or off?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:18",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "That's correct! 'light_1' is the living room light. Would you like to turn it on or off?"
+          }
+        },
+        {
+          "turn_id": "hvp02-s5-t05",
+          "speaker": "user",
+          "text": "On, please. I hate walking into a dark room.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:18",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "On, please. I hate walking into a dark room."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-s6",
+      "timestamp": "2026-04-15T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:21.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s6-t01",
+          "speaker": "user",
+          "text": "Can you please turn on the light? I'm not sure if it's working.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:21",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Can you please turn on the light? I'm not sure if it's working."
+          }
+        },
+        {
+          "turn_id": "hvp02-s6-t02",
+          "speaker": "assistant",
+          "text": "I'd be happy to help you turn on the light. I'll use the default light in your system, which is light_1. Would you like me to proceed with turning it on?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:21",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'd be happy to help you turn on the light. I'll use the default light in your system, which is light_1. Would you like me to proceed with turning it on?"
+          }
+        },
+        {
+          "turn_id": "hvp02-s6-t03",
+          "speaker": "user",
+          "text": "Yes, but are you absolutely certain that it will work? I need verification that it's going to turn on correctly.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:21",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes, but are you absolutely certain that it will work? I need verification that it's going to turn on correctly."
+          }
+        },
+        {
+          "turn_id": "hvp02-s6-t04",
+          "speaker": "assistant",
+          "text": "I understand your concern. Yes, I'm confident the command will be sent properly to turn on light_1. The system is functioning normally, and I'll receive confirmation once the command is processed. Would you like me to turn it on now?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:21",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I understand your concern. Yes, I'm confident the command will be sent properly to turn on light_1. The system is functioning normally, and I'll receive confirmation once the command is processed. Would you like me to turn it on now?"
+          }
+        },
+        {
+          "turn_id": "hvp02-s6-t05",
+          "speaker": "user",
+          "text": "I suppose so. Can you turn it on now? But I'm still not convinced it will work properly.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:21",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I suppose so. Can you turn it on now? But I'm still not convinced it will work properly."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-mp01",
+      "timestamp": "2026-04-20T08:00:00",
+      "context": "Avery clarifies a comfortable low background volume.",
+      "turns": [
+        {
+          "turn_id": "hvp02-mp01-t01",
+          "speaker": "co_user",
+          "text": "I have been enjoying some background music while I work, but it suddenly feels a bit too loud and distracting. Could you help me adjust it to something more comfortable?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:548",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I have been enjoying some background music while I work, but it suddenly feels a bit too loud and distracting. Could you help me adjust it to something more comfortable?"
+          }
+        },
+        {
+          "turn_id": "hvp02-mp01-t02",
+          "speaker": "assistant",
+          "text": "I can certainly help with that. To make sure I set things correctly, could you tell me which speaker you are listening on and roughly what volume level, from 0 to 100, would feel comfortable for you?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:548",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can certainly help with that. To make sure I set things correctly, could you tell me which speaker you are listening on and roughly what volume level, from 0 to 100, would feel comfortable for you?"
+          }
+        },
+        {
+          "turn_id": "hvp02-mp01-t03",
+          "speaker": "co_user",
+          "text": "I am using the main living room speaker, and I think setting the volume to around 30 would be perfect so it is not overwhelming while I concentrate. Thirty is also my regular in-car music volume.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:548",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I am using the main living room speaker, and I think setting the volume to around 30 would be perfect so it is not overwhelming while I concentrate."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.normal.music_volume",
+            "tool_name": "carcontrol_music_set_volume",
+            "argument_name": "volume",
+            "value": 30,
+            "context_arguments": {},
+            "condition": "for Avery's normal music playback",
+            "reason": "The externally sourced background-volume choice is adapted into Avery's explicit persistent in-car music preference."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-mp02",
+      "timestamp": "2026-04-25T08:00:00",
+      "context": "Avery clarifies which entrance to secure before leaving.",
+      "turns": [
+        {
+          "turn_id": "hvp02-mp02-t01",
+          "speaker": "co_user",
+          "text": "Need to lock up. Going out.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:332",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Need to lock up. Going out."
+          }
+        },
+        {
+          "turn_id": "hvp02-mp02-t02",
+          "speaker": "assistant",
+          "text": "I can help you lock up. Which door would you like to lock? The front door, back door, or another entrance?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:332",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can help you lock up. Which door would you like to lock? The front door, back door, or another entrance?"
+          }
+        },
+        {
+          "turn_id": "hvp02-mp02-t03",
+          "speaker": "co_user",
+          "text": "Front. Lock it. Locking all the vehicle doors is also my standing routine when I leave the car.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:332",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Front. Lock it."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.departure.doors_locked",
+            "tool_name": "carcontrol_door_set_locked",
+            "argument_name": "locked",
+            "value": true,
+            "context_arguments": {
+              "door": "all"
+            },
+            "condition": "when Avery is ready to leave",
+            "reason": "The externally sourced departure-lock request is adapted into Avery's persistent all-vehicle-door routine."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-mp03",
+      "timestamp": "2026-04-30T08:00:00",
+      "context": "Avery chooses visual navigation instead of spoken guidance.",
+      "turns": [
+        {
+          "turn_id": "hvp02-mp03-t01",
+          "speaker": "co_user",
+          "text": "Mute it.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2067",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Mute it."
+          }
+        },
+        {
+          "turn_id": "hvp02-mp03-t02",
+          "speaker": "assistant",
+          "text": "Clarify what you want muted. Voice directions, alerts, or all system sounds?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2067",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Clarify what you want muted. Voice directions, alerts, or all system sounds?"
+          }
+        },
+        {
+          "turn_id": "hvp02-mp03-t03",
+          "speaker": "co_user",
+          "text": "Just the navigation voice. Silence it now. Muted guidance is also my normal in-car navigation setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2067",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Just the navigation voice. Silence it now."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.normal.navigation_voice_mode",
+            "tool_name": "carcontrol_navigation_set_voice_mode",
+            "argument_name": "mode",
+            "value": "mute",
+            "context_arguments": {},
+            "condition": "for Avery's normal navigation",
+            "reason": "The externally sourced mute request is normalized to the VehicleMemBench voice mode and made persistent for Avery."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-s7",
+      "timestamp": "2026-05-05T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:1081.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s7-t01",
+          "speaker": "user",
+          "text": "Raise the speaker to forty five, actually make it fifty two. Fifty-two is my regular music volume in the car.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:1081",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Raise the speaker to forty five, actually make it fifty two"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.music_volume",
+            "tool_name": "carcontrol_music_set_volume",
+            "argument_name": "volume",
+            "value": 52,
+            "context_arguments": {},
+            "condition": "for Robin's normal music playback",
+            "reason": "The corrected source volume is adapted into an explicit persistent in-car music level."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-s8",
+      "timestamp": "2026-05-25T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:3961.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s8-t01",
+          "speaker": "user",
+          "text": "Rear right twenty eight degrees, actually twenty seven. Twenty-seven degrees is my normal rear-right temperature.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:3961",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Rear right twenty eight degrees, actually twenty seven"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.rear_right_temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 27,
+            "context_arguments": {
+              "zone": "rear_right"
+            },
+            "condition": "for Robin's normal rear-right climate",
+            "reason": "The corrected source temperature and zone are made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-s9",
+      "timestamp": "2026-06-14T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:3973.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s9-t01",
+          "speaker": "user",
+          "text": "Passenger seat cooling at level two, hold on, make it level one and no heat. Level one is my normal passenger-seat cooling setting; keep heat off only for this drive.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:3973",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Passenger seat cooling at level two, hold on, make it level one and no heat"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.passenger_seat_ventilation_speed",
+            "tool_name": "carcontrol_seat_set_ventilation_speed",
+            "argument_name": "speed",
+            "value": 1,
+            "context_arguments": {
+              "seat": "passenger"
+            },
+            "condition": "for Robin's normal passenger-seat comfort",
+            "reason": "The corrected cooling level is retained while the one-time heat request is excluded from memory."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-s10",
+      "timestamp": "2026-07-04T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:4011.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s10-t01",
+          "speaker": "user",
+          "text": "Unlock the secure compartment, actually, cancel that and open the front trunk. I normally use it for documents, so open the front trunk whenever I need that compartment.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4011",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Unlock the secure compartment, actually, cancel that and open the front trunk"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.documents.front_trunk",
+            "tool_name": "carcontrol_frontTrunk_switch",
+            "argument_name": "switch",
+            "value": true,
+            "context_arguments": {},
+            "condition": "when Robin needs stored documents",
+            "reason": "The corrected source action is made into a recurring front-trunk routine."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-s11",
+      "timestamp": "2026-07-24T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4256.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s11-t01",
+          "speaker": "user",
+          "text": "The liftgate is obstructing my view. Keep the rear trunk closed whenever it would obstruct my view.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4256",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "The liftgate is obstructing my view"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.obstructed_view.rear_trunk",
+            "tool_name": "carcontrol_trunk_switch",
+            "argument_name": "switch",
+            "value": false,
+            "context_arguments": {},
+            "condition": "when the open rear trunk obstructs Robin's view",
+            "reason": "The source close-liftgate action is retained under its visibility condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-s12",
+      "timestamp": "2026-08-13T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:4002.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s12-t01",
+          "speaker": "user",
+          "text": "Secure the center console, no no, cancel and unlock the car. Keep all vehicle doors unlocked whenever I am ready to leave.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4002",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Secure the center console, no no, cancel and unlock the car"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.departure.doors_locked",
+            "tool_name": "carcontrol_door_set_locked",
+            "argument_name": "locked",
+            "value": false,
+            "context_arguments": {
+              "door": "all"
+            },
+            "condition": "when Robin is ready to leave",
+            "reason": "The corrected source unlock action is retained as a departure rule."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-s13",
+      "timestamp": "2026-09-02T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:4135.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s13-t01",
+          "speaker": "user",
+          "text": "Avoid highways on this route, hold on, just turn the voice guidance back on. Detailed voice guidance is my normal navigation setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:4135",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Avoid highways on this route, hold on, just turn the voice guidance back on"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.navigation_voice_mode",
+            "tool_name": "carcontrol_navigation_set_voice_mode",
+            "argument_name": "mode",
+            "value": "detailed",
+            "context_arguments": {},
+            "condition": "for Robin's normal navigation",
+            "reason": "The corrected source unmute request is normalized to detailed VehicleMemBench guidance and made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-s14",
+      "timestamp": "2026-09-22T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:1083.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s14-t01",
+          "speaker": "user",
+          "text": "Put the speaker at volume fifteen, actually make it twenty five. Actually, twenty-five is my regular in-car music volume now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:1083",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Put the speaker at volume fifteen, actually make it twenty five"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.music_volume",
+            "tool_name": "carcontrol_music_set_volume",
+            "argument_name": "volume",
+            "value": 25,
+            "context_arguments": {},
+            "condition": "for Robin's normal music playback",
+            "reason": "The later corrected source volume replaces fifty-two under the same condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-s15",
+      "timestamp": "2026-10-12T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:1089.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s15-t01",
+          "speaker": "user",
+          "text": "Cast my chill mix to the TV, actually never mind, just set the speaker volume to seventy. Actually, seventy is my regular in-car music volume now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:1089",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Cast my chill mix to the TV, actually never mind, just set the speaker volume to seventy"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.music_volume",
+            "tool_name": "carcontrol_music_set_volume",
+            "argument_name": "volume",
+            "value": 70,
+            "context_arguments": {},
+            "condition": "for Robin's normal music playback",
+            "reason": "The later source volume replaces twenty-five under the same condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-s16",
+      "timestamp": "2026-11-01T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier6:1091.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s16-t01",
+          "speaker": "user",
+          "text": "Drop the speaker volume to ten, actually make it five. Actually, five is my regular in-car music volume now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier6:1091",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Drop the speaker volume to ten, actually make it five"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.normal.music_volume",
+            "tool_name": "carcontrol_music_set_volume",
+            "argument_name": "volume",
+            "value": 5,
+            "context_arguments": {},
+            "condition": "for Robin's normal music playback",
+            "reason": "The final source correction replaces seventy under the same condition."
+          }
+        }
+      ]
+    }
+  ],
+  "quizzes": [
+    {
+      "quiz_id": "hvp02-turn-01",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s7-t01",
+      "query": "Set the music to Robin's currently remembered normal volume.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 52
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-02",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s8-t01",
+      "query": "Set Robin's rear-right zone to the currently remembered normal temperature.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.rear_right_temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "rear_right",
+            "temperature": 27
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-03",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s9-t01",
+      "query": "Set Robin's passenger-seat ventilation to the remembered normal speed.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.passenger_seat_ventilation_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_seat_set_ventilation_speed",
+          "arguments": {
+            "seat": "passenger",
+            "speed": 1
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-04",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s10-t01",
+      "query": "Robin needs the stored documents. Apply the remembered front-trunk action.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.documents.front_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_frontTrunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-final-01",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp02-s16-t01",
+      "query": "Set the music to Robin's current normal volume.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 5
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-final-02",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp02-s16-t01",
+      "query": "Set Robin's rear-right zone to the remembered normal temperature.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.rear_right_temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "rear_right",
+            "temperature": 27
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-final-03",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp02-s16-t01",
+      "query": "Set Robin's passenger-seat ventilation to the remembered normal speed.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.passenger_seat_ventilation_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_seat_set_ventilation_speed",
+          "arguments": {
+            "seat": "passenger",
+            "speed": 1
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-final-04",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp02-s16-t01",
+      "query": "Robin needs the stored documents. Apply the remembered front-trunk action.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.documents.front_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_frontTrunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-final-05",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp02-s16-t01",
+      "query": "The open rear trunk obstructs Robin's view; also restore the remembered rear-right temperature.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.obstructed_view.rear_trunk",
+        "driver.normal.rear_right_temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_trunk_switch",
+          "arguments": {
+            "switch": false
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "rear_right",
+            "temperature": 27
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-final-06",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp02-s16-t01",
+      "query": "Robin is ready to leave with navigation active. Apply the remembered door and guidance settings.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.departure.doors_locked",
+        "driver.normal.navigation_voice_mode"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": false
+          }
+        },
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "detailed"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-05",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s8-t01",
+      "query": "Robin points toward the back-right area and says, 'Put that one where I normally keep it.' Apply the remembered temperature.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.normal.rear_right_temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "rear_right",
+            "temperature": 27
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-06",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s9-t01",
+      "query": "Robin's passenger wants the cooling they normally use in that seat. Apply its remembered level.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.normal.passenger_seat_ventilation_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_seat_set_ventilation_speed",
+          "arguments": {
+            "seat": "passenger",
+            "speed": 1
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-07",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s10-t01",
+      "query": "Robin needs the papers kept in the compartment up front. Open that one.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.documents.front_trunk"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_frontTrunk_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-08",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s11-t01",
+      "query": "The open liftgate is blocking Robin's view again. Put it back the way Robin specified, and restore that back-right climate area to Robin's usual temperature.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.obstructed_view.rear_trunk",
+        "driver.normal.rear_right_temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_trunk_switch",
+          "arguments": {
+            "switch": false
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "rear_right",
+            "temperature": 27
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-09",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s12-t01",
+      "query": "Robin is ready to get out. Set all of those entry points the way Robin requested for departure, and put the passenger-seat cooling at their usual level.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.departure.doors_locked",
+        "driver.normal.passenger_seat_ventilation_speed"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": false
+          }
+        },
+        {
+          "name": "carcontrol_seat_set_ventilation_speed",
+          "arguments": {
+            "seat": "passenger",
+            "speed": 1
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-10",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s13-t01",
+      "query": "Robin has started a route. Use the way Robin normally likes to hear it.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.normal.navigation_voice_mode"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "detailed"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-11",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s7-t01",
+      "query": "Robin first said forty-five, then corrected the normal music volume. Apply the corrected value.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 52
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-12",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s16-t01",
+      "query": "Robin withdrew ten in the latest request. Use the corrected regular music volume instead.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.normal.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 5
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-13",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s16-t01",
+      "query": "Avery is driving. Apply the regular music volume saved for Avery, not Robin's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.normal.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 30
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-14",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s16-t01",
+      "query": "Robin is driving. Apply the regular music volume saved for Robin, not Avery's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.normal.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 5
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-15",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s12-t01",
+      "query": "Avery is ready to leave. Apply Avery's usual all-door setting, not Robin's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.departure.doors_locked"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-16",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s12-t01",
+      "query": "Robin is ready to leave. Apply Robin's usual all-door setting, not Avery's, and restore Robin's current regular music volume.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.departure.doors_locked",
+        "driver.normal.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": false
+          }
+        },
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 52
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-17",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s13-t01",
+      "query": "Avery has taken the wheel. Apply Avery's usual navigation guidance, not Robin's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.normal.navigation_voice_mode"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "mute"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-18",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s13-t01",
+      "query": "Robin has taken the wheel. Apply Robin's usual navigation guidance, not Avery's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.normal.navigation_voice_mode"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "detailed"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-19",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s14-t01",
+      "query": "Robin changed the regular music volume from fifty-two. Apply its current value after that replacement.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 25
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-20",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s15-t01",
+      "query": "After Robin's next change, restore only the latest regular music volume.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 70
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-21",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s16-t01",
+      "query": "Robin changed the regular music volume again after seventy. Apply the newest value.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.music_volume"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 5
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-22",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s16-t01",
+      "query": "Apply Robin's latest regular music volume together with the unchanged normal rear-right temperature.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.music_volume",
+        "driver.normal.rear_right_temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 5
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "rear_right",
+            "temperature": 27
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp02-final-07",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp02-s16-t01",
+      "query": "Avery takes the wheel and is ready to leave. Put the music where they usually keep it, secure every door their way, and let them follow the route from the screen instead of spoken directions.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "codriver.normal.music_volume",
+        "codriver.departure.doors_locked",
+        "codriver.normal.navigation_voice_mode"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_set_volume",
+          "arguments": {
+            "volume": 30
+          }
+        },
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": true
+          }
+        },
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "mute"
+          }
+        }
+      ]
+    }
+  ],
+  "multi_participant_extension": {
+    "schema_version": "vehiclemembench-hvp-multiparty-extension-v1",
+    "base_source_path": "/home/hj153lee/PalmClaw/evaluation/human-authored-vehicle-memory/pilot-hv02/scenario-source.json",
+    "base_source_sha256": "6fca5250b077a1159f0b86d27b1002b5d2dc5f8e4946a39f54d6d75616609672",
+    "secondary_speaker_id": "external-hvp02-codriver",
+    "inserted_audio2tool_records": [
+      "tier7:548",
+      "tier7:332",
+      "tier7:2067"
+    ],
+    "inserted_session_count": 3,
+    "inserted_turn_count": 9,
+    "inserted_update_count": 3,
+    "appended_quiz_count": 19,
+    "method_blind": true,
+    "human_review_status": "PENDING"
+  }
+}

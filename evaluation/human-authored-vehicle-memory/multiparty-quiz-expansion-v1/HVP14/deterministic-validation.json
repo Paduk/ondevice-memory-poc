@@ -1,0 +1,173 @@
+{
+  "added_quiz_distribution": {
+    "FINAL::preference_conflict": 1,
+    "TURN::coreference_resolution": 5,
+    "TURN::error_correction": 2,
+    "TURN::preference_conflict": 7,
+    "TURN::state_shift": 4
+  },
+  "checks": {
+    "added_query_uniqueness": "PASS",
+    "base_quizzes_unchanged": "PASS",
+    "base_sessions_unchanged": "PASS",
+    "base_source_hash": "PASS",
+    "derived_source_hash": "PASS",
+    "extension_counts": "PASS",
+    "inserted_source_records_disjoint": "PASS",
+    "multiple_memory_owners": "PASS",
+    "official_builder_validation": "PASS",
+    "preference_conflict::hvp14-final-07": "PASS",
+    "preference_conflict::hvp14-turn-12": "PASS",
+    "preference_conflict::hvp14-turn-13": "PASS",
+    "preference_conflict::hvp14-turn-14": "PASS",
+    "preference_conflict::hvp14-turn-15": "PASS",
+    "preference_conflict::hvp14-turn-16": "PASS",
+    "preference_conflict::hvp14-turn-17": "PASS",
+    "preference_conflict::hvp14-turn-18": "PASS",
+    "preference_conflict_action_difference::hvp14-final-07": "PASS",
+    "preference_conflict_action_difference::hvp14-turn-12": "PASS",
+    "preference_conflict_action_difference::hvp14-turn-13": "PASS",
+    "preference_conflict_action_difference::hvp14-turn-14": "PASS",
+    "preference_conflict_action_difference::hvp14-turn-15": "PASS",
+    "preference_conflict_action_difference::hvp14-turn-16": "PASS",
+    "preference_conflict_action_difference::hvp14-turn-17": "PASS",
+    "preference_conflict_action_difference::hvp14-turn-18": "PASS",
+    "scenario_quota": "PASS"
+  },
+  "preference_conflict_audit": [
+    {
+      "gold_evidence": [
+        "- [2026-04-20 08:00] carcontrol_sunroof_set_open_degree.degree; value=100; condition=for Sawyer's normal cabin venting"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-09-22 08:00] carcontrol_sunroof_set_open_degree.degree; value=18; condition=for Parker's normal cabin venting"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-09-22 08:00] carcontrol_sunroof_set_open_degree.degree; value=18; condition=for Parker's normal cabin venting"
+      ],
+      "quiz_id": "hvp14-turn-12"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-09-22 08:00] carcontrol_sunroof_set_open_degree.degree; value=18; condition=for Parker's normal cabin venting"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-20 08:00] carcontrol_sunroof_set_open_degree.degree; value=100; condition=for Sawyer's normal cabin venting"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-20 08:00] carcontrol_sunroof_set_open_degree.degree; value=100; condition=for Sawyer's normal cabin venting"
+      ],
+      "quiz_id": "hvp14-turn-13"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-04-25 08:00] carcontrol_navigation_navigate_to.destination; value=\"Suburban Mall\"; condition=when Sawyer starts navigation without naming a destination"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-10-12 08:00] carcontrol_navigation_navigate_to.destination; value=\"Home\"; condition=when Parker starts navigation without naming a destination"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-10-12 08:00] carcontrol_navigation_navigate_to.destination; value=\"Home\"; condition=when Parker starts navigation without naming a destination"
+      ],
+      "quiz_id": "hvp14-turn-14"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-10-12 08:00] carcontrol_navigation_navigate_to.destination; value=\"Home\"; condition=when Parker starts navigation without naming a destination"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-25 08:00] carcontrol_navigation_navigate_to.destination; value=\"Suburban Mall\"; condition=when Sawyer starts navigation without naming a destination"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-25 08:00] carcontrol_navigation_navigate_to.destination; value=\"Suburban Mall\"; condition=when Sawyer starts navigation without naming a destination"
+      ],
+      "quiz_id": "hvp14-turn-15"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-04-30 08:00] carcontrol_frontTrunk_switch.switch; value=false; condition=when Sawyer loads cargo",
+        "- [2026-04-25 08:00] carcontrol_navigation_navigate_to.destination; value=\"Suburban Mall\"; condition=when Sawyer starts navigation without naming a destination"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-06-14 08:00] carcontrol_frontTrunk_switch.switch; value=true; condition=when Parker loads cargo",
+        "- [2026-10-12 08:00] carcontrol_navigation_navigate_to.destination; value=\"Home\"; condition=when Parker starts navigation without naming a destination"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-06-14 08:00] carcontrol_frontTrunk_switch.switch; value=true; condition=when Parker loads cargo",
+        "- [2026-10-12 08:00] carcontrol_navigation_navigate_to.destination; value=\"Home\"; condition=when Parker starts navigation without naming a destination"
+      ],
+      "quiz_id": "hvp14-turn-16"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-06-14 08:00] carcontrol_frontTrunk_switch.switch; value=true; condition=when Parker loads cargo"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-30 08:00] carcontrol_frontTrunk_switch.switch; value=false; condition=when Sawyer loads cargo"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-30 08:00] carcontrol_frontTrunk_switch.switch; value=false; condition=when Sawyer loads cargo"
+      ],
+      "quiz_id": "hvp14-turn-17"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-04-20 08:00] carcontrol_sunroof_set_open_degree.degree; value=100; condition=for Sawyer's normal cabin venting",
+        "- [2026-04-25 08:00] carcontrol_navigation_navigate_to.destination; value=\"Suburban Mall\"; condition=when Sawyer starts navigation without naming a destination",
+        "- [2026-04-30 08:00] carcontrol_frontTrunk_switch.switch; value=false; condition=when Sawyer loads cargo"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-06-14 08:00] carcontrol_frontTrunk_switch.switch; value=true; condition=when Parker loads cargo",
+        "- [2026-09-22 08:00] carcontrol_sunroof_set_open_degree.degree; value=18; condition=for Parker's normal cabin venting",
+        "- [2026-10-12 08:00] carcontrol_navigation_navigate_to.destination; value=\"Home\"; condition=when Parker starts navigation without naming a destination"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-06-14 08:00] carcontrol_frontTrunk_switch.switch; value=true; condition=when Parker loads cargo",
+        "- [2026-09-22 08:00] carcontrol_sunroof_set_open_degree.degree; value=18; condition=for Parker's normal cabin venting",
+        "- [2026-10-12 08:00] carcontrol_navigation_navigate_to.destination; value=\"Home\"; condition=when Parker starts navigation without naming a destination"
+      ],
+      "quiz_id": "hvp14-turn-18"
+    },
+    {
+      "gold_evidence": [
+        "- [2026-09-22 08:00] carcontrol_sunroof_set_open_degree.degree; value=18; condition=for Parker's normal cabin venting",
+        "- [2026-10-12 08:00] carcontrol_navigation_navigate_to.destination; value=\"Home\"; condition=when Parker starts navigation without naming a destination",
+        "- [2026-06-14 08:00] carcontrol_frontTrunk_switch.switch; value=true; condition=when Parker loads cargo"
+      ],
+      "other_owner_alternatives": [
+        "- [2026-04-20 08:00] carcontrol_sunroof_set_open_degree.degree; value=100; condition=for Sawyer's normal cabin venting",
+        "- [2026-04-25 08:00] carcontrol_navigation_navigate_to.destination; value=\"Suburban Mall\"; condition=when Sawyer starts navigation without naming a destination",
+        "- [2026-04-30 08:00] carcontrol_frontTrunk_switch.switch; value=false; condition=when Sawyer loads cargo"
+      ],
+      "other_owner_different_actions": [
+        "- [2026-04-20 08:00] carcontrol_sunroof_set_open_degree.degree; value=100; condition=for Sawyer's normal cabin venting",
+        "- [2026-04-25 08:00] carcontrol_navigation_navigate_to.destination; value=\"Suburban Mall\"; condition=when Sawyer starts navigation without naming a destination",
+        "- [2026-04-30 08:00] carcontrol_frontTrunk_switch.switch; value=false; condition=when Sawyer loads cargo"
+      ],
+      "quiz_id": "hvp14-final-07"
+    }
+  ],
+  "scenario_id": "HVP14",
+  "schema_version": "vehiclemembench-hvp-multiparty-validation-v1",
+  "scope": "deterministic validation; semantic review remains separate",
+  "semantic_review_status": "PENDING",
+  "statistics": {
+    "active_memory_slot_count": 10,
+    "add_count": 10,
+    "distinct_memory_tool_count": 7,
+    "final_quiz_count": 7,
+    "noop_count": 44,
+    "quiz_tool_call_count": 43,
+    "replace_count": 3,
+    "session_count": 19,
+    "speaker_count": 3,
+    "turn_count": 57,
+    "turn_quiz_count": 22,
+    "update_count": 13
+  },
+  "status": "PASS",
+  "update_owners": {
+    "external-hvp14-codriver": 3,
+    "external-hvp14-driver": 10
+  }
+}

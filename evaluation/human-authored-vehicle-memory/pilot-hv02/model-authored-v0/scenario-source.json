@@ -1,0 +1,630 @@
+{
+  "schema_version": "vehiclemembench-human-authored-scenario-source-v1",
+  "scenario_id": "HVP02",
+  "scenario_index": 902,
+  "split": "pilot_excluded",
+  "authorship": {
+    "kind": "model_authored_pilot",
+    "eligible_for_human_test": false,
+    "note": "Second format-validation example only. It must not be included in the final human-authored zero-shot test set."
+  },
+  "speakers": [
+    {
+      "speaker_id": "human-hvp02-elena",
+      "short_id": "elena",
+      "speaker_name": "Elena Park",
+      "role": "primary weekday driver",
+      "style": "observant and matter-of-fact; compares settings across repeated commutes"
+    },
+    {
+      "speaker_id": "human-hvp02-marcus",
+      "short_id": "marcus",
+      "speaker_name": "Marcus Park",
+      "role": "weekend and evening driver",
+      "style": "relaxed and specific when a setting affects visibility or comfort"
+    },
+    {
+      "speaker_id": "human-hvp02-luca",
+      "short_id": "luca",
+      "speaker_name": "Luca Park",
+      "role": "rear-seat passenger",
+      "style": "casual; comments on screens and audio while traveling"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "hvp02-s1",
+      "timestamp": "2026-01-19T07:35:00",
+      "context": "A rainy weekday commute. Elena is driving Marcus through unfamiliar downtown streets.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s1-t01",
+          "speaker": "marcus",
+          "text": "The rain is steady, but at least traffic is moving today."
+        },
+        {
+          "turn_id": "hvp02-s1-t02",
+          "speaker": "elena",
+          "text": "The front wipers at speed two are usually right for this kind of steady rain. That is the setting I use on wet commutes.",
+          "update": {
+            "op": "add",
+            "slot_id": "elena.steady_rain.front_wiper_speed",
+            "tool_name": "carcontrol_wiper_set_speed",
+            "argument_name": "speed",
+            "value": 2,
+            "context_arguments": {"wiper": "front"},
+            "condition": "for Elena's commute in steady rain",
+            "reason": "Elena states a repeatable front-wiper setting for steady-rain commutes."
+          }
+        },
+        {
+          "turn_id": "hvp02-s1-t03",
+          "speaker": "marcus",
+          "text": "I can still see the lane markers clearly at that pace."
+        },
+        {
+          "turn_id": "hvp02-s1-t04",
+          "speaker": "elena",
+          "text": "Downtown directions are easy to miss. When I drive somewhere unfamiliar, navigation volume thirty-eight is clear without startling me.",
+          "update": {
+            "op": "add",
+            "slot_id": "elena.unfamiliar_city.navigation_volume",
+            "tool_name": "carcontrol_navigation_set_volume",
+            "argument_name": "volume",
+            "value": 38,
+            "context_arguments": {},
+            "condition": "when Elena drives in an unfamiliar city",
+            "reason": "Elena defines a durable navigation-volume preference for unfamiliar-city driving."
+          }
+        },
+        {
+          "turn_id": "hvp02-s1-t05",
+          "speaker": "marcus",
+          "text": "The next turn is after the library, not at this light."
+        },
+        {
+          "turn_id": "hvp02-s1-t06",
+          "speaker": "elena",
+          "text": "When we lock this shared car, both mirrors should fold automatically. Let us keep that as the household rule.",
+          "update": {
+            "op": "add",
+            "slot_id": "shared.lock.mirror_auto_fold",
+            "owner": "shared-vehicle",
+            "tool_name": "carcontrol_rearviewMirror_set_auto_fold_on_lock",
+            "argument_name": "enabled",
+            "value": true,
+            "context_arguments": {"side": "both"},
+            "condition": "whenever the shared vehicle is locked",
+            "reason": "Elena explicitly establishes a persistent shared-vehicle locking rule."
+          }
+        },
+        {
+          "turn_id": "hvp02-s1-t07",
+          "speaker": "marcus",
+          "text": "Agreed. It keeps them out of the way in the narrow garage too."
+        },
+        {
+          "turn_id": "hvp02-s1-t08",
+          "speaker": "elena",
+          "text": "Good, we are through the worst of the traffic now."
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-s2",
+      "timestamp": "2026-02-28T21:10:00",
+      "context": "Marcus is driving home after an evening event on a cold highway.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s2-t01",
+          "speaker": "elena",
+          "text": "That venue emptied all at once. I am glad we left before the second wave."
+        },
+        {
+          "turn_id": "hvp02-s2-t02",
+          "speaker": "marcus",
+          "text": "At night I keep the center display down at brightness eighteen. It lets me read the map without lighting up the cabin.",
+          "update": {
+            "op": "add",
+            "slot_id": "marcus.night_drive.center_display_brightness",
+            "tool_name": "carcontrol_centerInformationDisplay_set_brightness",
+            "argument_name": "brightness",
+            "value": 18,
+            "context_arguments": {},
+            "condition": "when Marcus is driving at night",
+            "reason": "Marcus gives a stable center-display brightness for his night driving."
+          }
+        },
+        {
+          "turn_id": "hvp02-s2-t03",
+          "speaker": "elena",
+          "text": "That is dimmer than I use, but the road signs stand out better from this seat."
+        },
+        {
+          "turn_id": "hvp02-s2-t04",
+          "speaker": "marcus",
+          "text": "For cold drives like this, steering-wheel heat at level two is enough for me after the first few minutes.",
+          "update": {
+            "op": "add",
+            "slot_id": "marcus.cold_drive.steering_heat_level",
+            "tool_name": "carcontrol_steeringWheel_set_heating_level",
+            "argument_name": "level",
+            "value": 2,
+            "context_arguments": {},
+            "condition": "when Marcus drives in cold weather",
+            "reason": "Marcus identifies a reusable steering-wheel heating level for cold drives."
+          }
+        },
+        {
+          "turn_id": "hvp02-s2-t05",
+          "speaker": "elena",
+          "text": "My hands are warm enough just holding this coffee cup."
+        },
+        {
+          "turn_id": "hvp02-s2-t06",
+          "speaker": "marcus",
+          "text": "On highways I prefer map zoom seven. It shows the next interchange without shrinking the local exits too much.",
+          "update": {
+            "op": "add",
+            "slot_id": "marcus.highway.navigation_zoom",
+            "tool_name": "carcontrol_navigation_set_map_zoom",
+            "argument_name": "zoom",
+            "value": 7,
+            "context_arguments": {},
+            "condition": "when Marcus is driving on a highway",
+            "reason": "Marcus states a durable highway map-zoom preference."
+          }
+        },
+        {
+          "turn_id": "hvp02-s2-t07",
+          "speaker": "elena",
+          "text": "The rest area sign says the next one is in thirty kilometers."
+        },
+        {
+          "turn_id": "hvp02-s2-t08",
+          "speaker": "marcus",
+          "text": "We can keep going; nobody sounds tired yet."
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-s3",
+      "timestamp": "2026-04-11T18:25:00",
+      "context": "The family is starting a long evening trip. Luca is seated in the rear right.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s3-t01",
+          "speaker": "luca",
+          "text": "Did anyone bring the charging cable for my headphones?"
+        },
+        {
+          "turn_id": "hvp02-s3-t02",
+          "speaker": "elena",
+          "text": "It is in the small pocket behind my seat."
+        },
+        {
+          "turn_id": "hvp02-s3-t03",
+          "speaker": "luca",
+          "text": "For evening trips, overhead-screen brightness two is comfortable for me. Anything brighter reflects in the side glass.",
+          "update": {
+            "op": "add",
+            "slot_id": "luca.evening_trip.overhead_brightness",
+            "tool_name": "carcontrol_overheadScreen_set_brightness_level",
+            "argument_name": "level",
+            "value": 2,
+            "context_arguments": {},
+            "condition": "during Luca's evening rear-seat trips",
+            "reason": "Luca specifies a recurring overhead-screen brightness for evening travel."
+          }
+        },
+        {
+          "turn_id": "hvp02-s3-t04",
+          "speaker": "marcus",
+          "text": "Tell us if the reflection makes it hard to see outside."
+        },
+        {
+          "turn_id": "hvp02-s3-t05",
+          "speaker": "luca",
+          "text": "Video volume twenty-six works on long trips. I can hear dialogue without sending the sound through the whole cabin.",
+          "update": {
+            "op": "add",
+            "slot_id": "luca.long_trip.video_volume",
+            "tool_name": "carcontrol_video_set_volume",
+            "argument_name": "volume",
+            "value": 26,
+            "context_arguments": {},
+            "condition": "during Luca's long rear-seat trips",
+            "reason": "Luca states a persistent video-volume preference for long trips."
+          }
+        },
+        {
+          "turn_id": "hvp02-s3-t06",
+          "speaker": "elena",
+          "text": "That should also leave enough quiet for Marcus to hear navigation."
+        },
+        {
+          "turn_id": "hvp02-s3-t07",
+          "speaker": "marcus",
+          "text": "When Luca's younger cousin rides in the rear right, that window's child lock must stay enabled as our standard rule.",
+          "update": {
+            "op": "add",
+            "slot_id": "shared.younger_cousin.rear_right_child_lock",
+            "owner": "shared-vehicle",
+            "tool_name": "carcontrol_window_set_child_lock",
+            "argument_name": "enabled",
+            "value": true,
+            "context_arguments": {"window": "rear_right"},
+            "condition": "when Luca's younger cousin occupies the rear-right seat",
+            "reason": "Marcus establishes a durable shared safety rule for a specified passenger and window."
+          }
+        },
+        {
+          "turn_id": "hvp02-s3-t08",
+          "speaker": "luca",
+          "text": "He is not coming today, so the back seat is all mine."
+        },
+        {
+          "turn_id": "hvp02-s3-t09",
+          "speaker": "elena",
+          "text": "We have snacks at the first stop if anyone gets hungry."
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-s4",
+      "timestamp": "2026-06-03T07:40:00",
+      "context": "Another wet commute in heavier rain. Elena is driving through downtown roadworks.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s4-t01",
+          "speaker": "marcus",
+          "text": "The construction barriers are holding a lot of spray over this lane."
+        },
+        {
+          "turn_id": "hvp02-s4-t02",
+          "speaker": "elena",
+          "text": "Speed two is no longer enough for my rainy commute. Make my usual front-wiper speed three from now on.",
+          "update": {
+            "op": "replace",
+            "slot_id": "elena.steady_rain.front_wiper_speed",
+            "tool_name": "carcontrol_wiper_set_speed",
+            "argument_name": "speed",
+            "value": 3,
+            "context_arguments": {"wiper": "front"},
+            "condition": "for Elena's commute in steady rain",
+            "reason": "Elena explicitly replaces her previous rainy-commute wiper speed with three."
+          }
+        },
+        {
+          "turn_id": "hvp02-s4-t03",
+          "speaker": "marcus",
+          "text": "That clears the spray before it turns into a sheet."
+        },
+        {
+          "turn_id": "hvp02-s4-t04",
+          "speaker": "elena",
+          "text": "I have also learned that navigation at thirty-eight is too loud downtown. Twenty-eight should replace it for unfamiliar-city drives.",
+          "update": {
+            "op": "replace",
+            "slot_id": "elena.unfamiliar_city.navigation_volume",
+            "tool_name": "carcontrol_navigation_set_volume",
+            "argument_name": "volume",
+            "value": 28,
+            "context_arguments": {},
+            "condition": "when Elena drives in an unfamiliar city",
+            "reason": "Elena explicitly corrects the prior navigation volume from thirty-eight to twenty-eight."
+          }
+        },
+        {
+          "turn_id": "hvp02-s4-t05",
+          "speaker": "marcus",
+          "text": "That is still clear from the passenger seat."
+        },
+        {
+          "turn_id": "hvp02-s4-t06",
+          "speaker": "elena",
+          "text": "When I reverse into a tight parking space, I want the right mirror's automatic tilt enabled every time.",
+          "update": {
+            "op": "add",
+            "slot_id": "elena.tight_parking.right_mirror_tilt",
+            "tool_name": "carcontrol_rearviewMirror_set_auto_reverse_tilt",
+            "argument_name": "enabled",
+            "value": true,
+            "context_arguments": {"side": "right"},
+            "condition": "when Elena reverses into a tight parking space",
+            "reason": "Elena establishes a persistent right-mirror behavior for tight reverse parking."
+          }
+        },
+        {
+          "turn_id": "hvp02-s4-t07",
+          "speaker": "marcus",
+          "text": "The curb on your side is hidden by that temporary fence."
+        },
+        {
+          "turn_id": "hvp02-s4-t08",
+          "speaker": "elena",
+          "text": "I see the garage entrance just past the orange sign."
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-s5",
+      "timestamp": "2026-09-16T20:45:00",
+      "context": "The family leaves a restaurant at night. Marcus drives while Luca watches a film in the rear.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s5-t01",
+          "speaker": "luca",
+          "text": "The desserts were better than the main course, which feels unfair."
+        },
+        {
+          "turn_id": "hvp02-s5-t02",
+          "speaker": "marcus",
+          "text": "Brightness eighteen on the center display is too dim for my eyes now. For my night driving, change that preference to thirty.",
+          "update": {
+            "op": "replace",
+            "slot_id": "marcus.night_drive.center_display_brightness",
+            "tool_name": "carcontrol_centerInformationDisplay_set_brightness",
+            "argument_name": "brightness",
+            "value": 30,
+            "context_arguments": {},
+            "condition": "when Marcus is driving at night",
+            "reason": "Marcus replaces his previous night-display brightness with thirty."
+          }
+        },
+        {
+          "turn_id": "hvp02-s5-t03",
+          "speaker": "elena",
+          "text": "That is brighter, but it still is not casting much light onto the windshield."
+        },
+        {
+          "turn_id": "hvp02-s5-t04",
+          "speaker": "luca",
+          "text": "I need to revise my screen setting too. Use brightness four instead of two for my evening trips; subtitles are too faint at two.",
+          "update": {
+            "op": "replace",
+            "slot_id": "luca.evening_trip.overhead_brightness",
+            "tool_name": "carcontrol_overheadScreen_set_brightness_level",
+            "argument_name": "level",
+            "value": 4,
+            "context_arguments": {},
+            "condition": "during Luca's evening rear-seat trips",
+            "reason": "Luca explicitly replaces the earlier overhead-screen brightness with four."
+          }
+        },
+        {
+          "turn_id": "hvp02-s5-t05",
+          "speaker": "marcus",
+          "text": "Check whether four still leaves the side window clear enough to see through."
+        },
+        {
+          "turn_id": "hvp02-s5-t06",
+          "speaker": "elena",
+          "text": "For my long drives, a driver-seat backrest angle of sixty-two keeps my shoulders relaxed. I want that as my regular long-trip position.",
+          "update": {
+            "op": "add",
+            "slot_id": "elena.long_drive.driver_backrest_angle",
+            "tool_name": "carcontrol_seat_set_backrest_angle",
+            "argument_name": "value",
+            "value": 62,
+            "context_arguments": {"seat": "driver"},
+            "condition": "during Elena's long drives",
+            "reason": "Elena states a durable driver-seat backrest angle for long trips."
+          }
+        },
+        {
+          "turn_id": "hvp02-s5-t07",
+          "speaker": "luca",
+          "text": "We should stop once before the mountain road begins."
+        },
+        {
+          "turn_id": "hvp02-s5-t08",
+          "speaker": "marcus",
+          "text": "There is a service area twelve kilometers ahead."
+        },
+        {
+          "turn_id": "hvp02-s5-t09",
+          "speaker": "elena",
+          "text": "That timing works; I only need a short walk and some water."
+        }
+      ]
+    },
+    {
+      "session_id": "hvp02-s6",
+      "timestamp": "2026-12-07T16:20:00",
+      "context": "A routine family drive several months later. They discuss errands without changing vehicle preferences.",
+      "turns": [
+        {
+          "turn_id": "hvp02-s6-t01",
+          "speaker": "marcus",
+          "text": "The grocery store closes earlier on Sundays, so we should go there first."
+        },
+        {
+          "turn_id": "hvp02-s6-t02",
+          "speaker": "elena",
+          "text": "Then we can pick up the repaired lamp on the way back."
+        },
+        {
+          "turn_id": "hvp02-s6-t03",
+          "speaker": "luca",
+          "text": "Can we stop at the bakery if the line is not outside?"
+        },
+        {
+          "turn_id": "hvp02-s6-t04",
+          "speaker": "marcus",
+          "text": "We have enough time as long as the bridge is not backed up."
+        },
+        {
+          "turn_id": "hvp02-s6-t05",
+          "speaker": "elena",
+          "text": "The clouds look heavy, but the road is dry for now."
+        },
+        {
+          "turn_id": "hvp02-s6-t06",
+          "speaker": "luca",
+          "text": "I brought my own headphones today, so nobody has to hear the documentary."
+        },
+        {
+          "turn_id": "hvp02-s6-t07",
+          "speaker": "marcus",
+          "text": "The parcel receipt is in the cup holder beside you."
+        },
+        {
+          "turn_id": "hvp02-s6-t08",
+          "speaker": "elena",
+          "text": "All right, groceries first and the repair shop second."
+        }
+      ]
+    }
+  ],
+  "quizzes": [
+    {
+      "quiz_id": "hvp02-turn-01",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s1-t08",
+      "query": "Elena is beginning another rainy commute through a city she does not know. Apply her remembered visibility and guidance-audio settings.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "elena.steady_rain.front_wiper_speed",
+        "elena.unfamiliar_city.navigation_volume"
+      ],
+      "gold_calls": [
+        {"name": "carcontrol_wiper_set_speed", "arguments": {"wiper": "front", "speed": 2}},
+        {"name": "carcontrol_navigation_set_volume", "arguments": {"volume": 38}}
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-02",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s2-t08",
+      "query": "Marcus has taken the wheel for a cold nighttime highway drive. Restore the display, steering-wheel warmth, and map view he normally uses in those conditions.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "marcus.night_drive.center_display_brightness",
+        "marcus.cold_drive.steering_heat_level",
+        "marcus.highway.navigation_zoom"
+      ],
+      "gold_calls": [
+        {"name": "carcontrol_centerInformationDisplay_set_brightness", "arguments": {"brightness": 18}},
+        {"name": "carcontrol_steeringWheel_set_heating_level", "arguments": {"level": 2}},
+        {"name": "carcontrol_navigation_set_map_zoom", "arguments": {"zoom": 7}}
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-03",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s3-t09",
+      "query": "Set up Luca's rear entertainment for another long evening trip, and apply the household safety setting because his younger cousin is in the rear-right seat today.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "luca.evening_trip.overhead_brightness",
+        "luca.long_trip.video_volume",
+        "shared.younger_cousin.rear_right_child_lock"
+      ],
+      "gold_calls": [
+        {"name": "carcontrol_overheadScreen_set_brightness_level", "arguments": {"level": 2}},
+        {"name": "carcontrol_video_set_volume", "arguments": {"volume": 26}},
+        {"name": "carcontrol_window_set_child_lock", "arguments": {"window": "rear_right", "enabled": true}}
+      ]
+    },
+    {
+      "quiz_id": "hvp02-turn-04",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp02-s4-t08",
+      "query": "Elena is driving downtown in steady rain and will reverse into a narrow space on arrival. Use her current settings, including the corrected ones.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "elena.steady_rain.front_wiper_speed",
+        "elena.unfamiliar_city.navigation_volume",
+        "elena.tight_parking.right_mirror_tilt"
+      ],
+      "gold_calls": [
+        {"name": "carcontrol_wiper_set_speed", "arguments": {"wiper": "front", "speed": 3}},
+        {"name": "carcontrol_navigation_set_volume", "arguments": {"volume": 28}},
+        {"name": "carcontrol_rearviewMirror_set_auto_reverse_tilt", "arguments": {"side": "right", "enabled": true}}
+      ]
+    },
+    {
+      "quiz_id": "hvp02-final-01",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp02-s6-t08",
+      "query": "Elena is leaving for a wet commute through an unfamiliar city. Restore her latest wiper speed and navigation audio preferences.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "elena.steady_rain.front_wiper_speed",
+        "elena.unfamiliar_city.navigation_volume"
+      ],
+      "gold_calls": [
+        {"name": "carcontrol_wiper_set_speed", "arguments": {"wiper": "front", "speed": 3}},
+        {"name": "carcontrol_navigation_set_volume", "arguments": {"volume": 28}}
+      ]
+    },
+    {
+      "quiz_id": "hvp02-final-02",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp02-s6-t08",
+      "query": "Marcus is driving tonight in cold weather. Apply his current display brightness and steering-wheel heat level.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "marcus.night_drive.center_display_brightness",
+        "marcus.cold_drive.steering_heat_level"
+      ],
+      "gold_calls": [
+        {"name": "carcontrol_centerInformationDisplay_set_brightness", "arguments": {"brightness": 30}},
+        {"name": "carcontrol_steeringWheel_set_heating_level", "arguments": {"level": 2}}
+      ]
+    },
+    {
+      "quiz_id": "hvp02-final-03",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp02-s6-t08",
+      "query": "Luca has settled into the back for a long evening journey. Restore his latest screen brightness and usual video sound level.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "luca.evening_trip.overhead_brightness",
+        "luca.long_trip.video_volume"
+      ],
+      "gold_calls": [
+        {"name": "carcontrol_overheadScreen_set_brightness_level", "arguments": {"level": 4}},
+        {"name": "carcontrol_video_set_volume", "arguments": {"volume": 26}}
+      ]
+    },
+    {
+      "quiz_id": "hvp02-final-04",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp02-s6-t08",
+      "query": "Luca's younger cousin is riding in the rear-right seat. Apply the remembered household window-safety rule.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": ["shared.younger_cousin.rear_right_child_lock"],
+      "gold_calls": [
+        {"name": "carcontrol_window_set_child_lock", "arguments": {"window": "rear_right", "enabled": true}}
+      ]
+    },
+    {
+      "quiz_id": "hvp02-final-05",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp02-s6-t08",
+      "query": "Elena is about to reverse into a tight space. Set the relevant mirror behavior she chose for that situation.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": ["elena.tight_parking.right_mirror_tilt"],
+      "gold_calls": [
+        {"name": "carcontrol_rearviewMirror_set_auto_reverse_tilt", "arguments": {"side": "right", "enabled": true}}
+      ]
+    },
+    {
+      "quiz_id": "hvp02-final-06",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp02-s6-t08",
+      "query": "Elena is taking the shared car on a long drive. Apply her seat position, and make sure the mirrors follow the household locking rule afterward.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "elena.long_drive.driver_backrest_angle",
+        "shared.lock.mirror_auto_fold"
+      ],
+      "gold_calls": [
+        {"name": "carcontrol_seat_set_backrest_angle", "arguments": {"seat": "driver", "value": 62}},
+        {"name": "carcontrol_rearviewMirror_set_auto_fold_on_lock", "arguments": {"side": "both", "enabled": true}}
+      ]
+    }
+  ]
+}

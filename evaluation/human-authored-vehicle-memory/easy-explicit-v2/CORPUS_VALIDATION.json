@@ -1,0 +1,51 @@
+{
+  "schema_version": "vehiclemembench-easy-explicit-v2-validation-v1",
+  "scenario_count": 10,
+  "gold_equivalence_to_v1": "PASS",
+  "single_intent_updates": "PASS",
+  "explicit_nonvehicle_noops": "PASS",
+  "quiz_answer_non_leakage": "PASS",
+  "derived_v2_artifacts": "PASS",
+  "scenarios": [
+    {
+      "scenario_id": "HVE01",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE02",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE03",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE04",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE05",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE06",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE07",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE08",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE09",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "HVE10",
+      "status": "PASS"
+    }
+  ]
+}

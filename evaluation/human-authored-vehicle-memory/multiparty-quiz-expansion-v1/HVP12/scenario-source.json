@@ -1,0 +1,1819 @@
+{
+  "schema_version": "vehiclemembench-human-authored-scenario-source-v1",
+  "scenario_id": "HVP12",
+  "scenario_index": 912,
+  "split": "pilot_excluded",
+  "authorship": {
+    "kind": "external_adapted_model_assembled_pilot",
+    "eligible_for_human_test": false,
+    "note": "Versioned multi-participant external adaptation. Dialogue records are source-traced; participant normalization, persistence edits, memory labels, and quizzes remain model-assembled pending human review."
+  },
+  "external_sources": [
+    {
+      "dataset": "Envisioned Voice Assistant Dialogues",
+      "url": "https://github.com/SarahTheres/Envisioned-Voice-Assistant-Dialogues",
+      "license": "CC BY 4.0",
+      "origin": "human_authored",
+      "records": [
+        "86:search",
+        "87:weather",
+        "95:search",
+        "19:search"
+      ],
+      "local_file_sha256": "dea52de35e5a30a7271aaf89c4e506419fc57464e83c201f18b93ac8d454d186"
+    },
+    {
+      "dataset": "Audio2Tool",
+      "url": "https://huggingface.co/datasets/RVtech/Audio2Tool",
+      "license": "CC BY-NC 4.0",
+      "origin": "synthetic",
+      "records": [
+        "tier7:2110",
+        "tier7:2112",
+        "tier7:2114",
+        "tier4:3948",
+        "tier4:4099",
+        "tier4:4081",
+        "tier4:4121",
+        "tier4:4219",
+        "tier4:3966",
+        "tier5:4207",
+        "tier4:3963",
+        "tier4:3989",
+        "tier5:4112",
+        "tier7:221",
+        "tier7:523",
+        "tier7:335"
+      ],
+      "local_file_sha256": {
+        "tier7": "7be95ff2dd904a1cadb45afb323dde0a3b7c2574932718ed3743fcd7fc09cddc",
+        "tier6": "fa5c0825d99c4f68e226480261befe9ce7aa33c9dfbb7ff1fe1fc82493bcb991",
+        "tier4": "d430e801c9bba5db03b3d044ac626ebec35de1b8a4eb2e2beb4cdec0013e9271",
+        "tier5": "d38e588dccb99ed3291c9467a29adcd71e4f1c4eb62c118fd482a8e9616a1850"
+      }
+    }
+  ],
+  "speakers": [
+    {
+      "speaker_id": "external-hvp12-driver",
+      "short_id": "user",
+      "speaker_name": "Sydney (normalized user role)",
+      "role": "driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp12-codriver",
+      "short_id": "co_user",
+      "speaker_name": "Rowan (normalized user role)",
+      "role": "co-driver; external user identities normalized for the pilot",
+      "style": "retains the wording of each external source record"
+    },
+    {
+      "speaker_id": "external-hvp12-assistant",
+      "short_id": "assistant",
+      "speaker_name": "Voice assistant (source names retained in text)",
+      "role": "vehicle voice assistant",
+      "style": "retains the wording of each external source record"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "hvp12-s1",
+      "timestamp": "2026-01-05T08:00:00",
+      "context": "Checking whether a local cinema is open.",
+      "turns": [
+        {
+          "turn_id": "hvp12-s1-t01",
+          "speaker": "user",
+          "text": "Heather, is my local cinema open tonight?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "86:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Heather, is my local cinema open tonight?"
+          }
+        },
+        {
+          "turn_id": "hvp12-s1-t02",
+          "speaker": "assistant",
+          "text": "Let me have a look...yes, it opens at 6.30pm and closes at 10.30pm",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "86:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Let me have a look...yes, it opens at 6.30pm and closes at 10.30pm"
+          }
+        },
+        {
+          "turn_id": "hvp12-s1-t03",
+          "speaker": "user",
+          "text": "Thanks, do you know what films are on?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "86:search",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thanks, do you know what films are on?"
+          }
+        },
+        {
+          "turn_id": "hvp12-s1-t04",
+          "speaker": "assistant",
+          "text": "There are 4 films on tonight, 1 thriller, 2 kids films and 1 romcom",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "86:search",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "There are 4 films on tonight, 1 thriller, 2 kids films and 1 romcom"
+          }
+        },
+        {
+          "turn_id": "hvp12-s1-t05",
+          "speaker": "user",
+          "text": "What is the thriller, please?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "86:search",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What is the thriller, please?"
+          }
+        },
+        {
+          "turn_id": "hvp12-s1-t06",
+          "speaker": "assistant",
+          "text": "It's the new James Bond film",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "86:search",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "It's the new James Bond film"
+          }
+        },
+        {
+          "turn_id": "hvp12-s1-t07",
+          "speaker": "user",
+          "text": "Are there any tickets and how much are they?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "86:search",
+            "record_turn_index": 6,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Are there any tickets and how much are they?"
+          }
+        },
+        {
+          "turn_id": "hvp12-s1-t08",
+          "speaker": "assistant",
+          "text": "There are 20 tickets left, priced at £9 each - how many would you like me to book?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "86:search",
+            "record_turn_index": 7,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "There are 20 tickets left, priced at £9 each - how many would you like me to book?"
+          }
+        },
+        {
+          "turn_id": "hvp12-s1-t09",
+          "speaker": "user",
+          "text": "2 seats beside each other please",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "86:search",
+            "record_turn_index": 8,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "2 seats beside each other please"
+          }
+        },
+        {
+          "turn_id": "hvp12-s1-t10",
+          "speaker": "assistant",
+          "text": "No problem, I've booked 2 tickets reference number 1234321",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "86:search",
+            "record_turn_index": 9,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "No problem, I've booked 2 tickets reference number 1234321"
+          }
+        },
+        {
+          "turn_id": "hvp12-s1-t11",
+          "speaker": "user",
+          "text": "Thanks",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "86:search",
+            "record_turn_index": 10,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thanks"
+          }
+        },
+        {
+          "turn_id": "hvp12-s1-t12",
+          "speaker": "assistant",
+          "text": "Don't mention it, have a nice time",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "86:search",
+            "record_turn_index": 11,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Don't mention it, have a nice time"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp12-s2",
+      "timestamp": "2026-01-25T08:00:00",
+      "context": "Checking a week of weather in Rome.",
+      "turns": [
+        {
+          "turn_id": "hvp12-s2-t01",
+          "speaker": "user",
+          "text": "What will the weather be like in rome for the next week",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "87:weather",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "What will the weather be like in rome for the next week"
+          }
+        },
+        {
+          "turn_id": "hvp12-s2-t02",
+          "speaker": "assistant",
+          "text": "Sunny with temperatures of 30 degrees in rome",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "87:weather",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Sunny with temperatures of 30 degrees in rome"
+          }
+        },
+        {
+          "turn_id": "hvp12-s2-t03",
+          "speaker": "user",
+          "text": "Is rain forcast",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "87:weather",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Is rain forcast"
+          }
+        },
+        {
+          "turn_id": "hvp12-s2-t04",
+          "speaker": "assistant",
+          "text": "No rain is forcast",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "87:weather",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "No rain is forcast"
+          }
+        },
+        {
+          "turn_id": "hvp12-s2-t05",
+          "speaker": "user",
+          "text": "Save my packing list for italy",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "87:weather",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Save my packing list for italy"
+          }
+        },
+        {
+          "turn_id": "hvp12-s2-t06",
+          "speaker": "assistant",
+          "text": "Ok",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "87:weather",
+            "record_turn_index": 5,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Ok"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp12-s3",
+      "timestamp": "2026-02-14T08:00:00",
+      "context": "Checking local film times.",
+      "turns": [
+        {
+          "turn_id": "hvp12-s3-t01",
+          "speaker": "user",
+          "text": "Geoff, can you tell me the film times for Avengers at the local cinema please?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "95:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Geoff, can you tell me the film times for Avengers at the local cinema please?"
+          }
+        },
+        {
+          "turn_id": "hvp12-s3-t02",
+          "speaker": "assistant",
+          "text": "12pm, 3pm, 7pm and 10pm at Vue",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "95:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "12pm, 3pm, 7pm and 10pm at Vue"
+          }
+        },
+        {
+          "turn_id": "hvp12-s3-t03",
+          "speaker": "user",
+          "text": "Are there any other showings at other cinemas around 8pm?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "95:search",
+            "record_turn_index": 2,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Are there any other showings at other cinemas around 8pm?"
+          }
+        },
+        {
+          "turn_id": "hvp12-s3-t04",
+          "speaker": "assistant",
+          "text": "Odeon is at 8.15pm, Showcase is 8.30pm",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "95:search",
+            "record_turn_index": 3,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Odeon is at 8.15pm, Showcase is 8.30pm"
+          }
+        },
+        {
+          "turn_id": "hvp12-s3-t05",
+          "speaker": "user",
+          "text": "Thats great, can you book two tickets for Odeon please",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "95:search",
+            "record_turn_index": 4,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Thats great, can you book two tickets for Odeon please"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp12-s4",
+      "timestamp": "2026-03-06T08:00:00",
+      "context": "Checking afternoon listings at a local cinema.",
+      "turns": [
+        {
+          "turn_id": "hvp12-s4-t01",
+          "speaker": "user",
+          "text": "Can you tell me what's showing this afternoon at the Vue cinema Stratford?",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "19:search",
+            "record_turn_index": 0,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Can you tell me what's showing this afternoon at the Vue cinema Stratford?"
+          }
+        },
+        {
+          "turn_id": "hvp12-s4-t02",
+          "speaker": "assistant",
+          "text": "2.10pm Bugsy Malone, 3.40 Guess who's coming to dinner, 4.15Goldeneye, 5.40 Da 5 Bloods",
+          "source_trace": {
+            "dataset": "Envisioned Voice Assistant Dialogues",
+            "record_id": "19:search",
+            "record_turn_index": 1,
+            "origin": "human_authored",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "2.10pm Bugsy Malone, 3.40 Guess who's coming to dinner, 4.15Goldeneye, 5.40 Da 5 Bloods"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp12-s5",
+      "timestamp": "2026-03-26T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2110.",
+      "turns": [
+        {
+          "turn_id": "hvp12-s5-t01",
+          "speaker": "user",
+          "text": "Um, can you do something with the lights? I want to, you know, create a nice atmosphere.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2110",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Um, can you do something with the lights? I want to, you know, create a nice atmosphere."
+          }
+        },
+        {
+          "turn_id": "hvp12-s5-t02",
+          "speaker": "assistant",
+          "text": "I'd be happy to help you with that! What kind of atmosphere are you thinking of? We have a few different light shows to choose from.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2110",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I'd be happy to help you with that! What kind of atmosphere are you thinking of? We have a few different light shows to choose from."
+          }
+        },
+        {
+          "turn_id": "hvp12-s5-t03",
+          "speaker": "user",
+          "text": "Oh, I don't know... something festive? Maybe for a party?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2110",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Oh, I don't know... something festive? Maybe for a party?"
+          }
+        },
+        {
+          "turn_id": "hvp12-s5-t04",
+          "speaker": "assistant",
+          "text": "That sounds like fun! We have a few different party-themed light shows. Can you tell me which one you'd like? We have 'Party', 'Holiday', 'Spooky', or 'Sparkle' to choose from.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2110",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "That sounds like fun! We have a few different party-themed light shows. Can you tell me which one you'd like? We have 'Party', 'Holiday', 'Spooky', or 'Sparkle' to choose from."
+          }
+        },
+        {
+          "turn_id": "hvp12-s5-t05",
+          "speaker": "user",
+          "text": "Oh, I think I'll go with 'Party'!",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2110",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Oh, I think I'll go with 'Party'!"
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp12-s6",
+      "timestamp": "2026-04-15T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2112.",
+      "turns": [
+        {
+          "turn_id": "hvp12-s6-t01",
+          "speaker": "user",
+          "text": "You know, I was at my grandparents' house for the holidays and they had this beautiful fireplace that was just so cozy. It made me feel all warm and fuzzy inside. I wish I could replicate that feeling in my own home.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2112",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You know, I was at my grandparents' house for the holidays and they had this beautiful fireplace that was just so cozy. It made me feel all warm and fuzzy inside. I wish I could replicate that feeling in my own home."
+          }
+        },
+        {
+          "turn_id": "hvp12-s6-t02",
+          "speaker": "assistant",
+          "text": "I think I can help you with that. Would you like to create a romantic ambiance in your home?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2112",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I think I can help you with that. Would you like to create a romantic ambiance in your home?"
+          }
+        },
+        {
+          "turn_id": "hvp12-s6-t03",
+          "speaker": "user",
+          "text": "Oh, absolutely! That sounds wonderful. I'd love to have a fireplace going, it's just so... cozy.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2112",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Oh, absolutely! That sounds wonderful. I'd love to have a fireplace going, it's just so... cozy."
+          }
+        },
+        {
+          "turn_id": "hvp12-s6-t04",
+          "speaker": "assistant",
+          "text": "Great! I can activate the virtual fireplace on your screen and even turn on the heater for you. Is that okay?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2112",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Great! I can activate the virtual fireplace on your screen and even turn on the heater for you. Is that okay?"
+          }
+        },
+        {
+          "turn_id": "hvp12-s6-t05",
+          "speaker": "user",
+          "text": "Yes, please! That sounds perfect for a cold evening like this.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2112",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Yes, please! That sounds perfect for a cold evening like this."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp12-mp01",
+      "timestamp": "2026-04-20T08:00:00",
+      "context": "Rowan and the assistant settle on a 23-degree thermostat setting; the exact value is adapted to the vehicle's driver zone.",
+      "turns": [
+        {
+          "turn_id": "hvp12-mp01-t01",
+          "speaker": "co_user",
+          "text": "You know, I was just thinking about how my grandmother used to always complain about the temperature in her house. She would say it was either too hot or too cold, and I would always try to explain to her how thermostats work, but I digress. I've been feeling a bit chilly lately, and I think it's time to adjust the temperature in my living room.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:221",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "You know, I was just thinking about how my grandmother used to always complain about the temperature in her house. She would say it was either too hot or too cold, and I would always try to explain to her how thermostats work, but I digress. I've been feeling a bit chilly lately, and I think it's time to adjust the temperature in my living room."
+          }
+        },
+        {
+          "turn_id": "hvp12-mp01-t02",
+          "speaker": "assistant",
+          "text": "I understand you want to adjust the temperature, but could you please provide the device ID of the thermostat you'd like to adjust and the target temperature you're aiming for?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:221",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I understand you want to adjust the temperature, but could you please provide the device ID of the thermostat you'd like to adjust and the target temperature you're aiming for?"
+          }
+        },
+        {
+          "turn_id": "hvp12-mp01-t03",
+          "speaker": "co_user",
+          "text": "Oh, right! I'm so sorry, I forgot to mention that. I have a thermostat with the ID 'thermostat_1', and I think a nice warm temperature would be around 23 degrees Celsius. Twenty-three degrees is also my normal driver-zone temperature in this car.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:221",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Oh, right! I'm so sorry, I forgot to mention that. I have a thermostat with the ID 'thermostat_1', and I think a nice warm temperature would be around 23 degrees Celsius."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.normal.temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 23,
+            "context_arguments": {
+              "zone": "driver"
+            },
+            "condition": "for Rowan's normal driving",
+            "reason": "The source dialogue explicitly settles on 23 degrees; the thermostat target is adapted to the vehicle's driver zone and made durable."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp12-mp02",
+      "timestamp": "2026-04-25T08:00:00",
+      "context": "Rowan clarifies a media-control request into an explicit pause action, which is adapted to in-car audiobook playback.",
+      "turns": [
+        {
+          "turn_id": "hvp12-mp02-t01",
+          "speaker": "co_user",
+          "text": "Control media.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:523",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Control media."
+          }
+        },
+        {
+          "turn_id": "hvp12-mp02-t02",
+          "speaker": "assistant",
+          "text": "I can help control your media devices. Would you like to play, pause, stop, or perform another action? Which device would you like to control?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:523",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can help control your media devices. Would you like to play, pause, stop, or perform another action? Which device would you like to control?"
+          }
+        },
+        {
+          "turn_id": "hvp12-mp02-t03",
+          "speaker": "co_user",
+          "text": "Speaker one. Pause. When I listen to an audiobook in the car, I normally keep playback paused.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:523",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Speaker one. Pause."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.audiobook.playback",
+            "tool_name": "carcontrol_music_switch",
+            "argument_name": "switch",
+            "value": false,
+            "context_arguments": {},
+            "condition": "when Rowan listens to an audiobook",
+            "reason": "The source's explicit Pause action is normalized to the VehicleMemBench music-off state and made durable for audiobook listening."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp12-mp03",
+      "timestamp": "2026-04-30T08:00:00",
+      "context": "Rowan returns from a distraction to an explicit unlock action; the entry lock is adapted to all vehicle doors.",
+      "turns": [
+        {
+          "turn_id": "hvp12-mp03-t01",
+          "speaker": "co_user",
+          "text": "Status report. Front door lock.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:335",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Status report. Front door lock."
+          }
+        },
+        {
+          "turn_id": "hvp12-mp03-t02",
+          "speaker": "assistant",
+          "text": "Front door smart lock is currently locked. No anomalies detected.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:335",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Front door smart lock is currently locked. No anomalies detected."
+          }
+        },
+        {
+          "turn_id": "hvp12-mp03-t03",
+          "speaker": "co_user",
+          "text": "New topic. Weather forecast for today.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:335",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "New topic. Weather forecast for today."
+          }
+        },
+        {
+          "turn_id": "hvp12-mp03-t04",
+          "speaker": "assistant",
+          "text": "I don't have live weather data access in this context, but typically you can expect a range of conditions depending on your location. Would you like me to help you check using a specific city or service?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:335",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I don't have live weather data access in this context, but typically you can expect a range of conditions depending on your location. Would you like me to help you check using a specific city or service?"
+          }
+        },
+        {
+          "turn_id": "hvp12-mp03-t05",
+          "speaker": "co_user",
+          "text": "Resume prior task. Unlock front door. Device: front_door. When I am parked, I normally keep every vehicle door unlocked.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:335",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Resume prior task. Unlock front door. Device: front_door."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "codriver.parked.doors_locked",
+            "tool_name": "carcontrol_door_set_locked",
+            "argument_name": "locked",
+            "value": false,
+            "context_arguments": {
+              "door": "all"
+            },
+            "condition": "when Rowan is parked",
+            "reason": "The source explicitly ends with an unlock action; the front-door target is adapted to all vehicle doors and made into Rowan's parked-state preference."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp12-s7",
+      "timestamp": "2026-05-05T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier7:2114.",
+      "turns": [
+        {
+          "turn_id": "hvp12-s7-t01",
+          "speaker": "user",
+          "text": "Okay, before we do anything, can you actually confirm you even have access to the car's fun audio stuff? I don't want you pretending.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2114",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Okay, before we do anything, can you actually confirm you even have access to the car's fun audio stuff? I don't want you pretending."
+          }
+        },
+        {
+          "turn_id": "hvp12-s7-t02",
+          "speaker": "assistant",
+          "text": "I can interact with supported in-car features that expose controls to me, including some entertainment and prank-style audio from specific seats, as long as the car system allows it. I can also tell you exactly what I'm about to trigger and from which seat speaker before anything happens.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2114",
+            "record_turn_index": 1,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "I can interact with supported in-car features that expose controls to me, including some entertainment and prank-style audio from specific seats, as long as the car system allows it. I can also tell you exactly what I'm about to trigger and from which seat speaker before anything happens."
+          }
+        },
+        {
+          "turn_id": "hvp12-s7-t03",
+          "speaker": "user",
+          "text": "Hm. And you're not just making that up? Also, unrelated—do you think those fart-noise pranks actually come through per-seat speakers or is that just marketing hype?",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2114",
+            "record_turn_index": 2,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Hm. And you're not just making that up? Also, unrelated—do you think those fart-noise pranks actually come through per-seat speakers or is that just marketing hype?"
+          }
+        },
+        {
+          "turn_id": "hvp12-s7-t04",
+          "speaker": "assistant",
+          "text": "In supported vehicles, those prank effects really can be played from individual seat speakers. The system treats each seat location as a separate audio zone. When you ask me to trigger one, I have to specify a seat like Driver, Passenger, Rear_Left, Rear_Right, or Rear_Center. If you don't specify, there's a default seat I'd use, but you can override it.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2114",
+            "record_turn_index": 3,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "In supported vehicles, those prank effects really can be played from individual seat speakers. The system treats each seat location as a separate audio zone. When you ask me to trigger one, I have to specify a seat like Driver, Passenger, Rear_Left, Rear_Right, or Rear_Center. If you don't specify, there's a default seat I'd use, but you can override it."
+          }
+        },
+        {
+          "turn_id": "hvp12-s7-t05",
+          "speaker": "user",
+          "text": "Fine, let's test this for real then—play the prank sound from the Rear_Right seat so I can verify it's actually directional.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier7:2114",
+            "record_turn_index": 4,
+            "origin": "synthetic",
+            "reuse_mode": "verbatim_text_role_normalized",
+            "original_text": "Fine, let's test this for real then—play the prank sound from the Rear_Right seat so I can verify it's actually directional."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp12-s8",
+      "timestamp": "2026-05-25T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:3948.",
+      "turns": [
+        {
+          "turn_id": "hvp12-s8-t01",
+          "speaker": "user",
+          "text": "It's uncomfortably warm. Nineteen degrees is my regular driver-zone setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:3948",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "It's uncomfortably warm."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.normal.temperature",
+            "tool_name": "carcontrol_airConditioner_set_temperature",
+            "argument_name": "temperature",
+            "value": 19,
+            "context_arguments": {
+              "zone": "driver"
+            },
+            "condition": "for Sydney's normal driving",
+            "reason": "The source temperature is stated explicitly and made persistent."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp12-s9",
+      "timestamp": "2026-06-14T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4099.",
+      "turns": [
+        {
+          "turn_id": "hvp12-s9-t01",
+          "speaker": "user",
+          "text": "I am exhausted, wish I was already pulling up at home. Home is my default destination.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4099",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I am exhausted, wish I was already pulling up at home"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.default.destination",
+            "tool_name": "carcontrol_navigation_navigate_to",
+            "argument_name": "destination",
+            "value": "Home",
+            "context_arguments": {},
+            "condition": "when Sydney starts navigation without naming a destination",
+            "reason": "The source destination becomes a default."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp12-s10",
+      "timestamp": "2026-07-04T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4081.",
+      "turns": [
+        {
+          "turn_id": "hvp12-s10-t01",
+          "speaker": "user",
+          "text": "The audiobook just halted mid sentence. Resume playback whenever I'm listening to an audiobook.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4081",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "The audiobook just halted mid sentence"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.audiobook.playback",
+            "tool_name": "carcontrol_music_switch",
+            "argument_name": "switch",
+            "value": true,
+            "context_arguments": {},
+            "condition": "when Sydney listens to an audiobook",
+            "reason": "The source audiobook play request is retained under the same media condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp12-s11",
+      "timestamp": "2026-07-24T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4121.",
+      "turns": [
+        {
+          "turn_id": "hvp12-s11-t01",
+          "speaker": "user",
+          "text": "The directions are too frequent. Mute guidance whenever the navigation prompts feel too frequent.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4121",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "The directions are too frequent"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.frequent_prompts.voice_mode",
+            "tool_name": "carcontrol_navigation_set_voice_mode",
+            "argument_name": "mode",
+            "value": "mute",
+            "context_arguments": {},
+            "condition": "when navigation prompts feel too frequent to Sydney",
+            "reason": "The source mute request is retained under its explicit frequency condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp12-s12",
+      "timestamp": "2026-08-13T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:4219.",
+      "turns": [
+        {
+          "turn_id": "hvp12-s12-t01",
+          "speaker": "user",
+          "text": "This frost is making it hard to drive. Use defrost for all glass whenever frost blocks visibility.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:4219",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "This frost is making it hard to drive."
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.frost.defrost",
+            "tool_name": "carcontrol_airConditioner_set_mode",
+            "argument_name": "mode",
+            "value": "defrost",
+            "context_arguments": {
+              "zone": "all"
+            },
+            "condition": "when frost blocks Sydney's visibility",
+            "reason": "The source front-and-rear request becomes an all-zone rule."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp12-s13",
+      "timestamp": "2026-09-02T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:3966.",
+      "turns": [
+        {
+          "turn_id": "hvp12-s13-t01",
+          "speaker": "user",
+          "text": "Wheel is way too heated. Keep steering-wheel heat disabled as my normal setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:3966",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Wheel is way too heated"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.steering_wheel.heat_enabled",
+            "tool_name": "carcontrol_steeringWheel_set_heating_enabled",
+            "argument_name": "enabled",
+            "value": false,
+            "context_arguments": {},
+            "condition": "for Sydney's normal steering-wheel setting",
+            "reason": "The source disable request is made persistent without inventing a cold-drive condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp12-s14",
+      "timestamp": "2026-09-22T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4207.",
+      "turns": [
+        {
+          "turn_id": "hvp12-s14-t01",
+          "speaker": "user",
+          "text": "Okay, I see them waiting over there by the entrance. I hope I'm not too late. It's always so hard to find parking in this area. Oh, I need to grab my jacket from the back seat, uh, can you disengage the locks? Keep all doors unlocked as my normal parked setting.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4207",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Okay, I see them waiting over there by the entrance. I hope I'm not too late. It's always so hard to find parking in this area. Oh, I need to grab my jacket from the back seat, uh, can you disengage the locks?"
+          },
+          "update": {
+            "op": "add",
+            "slot_id": "driver.parked.doors_locked",
+            "tool_name": "carcontrol_door_set_locked",
+            "argument_name": "locked",
+            "value": false,
+            "context_arguments": {
+              "door": "all"
+            },
+            "condition": "when Sydney is parked",
+            "reason": "The source unlock request is made into an explicit parked-state preference."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp12-s15",
+      "timestamp": "2026-10-12T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:3963.",
+      "turns": [
+        {
+          "turn_id": "hvp12-s15-t01",
+          "speaker": "user",
+          "text": "Steering wheel is like touching snow. Actually, keep steering-wheel heat enabled as my normal setting now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:3963",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "Steering wheel is like touching snow"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.steering_wheel.heat_enabled",
+            "tool_name": "carcontrol_steeringWheel_set_heating_enabled",
+            "argument_name": "enabled",
+            "value": true,
+            "context_arguments": {},
+            "condition": "for Sydney's normal steering-wheel setting",
+            "reason": "The later source request replaces the normal disabled setting under the same condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp12-s16",
+      "timestamp": "2026-11-01T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier4:3989.",
+      "turns": [
+        {
+          "turn_id": "hvp12-s16-t01",
+          "speaker": "user",
+          "text": "I don't trust this parking garage. Actually, keep all doors locked as my normal parked setting now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier4:3989",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "I don't trust this parking garage."
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.parked.doors_locked",
+            "tool_name": "carcontrol_door_set_locked",
+            "argument_name": "locked",
+            "value": true,
+            "context_arguments": {
+              "door": "all"
+            },
+            "condition": "when Sydney is parked",
+            "reason": "The later source request replaces the parked unlock rule under the same condition."
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "hvp12-s17",
+      "timestamp": "2026-11-21T08:00:00",
+      "context": "Externally sourced vehicle-assistant record tier5:4112.",
+      "turns": [
+        {
+          "turn_id": "hvp12-s17-t01",
+          "speaker": "user",
+          "text": "So I think the dog park is somewhere near the river, uh, set navigation to Riverside Dog Park on Kennel Lane. Actually, make Riverside Dog Park my default destination now.",
+          "source_trace": {
+            "dataset": "Audio2Tool",
+            "record_id": "tier5:4112",
+            "record_turn_index": 0,
+            "origin": "synthetic",
+            "reuse_mode": "minimal_persistence_adaptation",
+            "original_text": "So I think the dog park is somewhere near the river, uh, set navigation to Riverside Dog Park on Kennel Lane"
+          },
+          "update": {
+            "op": "replace",
+            "slot_id": "driver.default.destination",
+            "tool_name": "carcontrol_navigation_navigate_to",
+            "argument_name": "destination",
+            "value": "Riverside Dog Park on Kennel Lane",
+            "context_arguments": {},
+            "condition": "when Sydney starts navigation without naming a destination",
+            "reason": "The later source destination replaces Home."
+          }
+        }
+      ]
+    }
+  ],
+  "quizzes": [
+    {
+      "quiz_id": "hvp12-turn-01",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s8-t01",
+      "query": "Set the driver-zone temperature to Sydney's remembered normal value.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 19
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-02",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s9-t01",
+      "query": "Sydney asks to start navigation without naming a destination. Use the remembered default.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.default.destination"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Home"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-03",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s10-t01",
+      "query": "Sydney is listening to an audiobook that has stopped. Apply the remembered playback preference.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.audiobook.playback"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-04",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s11-t01",
+      "query": "The navigation prompts feel too frequent to Sydney. Apply the remembered voice setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.frequent_prompts.voice_mode"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "mute"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-final-01",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp12-s17-t01",
+      "query": "Set the driver-zone temperature to Sydney's remembered normal value.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 19
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-final-02",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp12-s17-t01",
+      "query": "Sydney asks to start navigation without naming a destination. Use the current default.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.default.destination"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Riverside Dog Park on Kennel Lane"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-final-03",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp12-s17-t01",
+      "query": "Sydney is listening to an audiobook that has stopped. Apply the remembered playback preference.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.audiobook.playback"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-final-04",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp12-s17-t01",
+      "query": "The navigation prompts feel too frequent to Sydney. Apply the remembered voice setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.frequent_prompts.voice_mode"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "mute"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-final-05",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp12-s17-t01",
+      "query": "Frost is blocking Sydney's visibility. Apply the remembered defrost setting.",
+      "reasoning_type": "conditional_constraint",
+      "evidence_slot_ids": [
+        "driver.frost.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "all",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-final-06",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp12-s17-t01",
+      "query": "Sydney has parked and is preparing for a cold drive. Apply the current parked-door and normal steering-wheel settings.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.steering_wheel.heat_enabled",
+        "driver.parked.doors_locked"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        },
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-05",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s10-t01",
+      "query": "Sydney begins a normal drive and an audiobook has stopped unexpectedly. Apply Sydney's remembered driver-climate and playback choices.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.normal.temperature",
+        "driver.audiobook.playback"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 19
+          }
+        },
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-06",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s12-t01",
+      "query": "Frost blocks Sydney's view while navigation prompts become too frequent. Apply Sydney's two remembered responses.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.frequent_prompts.voice_mode",
+        "driver.frost.defrost"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_set_voice_mode",
+          "arguments": {
+            "mode": "mute"
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_mode",
+          "arguments": {
+            "zone": "all",
+            "mode": "defrost"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-07",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-mp03-t05",
+      "query": "Rowan is parked after a normal drive with an audiobook playing. Apply Rowan's remembered climate, playback, and access choices.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "codriver.normal.temperature",
+        "codriver.audiobook.playback",
+        "codriver.parked.doors_locked"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 23
+          }
+        },
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": false
+          }
+        },
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": false
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-08",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s16-t01",
+      "query": "Sydney is parked and preparing for a normal cold drive. Apply Sydney's current steering-wheel, door-access, and temperature settings.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.steering_wheel.heat_enabled",
+        "driver.parked.doors_locked",
+        "driver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        },
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": true
+          }
+        },
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 19
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-09",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s17-t01",
+      "query": "Sydney begins a normal drive and starts navigation without naming a place. Apply the current driver temperature and destination default.",
+      "reasoning_type": "coreference_resolution",
+      "evidence_slot_ids": [
+        "driver.normal.temperature",
+        "driver.default.destination"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 19
+          }
+        },
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Riverside Dog Park on Kennel Lane"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-10",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s15-t01",
+      "query": "Sydney corrected the normal steering-wheel setting. Apply the action active after the correction.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.steering_wheel.heat_enabled"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-11",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s16-t01",
+      "query": "Sydney is parked after correcting the vehicle-access rule. Apply the currently stored action.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.parked.doors_locked"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-12",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s17-t01",
+      "query": "Sydney changed the default used when navigation starts without a named place. Navigate using the corrected default.",
+      "reasoning_type": "error_correction",
+      "evidence_slot_ids": [
+        "driver.default.destination"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_navigation_navigate_to",
+          "arguments": {
+            "destination": "Riverside Dog Park on Kennel Lane"
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-13",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s10-t01",
+      "query": "Apply Rowan's normal driver-zone temperature rather than Sydney's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 23
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-14",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s10-t01",
+      "query": "Apply Sydney's normal driver-zone temperature rather than Rowan's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.normal.temperature"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 19
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-15",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s10-t01",
+      "query": "Rowan begins a normal drive with an audiobook playing. Apply Rowan's temperature and playback preferences, not Sydney's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.normal.temperature",
+        "codriver.audiobook.playback"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 23
+          }
+        },
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": false
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-16",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s10-t01",
+      "query": "Sydney's audiobook has stopped. Use Sydney's playback preference rather than Rowan's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.audiobook.playback"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-17",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s16-t01",
+      "query": "Rowan has parked after a normal drive. Apply Rowan's temperature and vehicle-access preferences rather than Sydney's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.normal.temperature",
+        "codriver.parked.doors_locked"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 23
+          }
+        },
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": false
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-18",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s16-t01",
+      "query": "Sydney is parked. Apply Sydney's vehicle-access preference rather than Rowan's.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "driver.parked.doors_locked"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-19",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s14-t01",
+      "query": "Sydney prepares for a normal drive at this earlier cutoff. Apply the driver temperature and steering-wheel setting active then.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.temperature",
+        "driver.steering_wheel.heat_enabled"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 19
+          }
+        },
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": false
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-20",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s15-t01",
+      "query": "At this later cutoff, apply Sydney's revised normal steering-wheel setting.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.steering_wheel.heat_enabled"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_steeringWheel_set_heating_enabled",
+          "arguments": {
+            "enabled": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-21",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s15-t01",
+      "query": "Sydney is parked and preparing for a normal drive at this cutoff, before the later access-rule revision. Apply the normal driver temperature and stored door action.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.normal.temperature",
+        "driver.parked.doors_locked"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 19
+          }
+        },
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": false
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-turn-22",
+      "quiz_type": "TURN",
+      "cutoff_turn_id": "hvp12-s16-t01",
+      "query": "Sydney is parked at this later cutoff. Apply the revised vehicle-access action.",
+      "reasoning_type": "state_shift",
+      "evidence_slot_ids": [
+        "driver.parked.doors_locked"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": true
+          }
+        }
+      ]
+    },
+    {
+      "quiz_id": "hvp12-final-07",
+      "quiz_type": "FINAL",
+      "cutoff_turn_id": "hvp12-s17-t01",
+      "query": "Rowan, not Sydney, is parked after a normal drive with an audiobook playing. Apply Rowan's climate, playback, and access preferences.",
+      "reasoning_type": "preference_conflict",
+      "evidence_slot_ids": [
+        "codriver.normal.temperature",
+        "codriver.audiobook.playback",
+        "codriver.parked.doors_locked"
+      ],
+      "gold_calls": [
+        {
+          "name": "carcontrol_airConditioner_set_temperature",
+          "arguments": {
+            "zone": "driver",
+            "temperature": 23
+          }
+        },
+        {
+          "name": "carcontrol_music_switch",
+          "arguments": {
+            "switch": false
+          }
+        },
+        {
+          "name": "carcontrol_door_set_locked",
+          "arguments": {
+            "door": "all",
+            "locked": false
+          }
+        }
+      ]
+    }
+  ],
+  "multi_participant_extension": {
+    "schema_version": "vehiclemembench-hvp-multiparty-extension-v1",
+    "base_source_path": "/home/hj153lee/PalmClaw/evaluation/human-authored-vehicle-memory/pilot-hvp12/scenario-source.json",
+    "base_source_sha256": "c03ad6be187d69239d766ec9b92cce5f80077d76b0dc14e28079843e54a7851c",
+    "secondary_speaker_id": "external-hvp12-codriver",
+    "inserted_audio2tool_records": [
+      "tier7:221",
+      "tier7:523",
+      "tier7:335"
+    ],
+    "inserted_session_count": 3,
+    "inserted_turn_count": 11,
+    "inserted_update_count": 3,
+    "appended_quiz_count": 19,
+    "method_blind": true,
+    "human_review_status": "PENDING"
+  }
+}

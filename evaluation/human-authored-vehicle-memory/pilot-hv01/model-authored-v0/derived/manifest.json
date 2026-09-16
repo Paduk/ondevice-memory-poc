@@ -1,0 +1,70 @@
+{
+  "eligible_for_human_test": false,
+  "files": {
+    "dialogue.jsonl": {
+      "row_count": 36,
+      "sha256": "cedbf53929d5307ac1cebac9b44e9d80d2c9eea8409f6466e0c826c3acc447e5"
+    },
+    "final_quiz.jsonl": {
+      "row_count": 7,
+      "sha256": "39d693c492df8b7f72b1a6b43e37b0b5b0a82dc8c1fe55bb960ba01c65634bf8"
+    },
+    "memory_snapshots.jsonl": {
+      "row_count": 36,
+      "sha256": "871083aa1128a0c298914b16c56670b8dd3be31dd4d23f93567a361620012349"
+    },
+    "patch.jsonl": {
+      "row_count": 36,
+      "sha256": "b25ea5f947b1796e57b24c9174dc0a77353e9f5e0c04a2e2c8afddc1502711f2"
+    },
+    "turn_quiz.jsonl": {
+      "row_count": 3,
+      "sha256": "2d8af02eaa95c5d5e133a60abc6f0c9f59141e26689a755aadefacf50d268d48"
+    }
+  },
+  "final_memory": {
+    "active_slot_ids": [
+      "maya.cold_commute.driver_temperature",
+      "maya.unfamiliar_route.voice_mode",
+      "maya.morning_drive.music_volume",
+      "daniel.long_trip.passenger_temperature",
+      "zoe.after_dark.rear_left_reading_brightness",
+      "maya.night_drive.ambient_color",
+      "maya.summer_gym.driver_ventilation_speed",
+      "daniel.cold_weekend.passenger_heating_level",
+      "shared.lock.auto_close_windows"
+    ],
+    "sha256": "0c7a2f71c6b63de9a11b9bac38f303b4bc5a80d98af13519937e34b4a58b5405",
+    "turn_id": "hvp01-s5-t06"
+  },
+  "scenario_id": "HVP01",
+  "scenario_index": 901,
+  "schema_version": "vehiclemembench-human-authored-pilot-manifest-v1",
+  "source_path": "/home/hj153lee/PalmClaw/evaluation/human-authored-vehicle-memory/pilot-hv01/scenario-source.json",
+  "source_sha256": "41df18b5222296befa3e359761ca346e9420a554000bc3748f4bfaf84311cac5",
+  "split": "pilot_excluded",
+  "statistics": {
+    "active_memory_slot_count": 9,
+    "add_count": 9,
+    "distinct_memory_tool_count": 8,
+    "final_quiz_count": 7,
+    "noop_count": 23,
+    "quiz_tool_call_count": 15,
+    "replace_count": 4,
+    "session_count": 5,
+    "speaker_count": 3,
+    "turn_count": 36,
+    "turn_quiz_count": 3,
+    "update_count": 13
+  },
+  "validation": {
+    "chronology_and_unique_ids": "PASS",
+    "final_quiz_uses_final_snapshot": "PASS",
+    "noop_memory_identity": "PASS",
+    "official_tool_json_schema": "PASS",
+    "official_vehicleworld_simulator": "PASS",
+    "patch_replay_all_turns": "PASS",
+    "quiz_evidence_active_at_cutoff": "PASS",
+    "source_contract": "PASS"
+  }
+}
