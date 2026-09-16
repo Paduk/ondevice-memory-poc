@@ -1,0 +1,3434 @@
+{
+  "conditions": [
+    "unstratified",
+    "depth-weighted"
+  ],
+  "runs": {
+    "unstratified": [
+      {
+        "condition": "unstratified",
+        "seed": 45,
+        "run_id": "granite4-1b-delta_v3_compact_k5-pending-ablation-unstratified-e4-b2-seed45-r1",
+        "selected_epoch": 3,
+        "validation_composite": 0.5886748384049733,
+        "test_composite": 0.6829740410652378,
+        "closed_loop_quiz_esm": 0.7291666666666666,
+        "closed_loop_final_state_f1": 0.4865283168495071,
+        "closed_loop_update_f1": 0.8256130790190738,
+        "closed_loop_false_update_rate": 0.018781725888324875,
+        "diagnostic_update_recall": 0.78125,
+        "diagnostic_false_update_rate": 0.015625,
+        "by_pending_depth": {
+          "0": {
+            "update_precision": 0.9811320754716981,
+            "update_recall": 0.8125,
+            "update_f1": 0.8888888888888888,
+            "noop_specificity": 0.984375,
+            "false_update_rate": 0.015625,
+            "invalid_count": 0,
+            "decision_counts": {
+              "true_update": 52,
+              "false_update": 1,
+              "missed_update": 12,
+              "true_noop": 63,
+              "invalid": 0,
+              "invalid_noop": 0
+            },
+            "rows": 128,
+            "schema_success_rate": 1.0,
+            "apply_success_rate": 1.0,
+            "state_exact": 0.703125,
+            "state_f1": 0.9264264564912784,
+            "reason_code_accuracy": null,
+            "prefill_tokens": 55987,
+            "decode_tokens": 4151,
+            "total_tokens": 60138,
+            "latency_seconds": 145.19060871656984,
+            "tokens_per_second": 28.590003421662548,
+            "usage_by_gold_decision": {
+              "UPDATE": {
+                "turns": 64,
+                "prefill_tokens": 24476,
+                "decode_tokens": 3608,
+                "total_tokens": 28084,
+                "attributed_latency_seconds": 77.0334785199957,
+                "average_prefill_tokens": 382.4375,
+                "average_decode_tokens": 56.375,
+                "average_total_tokens": 438.8125,
+                "average_attributed_latency_seconds": 1.2036481018749328
+              },
+              "NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 31511,
+                "decode_tokens": 543,
+                "total_tokens": 32054,
+                "attributed_latency_seconds": 68.15713019657414,
+                "average_prefill_tokens": 492.359375,
+                "average_decode_tokens": 8.484375,
+                "average_total_tokens": 500.84375,
+                "average_attributed_latency_seconds": 1.064955159321471
+              }
+            },
+            "usage_by_predicted_decision": {
+              "UPDATE": {
+                "turns": 53,
+                "prefill_tokens": 19450,
+                "decode_tokens": 3626,
+                "total_tokens": 23076,
+                "attributed_latency_seconds": 69.47326785174664,
+                "average_prefill_tokens": 366.9811320754717,
+                "average_decode_tokens": 68.41509433962264,
+                "average_total_tokens": 435.39622641509436,
+                "average_attributed_latency_seconds": 1.3108163745612573
+              },
+              "NO_OP": {
+                "turns": 75,
+                "prefill_tokens": 36537,
+                "decode_tokens": 525,
+                "total_tokens": 37062,
+                "attributed_latency_seconds": 75.7173408648232,
+                "average_prefill_tokens": 487.16,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 494.16,
+                "average_attributed_latency_seconds": 1.0095645448643094
+              },
+              "INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "usage_by_decision_pair": {
+              "UPDATE->UPDATE": {
+                "turns": 52,
+                "prefill_tokens": 19053,
+                "decode_tokens": 3524,
+                "total_tokens": 22577,
+                "attributed_latency_seconds": 67.85338349128142,
+                "average_prefill_tokens": 366.40384615384613,
+                "average_decode_tokens": 67.76923076923077,
+                "average_total_tokens": 434.1730769230769,
+                "average_attributed_latency_seconds": 1.3048727594477196
+              },
+              "UPDATE->NO_OP": {
+                "turns": 12,
+                "prefill_tokens": 5423,
+                "decode_tokens": 84,
+                "total_tokens": 5507,
+                "attributed_latency_seconds": 9.180095028714277,
+                "average_prefill_tokens": 451.9166666666667,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 458.9166666666667,
+                "average_attributed_latency_seconds": 0.765007919059523
+              },
+              "UPDATE->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->UPDATE": {
+                "turns": 1,
+                "prefill_tokens": 397,
+                "decode_tokens": 102,
+                "total_tokens": 499,
+                "attributed_latency_seconds": 1.619884360465221,
+                "average_prefill_tokens": 397.0,
+                "average_decode_tokens": 102.0,
+                "average_total_tokens": 499.0,
+                "average_attributed_latency_seconds": 1.619884360465221
+              },
+              "NO_OP->NO_OP": {
+                "turns": 63,
+                "prefill_tokens": 31114,
+                "decode_tokens": 441,
+                "total_tokens": 31555,
+                "attributed_latency_seconds": 66.53724583610892,
+                "average_prefill_tokens": 493.87301587301585,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 500.87301587301585,
+                "average_attributed_latency_seconds": 1.0561467593033163
+              },
+              "NO_OP->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "decision_usage_latency_kind": "attributed_wall_clock",
+            "failures": []
+          },
+          "1": {
+            "update_precision": 0.9622641509433962,
+            "update_recall": 0.796875,
+            "update_f1": 0.8717948717948717,
+            "noop_specificity": 0.96875,
+            "false_update_rate": 0.03125,
+            "invalid_count": 0,
+            "decision_counts": {
+              "true_update": 51,
+              "false_update": 2,
+              "missed_update": 13,
+              "true_noop": 62,
+              "invalid": 0,
+              "invalid_noop": 0
+            },
+            "rows": 128,
+            "schema_success_rate": 1.0,
+            "apply_success_rate": 1.0,
+            "state_exact": 0.7109375,
+            "state_f1": 0.958057666866934,
+            "reason_code_accuracy": null,
+            "prefill_tokens": 58004,
+            "decode_tokens": 4519,
+            "total_tokens": 62523,
+            "latency_seconds": 180.928233246319,
+            "tokens_per_second": 24.976754146754704,
+            "usage_by_gold_decision": {
+              "UPDATE": {
+                "turns": 64,
+                "prefill_tokens": 27700,
+                "decode_tokens": 3906,
+                "total_tokens": 31606,
+                "attributed_latency_seconds": 93.2579232826829,
+                "average_prefill_tokens": 432.8125,
+                "average_decode_tokens": 61.03125,
+                "average_total_tokens": 493.84375,
+                "average_attributed_latency_seconds": 1.4571550512919202
+              },
+              "NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 30304,
+                "decode_tokens": 613,
+                "total_tokens": 30917,
+                "attributed_latency_seconds": 87.6703099636361,
+                "average_prefill_tokens": 473.5,
+                "average_decode_tokens": 9.578125,
+                "average_total_tokens": 483.078125,
+                "average_attributed_latency_seconds": 1.369848593181814
+              }
+            },
+            "usage_by_predicted_decision": {
+              "UPDATE": {
+                "turns": 53,
+                "prefill_tokens": 23871,
+                "decode_tokens": 3994,
+                "total_tokens": 27865,
+                "attributed_latency_seconds": 74.28752578166313,
+                "average_prefill_tokens": 450.39622641509436,
+                "average_decode_tokens": 75.35849056603773,
+                "average_total_tokens": 525.7547169811321,
+                "average_attributed_latency_seconds": 1.4016514298427007
+              },
+              "NO_OP": {
+                "turns": 75,
+                "prefill_tokens": 34133,
+                "decode_tokens": 525,
+                "total_tokens": 34658,
+                "attributed_latency_seconds": 106.64070746465586,
+                "average_prefill_tokens": 455.1066666666667,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 462.1066666666667,
+                "average_attributed_latency_seconds": 1.4218760995287447
+              },
+              "INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "usage_by_decision_pair": {
+              "UPDATE->UPDATE": {
+                "turns": 51,
+                "prefill_tokens": 22750,
+                "decode_tokens": 3815,
+                "total_tokens": 26565,
+                "attributed_latency_seconds": 71.70899100590032,
+                "average_prefill_tokens": 446.078431372549,
+                "average_decode_tokens": 74.80392156862744,
+                "average_total_tokens": 520.8823529411765,
+                "average_attributed_latency_seconds": 1.406058647174516
+              },
+              "UPDATE->NO_OP": {
+                "turns": 13,
+                "prefill_tokens": 4950,
+                "decode_tokens": 91,
+                "total_tokens": 5041,
+                "attributed_latency_seconds": 21.54893227678258,
+                "average_prefill_tokens": 380.7692307692308,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 387.7692307692308,
+                "average_attributed_latency_seconds": 1.6576101751371215
+              },
+              "UPDATE->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->UPDATE": {
+                "turns": 2,
+                "prefill_tokens": 1121,
+                "decode_tokens": 179,
+                "total_tokens": 1300,
+                "attributed_latency_seconds": 2.5785347757628188,
+                "average_prefill_tokens": 560.5,
+                "average_decode_tokens": 89.5,
+                "average_total_tokens": 650.0,
+                "average_attributed_latency_seconds": 1.2892673878814094
+              },
+              "NO_OP->NO_OP": {
+                "turns": 62,
+                "prefill_tokens": 29183,
+                "decode_tokens": 434,
+                "total_tokens": 29617,
+                "attributed_latency_seconds": 85.09177518787328,
+                "average_prefill_tokens": 470.69354838709677,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 477.69354838709677,
+                "average_attributed_latency_seconds": 1.3724479869011819
+              },
+              "NO_OP->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "decision_usage_latency_kind": "attributed_wall_clock",
+            "failures": []
+          },
+          "2": {
+            "update_precision": 1.0,
+            "update_recall": 0.796875,
+            "update_f1": 0.8869565217391304,
+            "noop_specificity": 1.0,
+            "false_update_rate": 0.0,
+            "invalid_count": 0,
+            "decision_counts": {
+              "true_update": 51,
+              "false_update": 0,
+              "missed_update": 13,
+              "true_noop": 64,
+              "invalid": 0,
+              "invalid_noop": 0
+            },
+            "rows": 128,
+            "schema_success_rate": 1.0,
+            "apply_success_rate": 1.0,
+            "state_exact": 0.7421875,
+            "state_f1": 0.9748621149043986,
+            "reason_code_accuracy": null,
+            "prefill_tokens": 67917,
+            "decode_tokens": 4292,
+            "total_tokens": 72209,
+            "latency_seconds": 144.03416639659554,
+            "tokens_per_second": 29.798485368964844,
+            "usage_by_gold_decision": {
+              "UPDATE": {
+                "turns": 64,
+                "prefill_tokens": 33903,
+                "decode_tokens": 3844,
+                "total_tokens": 37747,
+                "attributed_latency_seconds": 73.58322384837084,
+                "average_prefill_tokens": 529.734375,
+                "average_decode_tokens": 60.0625,
+                "average_total_tokens": 589.796875,
+                "average_attributed_latency_seconds": 1.1497378726307943
+              },
+              "NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 34014,
+                "decode_tokens": 448,
+                "total_tokens": 34462,
+                "attributed_latency_seconds": 70.4509425482247,
+                "average_prefill_tokens": 531.46875,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 538.46875,
+                "average_attributed_latency_seconds": 1.100795977316011
+              }
+            },
+            "usage_by_predicted_decision": {
+              "UPDATE": {
+                "turns": 51,
+                "prefill_tokens": 26145,
+                "decode_tokens": 3753,
+                "total_tokens": 29898,
+                "attributed_latency_seconds": 61.412413540063426,
+                "average_prefill_tokens": 512.6470588235294,
+                "average_decode_tokens": 73.58823529411765,
+                "average_total_tokens": 586.2352941176471,
+                "average_attributed_latency_seconds": 1.2041649713737927
+              },
+              "NO_OP": {
+                "turns": 77,
+                "prefill_tokens": 41772,
+                "decode_tokens": 539,
+                "total_tokens": 42311,
+                "attributed_latency_seconds": 82.62175285653211,
+                "average_prefill_tokens": 542.4935064935065,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 549.4935064935065,
+                "average_attributed_latency_seconds": 1.07300977735756
+              },
+              "INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "usage_by_decision_pair": {
+              "UPDATE->UPDATE": {
+                "turns": 51,
+                "prefill_tokens": 26145,
+                "decode_tokens": 3753,
+                "total_tokens": 29898,
+                "attributed_latency_seconds": 61.412413540063426,
+                "average_prefill_tokens": 512.6470588235294,
+                "average_decode_tokens": 73.58823529411765,
+                "average_total_tokens": 586.2352941176471,
+                "average_attributed_latency_seconds": 1.2041649713737927
+              },
+              "UPDATE->NO_OP": {
+                "turns": 13,
+                "prefill_tokens": 7758,
+                "decode_tokens": 91,
+                "total_tokens": 7849,
+                "attributed_latency_seconds": 12.17081030830741,
+                "average_prefill_tokens": 596.7692307692307,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 603.7692307692307,
+                "average_attributed_latency_seconds": 0.9362161775621084
+              },
+              "UPDATE->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->UPDATE": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 34014,
+                "decode_tokens": 448,
+                "total_tokens": 34462,
+                "attributed_latency_seconds": 70.4509425482247,
+                "average_prefill_tokens": 531.46875,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 538.46875,
+                "average_attributed_latency_seconds": 1.100795977316011
+              },
+              "NO_OP->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "decision_usage_latency_kind": "attributed_wall_clock",
+            "failures": []
+          },
+          "3": {
+            "update_precision": 0.96,
+            "update_recall": 0.75,
+            "update_f1": 0.8421052631578947,
+            "noop_specificity": 0.96875,
+            "false_update_rate": 0.03125,
+            "invalid_count": 0,
+            "decision_counts": {
+              "true_update": 48,
+              "false_update": 2,
+              "missed_update": 16,
+              "true_noop": 62,
+              "invalid": 0,
+              "invalid_noop": 0
+            },
+            "rows": 128,
+            "schema_success_rate": 1.0,
+            "apply_success_rate": 1.0,
+            "state_exact": 0.671875,
+            "state_f1": 0.9734547947204049,
+            "reason_code_accuracy": null,
+            "prefill_tokens": 76473,
+            "decode_tokens": 4517,
+            "total_tokens": 80990,
+            "latency_seconds": 149.41740515455604,
+            "tokens_per_second": 30.230748521751234,
+            "usage_by_gold_decision": {
+              "UPDATE": {
+                "turns": 64,
+                "prefill_tokens": 35253,
+                "decode_tokens": 3919,
+                "total_tokens": 39172,
+                "attributed_latency_seconds": 75.62278221629094,
+                "average_prefill_tokens": 550.828125,
+                "average_decode_tokens": 61.234375,
+                "average_total_tokens": 612.0625,
+                "average_attributed_latency_seconds": 1.181605972129546
+              },
+              "NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 41220,
+                "decode_tokens": 598,
+                "total_tokens": 41818,
+                "attributed_latency_seconds": 73.79462293826509,
+                "average_prefill_tokens": 644.0625,
+                "average_decode_tokens": 9.34375,
+                "average_total_tokens": 653.40625,
+                "average_attributed_latency_seconds": 1.153040983410392
+              }
+            },
+            "usage_by_predicted_decision": {
+              "UPDATE": {
+                "turns": 50,
+                "prefill_tokens": 26884,
+                "decode_tokens": 3971,
+                "total_tokens": 30855,
+                "attributed_latency_seconds": 60.469766244175844,
+                "average_prefill_tokens": 537.68,
+                "average_decode_tokens": 79.42,
+                "average_total_tokens": 617.1,
+                "average_attributed_latency_seconds": 1.209395324883517
+              },
+              "NO_OP": {
+                "turns": 78,
+                "prefill_tokens": 49589,
+                "decode_tokens": 546,
+                "total_tokens": 50135,
+                "attributed_latency_seconds": 88.94763891038019,
+                "average_prefill_tokens": 635.7564102564103,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 642.7564102564103,
+                "average_attributed_latency_seconds": 1.1403543450048743
+              },
+              "INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "usage_by_decision_pair": {
+              "UPDATE->UPDATE": {
+                "turns": 48,
+                "prefill_tokens": 25681,
+                "decode_tokens": 3807,
+                "total_tokens": 29488,
+                "attributed_latency_seconds": 57.915365942637436,
+                "average_prefill_tokens": 535.0208333333334,
+                "average_decode_tokens": 79.3125,
+                "average_total_tokens": 614.3333333333334,
+                "average_attributed_latency_seconds": 1.2065701238049467
+              },
+              "UPDATE->NO_OP": {
+                "turns": 16,
+                "prefill_tokens": 9572,
+                "decode_tokens": 112,
+                "total_tokens": 9684,
+                "attributed_latency_seconds": 17.707416273653507,
+                "average_prefill_tokens": 598.25,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 605.25,
+                "average_attributed_latency_seconds": 1.1067135171033442
+              },
+              "UPDATE->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->UPDATE": {
+                "turns": 2,
+                "prefill_tokens": 1203,
+                "decode_tokens": 164,
+                "total_tokens": 1367,
+                "attributed_latency_seconds": 2.554400301538408,
+                "average_prefill_tokens": 601.5,
+                "average_decode_tokens": 82.0,
+                "average_total_tokens": 683.5,
+                "average_attributed_latency_seconds": 1.277200150769204
+              },
+              "NO_OP->NO_OP": {
+                "turns": 62,
+                "prefill_tokens": 40017,
+                "decode_tokens": 434,
+                "total_tokens": 40451,
+                "attributed_latency_seconds": 71.24022263672668,
+                "average_prefill_tokens": 645.4354838709677,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 652.4354838709677,
+                "average_attributed_latency_seconds": 1.1490358489794628
+              },
+              "NO_OP->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "decision_usage_latency_kind": "attributed_wall_clock",
+            "failures": []
+          },
+          "4": {
+            "update_precision": 1.0,
+            "update_recall": 0.75,
+            "update_f1": 0.8571428571428571,
+            "noop_specificity": 1.0,
+            "false_update_rate": 0.0,
+            "invalid_count": 0,
+            "decision_counts": {
+              "true_update": 48,
+              "false_update": 0,
+              "missed_update": 16,
+              "true_noop": 64,
+              "invalid": 0,
+              "invalid_noop": 0
+            },
+            "rows": 128,
+            "schema_success_rate": 1.0,
+            "apply_success_rate": 1.0,
+            "state_exact": 0.71875,
+            "state_f1": 0.9790146555503232,
+            "reason_code_accuracy": null,
+            "prefill_tokens": 83564,
+            "decode_tokens": 4456,
+            "total_tokens": 88020,
+            "latency_seconds": 127.20301277935505,
+            "tokens_per_second": 35.03061682767946,
+            "usage_by_gold_decision": {
+              "UPDATE": {
+                "turns": 64,
+                "prefill_tokens": 38761,
+                "decode_tokens": 4008,
+                "total_tokens": 42769,
+                "attributed_latency_seconds": 65.85376908979379,
+                "average_prefill_tokens": 605.640625,
+                "average_decode_tokens": 62.625,
+                "average_total_tokens": 668.265625,
+                "average_attributed_latency_seconds": 1.028965142028028
+              },
+              "NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 44803,
+                "decode_tokens": 448,
+                "total_tokens": 45251,
+                "attributed_latency_seconds": 61.34924368956126,
+                "average_prefill_tokens": 700.046875,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 707.046875,
+                "average_attributed_latency_seconds": 0.9585819326493947
+              }
+            },
+            "usage_by_predicted_decision": {
+              "UPDATE": {
+                "turns": 48,
+                "prefill_tokens": 28517,
+                "decode_tokens": 3896,
+                "total_tokens": 32413,
+                "attributed_latency_seconds": 51.55751039565075,
+                "average_prefill_tokens": 594.1041666666666,
+                "average_decode_tokens": 81.16666666666667,
+                "average_total_tokens": 675.2708333333334,
+                "average_attributed_latency_seconds": 1.0741147999093907
+              },
+              "NO_OP": {
+                "turns": 80,
+                "prefill_tokens": 55047,
+                "decode_tokens": 560,
+                "total_tokens": 55607,
+                "attributed_latency_seconds": 75.6455023837043,
+                "average_prefill_tokens": 688.0875,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 695.0875,
+                "average_attributed_latency_seconds": 0.9455687797963037
+              },
+              "INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "usage_by_decision_pair": {
+              "UPDATE->UPDATE": {
+                "turns": 48,
+                "prefill_tokens": 28517,
+                "decode_tokens": 3896,
+                "total_tokens": 32413,
+                "attributed_latency_seconds": 51.55751039565075,
+                "average_prefill_tokens": 594.1041666666666,
+                "average_decode_tokens": 81.16666666666667,
+                "average_total_tokens": 675.2708333333334,
+                "average_attributed_latency_seconds": 1.0741147999093907
+              },
+              "UPDATE->NO_OP": {
+                "turns": 16,
+                "prefill_tokens": 10244,
+                "decode_tokens": 112,
+                "total_tokens": 10356,
+                "attributed_latency_seconds": 14.296258694143035,
+                "average_prefill_tokens": 640.25,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 647.25,
+                "average_attributed_latency_seconds": 0.8935161683839397
+              },
+              "UPDATE->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->UPDATE": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 44803,
+                "decode_tokens": 448,
+                "total_tokens": 45251,
+                "attributed_latency_seconds": 61.34924368956126,
+                "average_prefill_tokens": 700.046875,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 707.046875,
+                "average_attributed_latency_seconds": 0.9585819326493947
+              },
+              "NO_OP->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "decision_usage_latency_kind": "attributed_wall_clock",
+            "failures": []
+          }
+        },
+        "artifacts": {
+          "selection": "/mnt/nvme2/hj153lee/PalmClaw/on-device-memory-training/runs/granite4-1b-delta_v3_compact_k5-pending-ablation-unstratified-e4-b2-seed45-r1/eval-fixed-best-checkpoint.json",
+          "test": "/mnt/nvme2/hj153lee/PalmClaw/on-device-memory-training/runs/granite4-1b-delta_v3_compact_k5-pending-ablation-unstratified-e4-b2-seed45-r1/eval-fixed-test-best-epoch-03/summary.json",
+          "diagnostic": "/mnt/nvme2/hj153lee/PalmClaw/on-device-memory-training/runs/granite4-1b-delta_v3_compact_k5-pending-ablation-unstratified-e4-b2-seed45-r1/pending-depth-test-epoch-03.json"
+        }
+      },
+      {
+        "condition": "unstratified",
+        "seed": 46,
+        "run_id": "granite4-1b-delta_v3_compact_k5-pending-ablation-unstratified-e4-b2-seed46-r1",
+        "selected_epoch": 4,
+        "validation_composite": 0.5504359879359879,
+        "test_composite": 0.6689729110144591,
+        "closed_loop_quiz_esm": 0.7041666666666667,
+        "closed_loop_final_state_f1": 0.49414339230958454,
+        "closed_loop_update_f1": 0.8195804195804196,
+        "closed_loop_false_update_rate": 0.014213197969543147,
+        "diagnostic_update_recall": 0.746875,
+        "diagnostic_false_update_rate": 0.009375,
+        "by_pending_depth": {
+          "0": {
+            "update_precision": 0.9795918367346939,
+            "update_recall": 0.75,
+            "update_f1": 0.8495575221238937,
+            "noop_specificity": 0.984375,
+            "false_update_rate": 0.015625,
+            "invalid_count": 0,
+            "decision_counts": {
+              "true_update": 48,
+              "false_update": 1,
+              "missed_update": 16,
+              "true_noop": 63,
+              "invalid": 0,
+              "invalid_noop": 0
+            },
+            "rows": 128,
+            "schema_success_rate": 1.0,
+            "apply_success_rate": 1.0,
+            "state_exact": 0.7265625,
+            "state_f1": 0.9292863943260614,
+            "reason_code_accuracy": null,
+            "prefill_tokens": 55987,
+            "decode_tokens": 3853,
+            "total_tokens": 59840,
+            "latency_seconds": 113.66613335628062,
+            "tokens_per_second": 33.89751974691503,
+            "usage_by_gold_decision": {
+              "UPDATE": {
+                "turns": 64,
+                "prefill_tokens": 24476,
+                "decode_tokens": 3316,
+                "total_tokens": 27792,
+                "attributed_latency_seconds": 60.15454642858822,
+                "average_prefill_tokens": 382.4375,
+                "average_decode_tokens": 51.8125,
+                "average_total_tokens": 434.25,
+                "average_attributed_latency_seconds": 0.9399147879466909
+              },
+              "NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 31511,
+                "decode_tokens": 537,
+                "total_tokens": 32048,
+                "attributed_latency_seconds": 53.511586927692406,
+                "average_prefill_tokens": 492.359375,
+                "average_decode_tokens": 8.390625,
+                "average_total_tokens": 500.75,
+                "average_attributed_latency_seconds": 0.8361185457451938
+              }
+            },
+            "usage_by_predicted_decision": {
+              "UPDATE": {
+                "turns": 49,
+                "prefill_tokens": 18103,
+                "decode_tokens": 3300,
+                "total_tokens": 21403,
+                "attributed_latency_seconds": 53.03263429622166,
+                "average_prefill_tokens": 369.44897959183675,
+                "average_decode_tokens": 67.34693877551021,
+                "average_total_tokens": 436.7959183673469,
+                "average_attributed_latency_seconds": 1.0822986591065644
+              },
+              "NO_OP": {
+                "turns": 79,
+                "prefill_tokens": 37884,
+                "decode_tokens": 553,
+                "total_tokens": 38437,
+                "attributed_latency_seconds": 60.633499060058966,
+                "average_prefill_tokens": 479.54430379746833,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 486.54430379746833,
+                "average_attributed_latency_seconds": 0.7675126463298604
+              },
+              "INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "usage_by_decision_pair": {
+              "UPDATE->UPDATE": {
+                "turns": 48,
+                "prefill_tokens": 17706,
+                "decode_tokens": 3204,
+                "total_tokens": 20910,
+                "attributed_latency_seconds": 51.401905777165666,
+                "average_prefill_tokens": 368.875,
+                "average_decode_tokens": 66.75,
+                "average_total_tokens": 435.625,
+                "average_attributed_latency_seconds": 1.0708730370242847
+              },
+              "UPDATE->NO_OP": {
+                "turns": 16,
+                "prefill_tokens": 6770,
+                "decode_tokens": 112,
+                "total_tokens": 6882,
+                "attributed_latency_seconds": 8.752640651422553,
+                "average_prefill_tokens": 423.125,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 430.125,
+                "average_attributed_latency_seconds": 0.5470400407139095
+              },
+              "UPDATE->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->UPDATE": {
+                "turns": 1,
+                "prefill_tokens": 397,
+                "decode_tokens": 96,
+                "total_tokens": 493,
+                "attributed_latency_seconds": 1.6307285190559924,
+                "average_prefill_tokens": 397.0,
+                "average_decode_tokens": 96.0,
+                "average_total_tokens": 493.0,
+                "average_attributed_latency_seconds": 1.6307285190559924
+              },
+              "NO_OP->NO_OP": {
+                "turns": 63,
+                "prefill_tokens": 31114,
+                "decode_tokens": 441,
+                "total_tokens": 31555,
+                "attributed_latency_seconds": 51.88085840863641,
+                "average_prefill_tokens": 493.87301587301585,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 500.87301587301585,
+                "average_attributed_latency_seconds": 0.8235056890259748
+              },
+              "NO_OP->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "decision_usage_latency_kind": "attributed_wall_clock",
+            "failures": []
+          },
+          "1": {
+            "update_precision": 1.0,
+            "update_recall": 0.765625,
+            "update_f1": 0.8672566371681416,
+            "noop_specificity": 1.0,
+            "false_update_rate": 0.0,
+            "invalid_count": 0,
+            "decision_counts": {
+              "true_update": 49,
+              "false_update": 0,
+              "missed_update": 15,
+              "true_noop": 64,
+              "invalid": 0,
+              "invalid_noop": 0
+            },
+            "rows": 128,
+            "schema_success_rate": 1.0,
+            "apply_success_rate": 1.0,
+            "state_exact": 0.7109375,
+            "state_f1": 0.956426276159213,
+            "reason_code_accuracy": null,
+            "prefill_tokens": 58004,
+            "decode_tokens": 4219,
+            "total_tokens": 62223,
+            "latency_seconds": 126.16192368045449,
+            "tokens_per_second": 33.44115147360918,
+            "usage_by_gold_decision": {
+              "UPDATE": {
+                "turns": 64,
+                "prefill_tokens": 27700,
+                "decode_tokens": 3771,
+                "total_tokens": 31471,
+                "attributed_latency_seconds": 65.59292402607389,
+                "average_prefill_tokens": 432.8125,
+                "average_decode_tokens": 58.921875,
+                "average_total_tokens": 491.734375,
+                "average_attributed_latency_seconds": 1.0248894379074045
+              },
+              "NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 30304,
+                "decode_tokens": 448,
+                "total_tokens": 30752,
+                "attributed_latency_seconds": 60.568999654380605,
+                "average_prefill_tokens": 473.5,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 480.5,
+                "average_attributed_latency_seconds": 0.946390619599697
+              }
+            },
+            "usage_by_predicted_decision": {
+              "UPDATE": {
+                "turns": 49,
+                "prefill_tokens": 21871,
+                "decode_tokens": 3666,
+                "total_tokens": 25537,
+                "attributed_latency_seconds": 50.11113094561733,
+                "average_prefill_tokens": 446.3469387755102,
+                "average_decode_tokens": 74.81632653061224,
+                "average_total_tokens": 521.1632653061224,
+                "average_attributed_latency_seconds": 1.0226761417472925
+              },
+              "NO_OP": {
+                "turns": 79,
+                "prefill_tokens": 36133,
+                "decode_tokens": 553,
+                "total_tokens": 36686,
+                "attributed_latency_seconds": 76.05079273483716,
+                "average_prefill_tokens": 457.37974683544303,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 464.37974683544303,
+                "average_attributed_latency_seconds": 0.9626682624662931
+              },
+              "INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "usage_by_decision_pair": {
+              "UPDATE->UPDATE": {
+                "turns": 49,
+                "prefill_tokens": 21871,
+                "decode_tokens": 3666,
+                "total_tokens": 25537,
+                "attributed_latency_seconds": 50.11113094561733,
+                "average_prefill_tokens": 446.3469387755102,
+                "average_decode_tokens": 74.81632653061224,
+                "average_total_tokens": 521.1632653061224,
+                "average_attributed_latency_seconds": 1.0226761417472925
+              },
+              "UPDATE->NO_OP": {
+                "turns": 15,
+                "prefill_tokens": 5829,
+                "decode_tokens": 105,
+                "total_tokens": 5934,
+                "attributed_latency_seconds": 15.481793080456555,
+                "average_prefill_tokens": 388.6,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 395.6,
+                "average_attributed_latency_seconds": 1.0321195386971036
+              },
+              "UPDATE->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->UPDATE": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 30304,
+                "decode_tokens": 448,
+                "total_tokens": 30752,
+                "attributed_latency_seconds": 60.568999654380605,
+                "average_prefill_tokens": 473.5,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 480.5,
+                "average_attributed_latency_seconds": 0.946390619599697
+              },
+              "NO_OP->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "decision_usage_latency_kind": "attributed_wall_clock",
+            "failures": []
+          },
+          "2": {
+            "update_precision": 0.98,
+            "update_recall": 0.765625,
+            "update_f1": 0.8596491228070174,
+            "noop_specificity": 0.984375,
+            "false_update_rate": 0.015625,
+            "invalid_count": 0,
+            "decision_counts": {
+              "true_update": 49,
+              "false_update": 1,
+              "missed_update": 15,
+              "true_noop": 63,
+              "invalid": 0,
+              "invalid_noop": 0
+            },
+            "rows": 128,
+            "schema_success_rate": 1.0,
+            "apply_success_rate": 1.0,
+            "state_exact": 0.734375,
+            "state_f1": 0.9739307277503025,
+            "reason_code_accuracy": null,
+            "prefill_tokens": 67917,
+            "decode_tokens": 4281,
+            "total_tokens": 72198,
+            "latency_seconds": 110.10353679489344,
+            "tokens_per_second": 38.881584775744926,
+            "usage_by_gold_decision": {
+              "UPDATE": {
+                "turns": 64,
+                "prefill_tokens": 33903,
+                "decode_tokens": 3752,
+                "total_tokens": 37655,
+                "attributed_latency_seconds": 55.623094574548304,
+                "average_prefill_tokens": 529.734375,
+                "average_decode_tokens": 58.625,
+                "average_total_tokens": 588.359375,
+                "average_attributed_latency_seconds": 0.8691108527273173
+              },
+              "NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 34014,
+                "decode_tokens": 529,
+                "total_tokens": 34543,
+                "attributed_latency_seconds": 54.48044222034514,
+                "average_prefill_tokens": 531.46875,
+                "average_decode_tokens": 8.265625,
+                "average_total_tokens": 539.734375,
+                "average_attributed_latency_seconds": 0.8512569096928928
+              }
+            },
+            "usage_by_predicted_decision": {
+              "UPDATE": {
+                "turns": 50,
+                "prefill_tokens": 25402,
+                "decode_tokens": 3735,
+                "total_tokens": 29137,
+                "attributed_latency_seconds": 43.56542341352906,
+                "average_prefill_tokens": 508.04,
+                "average_decode_tokens": 74.7,
+                "average_total_tokens": 582.74,
+                "average_attributed_latency_seconds": 0.8713084682705812
+              },
+              "NO_OP": {
+                "turns": 78,
+                "prefill_tokens": 42515,
+                "decode_tokens": 546,
+                "total_tokens": 43061,
+                "attributed_latency_seconds": 66.53811338136438,
+                "average_prefill_tokens": 545.0641025641025,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 552.0641025641025,
+                "average_attributed_latency_seconds": 0.8530527356585177
+              },
+              "INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "usage_by_decision_pair": {
+              "UPDATE->UPDATE": {
+                "turns": 49,
+                "prefill_tokens": 24877,
+                "decode_tokens": 3647,
+                "total_tokens": 28524,
+                "attributed_latency_seconds": 42.24280779925175,
+                "average_prefill_tokens": 507.6938775510204,
+                "average_decode_tokens": 74.42857142857143,
+                "average_total_tokens": 582.1224489795918,
+                "average_attributed_latency_seconds": 0.8620981183520765
+              },
+              "UPDATE->NO_OP": {
+                "turns": 15,
+                "prefill_tokens": 9026,
+                "decode_tokens": 105,
+                "total_tokens": 9131,
+                "attributed_latency_seconds": 13.380286775296554,
+                "average_prefill_tokens": 601.7333333333333,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 608.7333333333333,
+                "average_attributed_latency_seconds": 0.8920191183531035
+              },
+              "UPDATE->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->UPDATE": {
+                "turns": 1,
+                "prefill_tokens": 525,
+                "decode_tokens": 88,
+                "total_tokens": 613,
+                "attributed_latency_seconds": 1.3226156142773107,
+                "average_prefill_tokens": 525.0,
+                "average_decode_tokens": 88.0,
+                "average_total_tokens": 613.0,
+                "average_attributed_latency_seconds": 1.3226156142773107
+              },
+              "NO_OP->NO_OP": {
+                "turns": 63,
+                "prefill_tokens": 33489,
+                "decode_tokens": 441,
+                "total_tokens": 33930,
+                "attributed_latency_seconds": 53.15782660606783,
+                "average_prefill_tokens": 531.5714285714286,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 538.5714285714286,
+                "average_attributed_latency_seconds": 0.8437750254931401
+              },
+              "NO_OP->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "decision_usage_latency_kind": "attributed_wall_clock",
+            "failures": []
+          },
+          "3": {
+            "update_precision": 0.9795918367346939,
+            "update_recall": 0.75,
+            "update_f1": 0.8495575221238937,
+            "noop_specificity": 0.984375,
+            "false_update_rate": 0.015625,
+            "invalid_count": 0,
+            "decision_counts": {
+              "true_update": 48,
+              "false_update": 1,
+              "missed_update": 16,
+              "true_noop": 63,
+              "invalid": 0,
+              "invalid_noop": 0
+            },
+            "rows": 128,
+            "schema_success_rate": 1.0,
+            "apply_success_rate": 1.0,
+            "state_exact": 0.6796875,
+            "state_f1": 0.9757689152546649,
+            "reason_code_accuracy": null,
+            "prefill_tokens": 76473,
+            "decode_tokens": 4390,
+            "total_tokens": 80863,
+            "latency_seconds": 117.90030390303582,
+            "tokens_per_second": 37.23484889072421,
+            "usage_by_gold_decision": {
+              "UPDATE": {
+                "turns": 64,
+                "prefill_tokens": 35253,
+                "decode_tokens": 3878,
+                "total_tokens": 39131,
+                "attributed_latency_seconds": 59.05665913748089,
+                "average_prefill_tokens": 550.828125,
+                "average_decode_tokens": 60.59375,
+                "average_total_tokens": 611.421875,
+                "average_attributed_latency_seconds": 0.9227602990231389
+              },
+              "NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 41220,
+                "decode_tokens": 512,
+                "total_tokens": 41732,
+                "attributed_latency_seconds": 58.84364476555493,
+                "average_prefill_tokens": 644.0625,
+                "average_decode_tokens": 8.0,
+                "average_total_tokens": 652.0625,
+                "average_attributed_latency_seconds": 0.9194319494617957
+              }
+            },
+            "usage_by_predicted_decision": {
+              "UPDATE": {
+                "turns": 49,
+                "prefill_tokens": 26752,
+                "decode_tokens": 3837,
+                "total_tokens": 30589,
+                "attributed_latency_seconds": 45.175358174485154,
+                "average_prefill_tokens": 545.9591836734694,
+                "average_decode_tokens": 78.3061224489796,
+                "average_total_tokens": 624.265306122449,
+                "average_attributed_latency_seconds": 0.9219460851935746
+              },
+              "NO_OP": {
+                "turns": 79,
+                "prefill_tokens": 49721,
+                "decode_tokens": 553,
+                "total_tokens": 50274,
+                "attributed_latency_seconds": 72.72494572855067,
+                "average_prefill_tokens": 629.379746835443,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 636.379746835443,
+                "average_attributed_latency_seconds": 0.9205689332727932
+              },
+              "INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "usage_by_decision_pair": {
+              "UPDATE->UPDATE": {
+                "turns": 48,
+                "prefill_tokens": 26400,
+                "decode_tokens": 3766,
+                "total_tokens": 30166,
+                "attributed_latency_seconds": 44.392402988276444,
+                "average_prefill_tokens": 550.0,
+                "average_decode_tokens": 78.45833333333333,
+                "average_total_tokens": 628.4583333333334,
+                "average_attributed_latency_seconds": 0.9248417289224259
+              },
+              "UPDATE->NO_OP": {
+                "turns": 16,
+                "prefill_tokens": 8853,
+                "decode_tokens": 112,
+                "total_tokens": 8965,
+                "attributed_latency_seconds": 14.664256149204448,
+                "average_prefill_tokens": 553.3125,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 560.3125,
+                "average_attributed_latency_seconds": 0.916516009325278
+              },
+              "UPDATE->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->UPDATE": {
+                "turns": 1,
+                "prefill_tokens": 352,
+                "decode_tokens": 71,
+                "total_tokens": 423,
+                "attributed_latency_seconds": 0.7829551862087101,
+                "average_prefill_tokens": 352.0,
+                "average_decode_tokens": 71.0,
+                "average_total_tokens": 423.0,
+                "average_attributed_latency_seconds": 0.7829551862087101
+              },
+              "NO_OP->NO_OP": {
+                "turns": 63,
+                "prefill_tokens": 40868,
+                "decode_tokens": 441,
+                "total_tokens": 41309,
+                "attributed_latency_seconds": 58.06068957934622,
+                "average_prefill_tokens": 648.6984126984127,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 655.6984126984127,
+                "average_attributed_latency_seconds": 0.9215982472912098
+              },
+              "NO_OP->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "decision_usage_latency_kind": "attributed_wall_clock",
+            "failures": []
+          },
+          "4": {
+            "update_precision": 1.0,
+            "update_recall": 0.703125,
+            "update_f1": 0.8256880733944955,
+            "noop_specificity": 1.0,
+            "false_update_rate": 0.0,
+            "invalid_count": 0,
+            "decision_counts": {
+              "true_update": 45,
+              "false_update": 0,
+              "missed_update": 19,
+              "true_noop": 64,
+              "invalid": 0,
+              "invalid_noop": 0
+            },
+            "rows": 128,
+            "schema_success_rate": 1.0,
+            "apply_success_rate": 1.0,
+            "state_exact": 0.703125,
+            "state_f1": 0.9782922409690131,
+            "reason_code_accuracy": null,
+            "prefill_tokens": 83564,
+            "decode_tokens": 4149,
+            "total_tokens": 87713,
+            "latency_seconds": 106.54986096266657,
+            "tokens_per_second": 38.939515852148745,
+            "usage_by_gold_decision": {
+              "UPDATE": {
+                "turns": 64,
+                "prefill_tokens": 38761,
+                "decode_tokens": 3701,
+                "total_tokens": 42462,
+                "attributed_latency_seconds": 53.57522521039937,
+                "average_prefill_tokens": 605.640625,
+                "average_decode_tokens": 57.828125,
+                "average_total_tokens": 663.46875,
+                "average_attributed_latency_seconds": 0.8371128939124901
+              },
+              "NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 44803,
+                "decode_tokens": 448,
+                "total_tokens": 45251,
+                "attributed_latency_seconds": 52.974635752267204,
+                "average_prefill_tokens": 700.046875,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 707.046875,
+                "average_attributed_latency_seconds": 0.8277286836291751
+              }
+            },
+            "usage_by_predicted_decision": {
+              "UPDATE": {
+                "turns": 45,
+                "prefill_tokens": 27047,
+                "decode_tokens": 3568,
+                "total_tokens": 30615,
+                "attributed_latency_seconds": 37.48426064779051,
+                "average_prefill_tokens": 601.0444444444445,
+                "average_decode_tokens": 79.28888888888889,
+                "average_total_tokens": 680.3333333333334,
+                "average_attributed_latency_seconds": 0.8329835699509002
+              },
+              "NO_OP": {
+                "turns": 83,
+                "prefill_tokens": 56517,
+                "decode_tokens": 581,
+                "total_tokens": 57098,
+                "attributed_latency_seconds": 69.06560031487606,
+                "average_prefill_tokens": 680.9277108433735,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 687.9277108433735,
+                "average_attributed_latency_seconds": 0.8321156664442899
+              },
+              "INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "usage_by_decision_pair": {
+              "UPDATE->UPDATE": {
+                "turns": 45,
+                "prefill_tokens": 27047,
+                "decode_tokens": 3568,
+                "total_tokens": 30615,
+                "attributed_latency_seconds": 37.48426064779051,
+                "average_prefill_tokens": 601.0444444444445,
+                "average_decode_tokens": 79.28888888888889,
+                "average_total_tokens": 680.3333333333334,
+                "average_attributed_latency_seconds": 0.8329835699509002
+              },
+              "UPDATE->NO_OP": {
+                "turns": 19,
+                "prefill_tokens": 11714,
+                "decode_tokens": 133,
+                "total_tokens": 11847,
+                "attributed_latency_seconds": 16.09096456260886,
+                "average_prefill_tokens": 616.5263157894736,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 623.5263157894736,
+                "average_attributed_latency_seconds": 0.8468928717162558
+              },
+              "UPDATE->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->UPDATE": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 44803,
+                "decode_tokens": 448,
+                "total_tokens": 45251,
+                "attributed_latency_seconds": 52.974635752267204,
+                "average_prefill_tokens": 700.046875,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 707.046875,
+                "average_attributed_latency_seconds": 0.8277286836291751
+              },
+              "NO_OP->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "decision_usage_latency_kind": "attributed_wall_clock",
+            "failures": []
+          }
+        },
+        "artifacts": {
+          "selection": "/mnt/nvme2/hj153lee/PalmClaw/on-device-memory-training/runs/granite4-1b-delta_v3_compact_k5-pending-ablation-unstratified-e4-b2-seed46-r1/eval-fixed-best-checkpoint.json",
+          "test": "/mnt/nvme2/hj153lee/PalmClaw/on-device-memory-training/runs/granite4-1b-delta_v3_compact_k5-pending-ablation-unstratified-e4-b2-seed46-r1/eval-fixed-test-best-epoch-04/summary.json",
+          "diagnostic": "/mnt/nvme2/hj153lee/PalmClaw/on-device-memory-training/runs/granite4-1b-delta_v3_compact_k5-pending-ablation-unstratified-e4-b2-seed46-r1/pending-depth-test-epoch-04.json"
+        }
+      }
+    ],
+    "depth-weighted": [
+      {
+        "condition": "depth-weighted",
+        "seed": 45,
+        "run_id": "granite4-1b-delta_v3_compact_k5-pending-ablation-depth-weighted-e4-b2-seed45-r1",
+        "selected_epoch": 4,
+        "validation_composite": 0.5313792024688798,
+        "test_composite": 0.651696475089603,
+        "closed_loop_quiz_esm": 0.6791666666666667,
+        "closed_loop_final_state_f1": 0.5091388415348824,
+        "closed_loop_update_f1": 0.7794117647058824,
+        "closed_loop_false_update_rate": 0.01065989847715736,
+        "diagnostic_update_recall": 0.69375,
+        "diagnostic_false_update_rate": 0.00625,
+        "by_pending_depth": {
+          "0": {
+            "update_precision": 1.0,
+            "update_recall": 0.640625,
+            "update_f1": 0.780952380952381,
+            "noop_specificity": 1.0,
+            "false_update_rate": 0.0,
+            "invalid_count": 0,
+            "decision_counts": {
+              "true_update": 41,
+              "false_update": 0,
+              "missed_update": 23,
+              "true_noop": 64,
+              "invalid": 0,
+              "invalid_noop": 0
+            },
+            "rows": 128,
+            "schema_success_rate": 1.0,
+            "apply_success_rate": 1.0,
+            "state_exact": 0.6953125,
+            "state_f1": 0.9124430385894579,
+            "reason_code_accuracy": null,
+            "prefill_tokens": 55987,
+            "decode_tokens": 3414,
+            "total_tokens": 59401,
+            "latency_seconds": 114.04113026615232,
+            "tokens_per_second": 29.936567552709388,
+            "usage_by_gold_decision": {
+              "UPDATE": {
+                "turns": 64,
+                "prefill_tokens": 24476,
+                "decode_tokens": 2966,
+                "total_tokens": 27442,
+                "attributed_latency_seconds": 60.297470540273935,
+                "average_prefill_tokens": 382.4375,
+                "average_decode_tokens": 46.34375,
+                "average_total_tokens": 428.78125,
+                "average_attributed_latency_seconds": 0.9421479771917802
+              },
+              "NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 31511,
+                "decode_tokens": 448,
+                "total_tokens": 31959,
+                "attributed_latency_seconds": 53.74365972587839,
+                "average_prefill_tokens": 492.359375,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 499.359375,
+                "average_attributed_latency_seconds": 0.8397446832168498
+              }
+            },
+            "usage_by_predicted_decision": {
+              "UPDATE": {
+                "turns": 41,
+                "prefill_tokens": 15483,
+                "decode_tokens": 2805,
+                "total_tokens": 18288,
+                "attributed_latency_seconds": 46.791349157691,
+                "average_prefill_tokens": 377.6341463414634,
+                "average_decode_tokens": 68.41463414634147,
+                "average_total_tokens": 446.0487804878049,
+                "average_attributed_latency_seconds": 1.1412524184802684
+              },
+              "NO_OP": {
+                "turns": 87,
+                "prefill_tokens": 40504,
+                "decode_tokens": 609,
+                "total_tokens": 41113,
+                "attributed_latency_seconds": 67.24978110846132,
+                "average_prefill_tokens": 465.5632183908046,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 472.5632183908046,
+                "average_attributed_latency_seconds": 0.7729859897524289
+              },
+              "INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "usage_by_decision_pair": {
+              "UPDATE->UPDATE": {
+                "turns": 41,
+                "prefill_tokens": 15483,
+                "decode_tokens": 2805,
+                "total_tokens": 18288,
+                "attributed_latency_seconds": 46.791349157691,
+                "average_prefill_tokens": 377.6341463414634,
+                "average_decode_tokens": 68.41463414634147,
+                "average_total_tokens": 446.0487804878049,
+                "average_attributed_latency_seconds": 1.1412524184802684
+              },
+              "UPDATE->NO_OP": {
+                "turns": 23,
+                "prefill_tokens": 8993,
+                "decode_tokens": 161,
+                "total_tokens": 9154,
+                "attributed_latency_seconds": 13.506121382582933,
+                "average_prefill_tokens": 391.0,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 398.0,
+                "average_attributed_latency_seconds": 0.5872226688079536
+              },
+              "UPDATE->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->UPDATE": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 31511,
+                "decode_tokens": 448,
+                "total_tokens": 31959,
+                "attributed_latency_seconds": 53.74365972587839,
+                "average_prefill_tokens": 492.359375,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 499.359375,
+                "average_attributed_latency_seconds": 0.8397446832168498
+              },
+              "NO_OP->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "decision_usage_latency_kind": "attributed_wall_clock",
+            "failures": []
+          },
+          "1": {
+            "update_precision": 1.0,
+            "update_recall": 0.609375,
+            "update_f1": 0.7572815533980582,
+            "noop_specificity": 1.0,
+            "false_update_rate": 0.0,
+            "invalid_count": 0,
+            "decision_counts": {
+              "true_update": 39,
+              "false_update": 0,
+              "missed_update": 25,
+              "true_noop": 64,
+              "invalid": 0,
+              "invalid_noop": 0
+            },
+            "rows": 128,
+            "schema_success_rate": 1.0,
+            "apply_success_rate": 1.0,
+            "state_exact": 0.6953125,
+            "state_f1": 0.9521534978892165,
+            "reason_code_accuracy": null,
+            "prefill_tokens": 58004,
+            "decode_tokens": 3485,
+            "total_tokens": 61489,
+            "latency_seconds": 142.4457105100155,
+            "tokens_per_second": 24.46546117480292,
+            "usage_by_gold_decision": {
+              "UPDATE": {
+                "turns": 64,
+                "prefill_tokens": 27700,
+                "decode_tokens": 3037,
+                "total_tokens": 30737,
+                "attributed_latency_seconds": 70.8837421911303,
+                "average_prefill_tokens": 432.8125,
+                "average_decode_tokens": 47.453125,
+                "average_total_tokens": 480.265625,
+                "average_attributed_latency_seconds": 1.1075584717364109
+              },
+              "NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 30304,
+                "decode_tokens": 448,
+                "total_tokens": 30752,
+                "attributed_latency_seconds": 71.56196831888519,
+                "average_prefill_tokens": 473.5,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 480.5,
+                "average_attributed_latency_seconds": 1.1181557549825811
+              }
+            },
+            "usage_by_predicted_decision": {
+              "UPDATE": {
+                "turns": 39,
+                "prefill_tokens": 17614,
+                "decode_tokens": 2862,
+                "total_tokens": 20476,
+                "attributed_latency_seconds": 45.40573429164942,
+                "average_prefill_tokens": 451.64102564102564,
+                "average_decode_tokens": 73.38461538461539,
+                "average_total_tokens": 525.025641025641,
+                "average_attributed_latency_seconds": 1.1642495972217801
+              },
+              "NO_OP": {
+                "turns": 89,
+                "prefill_tokens": 40390,
+                "decode_tokens": 623,
+                "total_tokens": 41013,
+                "attributed_latency_seconds": 97.03997621836606,
+                "average_prefill_tokens": 453.82022471910113,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 460.82022471910113,
+                "average_attributed_latency_seconds": 1.0903368114423153
+              },
+              "INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "usage_by_decision_pair": {
+              "UPDATE->UPDATE": {
+                "turns": 39,
+                "prefill_tokens": 17614,
+                "decode_tokens": 2862,
+                "total_tokens": 20476,
+                "attributed_latency_seconds": 45.40573429164942,
+                "average_prefill_tokens": 451.64102564102564,
+                "average_decode_tokens": 73.38461538461539,
+                "average_total_tokens": 525.025641025641,
+                "average_attributed_latency_seconds": 1.1642495972217801
+              },
+              "UPDATE->NO_OP": {
+                "turns": 25,
+                "prefill_tokens": 10086,
+                "decode_tokens": 175,
+                "total_tokens": 10261,
+                "attributed_latency_seconds": 25.478007899480872,
+                "average_prefill_tokens": 403.44,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 410.44,
+                "average_attributed_latency_seconds": 1.0191203159792348
+              },
+              "UPDATE->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->UPDATE": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 30304,
+                "decode_tokens": 448,
+                "total_tokens": 30752,
+                "attributed_latency_seconds": 71.56196831888519,
+                "average_prefill_tokens": 473.5,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 480.5,
+                "average_attributed_latency_seconds": 1.1181557549825811
+              },
+              "NO_OP->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "decision_usage_latency_kind": "attributed_wall_clock",
+            "failures": []
+          },
+          "2": {
+            "update_precision": 1.0,
+            "update_recall": 0.734375,
+            "update_f1": 0.8468468468468469,
+            "noop_specificity": 1.0,
+            "false_update_rate": 0.0,
+            "invalid_count": 0,
+            "decision_counts": {
+              "true_update": 47,
+              "false_update": 0,
+              "missed_update": 17,
+              "true_noop": 64,
+              "invalid": 0,
+              "invalid_noop": 0
+            },
+            "rows": 128,
+            "schema_success_rate": 1.0,
+            "apply_success_rate": 1.0,
+            "state_exact": 0.7265625,
+            "state_f1": 0.9741540586579007,
+            "reason_code_accuracy": null,
+            "prefill_tokens": 67917,
+            "decode_tokens": 3998,
+            "total_tokens": 71915,
+            "latency_seconds": 144.84047247376293,
+            "tokens_per_second": 27.602782093411193,
+            "usage_by_gold_decision": {
+              "UPDATE": {
+                "turns": 64,
+                "prefill_tokens": 33903,
+                "decode_tokens": 3550,
+                "total_tokens": 37453,
+                "attributed_latency_seconds": 72.83316151762847,
+                "average_prefill_tokens": 529.734375,
+                "average_decode_tokens": 55.46875,
+                "average_total_tokens": 585.203125,
+                "average_attributed_latency_seconds": 1.1380181487129448
+              },
+              "NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 34014,
+                "decode_tokens": 448,
+                "total_tokens": 34462,
+                "attributed_latency_seconds": 72.00731095613446,
+                "average_prefill_tokens": 531.46875,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 538.46875,
+                "average_attributed_latency_seconds": 1.125114233689601
+              }
+            },
+            "usage_by_predicted_decision": {
+              "UPDATE": {
+                "turns": 47,
+                "prefill_tokens": 24159,
+                "decode_tokens": 3431,
+                "total_tokens": 27590,
+                "attributed_latency_seconds": 56.85674318729434,
+                "average_prefill_tokens": 514.0212765957447,
+                "average_decode_tokens": 73.0,
+                "average_total_tokens": 587.0212765957447,
+                "average_attributed_latency_seconds": 1.2097179401551987
+              },
+              "NO_OP": {
+                "turns": 81,
+                "prefill_tokens": 43758,
+                "decode_tokens": 567,
+                "total_tokens": 44325,
+                "attributed_latency_seconds": 87.98372928646859,
+                "average_prefill_tokens": 540.2222222222222,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 547.2222222222222,
+                "average_attributed_latency_seconds": 1.0862188800798591
+              },
+              "INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "usage_by_decision_pair": {
+              "UPDATE->UPDATE": {
+                "turns": 47,
+                "prefill_tokens": 24159,
+                "decode_tokens": 3431,
+                "total_tokens": 27590,
+                "attributed_latency_seconds": 56.85674318729434,
+                "average_prefill_tokens": 514.0212765957447,
+                "average_decode_tokens": 73.0,
+                "average_total_tokens": 587.0212765957447,
+                "average_attributed_latency_seconds": 1.2097179401551987
+              },
+              "UPDATE->NO_OP": {
+                "turns": 17,
+                "prefill_tokens": 9744,
+                "decode_tokens": 119,
+                "total_tokens": 9863,
+                "attributed_latency_seconds": 15.976418330334127,
+                "average_prefill_tokens": 573.1764705882352,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 580.1764705882352,
+                "average_attributed_latency_seconds": 0.9397893135490663
+              },
+              "UPDATE->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->UPDATE": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 34014,
+                "decode_tokens": 448,
+                "total_tokens": 34462,
+                "attributed_latency_seconds": 72.00731095613446,
+                "average_prefill_tokens": 531.46875,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 538.46875,
+                "average_attributed_latency_seconds": 1.125114233689601
+              },
+              "NO_OP->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "decision_usage_latency_kind": "attributed_wall_clock",
+            "failures": []
+          },
+          "3": {
+            "update_precision": 0.9591836734693877,
+            "update_recall": 0.734375,
+            "update_f1": 0.831858407079646,
+            "noop_specificity": 0.96875,
+            "false_update_rate": 0.03125,
+            "invalid_count": 1,
+            "decision_counts": {
+              "true_update": 47,
+              "false_update": 2,
+              "missed_update": 17,
+              "true_noop": 62,
+              "invalid": 1,
+              "invalid_noop": 0
+            },
+            "rows": 128,
+            "schema_success_rate": 0.9921875,
+            "apply_success_rate": 0.9921875,
+            "state_exact": 0.6875,
+            "state_f1": 0.9755919828121076,
+            "reason_code_accuracy": null,
+            "prefill_tokens": 76473,
+            "decode_tokens": 4481,
+            "total_tokens": 80954,
+            "latency_seconds": 133.14962935820222,
+            "tokens_per_second": 33.653867619451724,
+            "usage_by_gold_decision": {
+              "UPDATE": {
+                "turns": 64,
+                "prefill_tokens": 35253,
+                "decode_tokens": 3883,
+                "total_tokens": 39136,
+                "attributed_latency_seconds": 67.60933933453634,
+                "average_prefill_tokens": 550.828125,
+                "average_decode_tokens": 60.671875,
+                "average_total_tokens": 611.5,
+                "average_attributed_latency_seconds": 1.0563959271021304
+              },
+              "NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 41220,
+                "decode_tokens": 598,
+                "total_tokens": 41818,
+                "attributed_latency_seconds": 65.54029002366588,
+                "average_prefill_tokens": 644.0625,
+                "average_decode_tokens": 9.34375,
+                "average_total_tokens": 653.40625,
+                "average_attributed_latency_seconds": 1.0240670316197793
+              }
+            },
+            "usage_by_predicted_decision": {
+              "UPDATE": {
+                "turns": 49,
+                "prefill_tokens": 26572,
+                "decode_tokens": 3853,
+                "total_tokens": 30425,
+                "attributed_latency_seconds": 52.41625597968232,
+                "average_prefill_tokens": 542.2857142857143,
+                "average_decode_tokens": 78.63265306122449,
+                "average_total_tokens": 620.9183673469388,
+                "average_attributed_latency_seconds": 1.069719509789435
+              },
+              "NO_OP": {
+                "turns": 78,
+                "prefill_tokens": 49193,
+                "decode_tokens": 546,
+                "total_tokens": 49739,
+                "attributed_latency_seconds": 79.77614548162092,
+                "average_prefill_tokens": 630.6794871794872,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 637.6794871794872,
+                "average_attributed_latency_seconds": 1.0227710959182168
+              },
+              "INVALID": {
+                "turns": 1,
+                "prefill_tokens": 708,
+                "decode_tokens": 82,
+                "total_tokens": 790,
+                "attributed_latency_seconds": 0.9572278968989849,
+                "average_prefill_tokens": 708.0,
+                "average_decode_tokens": 82.0,
+                "average_total_tokens": 790.0,
+                "average_attributed_latency_seconds": 0.9572278968989849
+              }
+            },
+            "usage_by_decision_pair": {
+              "UPDATE->UPDATE": {
+                "turns": 47,
+                "prefill_tokens": 25369,
+                "decode_tokens": 3689,
+                "total_tokens": 29058,
+                "attributed_latency_seconds": 50.24786565406248,
+                "average_prefill_tokens": 539.7659574468086,
+                "average_decode_tokens": 78.48936170212765,
+                "average_total_tokens": 618.2553191489362,
+                "average_attributed_latency_seconds": 1.0691035245545208
+              },
+              "UPDATE->NO_OP": {
+                "turns": 16,
+                "prefill_tokens": 9176,
+                "decode_tokens": 112,
+                "total_tokens": 9288,
+                "attributed_latency_seconds": 16.40424578357488,
+                "average_prefill_tokens": 573.5,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 580.5,
+                "average_attributed_latency_seconds": 1.02526536147343
+              },
+              "UPDATE->INVALID": {
+                "turns": 1,
+                "prefill_tokens": 708,
+                "decode_tokens": 82,
+                "total_tokens": 790,
+                "attributed_latency_seconds": 0.9572278968989849,
+                "average_prefill_tokens": 708.0,
+                "average_decode_tokens": 82.0,
+                "average_total_tokens": 790.0,
+                "average_attributed_latency_seconds": 0.9572278968989849
+              },
+              "NO_OP->UPDATE": {
+                "turns": 2,
+                "prefill_tokens": 1203,
+                "decode_tokens": 164,
+                "total_tokens": 1367,
+                "attributed_latency_seconds": 2.168390325619839,
+                "average_prefill_tokens": 601.5,
+                "average_decode_tokens": 82.0,
+                "average_total_tokens": 683.5,
+                "average_attributed_latency_seconds": 1.0841951628099196
+              },
+              "NO_OP->NO_OP": {
+                "turns": 62,
+                "prefill_tokens": 40017,
+                "decode_tokens": 434,
+                "total_tokens": 40451,
+                "attributed_latency_seconds": 63.371899698046036,
+                "average_prefill_tokens": 645.4354838709677,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 652.4354838709677,
+                "average_attributed_latency_seconds": 1.0221274144846135
+              },
+              "NO_OP->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "decision_usage_latency_kind": "attributed_wall_clock",
+            "failures": [
+              {
+                "row_id": 2686,
+                "error": "Delta-v2 operation 0 has invalid arity",
+                "output": "{\"decision\":\"UPDATE\",\"operations\":[[\"delete\",\"- [2025-01-28 07:30] carcontrol_seat_set_horizontal_position.value; value=48; context=(seat=\\\"driver\\\")\",\"- [2025-02-11 09:42] carcontrol_navigation_set_voice_mode.mode; value=\\\"simple\\\"; condition=temporary for the duration of Maya's committee call\"]]}"
+              }
+            ]
+          },
+          "4": {
+            "update_precision": 1.0,
+            "update_recall": 0.75,
+            "update_f1": 0.8571428571428571,
+            "noop_specificity": 1.0,
+            "false_update_rate": 0.0,
+            "invalid_count": 0,
+            "decision_counts": {
+              "true_update": 48,
+              "false_update": 0,
+              "missed_update": 16,
+              "true_noop": 64,
+              "invalid": 0,
+              "invalid_noop": 0
+            },
+            "rows": 128,
+            "schema_success_rate": 1.0,
+            "apply_success_rate": 1.0,
+            "state_exact": 0.7109375,
+            "state_f1": 0.9775813617380712,
+            "reason_code_accuracy": null,
+            "prefill_tokens": 83564,
+            "decode_tokens": 4402,
+            "total_tokens": 87966,
+            "latency_seconds": 129.52031886857003,
+            "tokens_per_second": 33.98694535694359,
+            "usage_by_gold_decision": {
+              "UPDATE": {
+                "turns": 64,
+                "prefill_tokens": 38761,
+                "decode_tokens": 3954,
+                "total_tokens": 42715,
+                "attributed_latency_seconds": 65.25254237116314,
+                "average_prefill_tokens": 605.640625,
+                "average_decode_tokens": 61.78125,
+                "average_total_tokens": 667.421875,
+                "average_attributed_latency_seconds": 1.0195709745494241
+              },
+              "NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 44803,
+                "decode_tokens": 448,
+                "total_tokens": 45251,
+                "attributed_latency_seconds": 64.26777649740689,
+                "average_prefill_tokens": 700.046875,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 707.046875,
+                "average_attributed_latency_seconds": 1.0041840077719826
+              }
+            },
+            "usage_by_predicted_decision": {
+              "UPDATE": {
+                "turns": 48,
+                "prefill_tokens": 28446,
+                "decode_tokens": 3842,
+                "total_tokens": 32288,
+                "attributed_latency_seconds": 48.50613797886763,
+                "average_prefill_tokens": 592.625,
+                "average_decode_tokens": 80.04166666666667,
+                "average_total_tokens": 672.6666666666666,
+                "average_attributed_latency_seconds": 1.010544541226409
+              },
+              "NO_OP": {
+                "turns": 80,
+                "prefill_tokens": 55118,
+                "decode_tokens": 560,
+                "total_tokens": 55678,
+                "attributed_latency_seconds": 81.0141808897024,
+                "average_prefill_tokens": 688.975,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 695.975,
+                "average_attributed_latency_seconds": 1.01267726112128
+              },
+              "INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "usage_by_decision_pair": {
+              "UPDATE->UPDATE": {
+                "turns": 48,
+                "prefill_tokens": 28446,
+                "decode_tokens": 3842,
+                "total_tokens": 32288,
+                "attributed_latency_seconds": 48.50613797886763,
+                "average_prefill_tokens": 592.625,
+                "average_decode_tokens": 80.04166666666667,
+                "average_total_tokens": 672.6666666666666,
+                "average_attributed_latency_seconds": 1.010544541226409
+              },
+              "UPDATE->NO_OP": {
+                "turns": 16,
+                "prefill_tokens": 10315,
+                "decode_tokens": 112,
+                "total_tokens": 10427,
+                "attributed_latency_seconds": 16.746404392295517,
+                "average_prefill_tokens": 644.6875,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 651.6875,
+                "average_attributed_latency_seconds": 1.0466502745184698
+              },
+              "UPDATE->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->UPDATE": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 44803,
+                "decode_tokens": 448,
+                "total_tokens": 45251,
+                "attributed_latency_seconds": 64.26777649740689,
+                "average_prefill_tokens": 700.046875,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 707.046875,
+                "average_attributed_latency_seconds": 1.0041840077719826
+              },
+              "NO_OP->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "decision_usage_latency_kind": "attributed_wall_clock",
+            "failures": []
+          }
+        },
+        "artifacts": {
+          "selection": "/mnt/nvme2/hj153lee/PalmClaw/on-device-memory-training/runs/granite4-1b-delta_v3_compact_k5-pending-ablation-depth-weighted-e4-b2-seed45-r1/eval-fixed-best-checkpoint.json",
+          "test": "/mnt/nvme2/hj153lee/PalmClaw/on-device-memory-training/runs/granite4-1b-delta_v3_compact_k5-pending-ablation-depth-weighted-e4-b2-seed45-r1/eval-fixed-test-best-epoch-04/summary.json",
+          "diagnostic": "/mnt/nvme2/hj153lee/PalmClaw/on-device-memory-training/runs/granite4-1b-delta_v3_compact_k5-pending-ablation-depth-weighted-e4-b2-seed45-r1/pending-depth-test-epoch-04.json"
+        }
+      },
+      {
+        "condition": "depth-weighted",
+        "seed": 46,
+        "run_id": "granite4-1b-delta_v3_compact_k5-pending-ablation-depth-weighted-e4-b2-seed46-r1",
+        "selected_epoch": 3,
+        "validation_composite": 0.5271713392108128,
+        "test_composite": 0.631058683689334,
+        "closed_loop_quiz_esm": 0.653125,
+        "closed_loop_final_state_f1": 0.4861124482160917,
+        "closed_loop_update_f1": 0.7843704775687409,
+        "closed_loop_false_update_rate": 0.013197969543147208,
+        "diagnostic_update_recall": 0.70625,
+        "diagnostic_false_update_rate": 0.009375,
+        "by_pending_depth": {
+          "0": {
+            "update_precision": 1.0,
+            "update_recall": 0.609375,
+            "update_f1": 0.7572815533980582,
+            "noop_specificity": 1.0,
+            "false_update_rate": 0.0,
+            "invalid_count": 1,
+            "decision_counts": {
+              "true_update": 39,
+              "false_update": 0,
+              "missed_update": 25,
+              "true_noop": 64,
+              "invalid": 1,
+              "invalid_noop": 0
+            },
+            "rows": 128,
+            "schema_success_rate": 1.0,
+            "apply_success_rate": 0.9921875,
+            "state_exact": 0.6875,
+            "state_f1": 0.9080903600180291,
+            "reason_code_accuracy": null,
+            "prefill_tokens": 55987,
+            "decode_tokens": 3344,
+            "total_tokens": 59331,
+            "latency_seconds": 132.01474929694086,
+            "tokens_per_second": 25.330502976438932,
+            "usage_by_gold_decision": {
+              "UPDATE": {
+                "turns": 64,
+                "prefill_tokens": 24476,
+                "decode_tokens": 2896,
+                "total_tokens": 27372,
+                "attributed_latency_seconds": 69.75900326308329,
+                "average_prefill_tokens": 382.4375,
+                "average_decode_tokens": 45.25,
+                "average_total_tokens": 427.6875,
+                "average_attributed_latency_seconds": 1.0899844259856764
+              },
+              "NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 31511,
+                "decode_tokens": 448,
+                "total_tokens": 31959,
+                "attributed_latency_seconds": 62.25574603385758,
+                "average_prefill_tokens": 492.359375,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 499.359375,
+                "average_attributed_latency_seconds": 0.9727460317790246
+              }
+            },
+            "usage_by_predicted_decision": {
+              "UPDATE": {
+                "turns": 39,
+                "prefill_tokens": 14512,
+                "decode_tokens": 2631,
+                "total_tokens": 17143,
+                "attributed_latency_seconds": 49.480834293877706,
+                "average_prefill_tokens": 372.1025641025641,
+                "average_decode_tokens": 67.46153846153847,
+                "average_total_tokens": 439.56410256410254,
+                "average_attributed_latency_seconds": 1.2687393408686591
+              },
+              "NO_OP": {
+                "turns": 88,
+                "prefill_tokens": 40685,
+                "decode_tokens": 616,
+                "total_tokens": 41301,
+                "attributed_latency_seconds": 81.20051829738077,
+                "average_prefill_tokens": 462.32954545454544,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 469.32954545454544,
+                "average_attributed_latency_seconds": 0.922733162470236
+              },
+              "INVALID": {
+                "turns": 1,
+                "prefill_tokens": 790,
+                "decode_tokens": 97,
+                "total_tokens": 887,
+                "attributed_latency_seconds": 1.3333967056823894,
+                "average_prefill_tokens": 790.0,
+                "average_decode_tokens": 97.0,
+                "average_total_tokens": 887.0,
+                "average_attributed_latency_seconds": 1.3333967056823894
+              }
+            },
+            "usage_by_decision_pair": {
+              "UPDATE->UPDATE": {
+                "turns": 39,
+                "prefill_tokens": 14512,
+                "decode_tokens": 2631,
+                "total_tokens": 17143,
+                "attributed_latency_seconds": 49.480834293877706,
+                "average_prefill_tokens": 372.1025641025641,
+                "average_decode_tokens": 67.46153846153847,
+                "average_total_tokens": 439.56410256410254,
+                "average_attributed_latency_seconds": 1.2687393408686591
+              },
+              "UPDATE->NO_OP": {
+                "turns": 24,
+                "prefill_tokens": 9174,
+                "decode_tokens": 168,
+                "total_tokens": 9342,
+                "attributed_latency_seconds": 18.94477226352319,
+                "average_prefill_tokens": 382.25,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 389.25,
+                "average_attributed_latency_seconds": 0.789365510980133
+              },
+              "UPDATE->INVALID": {
+                "turns": 1,
+                "prefill_tokens": 790,
+                "decode_tokens": 97,
+                "total_tokens": 887,
+                "attributed_latency_seconds": 1.3333967056823894,
+                "average_prefill_tokens": 790.0,
+                "average_decode_tokens": 97.0,
+                "average_total_tokens": 887.0,
+                "average_attributed_latency_seconds": 1.3333967056823894
+              },
+              "NO_OP->UPDATE": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 31511,
+                "decode_tokens": 448,
+                "total_tokens": 31959,
+                "attributed_latency_seconds": 62.25574603385758,
+                "average_prefill_tokens": 492.359375,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 499.359375,
+                "average_attributed_latency_seconds": 0.9727460317790246
+              },
+              "NO_OP->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "decision_usage_latency_kind": "attributed_wall_clock",
+            "failures": [
+              {
+                "row_id": 2248,
+                "error": "operation 0 target must cover complete lines",
+                "output": "{\"decision\":\"UPDATE\",\"operations\":[[\"add\",\"- [2025-04-21 17:00] carcontrol_music_set_volume.volume; value=10; condition=currently observed right now for the present quiet return\",\"- [2025-05-02 14:20] carcontrol_airConditioner_set_temperature.temperature; value=24; context=(zone=\\\"all\\\"); condition=currently observed right now at present; distinct from the durable safety baseline\"]]}"
+              }
+            ]
+          },
+          "1": {
+            "update_precision": 0.9787234042553191,
+            "update_recall": 0.71875,
+            "update_f1": 0.8288288288288289,
+            "noop_specificity": 0.984375,
+            "false_update_rate": 0.015625,
+            "invalid_count": 0,
+            "decision_counts": {
+              "true_update": 46,
+              "false_update": 1,
+              "missed_update": 18,
+              "true_noop": 63,
+              "invalid": 0,
+              "invalid_noop": 0
+            },
+            "rows": 128,
+            "schema_success_rate": 1.0,
+            "apply_success_rate": 1.0,
+            "state_exact": 0.71875,
+            "state_f1": 0.958297647207708,
+            "reason_code_accuracy": null,
+            "prefill_tokens": 58004,
+            "decode_tokens": 4012,
+            "total_tokens": 62016,
+            "latency_seconds": 141.17314489744604,
+            "tokens_per_second": 28.419002799112263,
+            "usage_by_gold_decision": {
+              "UPDATE": {
+                "turns": 64,
+                "prefill_tokens": 27700,
+                "decode_tokens": 3475,
+                "total_tokens": 31175,
+                "attributed_latency_seconds": 71.25018034980167,
+                "average_prefill_tokens": 432.8125,
+                "average_decode_tokens": 54.296875,
+                "average_total_tokens": 487.109375,
+                "average_attributed_latency_seconds": 1.113284067965651
+              },
+              "NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 30304,
+                "decode_tokens": 537,
+                "total_tokens": 30841,
+                "attributed_latency_seconds": 69.92296454764437,
+                "average_prefill_tokens": 473.5,
+                "average_decode_tokens": 8.390625,
+                "average_total_tokens": 481.890625,
+                "average_attributed_latency_seconds": 1.0925463210569433
+              }
+            },
+            "usage_by_predicted_decision": {
+              "UPDATE": {
+                "turns": 47,
+                "prefill_tokens": 20514,
+                "decode_tokens": 3445,
+                "total_tokens": 23959,
+                "attributed_latency_seconds": 52.35515070986003,
+                "average_prefill_tokens": 436.468085106383,
+                "average_decode_tokens": 73.29787234042553,
+                "average_total_tokens": 509.7659574468085,
+                "average_attributed_latency_seconds": 1.1139393768055326
+              },
+              "NO_OP": {
+                "turns": 81,
+                "prefill_tokens": 37490,
+                "decode_tokens": 567,
+                "total_tokens": 38057,
+                "attributed_latency_seconds": 88.81799418758601,
+                "average_prefill_tokens": 462.8395061728395,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 469.8395061728395,
+                "average_attributed_latency_seconds": 1.096518446760321
+              },
+              "INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "usage_by_decision_pair": {
+              "UPDATE->UPDATE": {
+                "turns": 46,
+                "prefill_tokens": 19821,
+                "decode_tokens": 3349,
+                "total_tokens": 23170,
+                "attributed_latency_seconds": 51.260197190451436,
+                "average_prefill_tokens": 430.89130434782606,
+                "average_decode_tokens": 72.80434782608695,
+                "average_total_tokens": 503.69565217391306,
+                "average_attributed_latency_seconds": 1.1143521128359009
+              },
+              "UPDATE->NO_OP": {
+                "turns": 18,
+                "prefill_tokens": 7879,
+                "decode_tokens": 126,
+                "total_tokens": 8005,
+                "attributed_latency_seconds": 19.98998315935023,
+                "average_prefill_tokens": 437.72222222222223,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 444.72222222222223,
+                "average_attributed_latency_seconds": 1.1105546199639018
+              },
+              "UPDATE->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->UPDATE": {
+                "turns": 1,
+                "prefill_tokens": 693,
+                "decode_tokens": 96,
+                "total_tokens": 789,
+                "attributed_latency_seconds": 1.094953519408591,
+                "average_prefill_tokens": 693.0,
+                "average_decode_tokens": 96.0,
+                "average_total_tokens": 789.0,
+                "average_attributed_latency_seconds": 1.094953519408591
+              },
+              "NO_OP->NO_OP": {
+                "turns": 63,
+                "prefill_tokens": 29611,
+                "decode_tokens": 441,
+                "total_tokens": 30052,
+                "attributed_latency_seconds": 68.82801102823578,
+                "average_prefill_tokens": 470.015873015873,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 477.015873015873,
+                "average_attributed_latency_seconds": 1.092508111559298
+              },
+              "NO_OP->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "decision_usage_latency_kind": "attributed_wall_clock",
+            "failures": []
+          },
+          "2": {
+            "update_precision": 1.0,
+            "update_recall": 0.734375,
+            "update_f1": 0.8468468468468469,
+            "noop_specificity": 1.0,
+            "false_update_rate": 0.0,
+            "invalid_count": 0,
+            "decision_counts": {
+              "true_update": 47,
+              "false_update": 0,
+              "missed_update": 17,
+              "true_noop": 64,
+              "invalid": 0,
+              "invalid_noop": 0
+            },
+            "rows": 128,
+            "schema_success_rate": 1.0,
+            "apply_success_rate": 1.0,
+            "state_exact": 0.75,
+            "state_f1": 0.975406422194747,
+            "reason_code_accuracy": null,
+            "prefill_tokens": 67917,
+            "decode_tokens": 3995,
+            "total_tokens": 71912,
+            "latency_seconds": 123.93220474850386,
+            "tokens_per_second": 32.235366167390225,
+            "usage_by_gold_decision": {
+              "UPDATE": {
+                "turns": 64,
+                "prefill_tokens": 33903,
+                "decode_tokens": 3547,
+                "total_tokens": 37450,
+                "attributed_latency_seconds": 62.630749863921665,
+                "average_prefill_tokens": 529.734375,
+                "average_decode_tokens": 55.421875,
+                "average_total_tokens": 585.15625,
+                "average_attributed_latency_seconds": 0.978605466623776
+              },
+              "NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 34014,
+                "decode_tokens": 448,
+                "total_tokens": 34462,
+                "attributed_latency_seconds": 61.3014548845822,
+                "average_prefill_tokens": 531.46875,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 538.46875,
+                "average_attributed_latency_seconds": 0.9578352325715969
+              }
+            },
+            "usage_by_predicted_decision": {
+              "UPDATE": {
+                "turns": 47,
+                "prefill_tokens": 23934,
+                "decode_tokens": 3428,
+                "total_tokens": 27362,
+                "attributed_latency_seconds": 47.91872246249113,
+                "average_prefill_tokens": 509.2340425531915,
+                "average_decode_tokens": 72.93617021276596,
+                "average_total_tokens": 582.1702127659574,
+                "average_attributed_latency_seconds": 1.0195472864359816
+              },
+              "NO_OP": {
+                "turns": 81,
+                "prefill_tokens": 43983,
+                "decode_tokens": 567,
+                "total_tokens": 44550,
+                "attributed_latency_seconds": 76.01348228601273,
+                "average_prefill_tokens": 543.0,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 550.0,
+                "average_attributed_latency_seconds": 0.9384380529137374
+              },
+              "INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "usage_by_decision_pair": {
+              "UPDATE->UPDATE": {
+                "turns": 47,
+                "prefill_tokens": 23934,
+                "decode_tokens": 3428,
+                "total_tokens": 27362,
+                "attributed_latency_seconds": 47.91872246249113,
+                "average_prefill_tokens": 509.2340425531915,
+                "average_decode_tokens": 72.93617021276596,
+                "average_total_tokens": 582.1702127659574,
+                "average_attributed_latency_seconds": 1.0195472864359816
+              },
+              "UPDATE->NO_OP": {
+                "turns": 17,
+                "prefill_tokens": 9969,
+                "decode_tokens": 119,
+                "total_tokens": 10088,
+                "attributed_latency_seconds": 14.712027401430532,
+                "average_prefill_tokens": 586.4117647058823,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 593.4117647058823,
+                "average_attributed_latency_seconds": 0.8654133765547372
+              },
+              "UPDATE->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->UPDATE": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 34014,
+                "decode_tokens": 448,
+                "total_tokens": 34462,
+                "attributed_latency_seconds": 61.3014548845822,
+                "average_prefill_tokens": 531.46875,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 538.46875,
+                "average_attributed_latency_seconds": 0.9578352325715969
+              },
+              "NO_OP->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "decision_usage_latency_kind": "attributed_wall_clock",
+            "failures": []
+          },
+          "3": {
+            "update_precision": 0.9583333333333334,
+            "update_recall": 0.71875,
+            "update_f1": 0.8214285714285714,
+            "noop_specificity": 0.96875,
+            "false_update_rate": 0.03125,
+            "invalid_count": 1,
+            "decision_counts": {
+              "true_update": 46,
+              "false_update": 2,
+              "missed_update": 18,
+              "true_noop": 62,
+              "invalid": 1,
+              "invalid_noop": 0
+            },
+            "rows": 128,
+            "schema_success_rate": 1.0,
+            "apply_success_rate": 0.9921875,
+            "state_exact": 0.6875,
+            "state_f1": 0.9733317227032089,
+            "reason_code_accuracy": null,
+            "prefill_tokens": 76473,
+            "decode_tokens": 4457,
+            "total_tokens": 80930,
+            "latency_seconds": 130.40615522582084,
+            "tokens_per_second": 34.17783456832948,
+            "usage_by_gold_decision": {
+              "UPDATE": {
+                "turns": 64,
+                "prefill_tokens": 35253,
+                "decode_tokens": 3861,
+                "total_tokens": 39114,
+                "attributed_latency_seconds": 66.41568281000946,
+                "average_prefill_tokens": 550.828125,
+                "average_decode_tokens": 60.328125,
+                "average_total_tokens": 611.15625,
+                "average_attributed_latency_seconds": 1.0377450439063978
+              },
+              "NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 41220,
+                "decode_tokens": 596,
+                "total_tokens": 41816,
+                "attributed_latency_seconds": 63.99047241581138,
+                "average_prefill_tokens": 644.0625,
+                "average_decode_tokens": 9.3125,
+                "average_total_tokens": 653.375,
+                "average_attributed_latency_seconds": 0.9998511314970528
+              }
+            },
+            "usage_by_predicted_decision": {
+              "UPDATE": {
+                "turns": 48,
+                "prefill_tokens": 26227,
+                "decode_tokens": 3755,
+                "total_tokens": 29982,
+                "attributed_latency_seconds": 50.62618826609105,
+                "average_prefill_tokens": 546.3958333333334,
+                "average_decode_tokens": 78.22916666666667,
+                "average_total_tokens": 624.625,
+                "average_attributed_latency_seconds": 1.0547122555435635
+              },
+              "NO_OP": {
+                "turns": 79,
+                "prefill_tokens": 49529,
+                "decode_tokens": 553,
+                "total_tokens": 50082,
+                "attributed_latency_seconds": 78.19879890792072,
+                "average_prefill_tokens": 626.9493670886076,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 633.9493670886076,
+                "average_attributed_latency_seconds": 0.9898582140243128
+              },
+              "INVALID": {
+                "turns": 1,
+                "prefill_tokens": 717,
+                "decode_tokens": 149,
+                "total_tokens": 866,
+                "attributed_latency_seconds": 1.5811680518090725,
+                "average_prefill_tokens": 717.0,
+                "average_decode_tokens": 149.0,
+                "average_total_tokens": 866.0,
+                "average_attributed_latency_seconds": 1.5811680518090725
+              }
+            },
+            "usage_by_decision_pair": {
+              "UPDATE->UPDATE": {
+                "turns": 46,
+                "prefill_tokens": 25024,
+                "decode_tokens": 3593,
+                "total_tokens": 28617,
+                "attributed_latency_seconds": 48.613581274519674,
+                "average_prefill_tokens": 544.0,
+                "average_decode_tokens": 78.1086956521739,
+                "average_total_tokens": 622.1086956521739,
+                "average_attributed_latency_seconds": 1.0568169842286885
+              },
+              "UPDATE->NO_OP": {
+                "turns": 17,
+                "prefill_tokens": 9512,
+                "decode_tokens": 119,
+                "total_tokens": 9631,
+                "attributed_latency_seconds": 16.22093348368071,
+                "average_prefill_tokens": 559.5294117647059,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 566.5294117647059,
+                "average_attributed_latency_seconds": 0.9541725578635711
+              },
+              "UPDATE->INVALID": {
+                "turns": 1,
+                "prefill_tokens": 717,
+                "decode_tokens": 149,
+                "total_tokens": 866,
+                "attributed_latency_seconds": 1.5811680518090725,
+                "average_prefill_tokens": 717.0,
+                "average_decode_tokens": 149.0,
+                "average_total_tokens": 866.0,
+                "average_attributed_latency_seconds": 1.5811680518090725
+              },
+              "NO_OP->UPDATE": {
+                "turns": 2,
+                "prefill_tokens": 1203,
+                "decode_tokens": 162,
+                "total_tokens": 1365,
+                "attributed_latency_seconds": 2.0126069915713742,
+                "average_prefill_tokens": 601.5,
+                "average_decode_tokens": 81.0,
+                "average_total_tokens": 682.5,
+                "average_attributed_latency_seconds": 1.0063034957856871
+              },
+              "NO_OP->NO_OP": {
+                "turns": 62,
+                "prefill_tokens": 40017,
+                "decode_tokens": 434,
+                "total_tokens": 40451,
+                "attributed_latency_seconds": 61.97786542424001,
+                "average_prefill_tokens": 645.4354838709677,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 652.4354838709677,
+                "average_attributed_latency_seconds": 0.9996429907135486
+              },
+              "NO_OP->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "decision_usage_latency_kind": "attributed_wall_clock",
+            "failures": [
+              {
+                "row_id": 2581,
+                "error": "operation 1 target must occur exactly once",
+                "output": "{\"decision\":\"UPDATE\",\"operations\":[[\"delete\",\"- [2025-02-26 07:35] carcontrol_wiper_set_speed.speed; value=4; context=(wiper=\\\"front\\\"); condition=temporary: while the windshield is icing\"],[\"add\",\"- [2025-02-22 21:10] carcontrol_airConditioner_set_circulation.circulation; value=\\\"inside\\\"; context=(zone=\\\"all\\\"); condition=temporary: until the airport pickup is over\",\"- [2025-02-26 08:20] carcontrol_wiper_set_speed.speed; value=2; context=(wiper=\\\"front\\\"); condition=temporary: while the windshield is icing\"]]}"
+              }
+            ]
+          },
+          "4": {
+            "update_precision": 1.0,
+            "update_recall": 0.75,
+            "update_f1": 0.8571428571428571,
+            "noop_specificity": 1.0,
+            "false_update_rate": 0.0,
+            "invalid_count": 0,
+            "decision_counts": {
+              "true_update": 48,
+              "false_update": 0,
+              "missed_update": 16,
+              "true_noop": 64,
+              "invalid": 0,
+              "invalid_noop": 0
+            },
+            "rows": 128,
+            "schema_success_rate": 1.0,
+            "apply_success_rate": 1.0,
+            "state_exact": 0.703125,
+            "state_f1": 0.9792432180044072,
+            "reason_code_accuracy": null,
+            "prefill_tokens": 83564,
+            "decode_tokens": 4410,
+            "total_tokens": 87974,
+            "latency_seconds": 132.15730475075543,
+            "tokens_per_second": 33.36932459629926,
+            "usage_by_gold_decision": {
+              "UPDATE": {
+                "turns": 64,
+                "prefill_tokens": 38761,
+                "decode_tokens": 3962,
+                "total_tokens": 42723,
+                "attributed_latency_seconds": 67.10401389875915,
+                "average_prefill_tokens": 605.640625,
+                "average_decode_tokens": 61.90625,
+                "average_total_tokens": 667.546875,
+                "average_attributed_latency_seconds": 1.0485002171681117
+              },
+              "NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 44803,
+                "decode_tokens": 448,
+                "total_tokens": 45251,
+                "attributed_latency_seconds": 65.05329085199628,
+                "average_prefill_tokens": 700.046875,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 707.046875,
+                "average_attributed_latency_seconds": 1.0164576695624419
+              }
+            },
+            "usage_by_predicted_decision": {
+              "UPDATE": {
+                "turns": 48,
+                "prefill_tokens": 28596,
+                "decode_tokens": 3850,
+                "total_tokens": 32446,
+                "attributed_latency_seconds": 49.5690003518248,
+                "average_prefill_tokens": 595.75,
+                "average_decode_tokens": 80.20833333333333,
+                "average_total_tokens": 675.9583333333334,
+                "average_attributed_latency_seconds": 1.0326875073296833
+              },
+              "NO_OP": {
+                "turns": 80,
+                "prefill_tokens": 54968,
+                "decode_tokens": 560,
+                "total_tokens": 55528,
+                "attributed_latency_seconds": 82.58830439893063,
+                "average_prefill_tokens": 687.1,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 694.1,
+                "average_attributed_latency_seconds": 1.032353804986633
+              },
+              "INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "usage_by_decision_pair": {
+              "UPDATE->UPDATE": {
+                "turns": 48,
+                "prefill_tokens": 28596,
+                "decode_tokens": 3850,
+                "total_tokens": 32446,
+                "attributed_latency_seconds": 49.5690003518248,
+                "average_prefill_tokens": 595.75,
+                "average_decode_tokens": 80.20833333333333,
+                "average_total_tokens": 675.9583333333334,
+                "average_attributed_latency_seconds": 1.0326875073296833
+              },
+              "UPDATE->NO_OP": {
+                "turns": 16,
+                "prefill_tokens": 10165,
+                "decode_tokens": 112,
+                "total_tokens": 10277,
+                "attributed_latency_seconds": 17.53501354693435,
+                "average_prefill_tokens": 635.3125,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 642.3125,
+                "average_attributed_latency_seconds": 1.095938346683397
+              },
+              "UPDATE->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->UPDATE": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              },
+              "NO_OP->NO_OP": {
+                "turns": 64,
+                "prefill_tokens": 44803,
+                "decode_tokens": 448,
+                "total_tokens": 45251,
+                "attributed_latency_seconds": 65.05329085199628,
+                "average_prefill_tokens": 700.046875,
+                "average_decode_tokens": 7.0,
+                "average_total_tokens": 707.046875,
+                "average_attributed_latency_seconds": 1.0164576695624419
+              },
+              "NO_OP->INVALID": {
+                "turns": 0,
+                "prefill_tokens": 0,
+                "decode_tokens": 0,
+                "total_tokens": 0,
+                "attributed_latency_seconds": 0.0,
+                "average_prefill_tokens": 0.0,
+                "average_decode_tokens": 0.0,
+                "average_total_tokens": 0.0,
+                "average_attributed_latency_seconds": 0.0
+              }
+            },
+            "decision_usage_latency_kind": "attributed_wall_clock",
+            "failures": []
+          }
+        },
+        "artifacts": {
+          "selection": "/mnt/nvme2/hj153lee/PalmClaw/on-device-memory-training/runs/granite4-1b-delta_v3_compact_k5-pending-ablation-depth-weighted-e4-b2-seed46-r1/eval-fixed-best-checkpoint.json",
+          "test": "/mnt/nvme2/hj153lee/PalmClaw/on-device-memory-training/runs/granite4-1b-delta_v3_compact_k5-pending-ablation-depth-weighted-e4-b2-seed46-r1/eval-fixed-test-best-epoch-03/summary.json",
+          "diagnostic": "/mnt/nvme2/hj153lee/PalmClaw/on-device-memory-training/runs/granite4-1b-delta_v3_compact_k5-pending-ablation-depth-weighted-e4-b2-seed46-r1/pending-depth-test-epoch-03.json"
+        }
+      }
+    ]
+  },
+  "condition_summaries": {
+    "unstratified": {
+      "test_composite": {
+        "n": 2,
+        "mean": 0.6759734760398485,
+        "sample_std": 0.009900294003180399,
+        "min": 0.6689729110144591,
+        "max": 0.6829740410652378
+      },
+      "closed_loop_quiz_esm": {
+        "n": 2,
+        "mean": 0.7166666666666667,
+        "sample_std": 0.017677669529663625,
+        "min": 0.7041666666666667,
+        "max": 0.7291666666666666
+      },
+      "closed_loop_final_state_f1": {
+        "n": 2,
+        "mean": 0.4903358545795458,
+        "sample_std": 0.005384671497068031,
+        "min": 0.4865283168495071,
+        "max": 0.49414339230958454
+      },
+      "closed_loop_update_f1": {
+        "n": 2,
+        "mean": 0.8225967492997467,
+        "sample_std": 0.004265734397661391,
+        "min": 0.8195804195804196,
+        "max": 0.8256130790190738
+      },
+      "closed_loop_false_update_rate": {
+        "n": 2,
+        "mean": 0.01649746192893401,
+        "sample_std": 0.003230437071410624,
+        "min": 0.014213197969543147,
+        "max": 0.018781725888324875
+      },
+      "diagnostic_update_recall": {
+        "n": 2,
+        "mean": 0.7640625,
+        "sample_std": 0.024306795603287603,
+        "min": 0.746875,
+        "max": 0.78125
+      },
+      "diagnostic_false_update_rate": {
+        "n": 2,
+        "mean": 0.0125,
+        "sample_std": 0.004419417382415922,
+        "min": 0.009375,
+        "max": 0.015625
+      }
+    },
+    "depth-weighted": {
+      "test_composite": {
+        "n": 2,
+        "mean": 0.6413775793894685,
+        "sample_std": 0.014593122247843624,
+        "min": 0.631058683689334,
+        "max": 0.651696475089603
+      },
+      "closed_loop_quiz_esm": {
+        "n": 2,
+        "mean": 0.6661458333333333,
+        "sample_std": 0.018414239093399728,
+        "min": 0.653125,
+        "max": 0.6791666666666667
+      },
+      "closed_loop_final_state_f1": {
+        "n": 2,
+        "mean": 0.49762564487548705,
+        "sample_std": 0.01628211886198555,
+        "min": 0.4861124482160917,
+        "max": 0.5091388415348824
+      },
+      "closed_loop_update_f1": {
+        "n": 2,
+        "mean": 0.7818911211373116,
+        "sample_std": 0.0035063394912842314,
+        "min": 0.7794117647058824,
+        "max": 0.7843704775687409
+      },
+      "closed_loop_false_update_rate": {
+        "n": 2,
+        "mean": 0.011928934010152284,
+        "sample_std": 0.0017946872618947911,
+        "min": 0.01065989847715736,
+        "max": 0.013197969543147208
+      },
+      "diagnostic_update_recall": {
+        "n": 2,
+        "mean": 0.7,
+        "sample_std": 0.00883883476483189,
+        "min": 0.69375,
+        "max": 0.70625
+      },
+      "diagnostic_false_update_rate": {
+        "n": 2,
+        "mean": 0.0078125,
+        "sample_std": 0.0022097086912079606,
+        "min": 0.00625,
+        "max": 0.009375
+      }
+    }
+  },
+  "paired_differences": [
+    {
+      "seed": 45,
+      "depth_weighted_minus_unstratified": {
+        "test_composite": -0.0312775659756348,
+        "closed_loop_quiz_esm": -0.04999999999999993,
+        "closed_loop_final_state_f1": 0.022610524685375333,
+        "closed_loop_update_f1": -0.04620131431319141,
+        "closed_loop_false_update_rate": -0.008121827411167515,
+        "diagnostic_update_recall": -0.08750000000000002,
+        "diagnostic_false_update_rate": -0.009375
+      }
+    },
+    {
+      "seed": 46,
+      "depth_weighted_minus_unstratified": {
+        "test_composite": -0.03791422732512506,
+        "closed_loop_quiz_esm": -0.05104166666666676,
+        "closed_loop_final_state_f1": -0.008030944093492864,
+        "closed_loop_update_f1": -0.03520994201167871,
+        "closed_loop_false_update_rate": -0.0010152284263959394,
+        "diagnostic_update_recall": -0.04062499999999991,
+        "diagnostic_false_update_rate": 0.0
+      }
+    }
+  ],
+  "paired_difference_summary": {
+    "test_composite": {
+      "n": 2,
+      "mean": -0.03459589665037993,
+      "sample_std": 0.004692828244663225,
+      "min": -0.03791422732512506,
+      "max": -0.0312775659756348
+    },
+    "closed_loop_quiz_esm": {
+      "n": 2,
+      "mean": -0.05052083333333335,
+      "sample_std": 0.0007365695637361021,
+      "min": -0.05104166666666676,
+      "max": -0.04999999999999993
+    },
+    "closed_loop_final_state_f1": {
+      "n": 2,
+      "mean": 0.007289790295941234,
+      "sample_std": 0.02166679035905358,
+      "min": -0.008030944093492864,
+      "max": 0.022610524685375333
+    },
+    "closed_loop_update_f1": {
+      "n": 2,
+      "mean": -0.04070562816243506,
+      "sample_std": 0.007772073888945622,
+      "min": -0.04620131431319141,
+      "max": -0.03520994201167871
+    },
+    "closed_loop_false_update_rate": {
+      "n": 2,
+      "mean": -0.004568527918781727,
+      "sample_std": 0.005025124333305415,
+      "min": -0.008121827411167515,
+      "max": -0.0010152284263959394
+    },
+    "diagnostic_update_recall": {
+      "n": 2,
+      "mean": -0.06406249999999997,
+      "sample_std": 0.033145630368119496,
+      "min": -0.08750000000000002,
+      "max": -0.04062499999999991
+    },
+    "diagnostic_false_update_rate": {
+      "n": 2,
+      "mean": -0.0046875,
+      "sample_std": 0.006629126073623883,
+      "min": -0.009375,
+      "max": 0.0
+    }
+  },
+  "uniform_reference": {
+    "run_id": "granite4-1b-delta_v3_compact_k5-multitask-noop5-uniform-depth-e4-b2-trainseed45-r1",
+    "seed_count": 1,
+    "paired": false,
+    "selected_epoch": 4,
+    "test_composite": 0.6737516838054591,
+    "closed_loop_quiz_esm": 0.7072916666666667,
+    "closed_loop_final_state_f1": 0.49215694098315343,
+    "closed_loop_update_f1": 0.842249657064472,
+    "closed_loop_false_update_rate": 0.014213197969543147,
+    "artifact": "/mnt/nvme2/hj153lee/PalmClaw/on-device-memory-training/runs/granite4-1b-delta_v3_compact_k5-multitask-noop5-uniform-depth-e4-b2-trainseed45-r1/eval-fixed-test-best-epoch-04/summary.json"
+  },
+  "schema_version": "palmclaw-delta-pending-ablation-summary-v1",
+  "created_at": "2026-09-15T02:52:20.826935+00:00",
+  "seeds": [
+    45,
+    46
+  ],
+  "run_tag": "r1"
+}

@@ -32,18 +32,16 @@
 
 | 데이터 변형 | 경로 끝 이름 | Memory Train | Quiz Train | 권장 방법론 |
 |---|---|---|---|---|
-| Base S1–S100 | `hybrid-s1-s100-summary-patch-delta-v2` | S15–S80 | S15–S80, 2 passes | Summary, Patch, Delta, Summary+Reason |
-| S+Temporal | `hybrid-s1-s100-plus-temporal-t1-t20-patch-t1t10-v2` | S15–S80 + T1–T10 | 동일 범위 | Summary, Patch |
-| Temporal-audited | `hybrid-s1-s100-plus-temporal-t1-t20-temporal-patch-t1t10-terra-audited-v2` | S15–S80 + T1–T10 | S+Temporal의 Quiz 공유 | Temporal Patch 전용 |
-| S+T+V1-10 | `hybrid-s1-s100-plus-temporal-t1-t20-plus-v1-10-patch-v1` | S15–S80 + T1–T10 + V1 10개 | S+T + V1 Quiz 40개 | Patch 전용 distribution 보강 |
+| Base S1–S100 | `hybrid-s1-s100-summary-patch-delta-v2` | S21–S80 | S21–S80, 2 passes | Summary, Patch, Delta, Summary+Reason |
+| S+Temporal | `hybrid-s1-s100-plus-temporal-t1-t20-patch-t1t10-v2` | S21–S80 + T1–T10 | 동일 범위 | Summary, Patch |
+| Temporal-audited | `hybrid-s1-s100-plus-temporal-t1-t20-temporal-patch-t1t10-terra-audited-v2` | S21–S80 + T1–T10 | S+Temporal의 Quiz 공유 | Temporal Patch 전용 |
+| S+T+V1-10 (보존용) | `hybrid-s1-s100-plus-temporal-t1-t20-plus-v1-10-patch-v1` | 최종 학습에서 제외 | 최종 학습에서 제외 | 과거 distribution 보강 산출물 |
 
-시나리오 ID는 V2 `S1–S100=1–100`, Temporal `T1–T20=101–120`, 학습 전용 원본 V1
-`S1–S50=201–250`으로 인코딩한다. V1-10은 원본
-`S2/S5/S6/S14/S17/S23/S31/S32/S33/S36`만 사용한다.
+시나리오 ID는 V2 `S1–S100=1–100`, Temporal `T1–T20=101–120`으로
+인코딩한다. `201–250`으로 인코딩된 V1 산출물은 과거 실험 재현용으로만
+보존하고 최종 학습·집계에서 제외한다.
 
-V1-10 추가 trace는 27,270턴이다. 불량 operation이 없는 시나리오만 채택했으며, soft-30
-compaction 14턴은 replay/state에는 유지하되 `train_eligible=false`로 loss와 trajectory에서
-제외한다. 최종적으로 UPDATE 545건과 Quiz 40건을 학습에 추가한다.
+V1-10 추가 trace는 27,270턴이지만 현재 학습 규모에 포함하지 않는다.
 
 ## 4. Validation 관리
 

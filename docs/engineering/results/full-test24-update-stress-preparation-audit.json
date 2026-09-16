@@ -1,0 +1,126 @@
+{
+  "created_at": "2026-09-15T06:37:56.463186+00:00",
+  "natural_manifests": {
+    "base": {
+      "signature": "b8ebcb9cad58e999dd8d9252e2886702a1632c36d96cf90542b0bbdbe77ca9ef",
+      "turns": 2364,
+      "updates": 394
+    },
+    "k10": {
+      "signature": "d0ea74fc196431632e34d923f538c3c26d8e45205978a6a099412675d25cfbb3",
+      "turns": 2364,
+      "updates": 394
+    },
+    "k2": {
+      "signature": "800c93f5c7c3de7033ae3e683e15a195bd03abe760cec606c9e58c3b9b01badf",
+      "turns": 2364,
+      "updates": 394
+    },
+    "k5": {
+      "signature": "25f51498ac093e98b963881dc54584d1ebf29019d9fae6720e2f99ae09741d33",
+      "turns": 2364,
+      "updates": 394
+    }
+  },
+  "scenarios": [
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119,
+    120
+  ],
+  "schema_version": "palmclaw-full-test24-stress-preparation-audit-v1",
+  "stress": {
+    "U40": {
+      "compact": {
+        "k10": {
+          "final_memories_match": true,
+          "turns": 2930,
+          "updates": 960
+        },
+        "k2": {
+          "final_memories_match": true,
+          "turns": 2930,
+          "updates": 960
+        },
+        "k5": {
+          "final_memories_match": true,
+          "turns": 2930,
+          "updates": 960
+        }
+      },
+      "data_root": "/mnt/nvme2/hj153lee/PalmClaw/evaluation/vehiclemembench-v2-training/grouped-v2-v1-10-eval-stress-test24-update40-front-middle-v1",
+      "quizzes": 960,
+      "scenarios": 24,
+      "turns": 2930,
+      "updates": 960
+    },
+    "U60": {
+      "compact": {
+        "k10": {
+          "final_memories_match": true,
+          "turns": 3410,
+          "updates": 1440
+        },
+        "k2": {
+          "final_memories_match": true,
+          "turns": 3410,
+          "updates": 1440
+        },
+        "k5": {
+          "final_memories_match": true,
+          "turns": 3410,
+          "updates": 1440
+        }
+      },
+      "data_root": "/mnt/nvme2/hj153lee/PalmClaw/evaluation/vehiclemembench-v2-training/grouped-v2-v1-10-eval-stress-test24-update60-front-middle-v1",
+      "quizzes": 960,
+      "scenarios": 24,
+      "turns": 3410,
+      "updates": 1440
+    },
+    "U80": {
+      "compact": {
+        "k10": {
+          "final_memories_match": true,
+          "turns": 3890,
+          "updates": 1920
+        },
+        "k2": {
+          "final_memories_match": true,
+          "turns": 3890,
+          "updates": 1920
+        },
+        "k5": {
+          "final_memories_match": true,
+          "turns": 3890,
+          "updates": 1920
+        }
+      },
+      "data_root": "/mnt/nvme2/hj153lee/PalmClaw/evaluation/vehiclemembench-v2-training/grouped-v2-v1-10-eval-stress-test24-update80-front-middle-v1",
+      "quizzes": 960,
+      "scenarios": 24,
+      "turns": 3890,
+      "updates": 1920
+    }
+  }
+}

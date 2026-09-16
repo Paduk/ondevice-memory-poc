@@ -4,7 +4,7 @@
 > 개별 run 디렉터리를 다시 탐색하기 전에 이 문서를 먼저 확인한다. 새 평가가 완료되면 이
 > 문서의 표, 원본 artifact 목록, 갱신 시각을 함께 업데이트한다.
 
-- 마지막 갱신: 2026-09-05 UTC
+- 마지막 갱신: 2026-09-09 UTC
 - 평가 데이터:
   `grouped-v2-v1-10-eval-fixed-noop5-seed45-v1`
 - Validation: S81–S85, S111 (6 scenarios)
@@ -33,6 +33,15 @@ Composite = 0.60 × Quiz ESM
 
 ## 최신 결과
 
+Patch, Summary, Delta-v3 compact `k=5`만 추린 논문용 4모델 비교는
+[Main Performance: 4 Models × 3 Methods](main-performance-four-models-three-methods.md)를
+참조한다.
+
+No Memory·Recent-window·KV/LWW와 Llama 1B·3B, Mem0 One-pass·Two-stage까지 포함한
+최신 통합 비교는
+[Main Test Performance: 6 Models × 8 Methods](main-performance-six-models-eight-methods.md)를
+참조한다.
+
 모든 성능 값은 `%`이다. 기본 표는 training seed 45 결과이며, 2B Patch seed46 반복 실험은
 재현성 확인을 위해 별도 행으로 표시한다.
 
@@ -51,6 +60,27 @@ Composite = 0.60 × Quiz ESM
 | 2B | Delta-v3 | 45 | 3 | 59.58 | 61.25 | 48.27 | 71.72 | 67.29 | 71.98 | 49.18 | 78.71 |
 | 2B | Summary | 45 | 4 | 58.98 | 62.08 | 43.43 | 72.48 | 65.61 | 69.69 | 47.51 | 79.47 |
 | 2B | Patch (repeat) | 46 | 3 | 63.07 | 68.33 | 43.90 | 73.99 | 71.13 | 75.83 | 52.28 | 83.75 |
+
+## Granite 4 1B Mem0-style baseline
+
+같은 fixed Test 24개 시나리오를 사용한 Mem0-style 추가 baseline이다. One-pass는 fact
+추출과 CRUD 결정을 한 번에 생성하고, Two-stage는 같은 모델을 `EXTRACT`와 `MANAGE`에
+순차 호출한다. 모든 값은 `%`이며 False-update는 낮을수록 좋다.
+
+| 방법 | Tested epoch | Test Composite ↑ | Quiz ESM ↑ | Update F1 ↑ | False-update ↓ | Final-state F1 ↑ | Invalid outputs ↓ |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Mem0-style One-pass | 2 | 54.31 | 61.98 | 71.90 | **0.71** | **25.35** | **9** |
+| Mem0-style Two-stage | 3 | **57.06** | **65.10** | **78.41** | 1.02 | 24.94 | 17 |
+
+Two-stage는 One-pass보다 Test Composite가 `+2.75`%p, Quiz ESM이 `+3.12`%p, Update
+F1이 `+6.51`%p 높다. 반면 Final-state F1은 `-0.41`%p이고 False-update와 strict-schema
+invalid 출력은 더 많다. 즉 extraction·management 분리는 갱신 recall과 downstream
+quiz에는 유리하지만, 장기 memory 품질과 출력 안정성 병목은 해결하지 못했다. 특히
+Two-stage invalid 17건은 평가기 오류가 아니라 `UPDATE` event에 `fact_version_id`를
+추가한 16건과 `ADD` event에 `ephemeral_invalidation`을 추가한 1건이다.
+
+두 Mem0 epoch는 teacher-forced validation loss로 선택됐다. 논문 최종 비교에서는 네
+epoch 모두를 동일한 closed-loop Validation Composite로 다시 선택해야 한다.
 
 ## Delta-v3 compact k ablation (`k=2,5,10`)
 
@@ -169,6 +199,8 @@ Delta-v3 compact memory의 UPDATE compaction interval `k` 영향을 비교한다
 | 1B Patch | `granite4-1b-patch-multitask-noop5-trainfirst-grouped-v2-v1-10-e4-b8-trainseed45-r1` | `eval-fixed-v2-validation-best-epoch-03.json` | `eval-fixed-v2-test-best-epoch-03/summary.json` |
 | 1B Delta-v3 | `granite4-1b-delta-v3-multitask-noop5-trainfirst-grouped-v2-v1-10-e4-b8-trainseed45-r1` | `eval-fixed-v2-validation-best-epoch-03.json` | `eval-fixed-v2-test-best-epoch-03/summary.json` |
 | 1B Summary | `granite4-1b-summary-multitask-noop5-trainfirst-grouped-v2-v1-10-e4-b8-trainseed45-r1` | `eval-fixed-v2-validation-best-epoch-03.json` | `eval-fixed-v2-test-best-epoch-03/summary.json` |
+| 1B Mem0-style One-pass | `granite4-1b-mem0-one-pass-multitask-noop5-e4-b8-trainseed45-r1` | `eval-fixed-v2-validation-best-epoch-02.json` | `eval-fixed-v2-test-best-epoch-02/summary.json` |
+| 1B Mem0-style Two-stage | `granite4-1b-mem0-two-stage-multitask-extract1to5-managerall-e4-b8-trainseed45-r1` | `eval-fixed-v2-validation-best-epoch-03.json` | `eval-fixed-v2-test-best-epoch-03/summary.json` |
 | 2B Patch | `qwen35-2b-patch-multitask-noop5-grouped-v2-v1-10-e5-b4-r1` | `eval-fixed-v2-validation-epoch-03.json` | `eval-fixed-v2-test-best-epoch-03/summary.json` |
 | 2B Delta-v3 | `qwen35-2b-delta-v3-multitask-noop5-grouped-v2-v1-10-e4-b2-trainseed45-evalfixed-noop5-r1` | `eval-fixed-v2-validation-epoch-03.json` | `eval-fixed-v2-test-best-epoch-03/summary.json` |
 | 2B Summary | `qwen35-2b-summary-multitask-noop5-grouped-v2-v1-10-e4-b2-r1` | `eval-fixed-v2-validation-epoch-04.json` | `eval-fixed-v2-test-best-epoch-04/summary.json` |
@@ -202,6 +234,10 @@ Delta-v3 compact memory의 UPDATE compaction interval `k` 영향을 비교한다
 
 ## KV-cache stress canary
 
+> 4개 모델, Base/U20/U40/U60/U80, Summary 포함 최종 통합 결과는
+> [4-model Update Stress 정확도·비용 Pareto 결과](stress-tradeoff-four-models.md)를
+> 참조한다.
+
 Validation S81-S85를 시나리오당 20/40/60/80 UPDATE로 확장한 cache-ON controlled
 replay를 반복 1회 실행했다. 80 UPDATE의 UPDATE 직후 평균 evaluated prefill tokens는
 Patch `1,754.5`, Delta k2 `964.0`, k5 `602.9`, k10 `659.9`였다. 이는 최종 통계가
@@ -209,17 +245,21 @@ Patch `1,754.5`, Delta k2 `964.0`, k5 `602.9`, k10 `659.9`였다. 이는 최종 
 `62.29`, k5 `48.18`, k10 `57.77`이었다. 성능 보존형 trade-off는 k2, 더 공격적인
 평균·p95 latency trade-off는 k10이 유력하다.
 
-동일 규칙의 held-out Test S86-S90에서도 16/16 cache와 16/16 Composite job을 완료했다.
-80 UPDATE의 UPDATE 직후 평균 evaluated prefill tokens는 Patch `1,737.6`, k2 `954.7`,
-k5 `596.0`, k10 `654.2`였고, Composite는 각각 `63.20`, `66.94`, `48.52`, `58.13`이었다.
+동일 규칙의 held-out Test S86-S90에서도 Summary를 포함해 20/20 cache와 20/20 Composite
+job을 완료했다. 80 UPDATE의 UPDATE 직후 평균 evaluated prefill tokens는 Patch·Summary
+`1,737.6`, k2 `954.7`, k5 `596.0`, k10 `654.2`였고, Composite는 각각 Patch `63.20`,
+Summary `34.32`, k2 `66.94`, k5 `48.52`, k10 `58.13`이었다.
 즉 k2는 이 Test cell에서 Composite를 `+3.74`%p 높이면서 prefill을 `45.1%` 줄였다.
 실행 조건과 전체 결과는
 [Delta-v3 Update Stress KV-cache Canary 결과](delta-v3-update-stress-canary-results.md)를
 참조한다.
 
-Granite 4 1B에서도 같은 held-out Stress Test를 16/16 완료했다. 80 UPDATE 평균 prefill
-절감률은 k2 `27.6%`, k5 `60.6%`, k10 `72.6%`였지만 Composite는 Patch `68.78` 대비
-k2 `55.46`, k5 `58.63`, k10 `39.62`였다. 따라서 token 이점은 모델군을 넘어
-재현됐지만 accuracy를 보존하는 k는 모델 의존적이다. 전체 비교는
+Granite 4 1B에서도 Summary를 포함해 같은 held-out Stress Test를 20/20 완료했다. 80
+UPDATE 평균 prefill은 Patch·Summary `993.0`으로 같았고, Delta 절감률은 k2 `27.6%`, k5
+`60.6%`, k10 `72.6%`였다. Composite는 Patch `68.78`, Summary `37.30`, k2 `55.46`,
+k5 `58.63`, k10 `39.62`였다. 따라서 Delta의 token 이점은 모델군을 넘어 재현됐지만
+accuracy를 보존하는 k는 모델 의존적이며, 전체-state Summary는 반복 UPDATE에서
+prefill은 Patch와 같아도 UPDATE 평균 decode가 `621.1` 대 `75.6`(`8.2×`)이므로 전체
+latency·cost와 accuracy 모두 열세였다. 전체 비교는
 [Qwen 0.8B와 Granite 1B Stress Test 비교](delta-v3-stress-test-qwen-granite-comparison.md)를
 참조한다.

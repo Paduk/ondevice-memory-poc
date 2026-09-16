@@ -489,7 +489,7 @@ Tool Call은 데이터에 존재하지만 학습에는 사용하지 않는다. �
 - **Memory task:** `previous memory + current turn → UPDATE/NO_OP + memory output`
 - **Quiz task:** `memory snapshot + query + Vehicle tool schema → Gold tool call`
 - ESM은 직접 loss로 학습하지 않고 Gold tool name/arguments SFT 후 simulator로 평가한다.
-- Quiz SFT는 S15–S80만 사용하고 S81–S85 Validation, S86–S100 Test를 보존한다.
+- Quiz SFT는 S21–S80만 사용하고 S81–S85 Validation, S86–S100 Test를 보존한다.
 - Quiz 과반복을 막기 위해 전체 학습 동안 각 Quiz를 기본 2회 노출하고 Memory batch 사이에
   균등하게 분배한다.
 
@@ -501,7 +501,7 @@ Tool Call은 데이터에 존재하지만 학습에는 사용하지 않는다. �
    negative 1`로 제한하며 선택은 `sample_id` 기반으로 재현 가능하게 고정한다.
 2. **Multitask 학습 (완료):** 기존 네 방법 loader에 `task_type`과 균형 sampler를
    추가하고, assistant memory output 또는 tool-call target에만 loss를 적용한다. 새
-   `--multitask` run은 Memory와 Quiz 모두 S15–S80을 사용한다. Quiz는 전체 학습 동안
+   `--multitask` run은 Memory와 Quiz 모두 S21–S80을 사용한다. Quiz는 전체 학습 동안
    정확히 2회만 노출되도록 결정론적으로 shuffle한 뒤 epoch별로 균등 분배하고 Memory
    batch 사이에 삽입한다. aggregate·Memory·Quiz loss를 각각 기록한다.
 3. **Validation (완료):** S83·S84는 모든 Turn을 closed-loop로 재생하고, 각 Quiz 시점의
@@ -521,7 +521,7 @@ on-device end-to-end 성능을 각각 보여준다.
 ## 12. S + Temporal 확장 실험 준비 현황
 
 - T1–T20은 기존 정수 catalog와 충돌하지 않도록 각각 `101–120`으로 인코딩한다.
-- Train은 `S15–S80 + T1–T10`, Validation은 `S81–S85 + T11`, Test는
+- Train은 `S21–S80 + T1–T10`, Validation은 `S81–S85 + T11`, Test는
   `S86–S100 + T12–T20`으로 고정한다. T1–T10만으로 다섯 temporal action을 모두
   포함하며, 더 큰 temporal Test로 일반화를 평가한다.
 - Patch와 Temporal Patch는 동일한 Qwen3.5-4B multitask/noop5/4-epoch 설정과 seed 45를
@@ -533,9 +533,10 @@ on-device end-to-end 성능을 각각 보여준다.
 - 생성 데이터 경로와 실행 명령은 `memory_training/README.md`의
   `S + Temporal Patch experiment` 절을 따른다.
 
-## 13. V1 distribution 보강 Patch 실험 준비 현황
+## 13. V1 distribution 보강 Patch 실험(최종 학습에서 제외)
 
-- Patch에만 원본 VehicleMemBench V1 10개 시나리오를 추가한다. seed 45 고정 선택은
+- 아래 V1 10개 보강본은 실험용 산출물로만 보존하며, 최종 Summary/Patch/Delta/Mem0 학습과 규모 집계에서 제외한다.
+- Patch에만 원본 VehicleMemBench V1 10개 시나리오를 추가했던 산출물이다. seed 45 고정 선택은
   `S2, S5, S6, S14, S17, S23, S31, S32, S33, S36`이며,
   V2 ID와 충돌하지 않도록 각각 `201–250` 범위로 인코딩한다.
 - Teacher는 기존 Cloud Luna `turn-wise Patch soft-30 fresh R2` trace이다. 모든 UPDATE를

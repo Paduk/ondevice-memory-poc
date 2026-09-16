@@ -69,13 +69,13 @@ UPDATE 누적에 따라 어떻게 변하는지 Patch 및 Delta-v3 `k=2/5/10`과 
 - 모든 방법·k·cache mode의 반복 실행 완료
 - 평균/p95/누적 비용과 closed-loop accuracy가 포함된 최종 비교표 생성
 
-## 현재 상태 (2026-09-04)
+## 현재 상태 (2026-09-07)
 
-- Validation S81-S85의 cache-ON controlled replay canary를 반복 1회로 완료했다.
-- 20/40/60/80 UPDATE × Patch/k2/k5/k10의 16개 job이 모두 성공했다.
-- 같은 16개 cell의 predicted closed-loop memory와 Quiz 200개 평가를 완료해 정식
-  Composite를 계산했다.
-- 초기 결과와 해석은
-  [Delta-v3 Update Stress KV-cache Canary 결과](delta-v3-update-stress-canary-results.md)에
+- Test S86-S90의 자연 Base와 20/40/60/80 UPDATE stress를 완료했다.
+- Granite 350M, Qwen 0.8B, Granite 1B, Qwen 2B × Patch/Summary/k2/k5/k10의
+  cache token과 Composite 100개 cell을 모두 집계했다.
+- 지정한 on-device throughput으로 latency mean/p95/누적값을 projection했다.
+- 결과와 Pareto figure는
+  [4-model Update Stress 정확도·비용 Pareto 결과](stress-tradeoff-four-models.md)에
   기록했다.
-- cache OFF/background, latency 반복 측정과 Test 실행은 아직 수행하지 않았다.
+- cache OFF/background-prefill 실측과 실제 단말 반복 측정은 후속 과제다.

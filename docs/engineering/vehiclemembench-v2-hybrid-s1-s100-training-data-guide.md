@@ -52,16 +52,32 @@
 `memory_training/methods/delta_v2.py`에 있다. 이후 사용자별 메모리 실험은 이 파생본을
 우선 사용하고, flat 원본은 비교·복구용 canonical source로 유지한다.
 
-실제 noop5 학습에는 기존 V1 10개 시나리오를 training-only로 추가한 다음 통합본을
-사용한다. Validation `S81–S85 + T11`과 Test `S86–S100 + T12–T20`은 grouped V2 원본을
-그대로 유지한다.
+현재 noop5 학습은 V1 보강이 없는 위 grouped V2 파생본을 사용한다.
+Train은 `S21–S80 + T1–T10`, Validation은 `S81–S85 + T11`, Test는
+`S86–S100 + T12–T20`으로 고정한다. S1–S20과 아래 V1-10 통합본은
+최종 학습에서 제외한다.
 
 ```text
 /mnt/data/hj153lee/PalmClaw/evaluation/vehiclemembench-v2-training/
   grouped-s1-s100-plus-temporal-t1-t20-plus-v1-10-v2/
 ```
 
+위 통합본은 과거 실험 재현용으로만 보존한다.
+
 ## 2. 학습·평가에 필요한 속성
+
+### 현재 고정 split (V1 보강 제외)
+
+S1–S20은 초기 방법론 검토에 사용했으므로 최종 학습에서 제외한다.
+V1 10-scenario 보강본도 최종 학습과 규모 집계에서 제외한다.
+
+| 구분 | 시나리오 | 시나리오 수 | Turn | UPDATE | NO_OP | Quiz |
+|---|---|---:|---:|---:|---:|---:|
+| Train | S21–S80 + T1–T10 | 70 | 195,491 | 1,036 | 194,455 | 2,800 |
+| Validation | S81–S85 + T11 | 6 | 16,576 | 90 | 16,486 | 240 |
+| Test | S86–S100 + T12–T20 | 24 | 67,423 | 394 | 67,029 | 960 |
+| Excluded | S1–S20 | 20 | 56,014 | 204 | 55,810 | 800 |
+| Total | S1–S100 + T1–T20 | 120 | 335,504 | 1,724 | 333,780 | 4,800 |
 
 `hybrid.json/event_checkpoints[].turn_labels[]`에서 시간순으로 아래 값을 추출한다.
 
@@ -194,7 +210,7 @@ Batch view는 날짜 마지막 memory를 손실 없이 보존하지만, Batch �
 `quiz_sft.jsonl`의 Gold Tool Call과 공식 `vehicle_tools.json`을 Summary/Patch Batch
 Memory SFT 사이에 동일하게 삽입한다. 즉 학습 target은 memory output과 Gold Tool
 Call이며, ESM·Tool F1·Argument Exact는 직접 label로 예측하지 않고 validation/test의
-simulator 실행으로 산출한다. `batch_manifest.json`이 이 공유 파일과 S15–S80 Train,
+simulator 실행으로 산출한다. 현재 실험 split은 S21–S80 Train,
 S81–S85 Validation, S86–S100 Test 정책을 명시한다.
 
 원본 분포는 NO_OP가 매우 많으므로 실제 SFT에서는 이 JSONL을 그대로 균등 소비하지 말고, **scenario split은 유지한 채 Train의 NO_OP만 downsampling/가중치 조정**해야 한다. Validation/Test는 원래 분포를 보존한다.
