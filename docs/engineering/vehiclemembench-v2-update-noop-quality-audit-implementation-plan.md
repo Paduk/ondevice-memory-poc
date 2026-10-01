@@ -210,9 +210,10 @@ Human defer는 모두 0건이었다. 최종 PASS는 `post_hoc 76/80`, `hybrid 77
 - [완료] 전체 실행 checkpoint와 결과 재현 명령 검증
 
 S1–S5 전체 실행은 Agent 1,200 tasks, Answerability 600 quizzes, UPDATE 감사
-512 events에서 provider failure 0건으로 완료했다. Post-hoc S3의 한 event는 SOL이
-`DEFER_HUMAN`으로 판정하여 별도 UPDATE audit queue에서 검토 대기 중이다. 따라서
-자동 집계는 `PROVISIONAL`로 표시하며, Human 제출 후 동일 summarizer를 다시 실행한다.
+512 events에서 provider failure 0건으로 완료했다. SOL이 `DEFER_HUMAN`으로 보낸
+Post-hoc S3의 `veh-09-e2`는 독립 검수에서 `PASS`로 확정했다. Human submission을
+audit 집계와 three-way summarizer가 읽도록 연결한 뒤 재집계했으며, 미해결 사례 없이
+최종 상태는 `COMPLETED`이다.
 
 ## 완료 조건
 

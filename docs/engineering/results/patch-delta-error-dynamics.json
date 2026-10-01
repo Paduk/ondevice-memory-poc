@@ -1,0 +1,1310 @@
+{
+  "schema_version": "palmclaw-patch-delta-error-dynamics-v1",
+  "created_at": "2026-09-17T09:57:07.034185+00:00",
+  "scope": {
+    "methods": [
+      "Patch",
+      "Delta-v3"
+    ],
+    "models": [
+      "Granite 350M",
+      "Qwen 0.8B",
+      "Granite 1B",
+      "Llama 3.2 1B",
+      "Qwen 2B",
+      "Llama 3.2 3B"
+    ],
+    "trace_source": "/mnt/nvme2/hj153lee/PalmClaw/on-device-memory-training/evaluations/patch-vs-delta-disagreement-analysis",
+    "gold_source": "/mnt/nvme2/hj153lee/PalmClaw/evaluation/vehiclemembench-v2-training/grouped-v2-v1-10-eval-fixed-noop5-seed45-v1/summary.jsonl",
+    "quiz_source": "/mnt/nvme2/hj153lee/PalmClaw/evaluation/vehiclemembench-v2-training/grouped-v2-v1-10-eval-fixed-noop5-seed45-v1/quiz_sft.jsonl",
+    "unit_note": "Turn analysis uses the fixed UPDATE:NO_OP=1:5 evaluation cohort, not all original dialogue utterances."
+  },
+  "coverage": {
+    "Patch_scenarios": 141,
+    "Patch_turns": 13842,
+    "Patch_quizzes": 5640,
+    "Delta-v3_scenarios": 141,
+    "Delta-v3_turns": 13842,
+    "Delta-v3_quizzes": 5640
+  },
+  "aggregate_by_method": {
+    "Patch": {
+      "counts": {
+        "turns": 13842,
+        "gold_no_op_turns": 11535,
+        "state_exact_turns": 1533,
+        "correct_to_wrong": 146,
+        "wrong_to_correct": 6,
+        "noop_predicted_updates": 257,
+        "noop_memory_mutations": 256,
+        "noop_new_loss_turns": 2,
+        "noop_new_missing_facts": 2,
+        "noop_new_extra_turns": 253,
+        "noop_new_extra_facts": 253,
+        "noop_recovery_turns": 3,
+        "noop_recovered_missing_facts": 3,
+        "noop_error_persistence_turns": 9961,
+        "gold_update_turns": 2307,
+        "update_predicted_updates": 1795,
+        "introduced_facts": 2222,
+        "retired_facts": 524,
+        "retired_immediately_removed": 486,
+        "update_transitions": 2307,
+        "update_transition_successes": 825,
+        "immediate_acquisition_failures": 1465,
+        "immediate_acquisition_failure_predicted_update": 969,
+        "immediate_acquisition_failure_predicted_no_op": 471,
+        "immediately_acquired_facts": 757,
+        "retained_until_retirement_or_end": 730,
+        "immediate_acquisition_failure_predicted_invalid": 25,
+        "first_loss_on_later_update": 25,
+        "first_loss_on_noop": 2
+      },
+      "mean_fact_f1": 0.38713895554805844,
+      "rates": {
+        "update_transition_success": 0.3576072821846554,
+        "introduced_fact_immediate_acquisition": 0.3406840684068407,
+        "introduced_fact_failure_from_missed_update": 0.32150170648464166,
+        "introduced_fact_failure_despite_predicted_update": 0.6614334470989761,
+        "introduced_fact_failure_from_invalid_output": 0.017064846416382253,
+        "retired_fact_immediate_removal": 0.9274809160305344,
+        "noop_false_update": 0.022280017338534894,
+        "noop_memory_mutation": 0.022193324664065886,
+        "noop_new_information_loss": 0.00017338534893801473,
+        "noop_new_extra_fact": 0.021933246640658863,
+        "acquired_fact_retained": 0.964332892998679,
+        "acquired_fact_first_loss_on_noop": 0.002642007926023778,
+        "acquired_fact_first_loss_on_later_update": 0.03302509907529723
+      }
+    },
+    "Delta-v3": {
+      "counts": {
+        "turns": 13842,
+        "gold_no_op_turns": 11535,
+        "state_exact_turns": 2026,
+        "correct_to_wrong": 149,
+        "wrong_to_correct": 9,
+        "noop_predicted_updates": 139,
+        "noop_memory_mutations": 138,
+        "noop_new_loss_turns": 0,
+        "noop_new_missing_facts": 0,
+        "noop_new_extra_turns": 137,
+        "noop_new_extra_facts": 137,
+        "noop_recovery_turns": 1,
+        "noop_recovered_missing_facts": 1,
+        "noop_error_persistence_turns": 9662,
+        "gold_update_turns": 2307,
+        "update_predicted_updates": 1685,
+        "introduced_facts": 2222,
+        "retired_facts": 524,
+        "retired_immediately_removed": 480,
+        "update_transitions": 2307,
+        "update_transition_successes": 837,
+        "immediate_acquisition_failures": 1450,
+        "immediate_acquisition_failure_predicted_update": 845,
+        "immediate_acquisition_failure_predicted_no_op": 588,
+        "immediately_acquired_facts": 772,
+        "retained_until_retirement_or_end": 749,
+        "immediate_acquisition_failure_predicted_invalid": 17,
+        "first_loss_on_later_update": 23
+      },
+      "mean_fact_f1": 0.41557596283999854,
+      "rates": {
+        "update_transition_success": 0.36280884265279584,
+        "introduced_fact_immediate_acquisition": 0.34743474347434744,
+        "introduced_fact_failure_from_missed_update": 0.40551724137931033,
+        "introduced_fact_failure_despite_predicted_update": 0.5827586206896552,
+        "introduced_fact_failure_from_invalid_output": 0.011724137931034483,
+        "retired_fact_immediate_removal": 0.916030534351145,
+        "noop_false_update": 0.012050281751192025,
+        "noop_memory_mutation": 0.011963589076723017,
+        "noop_new_information_loss": 0.0,
+        "noop_new_extra_fact": 0.01187689640225401,
+        "acquired_fact_retained": 0.9702072538860104,
+        "acquired_fact_first_loss_on_noop": 0.0,
+        "acquired_fact_first_loss_on_later_update": 0.029792746113989636
+      }
+    }
+  },
+  "aggregate_quiz_state_relation": {
+    "Patch": {
+      "counts": {
+        "covered_quizzes": 5640,
+        "memory_inexact_quiz_correct": 3815,
+        "memory_inexact_quiz_wrong": 1572,
+        "memory_exact_quiz_correct": 244,
+        "memory_exact_quiz_wrong": 9
+      },
+      "by_placement": {
+        "FINAL": {
+          "covered_quizzes": 1410,
+          "memory_inexact_quiz_correct": 1029,
+          "memory_inexact_quiz_wrong": 371,
+          "memory_exact_quiz_correct": 10
+        },
+        "TURN_COMPOSITE": {
+          "covered_quizzes": 546,
+          "memory_inexact_quiz_wrong": 257,
+          "memory_inexact_quiz_correct": 280,
+          "memory_exact_quiz_wrong": 2,
+          "memory_exact_quiz_correct": 7
+        },
+        "TURN_DELAYED": {
+          "covered_quizzes": 1377,
+          "memory_inexact_quiz_wrong": 471,
+          "memory_inexact_quiz_correct": 887,
+          "memory_exact_quiz_correct": 17,
+          "memory_exact_quiz_wrong": 2
+        },
+        "TURN_IMMEDIATE": {
+          "covered_quizzes": 2307,
+          "memory_inexact_quiz_correct": 1619,
+          "memory_inexact_quiz_wrong": 473,
+          "memory_exact_quiz_correct": 210,
+          "memory_exact_quiz_wrong": 5
+        }
+      }
+    },
+    "Delta-v3": {
+      "counts": {
+        "covered_quizzes": 5640,
+        "memory_inexact_quiz_correct": 3524,
+        "memory_inexact_quiz_wrong": 1783,
+        "memory_exact_quiz_correct": 318,
+        "memory_exact_quiz_wrong": 15
+      },
+      "by_placement": {
+        "FINAL": {
+          "covered_quizzes": 1410,
+          "memory_inexact_quiz_wrong": 416,
+          "memory_inexact_quiz_correct": 984,
+          "memory_exact_quiz_correct": 9,
+          "memory_exact_quiz_wrong": 1
+        },
+        "TURN_COMPOSITE": {
+          "covered_quizzes": 546,
+          "memory_inexact_quiz_wrong": 273,
+          "memory_inexact_quiz_correct": 262,
+          "memory_exact_quiz_wrong": 3,
+          "memory_exact_quiz_correct": 8
+        },
+        "TURN_DELAYED": {
+          "covered_quizzes": 1377,
+          "memory_inexact_quiz_wrong": 522,
+          "memory_inexact_quiz_correct": 834,
+          "memory_exact_quiz_correct": 17,
+          "memory_exact_quiz_wrong": 4
+        },
+        "TURN_IMMEDIATE": {
+          "covered_quizzes": 2307,
+          "memory_inexact_quiz_correct": 1444,
+          "memory_inexact_quiz_wrong": 572,
+          "memory_exact_quiz_correct": 284,
+          "memory_exact_quiz_wrong": 7
+        }
+      }
+    }
+  },
+  "by_model": {
+    "Granite 350M": {
+      "Patch": {
+        "coverage": {
+          "scenarios": 24,
+          "turns": 2364,
+          "quiz_snapshots_validated": 217,
+          "quizzes": 960
+        },
+        "trajectory": {
+          "counts": {
+            "turns": 2364,
+            "gold_no_op_turns": 1970,
+            "state_exact_turns": 148,
+            "correct_to_wrong": 24,
+            "wrong_to_correct": 0,
+            "noop_predicted_updates": 37,
+            "noop_memory_mutations": 37,
+            "noop_new_loss_turns": 0,
+            "noop_new_missing_facts": 0,
+            "noop_new_extra_turns": 37,
+            "noop_new_extra_facts": 37,
+            "noop_recovery_turns": 0,
+            "noop_recovered_missing_facts": 0,
+            "noop_error_persistence_turns": 1801,
+            "gold_update_turns": 394,
+            "update_predicted_updates": 285,
+            "introduced_facts": 379,
+            "retired_facts": 89,
+            "retired_immediately_removed": 75,
+            "update_transitions": 394,
+            "update_transition_successes": 107,
+            "immediate_acquisition_failures": 277,
+            "immediate_acquisition_failure_predicted_update": 175,
+            "immediate_acquisition_failure_predicted_no_op": 90,
+            "immediately_acquired_facts": 102,
+            "retained_until_retirement_or_end": 91,
+            "immediate_acquisition_failure_predicted_invalid": 12,
+            "first_loss_on_later_update": 11
+          },
+          "mean_fact_f1": 0.30940111768025924,
+          "rates": {
+            "update_transition_success": 0.2715736040609137,
+            "introduced_fact_immediate_acquisition": 0.2691292875989446,
+            "introduced_fact_failure_from_missed_update": 0.3249097472924188,
+            "introduced_fact_failure_despite_predicted_update": 0.631768953068592,
+            "introduced_fact_failure_from_invalid_output": 0.04332129963898917,
+            "retired_fact_immediate_removal": 0.8426966292134831,
+            "noop_false_update": 0.018781725888324875,
+            "noop_memory_mutation": 0.018781725888324875,
+            "noop_new_information_loss": 0.0,
+            "noop_new_extra_fact": 0.018781725888324875,
+            "acquired_fact_retained": 0.8921568627450981,
+            "acquired_fact_first_loss_on_noop": 0.0,
+            "acquired_fact_first_loss_on_later_update": 0.10784313725490197
+          }
+        },
+        "quiz_state_relation": {
+          "counts": {
+            "covered_quizzes": 960,
+            "memory_inexact_quiz_correct": 568,
+            "memory_inexact_quiz_wrong": 376,
+            "memory_exact_quiz_correct": 15,
+            "memory_exact_quiz_wrong": 1
+          },
+          "by_placement": {
+            "FINAL": {
+              "covered_quizzes": 240,
+              "memory_inexact_quiz_correct": 146,
+              "memory_inexact_quiz_wrong": 94
+            },
+            "TURN_COMPOSITE": {
+              "covered_quizzes": 93,
+              "memory_inexact_quiz_wrong": 61,
+              "memory_inexact_quiz_correct": 32
+            },
+            "TURN_DELAYED": {
+              "covered_quizzes": 233,
+              "memory_inexact_quiz_wrong": 104,
+              "memory_inexact_quiz_correct": 129
+            },
+            "TURN_IMMEDIATE": {
+              "covered_quizzes": 394,
+              "memory_inexact_quiz_correct": 261,
+              "memory_inexact_quiz_wrong": 117,
+              "memory_exact_quiz_correct": 15,
+              "memory_exact_quiz_wrong": 1
+            }
+          }
+        }
+      },
+      "Delta-v3": {
+        "coverage": {
+          "scenarios": 24,
+          "turns": 2364,
+          "quiz_snapshots_validated": 217,
+          "quizzes": 960
+        },
+        "trajectory": {
+          "counts": {
+            "turns": 2364,
+            "gold_no_op_turns": 1970,
+            "state_exact_turns": 220,
+            "correct_to_wrong": 25,
+            "wrong_to_correct": 1,
+            "noop_predicted_updates": 29,
+            "noop_memory_mutations": 29,
+            "noop_new_loss_turns": 0,
+            "noop_new_missing_facts": 0,
+            "noop_new_extra_turns": 29,
+            "noop_new_extra_facts": 29,
+            "noop_recovery_turns": 0,
+            "noop_recovered_missing_facts": 0,
+            "noop_error_persistence_turns": 1749,
+            "gold_update_turns": 394,
+            "update_predicted_updates": 267,
+            "introduced_facts": 379,
+            "retired_facts": 89,
+            "retired_immediately_removed": 74,
+            "update_transitions": 394,
+            "update_transition_successes": 126,
+            "immediate_acquisition_failures": 260,
+            "immediate_acquisition_failure_predicted_update": 140,
+            "immediate_acquisition_failure_predicted_no_op": 114,
+            "immediately_acquired_facts": 119,
+            "retained_until_retirement_or_end": 113,
+            "immediate_acquisition_failure_predicted_invalid": 6,
+            "first_loss_on_later_update": 6
+          },
+          "mean_fact_f1": 0.38116294098939874,
+          "rates": {
+            "update_transition_success": 0.3197969543147208,
+            "introduced_fact_immediate_acquisition": 0.31398416886543534,
+            "introduced_fact_failure_from_missed_update": 0.43846153846153846,
+            "introduced_fact_failure_despite_predicted_update": 0.5384615384615384,
+            "introduced_fact_failure_from_invalid_output": 0.023076923076923078,
+            "retired_fact_immediate_removal": 0.8314606741573034,
+            "noop_false_update": 0.014720812182741117,
+            "noop_memory_mutation": 0.014720812182741117,
+            "noop_new_information_loss": 0.0,
+            "noop_new_extra_fact": 0.014720812182741117,
+            "acquired_fact_retained": 0.9495798319327731,
+            "acquired_fact_first_loss_on_noop": 0.0,
+            "acquired_fact_first_loss_on_later_update": 0.05042016806722689
+          }
+        },
+        "quiz_state_relation": {
+          "counts": {
+            "covered_quizzes": 960,
+            "memory_inexact_quiz_correct": 549,
+            "memory_inexact_quiz_wrong": 382,
+            "memory_exact_quiz_correct": 29
+          },
+          "by_placement": {
+            "FINAL": {
+              "covered_quizzes": 240,
+              "memory_inexact_quiz_wrong": 96,
+              "memory_inexact_quiz_correct": 144
+            },
+            "TURN_COMPOSITE": {
+              "covered_quizzes": 93,
+              "memory_inexact_quiz_wrong": 60,
+              "memory_inexact_quiz_correct": 33
+            },
+            "TURN_DELAYED": {
+              "covered_quizzes": 233,
+              "memory_inexact_quiz_wrong": 103,
+              "memory_inexact_quiz_correct": 129,
+              "memory_exact_quiz_correct": 1
+            },
+            "TURN_IMMEDIATE": {
+              "covered_quizzes": 394,
+              "memory_inexact_quiz_correct": 243,
+              "memory_inexact_quiz_wrong": 123,
+              "memory_exact_quiz_correct": 28
+            }
+          }
+        }
+      }
+    },
+    "Qwen 0.8B": {
+      "Patch": {
+        "coverage": {
+          "scenarios": 24,
+          "turns": 2364,
+          "quiz_snapshots_validated": 183,
+          "quizzes": 960
+        },
+        "trajectory": {
+          "counts": {
+            "turns": 2364,
+            "gold_no_op_turns": 1970,
+            "state_exact_turns": 361,
+            "correct_to_wrong": 26,
+            "wrong_to_correct": 2,
+            "noop_predicted_updates": 32,
+            "noop_memory_mutations": 32,
+            "noop_new_loss_turns": 0,
+            "noop_new_missing_facts": 0,
+            "noop_new_extra_turns": 31,
+            "noop_new_extra_facts": 31,
+            "noop_recovery_turns": 1,
+            "noop_recovered_missing_facts": 1,
+            "noop_error_persistence_turns": 1629,
+            "gold_update_turns": 394,
+            "update_predicted_updates": 311,
+            "introduced_facts": 379,
+            "retired_facts": 89,
+            "retired_immediately_removed": 81,
+            "update_transitions": 394,
+            "update_transition_successes": 158,
+            "immediately_acquired_facts": 145,
+            "retained_until_retirement_or_end": 144,
+            "immediate_acquisition_failures": 234,
+            "immediate_acquisition_failure_predicted_update": 153,
+            "immediate_acquisition_failure_predicted_no_op": 80,
+            "immediate_acquisition_failure_predicted_invalid": 1,
+            "first_loss_on_later_update": 1
+          },
+          "mean_fact_f1": 0.4511731888045136,
+          "rates": {
+            "update_transition_success": 0.4010152284263959,
+            "introduced_fact_immediate_acquisition": 0.38258575197889183,
+            "introduced_fact_failure_from_missed_update": 0.3418803418803419,
+            "introduced_fact_failure_despite_predicted_update": 0.6538461538461539,
+            "introduced_fact_failure_from_invalid_output": 0.004273504273504274,
+            "retired_fact_immediate_removal": 0.9101123595505618,
+            "noop_false_update": 0.016243654822335026,
+            "noop_memory_mutation": 0.016243654822335026,
+            "noop_new_information_loss": 0.0,
+            "noop_new_extra_fact": 0.015736040609137057,
+            "acquired_fact_retained": 0.993103448275862,
+            "acquired_fact_first_loss_on_noop": 0.0,
+            "acquired_fact_first_loss_on_later_update": 0.006896551724137931
+          }
+        },
+        "quiz_state_relation": {
+          "counts": {
+            "covered_quizzes": 960,
+            "memory_exact_quiz_correct": 56,
+            "memory_inexact_quiz_correct": 656,
+            "memory_inexact_quiz_wrong": 245,
+            "memory_exact_quiz_wrong": 3
+          },
+          "by_placement": {
+            "FINAL": {
+              "covered_quizzes": 240,
+              "memory_inexact_quiz_wrong": 55,
+              "memory_inexact_quiz_correct": 185
+            },
+            "TURN_COMPOSITE": {
+              "covered_quizzes": 93,
+              "memory_inexact_quiz_wrong": 42,
+              "memory_inexact_quiz_correct": 49,
+              "memory_exact_quiz_wrong": 1,
+              "memory_exact_quiz_correct": 1
+            },
+            "TURN_DELAYED": {
+              "covered_quizzes": 233,
+              "memory_inexact_quiz_correct": 149,
+              "memory_inexact_quiz_wrong": 79,
+              "memory_exact_quiz_correct": 4,
+              "memory_exact_quiz_wrong": 1
+            },
+            "TURN_IMMEDIATE": {
+              "covered_quizzes": 394,
+              "memory_exact_quiz_correct": 51,
+              "memory_inexact_quiz_correct": 273,
+              "memory_inexact_quiz_wrong": 69,
+              "memory_exact_quiz_wrong": 1
+            }
+          }
+        }
+      },
+      "Delta-v3": {
+        "coverage": {
+          "scenarios": 24,
+          "turns": 2364,
+          "quiz_snapshots_validated": 183,
+          "quizzes": 960
+        },
+        "trajectory": {
+          "counts": {
+            "turns": 2364,
+            "gold_no_op_turns": 1970,
+            "state_exact_turns": 341,
+            "correct_to_wrong": 25,
+            "wrong_to_correct": 1,
+            "noop_predicted_updates": 19,
+            "noop_memory_mutations": 19,
+            "noop_new_loss_turns": 0,
+            "noop_new_missing_facts": 0,
+            "noop_new_extra_turns": 19,
+            "noop_new_extra_facts": 19,
+            "noop_recovery_turns": 0,
+            "noop_recovered_missing_facts": 0,
+            "noop_error_persistence_turns": 1660,
+            "gold_update_turns": 394,
+            "update_predicted_updates": 280,
+            "introduced_facts": 379,
+            "retired_facts": 89,
+            "retired_immediately_removed": 86,
+            "update_transitions": 394,
+            "update_transition_successes": 148,
+            "immediately_acquired_facts": 134,
+            "retained_until_retirement_or_end": 130,
+            "immediate_acquisition_failures": 245,
+            "immediate_acquisition_failure_predicted_update": 135,
+            "immediate_acquisition_failure_predicted_no_op": 107,
+            "first_loss_on_later_update": 4,
+            "immediate_acquisition_failure_predicted_invalid": 3
+          },
+          "mean_fact_f1": 0.44302163961687113,
+          "rates": {
+            "update_transition_success": 0.3756345177664975,
+            "introduced_fact_immediate_acquisition": 0.35356200527704484,
+            "introduced_fact_failure_from_missed_update": 0.43673469387755104,
+            "introduced_fact_failure_despite_predicted_update": 0.5510204081632653,
+            "introduced_fact_failure_from_invalid_output": 0.012244897959183673,
+            "retired_fact_immediate_removal": 0.9662921348314607,
+            "noop_false_update": 0.009644670050761422,
+            "noop_memory_mutation": 0.009644670050761422,
+            "noop_new_information_loss": 0.0,
+            "noop_new_extra_fact": 0.009644670050761422,
+            "acquired_fact_retained": 0.9701492537313433,
+            "acquired_fact_first_loss_on_noop": 0.0,
+            "acquired_fact_first_loss_on_later_update": 0.029850746268656716
+          }
+        },
+        "quiz_state_relation": {
+          "counts": {
+            "covered_quizzes": 960,
+            "memory_exact_quiz_correct": 52,
+            "memory_inexact_quiz_correct": 617,
+            "memory_inexact_quiz_wrong": 289,
+            "memory_exact_quiz_wrong": 2
+          },
+          "by_placement": {
+            "FINAL": {
+              "covered_quizzes": 240,
+              "memory_inexact_quiz_wrong": 67,
+              "memory_inexact_quiz_correct": 173
+            },
+            "TURN_COMPOSITE": {
+              "covered_quizzes": 93,
+              "memory_inexact_quiz_wrong": 38,
+              "memory_inexact_quiz_correct": 54,
+              "memory_exact_quiz_wrong": 1
+            },
+            "TURN_DELAYED": {
+              "covered_quizzes": 233,
+              "memory_inexact_quiz_correct": 142,
+              "memory_inexact_quiz_wrong": 88,
+              "memory_exact_quiz_correct": 3
+            },
+            "TURN_IMMEDIATE": {
+              "covered_quizzes": 394,
+              "memory_exact_quiz_correct": 49,
+              "memory_inexact_quiz_correct": 248,
+              "memory_inexact_quiz_wrong": 96,
+              "memory_exact_quiz_wrong": 1
+            }
+          }
+        }
+      }
+    },
+    "Granite 1B": {
+      "Patch": {
+        "coverage": {
+          "scenarios": 23,
+          "turns": 2238,
+          "quiz_snapshots_validated": 177,
+          "quizzes": 920
+        },
+        "trajectory": {
+          "counts": {
+            "turns": 2238,
+            "gold_no_op_turns": 1865,
+            "state_exact_turns": 197,
+            "correct_to_wrong": 24,
+            "wrong_to_correct": 1,
+            "noop_predicted_updates": 59,
+            "noop_memory_mutations": 58,
+            "noop_new_loss_turns": 0,
+            "noop_new_missing_facts": 0,
+            "noop_new_extra_turns": 57,
+            "noop_new_extra_facts": 57,
+            "noop_recovery_turns": 1,
+            "noop_recovered_missing_facts": 1,
+            "noop_error_persistence_turns": 1637,
+            "gold_update_turns": 373,
+            "update_predicted_updates": 299,
+            "introduced_facts": 360,
+            "retired_facts": 85,
+            "retired_immediately_removed": 82,
+            "update_transitions": 373,
+            "update_transition_successes": 129,
+            "immediately_acquired_facts": 116,
+            "retained_until_retirement_or_end": 114,
+            "immediate_acquisition_failures": 244,
+            "immediate_acquisition_failure_predicted_update": 172,
+            "immediate_acquisition_failure_predicted_no_op": 68,
+            "immediate_acquisition_failure_predicted_invalid": 4,
+            "first_loss_on_later_update": 2
+          },
+          "mean_fact_f1": 0.36320862671379983,
+          "rates": {
+            "update_transition_success": 0.34584450402144773,
+            "introduced_fact_immediate_acquisition": 0.32222222222222224,
+            "introduced_fact_failure_from_missed_update": 0.2786885245901639,
+            "introduced_fact_failure_despite_predicted_update": 0.7049180327868853,
+            "introduced_fact_failure_from_invalid_output": 0.01639344262295082,
+            "retired_fact_immediate_removal": 0.9647058823529412,
+            "noop_false_update": 0.03163538873994638,
+            "noop_memory_mutation": 0.031099195710455763,
+            "noop_new_information_loss": 0.0,
+            "noop_new_extra_fact": 0.030563002680965148,
+            "acquired_fact_retained": 0.9827586206896551,
+            "acquired_fact_first_loss_on_noop": 0.0,
+            "acquired_fact_first_loss_on_later_update": 0.017241379310344827
+          }
+        },
+        "quiz_state_relation": {
+          "counts": {
+            "covered_quizzes": 920,
+            "memory_exact_quiz_correct": 27,
+            "memory_inexact_quiz_correct": 681,
+            "memory_inexact_quiz_wrong": 212
+          },
+          "by_placement": {
+            "FINAL": {
+              "covered_quizzes": 230,
+              "memory_inexact_quiz_correct": 187,
+              "memory_inexact_quiz_wrong": 43
+            },
+            "TURN_COMPOSITE": {
+              "covered_quizzes": 89,
+              "memory_inexact_quiz_wrong": 39,
+              "memory_inexact_quiz_correct": 50
+            },
+            "TURN_DELAYED": {
+              "covered_quizzes": 228,
+              "memory_inexact_quiz_wrong": 69,
+              "memory_inexact_quiz_correct": 159
+            },
+            "TURN_IMMEDIATE": {
+              "covered_quizzes": 373,
+              "memory_exact_quiz_correct": 27,
+              "memory_inexact_quiz_correct": 285,
+              "memory_inexact_quiz_wrong": 61
+            }
+          }
+        }
+      },
+      "Delta-v3": {
+        "coverage": {
+          "scenarios": 23,
+          "turns": 2238,
+          "quiz_snapshots_validated": 177,
+          "quizzes": 920
+        },
+        "trajectory": {
+          "counts": {
+            "turns": 2238,
+            "gold_no_op_turns": 1865,
+            "state_exact_turns": 281,
+            "correct_to_wrong": 24,
+            "wrong_to_correct": 1,
+            "noop_predicted_updates": 26,
+            "noop_memory_mutations": 25,
+            "noop_new_loss_turns": 0,
+            "noop_new_missing_facts": 0,
+            "noop_new_extra_turns": 24,
+            "noop_new_extra_facts": 24,
+            "noop_recovery_turns": 1,
+            "noop_recovered_missing_facts": 1,
+            "noop_error_persistence_turns": 1597,
+            "gold_update_turns": 373,
+            "update_predicted_updates": 288,
+            "introduced_facts": 360,
+            "retired_facts": 85,
+            "retired_immediately_removed": 77,
+            "update_transitions": 373,
+            "update_transition_successes": 124,
+            "immediate_acquisition_failures": 245,
+            "immediate_acquisition_failure_predicted_update": 163,
+            "immediate_acquisition_failure_predicted_no_op": 82,
+            "immediately_acquired_facts": 115,
+            "retained_until_retirement_or_end": 112,
+            "first_loss_on_later_update": 3
+          },
+          "mean_fact_f1": 0.36904454435076595,
+          "rates": {
+            "update_transition_success": 0.3324396782841823,
+            "introduced_fact_immediate_acquisition": 0.3194444444444444,
+            "introduced_fact_failure_from_missed_update": 0.3346938775510204,
+            "introduced_fact_failure_despite_predicted_update": 0.6653061224489796,
+            "introduced_fact_failure_from_invalid_output": 0.0,
+            "retired_fact_immediate_removal": 0.9058823529411765,
+            "noop_false_update": 0.013941018766756031,
+            "noop_memory_mutation": 0.013404825737265416,
+            "noop_new_information_loss": 0.0,
+            "noop_new_extra_fact": 0.012868632707774798,
+            "acquired_fact_retained": 0.9739130434782609,
+            "acquired_fact_first_loss_on_noop": 0.0,
+            "acquired_fact_first_loss_on_later_update": 0.02608695652173913
+          }
+        },
+        "quiz_state_relation": {
+          "counts": {
+            "covered_quizzes": 920,
+            "memory_inexact_quiz_correct": 598,
+            "memory_inexact_quiz_wrong": 279,
+            "memory_exact_quiz_correct": 41,
+            "memory_exact_quiz_wrong": 2
+          },
+          "by_placement": {
+            "FINAL": {
+              "covered_quizzes": 230,
+              "memory_inexact_quiz_wrong": 68,
+              "memory_inexact_quiz_correct": 162
+            },
+            "TURN_COMPOSITE": {
+              "covered_quizzes": 89,
+              "memory_inexact_quiz_wrong": 44,
+              "memory_inexact_quiz_correct": 43,
+              "memory_exact_quiz_correct": 2
+            },
+            "TURN_DELAYED": {
+              "covered_quizzes": 228,
+              "memory_inexact_quiz_correct": 147,
+              "memory_inexact_quiz_wrong": 78,
+              "memory_exact_quiz_wrong": 2,
+              "memory_exact_quiz_correct": 1
+            },
+            "TURN_IMMEDIATE": {
+              "covered_quizzes": 373,
+              "memory_inexact_quiz_correct": 246,
+              "memory_inexact_quiz_wrong": 89,
+              "memory_exact_quiz_correct": 38
+            }
+          }
+        }
+      }
+    },
+    "Llama 3.2 1B": {
+      "Patch": {
+        "coverage": {
+          "scenarios": 24,
+          "turns": 2364,
+          "quiz_snapshots_validated": 195,
+          "quizzes": 960
+        },
+        "trajectory": {
+          "counts": {
+            "turns": 2364,
+            "gold_no_op_turns": 1970,
+            "state_exact_turns": 180,
+            "correct_to_wrong": 25,
+            "wrong_to_correct": 1,
+            "noop_predicted_updates": 57,
+            "noop_memory_mutations": 57,
+            "noop_new_loss_turns": 1,
+            "noop_new_missing_facts": 1,
+            "noop_new_extra_turns": 57,
+            "noop_new_extra_facts": 57,
+            "noop_recovery_turns": 0,
+            "noop_recovered_missing_facts": 0,
+            "noop_error_persistence_turns": 1757,
+            "gold_update_turns": 394,
+            "update_predicted_updates": 309,
+            "introduced_facts": 379,
+            "retired_facts": 89,
+            "retired_immediately_removed": 84,
+            "update_transitions": 394,
+            "update_transition_successes": 131,
+            "immediately_acquired_facts": 118,
+            "retained_until_retirement_or_end": 113,
+            "immediate_acquisition_failures": 261,
+            "immediate_acquisition_failure_predicted_update": 177,
+            "immediate_acquisition_failure_predicted_no_op": 77,
+            "first_loss_on_noop": 1,
+            "immediate_acquisition_failure_predicted_invalid": 7,
+            "first_loss_on_later_update": 4
+          },
+          "mean_fact_f1": 0.33190190701055056,
+          "rates": {
+            "update_transition_success": 0.33248730964467005,
+            "introduced_fact_immediate_acquisition": 0.3113456464379947,
+            "introduced_fact_failure_from_missed_update": 0.2950191570881226,
+            "introduced_fact_failure_despite_predicted_update": 0.6781609195402298,
+            "introduced_fact_failure_from_invalid_output": 0.02681992337164751,
+            "retired_fact_immediate_removal": 0.9438202247191011,
+            "noop_false_update": 0.028934010152284265,
+            "noop_memory_mutation": 0.028934010152284265,
+            "noop_new_information_loss": 0.0005076142131979696,
+            "noop_new_extra_fact": 0.028934010152284265,
+            "acquired_fact_retained": 0.9576271186440678,
+            "acquired_fact_first_loss_on_noop": 0.00847457627118644,
+            "acquired_fact_first_loss_on_later_update": 0.03389830508474576
+          }
+        },
+        "quiz_state_relation": {
+          "counts": {
+            "covered_quizzes": 960,
+            "memory_exact_quiz_correct": 28,
+            "memory_inexact_quiz_correct": 663,
+            "memory_inexact_quiz_wrong": 269
+          },
+          "by_placement": {
+            "FINAL": {
+              "covered_quizzes": 240,
+              "memory_inexact_quiz_wrong": 66,
+              "memory_inexact_quiz_correct": 174
+            },
+            "TURN_COMPOSITE": {
+              "covered_quizzes": 93,
+              "memory_inexact_quiz_wrong": 42,
+              "memory_inexact_quiz_correct": 50,
+              "memory_exact_quiz_correct": 1
+            },
+            "TURN_DELAYED": {
+              "covered_quizzes": 233,
+              "memory_inexact_quiz_correct": 151,
+              "memory_inexact_quiz_wrong": 79,
+              "memory_exact_quiz_correct": 3
+            },
+            "TURN_IMMEDIATE": {
+              "covered_quizzes": 394,
+              "memory_exact_quiz_correct": 24,
+              "memory_inexact_quiz_correct": 288,
+              "memory_inexact_quiz_wrong": 82
+            }
+          }
+        }
+      },
+      "Delta-v3": {
+        "coverage": {
+          "scenarios": 24,
+          "turns": 2364,
+          "quiz_snapshots_validated": 195,
+          "quizzes": 960
+        },
+        "trajectory": {
+          "counts": {
+            "turns": 2364,
+            "gold_no_op_turns": 1970,
+            "state_exact_turns": 470,
+            "correct_to_wrong": 28,
+            "wrong_to_correct": 4,
+            "noop_predicted_updates": 24,
+            "noop_memory_mutations": 24,
+            "noop_new_loss_turns": 0,
+            "noop_new_missing_facts": 0,
+            "noop_new_extra_turns": 24,
+            "noop_new_extra_facts": 24,
+            "noop_recovery_turns": 0,
+            "noop_recovered_missing_facts": 0,
+            "noop_error_persistence_turns": 1547,
+            "gold_update_turns": 394,
+            "update_predicted_updates": 299,
+            "introduced_facts": 379,
+            "retired_facts": 89,
+            "retired_immediately_removed": 83,
+            "update_transitions": 394,
+            "update_transition_successes": 146,
+            "immediately_acquired_facts": 132,
+            "retained_until_retirement_or_end": 129,
+            "immediate_acquisition_failures": 247,
+            "immediate_acquisition_failure_predicted_update": 154,
+            "immediate_acquisition_failure_predicted_no_op": 86,
+            "immediate_acquisition_failure_predicted_invalid": 7,
+            "first_loss_on_later_update": 3
+          },
+          "mean_fact_f1": 0.42789961971970436,
+          "rates": {
+            "update_transition_success": 0.37055837563451777,
+            "introduced_fact_immediate_acquisition": 0.3482849604221636,
+            "introduced_fact_failure_from_missed_update": 0.3481781376518219,
+            "introduced_fact_failure_despite_predicted_update": 0.6234817813765182,
+            "introduced_fact_failure_from_invalid_output": 0.02834008097165992,
+            "retired_fact_immediate_removal": 0.9325842696629213,
+            "noop_false_update": 0.012182741116751269,
+            "noop_memory_mutation": 0.012182741116751269,
+            "noop_new_information_loss": 0.0,
+            "noop_new_extra_fact": 0.012182741116751269,
+            "acquired_fact_retained": 0.9772727272727273,
+            "acquired_fact_first_loss_on_noop": 0.0,
+            "acquired_fact_first_loss_on_later_update": 0.022727272727272728
+          }
+        },
+        "quiz_state_relation": {
+          "counts": {
+            "covered_quizzes": 960,
+            "memory_exact_quiz_correct": 75,
+            "memory_inexact_quiz_correct": 571,
+            "memory_inexact_quiz_wrong": 310,
+            "memory_exact_quiz_wrong": 4
+          },
+          "by_placement": {
+            "FINAL": {
+              "covered_quizzes": 240,
+              "memory_inexact_quiz_wrong": 77,
+              "memory_inexact_quiz_correct": 163
+            },
+            "TURN_COMPOSITE": {
+              "covered_quizzes": 93,
+              "memory_inexact_quiz_wrong": 47,
+              "memory_inexact_quiz_correct": 44,
+              "memory_exact_quiz_correct": 2
+            },
+            "TURN_DELAYED": {
+              "covered_quizzes": 233,
+              "memory_inexact_quiz_correct": 136,
+              "memory_inexact_quiz_wrong": 91,
+              "memory_exact_quiz_correct": 5,
+              "memory_exact_quiz_wrong": 1
+            },
+            "TURN_IMMEDIATE": {
+              "covered_quizzes": 394,
+              "memory_exact_quiz_correct": 68,
+              "memory_inexact_quiz_correct": 228,
+              "memory_inexact_quiz_wrong": 95,
+              "memory_exact_quiz_wrong": 3
+            }
+          }
+        }
+      }
+    },
+    "Qwen 2B": {
+      "Patch": {
+        "coverage": {
+          "scenarios": 23,
+          "turns": 2262,
+          "quiz_snapshots_validated": 190,
+          "quizzes": 920
+        },
+        "trajectory": {
+          "counts": {
+            "turns": 2262,
+            "gold_no_op_turns": 1885,
+            "state_exact_turns": 345,
+            "correct_to_wrong": 24,
+            "wrong_to_correct": 1,
+            "noop_predicted_updates": 45,
+            "noop_memory_mutations": 45,
+            "noop_new_loss_turns": 1,
+            "noop_new_missing_facts": 1,
+            "noop_new_extra_turns": 44,
+            "noop_new_extra_facts": 44,
+            "noop_recovery_turns": 1,
+            "noop_recovered_missing_facts": 1,
+            "noop_error_persistence_turns": 1547,
+            "gold_update_turns": 377,
+            "update_predicted_updates": 301,
+            "introduced_facts": 364,
+            "retired_facts": 86,
+            "retired_immediately_removed": 82,
+            "update_transitions": 377,
+            "update_transition_successes": 148,
+            "immediately_acquired_facts": 136,
+            "retained_until_retirement_or_end": 132,
+            "immediate_acquisition_failures": 228,
+            "immediate_acquisition_failure_predicted_update": 154,
+            "immediate_acquisition_failure_predicted_no_op": 74,
+            "first_loss_on_later_update": 3,
+            "first_loss_on_noop": 1
+          },
+          "mean_fact_f1": 0.43906620736601465,
+          "rates": {
+            "update_transition_success": 0.3925729442970822,
+            "introduced_fact_immediate_acquisition": 0.37362637362637363,
+            "introduced_fact_failure_from_missed_update": 0.32456140350877194,
+            "introduced_fact_failure_despite_predicted_update": 0.6754385964912281,
+            "introduced_fact_failure_from_invalid_output": 0.0,
+            "retired_fact_immediate_removal": 0.9534883720930233,
+            "noop_false_update": 0.023872679045092837,
+            "noop_memory_mutation": 0.023872679045092837,
+            "noop_new_information_loss": 0.0005305039787798408,
+            "noop_new_extra_fact": 0.023342175066312996,
+            "acquired_fact_retained": 0.9705882352941176,
+            "acquired_fact_first_loss_on_noop": 0.007352941176470588,
+            "acquired_fact_first_loss_on_later_update": 0.022058823529411766
+          }
+        },
+        "quiz_state_relation": {
+          "counts": {
+            "covered_quizzes": 920,
+            "memory_exact_quiz_correct": 56,
+            "memory_inexact_quiz_wrong": 232,
+            "memory_inexact_quiz_correct": 632
+          },
+          "by_placement": {
+            "FINAL": {
+              "covered_quizzes": 230,
+              "memory_inexact_quiz_wrong": 58,
+              "memory_inexact_quiz_correct": 172
+            },
+            "TURN_COMPOSITE": {
+              "covered_quizzes": 89,
+              "memory_inexact_quiz_wrong": 38,
+              "memory_inexact_quiz_correct": 50,
+              "memory_exact_quiz_correct": 1
+            },
+            "TURN_DELAYED": {
+              "covered_quizzes": 224,
+              "memory_inexact_quiz_correct": 155,
+              "memory_inexact_quiz_wrong": 66,
+              "memory_exact_quiz_correct": 3
+            },
+            "TURN_IMMEDIATE": {
+              "covered_quizzes": 377,
+              "memory_exact_quiz_correct": 52,
+              "memory_inexact_quiz_wrong": 70,
+              "memory_inexact_quiz_correct": 255
+            }
+          }
+        }
+      },
+      "Delta-v3": {
+        "coverage": {
+          "scenarios": 23,
+          "turns": 2262,
+          "quiz_snapshots_validated": 190,
+          "quizzes": 920
+        },
+        "trajectory": {
+          "counts": {
+            "turns": 2262,
+            "gold_no_op_turns": 1885,
+            "state_exact_turns": 392,
+            "correct_to_wrong": 23,
+            "wrong_to_correct": 1,
+            "noop_predicted_updates": 23,
+            "noop_memory_mutations": 23,
+            "noop_new_loss_turns": 0,
+            "noop_new_missing_facts": 0,
+            "noop_new_extra_turns": 23,
+            "noop_new_extra_facts": 23,
+            "noop_recovery_turns": 0,
+            "noop_recovered_missing_facts": 0,
+            "noop_error_persistence_turns": 1526,
+            "gold_update_turns": 377,
+            "update_predicted_updates": 285,
+            "introduced_facts": 364,
+            "retired_facts": 86,
+            "retired_immediately_removed": 81,
+            "update_transitions": 377,
+            "update_transition_successes": 153,
+            "immediately_acquired_facts": 142,
+            "retained_until_retirement_or_end": 139,
+            "immediate_acquisition_failures": 222,
+            "immediate_acquisition_failure_predicted_update": 130,
+            "immediate_acquisition_failure_predicted_no_op": 91,
+            "first_loss_on_later_update": 3,
+            "immediate_acquisition_failure_predicted_invalid": 1
+          },
+          "mean_fact_f1": 0.4555200139957073,
+          "rates": {
+            "update_transition_success": 0.40583554376657827,
+            "introduced_fact_immediate_acquisition": 0.3901098901098901,
+            "introduced_fact_failure_from_missed_update": 0.4099099099099099,
+            "introduced_fact_failure_despite_predicted_update": 0.5855855855855856,
+            "introduced_fact_failure_from_invalid_output": 0.0045045045045045045,
+            "retired_fact_immediate_removal": 0.9418604651162791,
+            "noop_false_update": 0.01220159151193634,
+            "noop_memory_mutation": 0.01220159151193634,
+            "noop_new_information_loss": 0.0,
+            "noop_new_extra_fact": 0.01220159151193634,
+            "acquired_fact_retained": 0.9788732394366197,
+            "acquired_fact_first_loss_on_noop": 0.0,
+            "acquired_fact_first_loss_on_later_update": 0.02112676056338028
+          }
+        },
+        "quiz_state_relation": {
+          "counts": {
+            "covered_quizzes": 920,
+            "memory_exact_quiz_correct": 69,
+            "memory_inexact_quiz_correct": 579,
+            "memory_inexact_quiz_wrong": 266,
+            "memory_exact_quiz_wrong": 6
+          },
+          "by_placement": {
+            "FINAL": {
+              "covered_quizzes": 230,
+              "memory_inexact_quiz_correct": 170,
+              "memory_inexact_quiz_wrong": 50,
+              "memory_exact_quiz_correct": 9,
+              "memory_exact_quiz_wrong": 1
+            },
+            "TURN_COMPOSITE": {
+              "covered_quizzes": 89,
+              "memory_inexact_quiz_wrong": 41,
+              "memory_inexact_quiz_correct": 44,
+              "memory_exact_quiz_correct": 2,
+              "memory_exact_quiz_wrong": 2
+            },
+            "TURN_DELAYED": {
+              "covered_quizzes": 224,
+              "memory_inexact_quiz_wrong": 85,
+              "memory_inexact_quiz_correct": 134,
+              "memory_exact_quiz_correct": 4,
+              "memory_exact_quiz_wrong": 1
+            },
+            "TURN_IMMEDIATE": {
+              "covered_quizzes": 377,
+              "memory_exact_quiz_correct": 54,
+              "memory_inexact_quiz_correct": 231,
+              "memory_inexact_quiz_wrong": 90,
+              "memory_exact_quiz_wrong": 2
+            }
+          }
+        }
+      }
+    },
+    "Llama 3.2 3B": {
+      "Patch": {
+        "coverage": {
+          "scenarios": 23,
+          "turns": 2250,
+          "quiz_snapshots_validated": 159,
+          "quizzes": 920
+        },
+        "trajectory": {
+          "counts": {
+            "turns": 2250,
+            "gold_no_op_turns": 1875,
+            "state_exact_turns": 302,
+            "correct_to_wrong": 23,
+            "wrong_to_correct": 1,
+            "noop_predicted_updates": 27,
+            "noop_memory_mutations": 27,
+            "noop_new_loss_turns": 0,
+            "noop_new_missing_facts": 0,
+            "noop_new_extra_turns": 27,
+            "noop_new_extra_facts": 27,
+            "noop_recovery_turns": 0,
+            "noop_recovered_missing_facts": 0,
+            "noop_error_persistence_turns": 1590,
+            "gold_update_turns": 375,
+            "update_predicted_updates": 290,
+            "introduced_facts": 361,
+            "retired_facts": 86,
+            "retired_immediately_removed": 82,
+            "update_transitions": 375,
+            "update_transition_successes": 152,
+            "immediately_acquired_facts": 140,
+            "retained_until_retirement_or_end": 136,
+            "immediate_acquisition_failures": 221,
+            "immediate_acquisition_failure_predicted_update": 138,
+            "immediate_acquisition_failure_predicted_no_op": 82,
+            "first_loss_on_later_update": 4,
+            "immediate_acquisition_failure_predicted_invalid": 1
+          },
+          "mean_fact_f1": 0.43117110504260914,
+          "rates": {
+            "update_transition_success": 0.4053333333333333,
+            "introduced_fact_immediate_acquisition": 0.3878116343490305,
+            "introduced_fact_failure_from_missed_update": 0.37104072398190047,
+            "introduced_fact_failure_despite_predicted_update": 0.6244343891402715,
+            "introduced_fact_failure_from_invalid_output": 0.004524886877828055,
+            "retired_fact_immediate_removal": 0.9534883720930233,
+            "noop_false_update": 0.0144,
+            "noop_memory_mutation": 0.0144,
+            "noop_new_information_loss": 0.0,
+            "noop_new_extra_fact": 0.0144,
+            "acquired_fact_retained": 0.9714285714285714,
+            "acquired_fact_first_loss_on_noop": 0.0,
+            "acquired_fact_first_loss_on_later_update": 0.02857142857142857
+          }
+        },
+        "quiz_state_relation": {
+          "counts": {
+            "covered_quizzes": 920,
+            "memory_exact_quiz_correct": 62,
+            "memory_inexact_quiz_correct": 615,
+            "memory_inexact_quiz_wrong": 238,
+            "memory_exact_quiz_wrong": 5
+          },
+          "by_placement": {
+            "FINAL": {
+              "covered_quizzes": 230,
+              "memory_inexact_quiz_correct": 165,
+              "memory_inexact_quiz_wrong": 55,
+              "memory_exact_quiz_correct": 10
+            },
+            "TURN_COMPOSITE": {
+              "covered_quizzes": 89,
+              "memory_inexact_quiz_wrong": 35,
+              "memory_inexact_quiz_correct": 49,
+              "memory_exact_quiz_correct": 4,
+              "memory_exact_quiz_wrong": 1
+            },
+            "TURN_DELAYED": {
+              "covered_quizzes": 226,
+              "memory_inexact_quiz_wrong": 74,
+              "memory_inexact_quiz_correct": 144,
+              "memory_exact_quiz_wrong": 1,
+              "memory_exact_quiz_correct": 7
+            },
+            "TURN_IMMEDIATE": {
+              "covered_quizzes": 375,
+              "memory_exact_quiz_correct": 41,
+              "memory_inexact_quiz_correct": 257,
+              "memory_inexact_quiz_wrong": 74,
+              "memory_exact_quiz_wrong": 3
+            }
+          }
+        }
+      },
+      "Delta-v3": {
+        "coverage": {
+          "scenarios": 23,
+          "turns": 2250,
+          "quiz_snapshots_validated": 159,
+          "quizzes": 920
+        },
+        "trajectory": {
+          "counts": {
+            "turns": 2250,
+            "gold_no_op_turns": 1875,
+            "state_exact_turns": 322,
+            "correct_to_wrong": 24,
+            "wrong_to_correct": 1,
+            "noop_predicted_updates": 18,
+            "noop_memory_mutations": 18,
+            "noop_new_loss_turns": 0,
+            "noop_new_missing_facts": 0,
+            "noop_new_extra_turns": 18,
+            "noop_new_extra_facts": 18,
+            "noop_recovery_turns": 0,
+            "noop_recovered_missing_facts": 0,
+            "noop_error_persistence_turns": 1583,
+            "gold_update_turns": 375,
+            "update_predicted_updates": 266,
+            "introduced_facts": 361,
+            "retired_facts": 86,
+            "retired_immediately_removed": 79,
+            "update_transitions": 375,
+            "update_transition_successes": 140,
+            "immediately_acquired_facts": 130,
+            "retained_until_retirement_or_end": 126,
+            "immediate_acquisition_failures": 231,
+            "immediate_acquisition_failure_predicted_update": 123,
+            "immediate_acquisition_failure_predicted_no_op": 108,
+            "first_loss_on_later_update": 4
+          },
+          "mean_fact_f1": 0.4160744293979345,
+          "rates": {
+            "update_transition_success": 0.37333333333333335,
+            "introduced_fact_immediate_acquisition": 0.3601108033240997,
+            "introduced_fact_failure_from_missed_update": 0.4675324675324675,
+            "introduced_fact_failure_despite_predicted_update": 0.5324675324675324,
+            "introduced_fact_failure_from_invalid_output": 0.0,
+            "retired_fact_immediate_removal": 0.9186046511627907,
+            "noop_false_update": 0.0096,
+            "noop_memory_mutation": 0.0096,
+            "noop_new_information_loss": 0.0,
+            "noop_new_extra_fact": 0.0096,
+            "acquired_fact_retained": 0.9692307692307692,
+            "acquired_fact_first_loss_on_noop": 0.0,
+            "acquired_fact_first_loss_on_later_update": 0.03076923076923077
+          }
+        },
+        "quiz_state_relation": {
+          "counts": {
+            "covered_quizzes": 920,
+            "memory_exact_quiz_correct": 52,
+            "memory_inexact_quiz_correct": 610,
+            "memory_inexact_quiz_wrong": 257,
+            "memory_exact_quiz_wrong": 1
+          },
+          "by_placement": {
+            "FINAL": {
+              "covered_quizzes": 230,
+              "memory_inexact_quiz_wrong": 58,
+              "memory_inexact_quiz_correct": 172
+            },
+            "TURN_COMPOSITE": {
+              "covered_quizzes": 89,
+              "memory_inexact_quiz_wrong": 43,
+              "memory_inexact_quiz_correct": 44,
+              "memory_exact_quiz_correct": 2
+            },
+            "TURN_DELAYED": {
+              "covered_quizzes": 226,
+              "memory_inexact_quiz_correct": 146,
+              "memory_inexact_quiz_wrong": 77,
+              "memory_exact_quiz_correct": 3
+            },
+            "TURN_IMMEDIATE": {
+              "covered_quizzes": 375,
+              "memory_exact_quiz_correct": 47,
+              "memory_inexact_quiz_correct": 248,
+              "memory_inexact_quiz_wrong": 79,
+              "memory_exact_quiz_wrong": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}

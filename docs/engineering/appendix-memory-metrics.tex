@@ -1,0 +1,22 @@
+% Requires \usepackage{booktabs}. Insert in the appendix with \input{...}.
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lccccc}
+\toprule
+Model & KV/LWW & Mem0 & Summary & Patch & CAMP \\
+\midrule
+Granite 4 (350M) & 46.03 / 13.49 & 77.84 / 25.78 & 75.26 / 42.45 & \textbf{81.38} / 43.92 & 77.68 / \textbf{44.92} \\
+Qwen3.5 (0.8B) & 46.03 / 13.49 & \textbf{85.01} / 25.50 & 82.49 / 46.51 & 84.40 / \textbf{52.93} & 81.15 / 50.78 \\
+Granite 4 (1B) & 46.03 / 13.49 & 71.90 / 25.35 & 83.16 / 46.69 & 82.86 / \textbf{50.23} & \textbf{84.22} / 49.22 \\
+Llama-3.2 (1B) & 46.03 / 13.49 & 83.06 / 25.12 & 79.11 / 47.74 & 81.64 / 46.49 & \textbf{83.96} / \textbf{51.75} \\
+Qwen3.5 (2B) & 46.03 / 13.49 & 80.77 / 26.33 & 79.47 / 47.51 & 83.75 / 52.28 & \textbf{84.01} / \textbf{54.00} \\
+Llama-3.2 (3B) & 46.03 / 13.49 & 83.38 / 26.23 & 81.84 / 49.59 & \textbf{85.05} / \textbf{54.97} & 81.78 / 53.31 \\
+\midrule
+Mean & 46.03 / 13.49 & 80.33 / 25.72 & 80.22 / 46.75 & \textbf{83.18} / 50.14 & 82.13 / \textbf{50.66} \\
+\bottomrule
+\end{tabular}
+\caption{Memory-update and final-memory quality on CAMPBench. Each cell reports Update F1 / Final-memory F1 (\%; higher is better), using the same models and checkpoints as the main performance table. Evaluation covers all 24 test scenarios; Update F1 uses the fixed 2,364-turn sample (394 UPDATE and 1,970 NO\_OP turns). Final-memory F1 is averaged over scenarios, and Mean over the six models. Bold marks the highest value for each metric in each row. Mem0 denotes the one-pass variant; CAMP uses $k=5$. No Memory and Recent-window are omitted because these metrics are undefined for them. KV/LWW maintains memory over all original turns and evaluates Update F1 on the same fixed sample.}
+\label{tab:appendix-memory-metrics}
+\end{table*}

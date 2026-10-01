@@ -1,0 +1,291 @@
+{
+  "scenarios": [
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119,
+    120
+  ],
+  "turns_per_model_method": 2364,
+  "gold_update_turns": 394,
+  "gold_noop_turns": 1970,
+  "quiz_count": 960,
+  "source_root": "on-device-memory-training",
+  "metric_fields": {
+    "update_f1_percent": "100 * memory.update_f1",
+    "final_memory_f1_percent": "100 * memory.final_state_f1"
+  },
+  "aggregation": {
+    "update_f1": "Pooled turn-level decision counts within each model/method; UPDATE is positive.",
+    "final_memory_f1": "Arithmetic mean of final-state F1 over 24 scenarios.",
+    "Mean": "Arithmetic mean over six models from unrounded values."
+  },
+  "notes": [
+    "Matches mem1.pdf Table 1 method/checkpoint selection; Mem0 is One-pass; CAMP is Delta-v3 compact k=5.",
+    "Qwen 0.8B and 2B Patch use seed 46; remaining trained rows use seed 45.",
+    "No Memory and Recent-window have no persistent memory or update decisions; both F1 metrics are undefined.",
+    "KV/LWW accumulates memory over 67,423 original turns; its Update F1 uses the same fixed 2,364-turn sample.",
+    "All 24 learned-method artifacts passed completion, cohort-size, Quiz ESM, Composite, and F1 checks against the main table."
+  ],
+  "rows": [
+    {
+      "model": "Granite 350M",
+      "method": "KV/LWW",
+      "update_f1_percent": 46.03351955307263,
+      "final_memory_f1_percent": 13.485137560109667,
+      "source": "evaluations/quiz-only-e3-baselines/kv_lww-memory-composite.json",
+      "source_sha256": "c601abf932b264743e42eb727a17419bd87218cd5d85a53c82c2d8a904fdd92a"
+    },
+    {
+      "model": "Granite 350M",
+      "method": "Mem0",
+      "update_f1_percent": 77.83783783783784,
+      "final_memory_f1_percent": 25.78021041720732,
+      "source": "runs/granite4-350m-mem0-one-pass-multitask-noop5-e4-b8-trainseed45-r1/eval-fixed-v2-test-best-epoch-03/summary.json",
+      "source_sha256": "3755f853493b45d3e49b7053c1d9461de60a2a6cbc62695a412d559c4b5ab263"
+    },
+    {
+      "model": "Granite 350M",
+      "method": "Summary",
+      "update_f1_percent": 75.25925925925927,
+      "final_memory_f1_percent": 42.4472380876286,
+      "source": "runs/granite4-350m-summary-multitask-noop5-trainfirst-grouped-v2-v1-10-e4-b8-trainseed45-r1/eval-fixed-v2-test-best-epoch-04/summary.json",
+      "source_sha256": "ffb6dee55b60046af1f433c62b5f7de7871bd6f8a4f2f54188983a2f19067ee9"
+    },
+    {
+      "model": "Granite 350M",
+      "method": "Patch",
+      "update_f1_percent": 81.37931034482759,
+      "final_memory_f1_percent": 43.91516191665818,
+      "source": "runs/granite4-350m-patch-multitask-noop5-full6val-grouped-v2-v1-10-e4-b8-trainseed45-r1/eval-fixed-v2-test-best-epoch-04/summary.json",
+      "source_sha256": "a3505293ded5fec7fca484e8fa8a6a938ec4ffe4f67ed56a59739225c7109d4c"
+    },
+    {
+      "model": "Granite 350M",
+      "method": "CAMP",
+      "update_f1_percent": 77.68115942028987,
+      "final_memory_f1_percent": 44.921741330595104,
+      "source": "runs/granite4-350m-delta_v3_compact_k5-multitask-noop5-uniform-depth-e4-b8-trainseed45-r1/eval-fixed-test-best-epoch-03/summary.json",
+      "source_sha256": "c373a5190aa36649189959c0a1a52c5cccf1318a7a4f48d8ddffb608b760219d"
+    },
+    {
+      "model": "Qwen 0.8B",
+      "method": "KV/LWW",
+      "update_f1_percent": 46.03351955307263,
+      "final_memory_f1_percent": 13.485137560109667,
+      "source": "evaluations/quiz-only-e3-baselines/kv_lww-memory-composite.json",
+      "source_sha256": "c601abf932b264743e42eb727a17419bd87218cd5d85a53c82c2d8a904fdd92a"
+    },
+    {
+      "model": "Qwen 0.8B",
+      "method": "Mem0",
+      "update_f1_percent": 85.00651890482399,
+      "final_memory_f1_percent": 25.50032008689819,
+      "source": "runs/qwen35-0.8b-mem0-one-pass-multitask-noop5-e4-b8-trainseed45-r1/eval-fixed-v2-test-best-epoch-03/summary.json",
+      "source_sha256": "e8f68bfbd027bffacf8a3be658369faa6951ebc27a72098c99097bfaac9151bf"
+    },
+    {
+      "model": "Qwen 0.8B",
+      "method": "Summary",
+      "update_f1_percent": 82.4858757062147,
+      "final_memory_f1_percent": 46.513634217068685,
+      "source": "runs/qwen35-0.8b-summary-multitask-noop5-grouped-v2-v1-10-e4-b4-trainseed45-evalfixed-noop5-r2/eval-fixed-test-best-epoch-03/summary.json",
+      "source_sha256": "8b18b851493bbe23333e078261c8fa8ff18cfdc2b17de4ece4af7f0130344b01"
+    },
+    {
+      "model": "Qwen 0.8B",
+      "method": "Patch",
+      "update_f1_percent": 84.39620081411125,
+      "final_memory_f1_percent": 52.933586841836224,
+      "source": "runs/qwen35-0.8b-patch-multitask-noop5-grouped-v2-v1-10-e4-b8-trainseed46-evalfixed-noop5-r1/eval-fixed-composite-test-epoch-03/summary.json",
+      "source_sha256": "5d5f8551ad9d6e9c208cc11babade62c1bf91f90710fffd654e4babb7762251e"
+    },
+    {
+      "model": "Qwen 0.8B",
+      "method": "CAMP",
+      "update_f1_percent": 81.15107913669065,
+      "final_memory_f1_percent": 50.78457233600119,
+      "source": "runs/qwen35-0.8b-delta_v3_compact_k5-multitask-noop5-uniform-depth-e4-b4-trainseed45-evalfixed-noop5-r1/eval-fixed-test-best-epoch-03/summary.json",
+      "source_sha256": "8b3c48a483188dc43c3d179cceea60d4bf0bc57c476408468df5522193e7a03c"
+    },
+    {
+      "model": "Granite 1B",
+      "method": "KV/LWW",
+      "update_f1_percent": 46.03351955307263,
+      "final_memory_f1_percent": 13.485137560109667,
+      "source": "evaluations/quiz-only-e3-baselines/kv_lww-memory-composite.json",
+      "source_sha256": "c601abf932b264743e42eb727a17419bd87218cd5d85a53c82c2d8a904fdd92a"
+    },
+    {
+      "model": "Granite 1B",
+      "method": "Mem0",
+      "update_f1_percent": 71.89952904238618,
+      "final_memory_f1_percent": 25.346256220234764,
+      "source": "runs/granite4-1b-mem0-one-pass-multitask-noop5-e4-b8-trainseed45-r1/eval-fixed-v2-test-best-epoch-02/summary.json",
+      "source_sha256": "2c51493f3185fc4f554809ca239f1af79eab6485484ace16b6906fd28e5a74d7"
+    },
+    {
+      "model": "Granite 1B",
+      "method": "Summary",
+      "update_f1_percent": 83.1578947368421,
+      "final_memory_f1_percent": 46.692358243364,
+      "source": "runs/granite4-1b-summary-multitask-noop5-trainfirst-grouped-v2-v1-10-e4-b8-trainseed45-r1/eval-fixed-v2-test-best-epoch-03/summary.json",
+      "source_sha256": "c264e8dfe50305bc03c37495a8711593c3433263a27492b619f1492af40d6db9"
+    },
+    {
+      "model": "Granite 1B",
+      "method": "Patch",
+      "update_f1_percent": 82.85714285714286,
+      "final_memory_f1_percent": 50.23451960402535,
+      "source": "runs/granite4-1b-patch-multitask-noop5-trainfirst-grouped-v2-v1-10-e4-b8-trainseed45-r1/eval-fixed-v2-test-best-epoch-03/summary.json",
+      "source_sha256": "389c61701d405925e5a6e044c56d9b4ad6282a41d64bdeef3ac3aae29713ab3a"
+    },
+    {
+      "model": "Granite 1B",
+      "method": "CAMP",
+      "update_f1_percent": 84.2249657064472,
+      "final_memory_f1_percent": 49.215694098315346,
+      "source": "runs/granite4-1b-delta_v3_compact_k5-multitask-noop5-uniform-depth-e4-b2-trainseed45-r1/eval-fixed-test-best-epoch-04/summary.json",
+      "source_sha256": "b5683d52cd3fefa2de389fa78fd3100dda16916620266f576a8ee32415421c42"
+    },
+    {
+      "model": "Llama 3.2 1B",
+      "method": "KV/LWW",
+      "update_f1_percent": 46.03351955307263,
+      "final_memory_f1_percent": 13.485137560109667,
+      "source": "evaluations/quiz-only-e3-baselines/kv_lww-memory-composite.json",
+      "source_sha256": "c601abf932b264743e42eb727a17419bd87218cd5d85a53c82c2d8a904fdd92a"
+    },
+    {
+      "model": "Llama 3.2 1B",
+      "method": "Mem0",
+      "update_f1_percent": 83.05732484076432,
+      "final_memory_f1_percent": 25.115955496946135,
+      "source": "runs/llama3.2-1b-mem0-one-pass-multitask-noop5-e4-b8-trainseed45-r1/eval-fixed-v2-test-best-epoch-03/summary.json",
+      "source_sha256": "abb1b9a02a237fb3a9607e2741dfc2ac61492372f93c792e843c9a811ec05e6d"
+    },
+    {
+      "model": "Llama 3.2 1B",
+      "method": "Summary",
+      "update_f1_percent": 79.11111111111111,
+      "final_memory_f1_percent": 47.73568645485156,
+      "source": "runs/llama3.2-1b-summary-multitask-noop5-e4-b4-trainseed45-evalfixed-noop5-r1/eval-fixed-test-best-epoch-04/summary.json",
+      "source_sha256": "b6eaba478bb4211b8abe3838ac198bc68574ddb4307fbab364ebdd69ab36bb9f"
+    },
+    {
+      "model": "Llama 3.2 1B",
+      "method": "Patch",
+      "update_f1_percent": 81.63804491413474,
+      "final_memory_f1_percent": 46.489098088651936,
+      "source": "runs/llama3.2-1b-patch-multitask-noop5-e4-b8-trainseed45-evalfixed-noop5-r2/eval-fixed-test-best-epoch-03/summary.json",
+      "source_sha256": "314bfe6d5794c471ad76c51ac6a2fe9a10d60d2cd033c5b63ea94de626181aee"
+    },
+    {
+      "model": "Llama 3.2 1B",
+      "method": "CAMP",
+      "update_f1_percent": 83.96094839609485,
+      "final_memory_f1_percent": 51.75290613304031,
+      "source": "runs/llama3.2-1b-delta_v3_compact_k5-multitask-noop5-e4-b2-trainseed45-evalfixed-noop5-r2/eval-fixed-test-best-epoch-04/summary.json",
+      "source_sha256": "18bc1553e334499e10d2cc3fcc040a179c01de73edd7456d53108e5d78610e86"
+    },
+    {
+      "model": "Qwen 2B",
+      "method": "KV/LWW",
+      "update_f1_percent": 46.03351955307263,
+      "final_memory_f1_percent": 13.485137560109667,
+      "source": "evaluations/quiz-only-e3-baselines/kv_lww-memory-composite.json",
+      "source_sha256": "c601abf932b264743e42eb727a17419bd87218cd5d85a53c82c2d8a904fdd92a"
+    },
+    {
+      "model": "Qwen 2B",
+      "method": "Mem0",
+      "update_f1_percent": 80.77455048409405,
+      "final_memory_f1_percent": 26.329405668864236,
+      "source": "runs/qwen35-2b-mem0-one-pass-multitask-noop5-e4-b4-trainseed45-r1/eval-fixed-v2-test-best-epoch-03/summary.json",
+      "source_sha256": "6bbb8ec22c55fe06072d6c77f751ca1419fa32974200a42ec9354ddde3025311"
+    },
+    {
+      "model": "Qwen 2B",
+      "method": "Summary",
+      "update_f1_percent": 79.4682422451994,
+      "final_memory_f1_percent": 47.51432426304103,
+      "source": "runs/qwen35-2b-summary-multitask-noop5-grouped-v2-v1-10-e4-b2-r1/eval-fixed-v2-test-best-epoch-04/summary.json",
+      "source_sha256": "81a20b03861afd0b597debe23acc46ea9bea5455e444e31ac6fbaf5fad19d4b5"
+    },
+    {
+      "model": "Qwen 2B",
+      "method": "Patch",
+      "update_f1_percent": 83.75165125495376,
+      "final_memory_f1_percent": 52.27702168123714,
+      "source": "runs/qwen35-2b-patch-multitask-noop5-grouped-v2-v1-10-e5-b4-trainseed46-r2/eval-fixed-v2-test-best-epoch-03/summary.json",
+      "source_sha256": "f11749d5c4f00a3b744f14d7c5230d687e5ce56b15c4b59fb27d6074b93f1723"
+    },
+    {
+      "model": "Qwen 2B",
+      "method": "CAMP",
+      "update_f1_percent": 84.00556328233657,
+      "final_memory_f1_percent": 53.99977464533351,
+      "source": "runs/qwen35-2b-delta_v3_compact_k5-multitask-noop5-uniform-depth-e4-b2-trainseed45-evalfixed-noop5-r1/eval-fixed-test-best-epoch-04/summary.json",
+      "source_sha256": "e8f81758d39150bea3ef8d93a7f576e75b0592edf0d7388c6fab091ad9528d4a"
+    },
+    {
+      "model": "Llama 3.2 3B",
+      "method": "KV/LWW",
+      "update_f1_percent": 46.03351955307263,
+      "final_memory_f1_percent": 13.485137560109667,
+      "source": "evaluations/quiz-only-e3-baselines/kv_lww-memory-composite.json",
+      "source_sha256": "c601abf932b264743e42eb727a17419bd87218cd5d85a53c82c2d8a904fdd92a"
+    },
+    {
+      "model": "Llama 3.2 3B",
+      "method": "Mem0",
+      "update_f1_percent": 83.37801608579089,
+      "final_memory_f1_percent": 26.232075562189344,
+      "source": "runs/llama3.2-3b-mem0-one-pass-multitask-noop5-e4-b4-trainseed45-r1/eval-fixed-v2-test-best-epoch-03/summary.json",
+      "source_sha256": "d5751f9546a9a1a6ab7324b3b68092dbc5bcb9d112bdf5ca85c2f41b20e142f5"
+    },
+    {
+      "model": "Llama 3.2 3B",
+      "method": "Summary",
+      "update_f1_percent": 81.84438040345822,
+      "final_memory_f1_percent": 49.58630581604456,
+      "source": "runs/llama3.2-3b-summary-multitask-noop5-e4-b2-trainseed45-evalfixed-noop5-r1/eval-fixed-test-best-epoch-03/summary.json",
+      "source_sha256": "366533a096a6212f1ba085a8da4965bbd98dee36a82b7ae1c80222bcc88c0a8b"
+    },
+    {
+      "model": "Llama 3.2 3B",
+      "method": "Patch",
+      "update_f1_percent": 85.0480109739369,
+      "final_memory_f1_percent": 54.96871204240992,
+      "source": "runs/llama3.2-3b-patch-multitask-noop5-e4-b4-trainseed45-evalfixed-noop5-r1/eval-fixed-test-best-epoch-04/summary.json",
+      "source_sha256": "4671bf4a567f9500b2f76ff9a98e3cbc84a0c6bb437b599003fc0376b89db1a8"
+    },
+    {
+      "model": "Llama 3.2 3B",
+      "method": "CAMP",
+      "update_f1_percent": 81.7790530846485,
+      "final_memory_f1_percent": 53.31231090066696,
+      "source": "runs/llama3.2-3b-delta_v3_compact_k5-multitask-noop5-e4-b1-trainseed45-evalfixed-noop5-r1/eval-fixed-test-best-epoch-04/summary.json",
+      "source_sha256": "7883426e035d253a5392be25f30361418387021e818012ea26108c7f6c38a8ed"
+    }
+  ]
+}
