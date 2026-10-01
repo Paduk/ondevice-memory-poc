@@ -13,8 +13,8 @@ from torch.utils.data import Dataset, Sampler
 
 from .dataset import IndexedMemoryDataset
 from .methods import DeltaV3AppendMethod, MemoryMethod
-from .methods.delta_v3_compact import DeltaV3CompactMethod
 from .methods.delta_v2 import delta_v2_state_from_input
+from .methods.delta_v3_compact import DeltaV3CompactMethod
 from .quiz_sft import IndexedQuizSFTDataset, VehicleToolSchemaStore
 from .sampling import EpochPlan
 
@@ -129,14 +129,18 @@ class ChatExampleEncoder:
         if content_start < 0:
             raise ValueError("Rendered memory prompt does not contain its input")
         prefixes = [prompt[:content_start]]
+        if method.name in {"mem0_one_pass", "mem0_two_stage"}:
+            # Mem0 inputs begin with the current source/facts rather than a
+            # stable serialized memory block.  Only the chat/system prefix is
+            # immutable across turns and therefore safe to reuse.
+            return tuple(prefixes)
         if isinstance(method, DeltaV3CompactMethod):
             pending_marker = "\nP:\n"
             marker_start = content.find(pending_marker)
             if marker_start < 0:
                 raise ValueError("Compact Delta-v3 prompt has no pending boundary")
             prefixes.append(
-                prompt[:content_start]
-                + content[: marker_start + len(pending_marker)]
+                prompt[:content_start] + content[: marker_start + len(pending_marker)]
             )
         prefixes.append(_stable_current_turn_prefix(prompt, content))
         return tuple(prefixes)

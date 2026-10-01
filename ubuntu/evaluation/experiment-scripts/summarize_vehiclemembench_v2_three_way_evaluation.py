@@ -12,6 +12,7 @@ from typing import Any
 from palmclaw_ubuntu.vehicle_bench.v2_quality_evaluation import (
     default_quality_artifact_paths,
 )
+from palmclaw_ubuntu.vehicle_bench.v2_update_review import UpdateAuditReviewQueue
 
 DEFAULT_ROOT = Path(
     "/mnt/data/hj153lee/PalmClaw/evaluation/vehiclemembench-v2-three-way-evaluation"
@@ -35,7 +36,13 @@ def run(root: Path) -> dict[str, Any]:
     agent = _read_json(root / "agent" / "agent-summary.json")
     answerability = _read_json(root / "answerability" / "answerability-summary.json")
     manifest = _read_json(root / "update-audit" / "manifest.json")
-    audit = _audit_metrics(root, manifest)
+    review_queue_path = root / "update-audit" / "update-audit-review-queue.sqlite"
+    human_decisions = (
+        UpdateAuditReviewQueue(review_queue_path).submitted_decisions()
+        if review_queue_path.is_file()
+        else {}
+    )
+    audit = _audit_metrics(root, manifest, human_decisions=human_decisions)
     final_audit_by_case = audit.pop("_final_by_case")
     cross_errors = _cross_error_metrics(root, final_audit_by_case)
     generation = _generation_metrics(root.parent)
@@ -104,6 +111,8 @@ def run(root: Path) -> dict[str, Any]:
 def _audit_metrics(
     root: Path,
     manifest: dict[str, Any],
+    *,
+    human_decisions: dict[str, dict[str, Any]],
 ) -> dict[str, Any]:
     core_ids: dict[str, set[str]] = defaultdict(set)
     sampled_no_ops: dict[str, set[str]] = defaultdict(set)
@@ -149,9 +158,9 @@ def _audit_metrics(
             else:
                 sol = sol_by_id[case_id]
                 role_usage["sol"].update(sol.get("usage", {}))
-                decision = (
-                    sol.get("decision") if sol["resolution"] == "RESOLVE" else None
-                )
+                decision = human_decisions.get(case_id)
+                if decision is None and sol["resolution"] == "RESOLVE":
+                    decision = sol.get("decision")
             if decision is None:
                 method_unresolved.append(case_id)
                 unresolved.append(case_id)

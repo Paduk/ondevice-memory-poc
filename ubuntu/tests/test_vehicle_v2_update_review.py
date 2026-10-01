@@ -68,7 +68,15 @@ def test_deferred_audit_can_be_submitted_immutably(tmp_path) -> None:
     assert submitted.status == "SUBMITTED"
     assert submitted.submission is not None
     assert submitted.submission.decision.verdict == "PASS"
-    with pytest.raises(ValueError, match="already SUBMITTED"):
+    decisions = queue.submitted_decisions()
+    assert decisions["hybrid:s01:event-1"]["verdict"] == "PASS"
+    assert decisions["hybrid:s01:event-1"]["expected_updates"][0][
+        "boundary_offset"
+    ] == 0
+    applied = queue.mark_applied(record.review_id)
+    assert applied.status == "APPLIED"
+    assert queue.submitted_decisions()["hybrid:s01:event-1"]["verdict"] == "PASS"
+    with pytest.raises(ValueError, match="already APPLIED"):
         queue.submit(
             record.review_id,
             submitted.submission,

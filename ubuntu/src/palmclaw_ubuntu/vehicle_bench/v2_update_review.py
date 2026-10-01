@@ -151,6 +151,35 @@ class UpdateAuditReviewQueue:
             raise KeyError(f"UPDATE audit review not found: {review_id}")
         return _record_from_row(row)
 
+    def submitted_decisions(self) -> dict[str, dict[str, Any]]:
+        """Return grounded final decisions from completed human submissions."""
+
+        decisions: dict[str, dict[str, Any]] = {}
+        for record in self.list():
+            if record.status not in {"SUBMITTED", "APPLIED"}:
+                continue
+            if record.submission is None:
+                raise ValueError(
+                    f"UPDATE audit review {record.review_id} has no submission"
+                )
+            encoded = _encode_json(record.request)
+            request_sha256 = hashlib.sha256(encoded.encode()).hexdigest()
+            if request_sha256 != record.request_sha256:
+                raise ValueError(
+                    f"UPDATE audit review request hash mismatch: {record.review_id}"
+                )
+            case = event_audit_case_from_dict(record.request["case"])
+            decision = ground_update_event_decision(
+                case,
+                record.submission.decision,
+            )
+            if case.case_id in decisions:
+                raise ValueError(
+                    f"Duplicate submitted UPDATE audit review: {case.case_id}"
+                )
+            decisions[case.case_id] = decision
+        return decisions
+
     def submit(
         self,
         review_id: str,
@@ -185,6 +214,27 @@ class UpdateAuditReviewQueue:
                 WHERE review_id = ?
                 """,
                 (_encode_json(stored), _now(), review_id),
+            )
+        return self.get(review_id)
+
+    def mark_applied(self, review_id: str) -> UpdateAuditReviewRecord:
+        with self._connect() as connection:
+            connection.execute("BEGIN IMMEDIATE")
+            row = connection.execute(
+                "SELECT status FROM reviews WHERE review_id = ?",
+                (review_id,),
+            ).fetchone()
+            if row is None:
+                raise KeyError(f"UPDATE audit review not found: {review_id}")
+            if row["status"] != "SUBMITTED":
+                raise ValueError("Only a submitted UPDATE audit review can be applied")
+            connection.execute(
+                """
+                UPDATE reviews
+                SET status = 'APPLIED', applied_at = ?, apply_error = NULL
+                WHERE review_id = ?
+                """,
+                (_now(), review_id),
             )
         return self.get(review_id)
 

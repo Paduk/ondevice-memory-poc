@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 import statistics
+import time
 from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import asdict
 from datetime import datetime, timezone
@@ -17,11 +18,16 @@ from .cache_benchmark_manifest import validate_manifest
 from .config import DEFAULT_DATA_ROOT, DEFAULT_WORKSPACE_ROOT, MODEL_BY_KEY
 from .dataset import IndexedMemoryDataset, default_catalog_path, ensure_catalog
 from .delta_append_runtime import DeltaAppendPromptSession
-from .hf_prefix_cache import HFPrefixCacheGenerator
-from .methods import METHODS, DeltaV2Method, DeltaV3AppendMethod
+from .hf_prefix_cache import HFPrefixCacheGenerator, PrefixGenerationResult
+from .methods import (
+    METHODS,
+    DeltaV2Method,
+    DeltaV3AppendMethod,
+    Mem0TwoStageMethod,
+)
 from .validation import row_with_runtime_state, state_from_input
 
-SCHEMA_VERSION = "palmclaw-hf-prefix-cache-benchmark-v2"
+SCHEMA_VERSION = "palmclaw-hf-prefix-cache-benchmark-v3"
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -32,6 +38,8 @@ def build_parser() -> argparse.ArgumentParser:
         choices=(
             "summary",
             "patch",
+            "mem0_one_pass",
+            "mem0_two_stage",
             "delta_v3",
             "delta_v3_append",
             "delta_v3_compact_k2",
@@ -136,19 +144,21 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     model = accelerator.prepare(bundle.model)
     model.eval()
     method = METHODS[args.method]()
-    encoder = (
-        DeltaAppendChatExampleEncoder(
-            bundle.tokenizer, max_length=args.max_length
+    if method.name in {"mem0_one_pass", "mem0_two_stage"} and args.background_prefill:
+        raise ValueError("Mem0 benchmarks do not support background prefill")
+    if isinstance(method, Mem0TwoStageMethod) and args.warmup_turns:
+        raise ValueError(
+            "Mem0 two-stage benchmarking currently requires --warmup-turns 0"
         )
+    encoder = (
+        DeltaAppendChatExampleEncoder(bundle.tokenizer, max_length=args.max_length)
         if isinstance(method, DeltaV3AppendMethod)
         else ChatExampleEncoder(bundle.tokenizer, max_length=args.max_length)
     )
     source = IndexedMemoryDataset(
         catalog,
         method.source_view,
-        row_ids=[
-            row_id for values in scenario_row_ids.values() for row_id in values
-        ],
+        row_ids=[row_id for values in scenario_row_ids.values() for row_id in values],
     )
     generator = HFPrefixCacheGenerator(
         model,
@@ -158,7 +168,6 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         cache_enabled=args.cache_mode == "on",
         device=accelerator.device,
     )
-
     _warm_up(
         generator,
         encoder,
@@ -175,6 +184,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         for scenario, row_ids in scenario_row_ids.items():
             generator.reset()
             predicted_state = method.initial_state()
+            controlled_mem0_state = method.initial_state()
             append_session = _append_session(
                 method,
                 encoder,
@@ -184,14 +194,24 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             background_cache_ready = False
             for sequence_index, row_id in enumerate(row_ids):
                 canonical = source[source.position_for_row_id(row_id)]
+                runtime_preparation_start = time.perf_counter()
                 if args.replay_mode == "controlled":
-                    input_state = state_from_input(method, canonical["input"])
-                    runtime_row = canonical
+                    if method.name in {"mem0_one_pass", "mem0_two_stage"}:
+                        input_state = controlled_mem0_state
+                        runtime_row = row_with_runtime_state(
+                            canonical, method, input_state
+                        )
+                    else:
+                        input_state = state_from_input(method, canonical["input"])
+                        runtime_row = canonical
                 else:
                     input_state = predicted_state
                     runtime_row = row_with_runtime_state(
                         canonical, method, predicted_state
                     )
+                runtime_preparation_seconds = (
+                    time.perf_counter() - runtime_preparation_start
+                )
                 pending_depth_before = _pending_depth(method, input_state)
                 background_cache_available_before = background_cache_ready
                 background_cache_ready = False
@@ -214,10 +234,54 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                     if append_session is not None
                     else encoder.cache_anchor_prefixes(runtime_row, method)
                 )
-                generation = generator.generate(
+                extraction_generation = generator.generate(
                     prompt,
                     cache_anchor_prefixes=cache_anchor_prefixes,
                 )
+                manager_generation = None
+                retrieval_seconds = (
+                    runtime_preparation_seconds
+                    if method.name == "mem0_one_pass"
+                    else 0.0
+                )
+                generation = extraction_generation
+                if isinstance(method, Mem0TwoStageMethod):
+                    try:
+                        extraction = method.parse_output(extraction_generation.text)
+                        if extraction.payload.get("task") != "EXTRACT":
+                            raise ValueError("First two-stage output is not EXTRACT")
+                        facts = extraction.payload["facts"]
+                        if facts:
+                            manager_started = time.perf_counter()
+                            manager_row = method.manager_row(runtime_row, facts)
+                            retrieval_seconds = time.perf_counter() - manager_started
+                            runtime_preparation_seconds += retrieval_seconds
+                            manager_prompt = encoder.generation_prompt(
+                                manager_row, method
+                            )
+                            # Both tasks share the same system prompt and have
+                            # no other immutable input. A shared lane therefore
+                            # reuses the safe prefix without retaining two full
+                            # KV states on device.
+                            manager_generation = generator.generate(
+                                manager_prompt,
+                                cache_anchor_prefixes=encoder.cache_anchor_prefixes(
+                                    manager_row, method
+                                ),
+                            )
+                            generation = _combine_two_stage_generations(
+                                extraction_generation,
+                                manager_generation,
+                                retrieval_seconds=retrieval_seconds,
+                            )
+                        else:
+                            generation = _two_stage_noop_generation(
+                                extraction_generation
+                            )
+                    except Exception as exc:  # noqa: BLE001 - parsed below as INVALID.
+                        generation = _two_stage_error_generation(
+                            extraction_generation, exc
+                        )
                 predicted_decision = "INVALID"
                 error = None
                 applied_update = False
@@ -243,23 +307,30 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 background_state = next_state
                 background_applied_update = applied_update
                 if args.replay_mode == "controlled":
-                    gold_output = method.parse_output(method.format_target(canonical))
-                    background_state = method.apply_output(
-                        input_state,
-                        gold_output,
-                        turn_id=str(canonical.get("turn_id", "")),
-                    )
-                    background_applied_update = gold_output.decision == "UPDATE"
+                    if method.name in {"mem0_one_pass", "mem0_two_stage"}:
+                        controlled_mem0_state = _mem0_gold_state_after(
+                            controlled_mem0_state, canonical
+                        )
+                        background_state = controlled_mem0_state
+                        background_applied_update = (
+                            canonical.get("target", {}).get("decision") == "UPDATE"
+                        )
+                    else:
+                        gold_output = method.parse_output(
+                            method.format_target(canonical)
+                        )
+                        background_state = method.apply_output(
+                            input_state,
+                            gold_output,
+                            turn_id=str(canonical.get("turn_id", "")),
+                        )
+                        background_applied_update = gold_output.decision == "UPDATE"
                 append_commit = None
                 if append_session is not None:
                     decision_for_epoch = (
                         str(canonical["target"]["decision"])
                         if args.replay_mode == "controlled"
-                        else (
-                            predicted_decision
-                            if error is None
-                            else "INVALID"
-                        )
+                        else (predicted_decision if error is None else "INVALID")
                     )
                     append_commit = append_session.commit(
                         assistant_output=generation.text,
@@ -302,9 +373,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                         cache_anchor_prefixes=(
                             ()
                             if append_session is not None
-                            else encoder.cache_anchor_prefixes(
-                                background_row, method
-                            )
+                            else encoder.cache_anchor_prefixes(background_row, method)
                         ),
                         reference_prompt=background_reference_prompt,
                     )
@@ -329,6 +398,16 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                         **_append_record_fields(append_prepared, append_commit),
                         "background_cache_available_before": (
                             background_cache_available_before
+                        ),
+                        "runtime_preparation_seconds": runtime_preparation_seconds,
+                        "retrieval_seconds": retrieval_seconds,
+                        **_two_stage_record_fields(
+                            (
+                                extraction_generation
+                                if isinstance(method, Mem0TwoStageMethod)
+                                else None
+                            ),
+                            manager_generation,
                         ),
                         **_background_record_fields(background_prefill),
                         "total_model_tokens": (
@@ -406,11 +485,7 @@ def aggregate_records(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
             [row for row in records if bool(row.get("cache_epoch_reset_before"))]
         ),
         "cache_epoch_steady_state": _aggregate_slice(
-            [
-                row
-                for row in records
-                if row.get("cache_epoch_reset_before") is False
-            ]
+            [row for row in records if row.get("cache_epoch_reset_before") is False]
         ),
         "cache_epoch_rebuild_by_reason": {
             reason: _aggregate_slice(
@@ -452,6 +527,16 @@ def _aggregate_slice(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
         "background_prefill_end_to_end_seconds",
         "total_model_tokens",
         "total_model_seconds",
+        "runtime_preparation_seconds",
+        "retrieval_seconds",
+        "extract_logical_prompt_tokens",
+        "extract_evaluated_prefill_tokens",
+        "extract_decode_tokens",
+        "extract_model_seconds",
+        "manager_logical_prompt_tokens",
+        "manager_evaluated_prefill_tokens",
+        "manager_decode_tokens",
+        "manager_model_seconds",
     )
     result: dict[str, Any] = {"turns": len(records)}
     for metric in metrics:
@@ -466,6 +551,9 @@ def _aggregate_slice(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
     reused = sum(float(row["reused_prefix_tokens"]) for row in records)
     result["cache_reuse_ratio"] = reused / logical if logical else 0.0
     result["errors"] = sum(row.get("error") is not None for row in records)
+    result["manager_invocations"] = sum(
+        bool(row.get("manager_invoked")) for row in records
+    )
     return result
 
 
@@ -474,13 +562,25 @@ def _metric_value(row: Mapping[str, Any], metric: str) -> float:
         return float(
             row.get(
                 metric,
-                float(row["evaluated_prefill_tokens"])
-                + float(row["decode_tokens"]),
+                float(row["evaluated_prefill_tokens"]) + float(row["decode_tokens"]),
             )
         )
     if metric == "total_model_seconds":
         return float(row.get(metric, row["model_seconds"]))
     if metric.startswith("background_"):
+        return float(row.get(metric, 0.0))
+    if metric in {
+        "runtime_preparation_seconds",
+        "retrieval_seconds",
+        "extract_logical_prompt_tokens",
+        "extract_evaluated_prefill_tokens",
+        "extract_decode_tokens",
+        "extract_model_seconds",
+        "manager_logical_prompt_tokens",
+        "manager_evaluated_prefill_tokens",
+        "manager_decode_tokens",
+        "manager_model_seconds",
+    }:
         return float(row.get(metric, 0.0))
     return float(row[metric])
 
@@ -579,9 +679,7 @@ def _append_record_fields(prepared: Any, committed: Any) -> dict[str, Any]:
     }
 
 
-def _should_background_prefill(
-    *, append_commit: Any, applied_update: bool
-) -> bool:
+def _should_background_prefill(*, append_commit: Any, applied_update: bool) -> bool:
     if append_commit is None:
         return applied_update
     return bool(append_commit.epoch_end_after)
@@ -601,6 +699,177 @@ def _background_record_fields(prefill: Any) -> dict[str, Any]:
         "background_prefill_end_to_end_seconds": prefill.end_to_end_seconds,
         "background_kv_cache_bytes": prefill.kv_cache_bytes,
     }
+
+
+def _combine_two_stage_generations(
+    extraction: PrefixGenerationResult,
+    manager: PrefixGenerationResult,
+    *,
+    retrieval_seconds: float,
+) -> PrefixGenerationResult:
+    """Combine EXTRACT and MANAGE into one turn-level model-cost record."""
+
+    return PrefixGenerationResult(
+        text=manager.text,
+        logical_prompt_tokens=(
+            extraction.logical_prompt_tokens + manager.logical_prompt_tokens
+        ),
+        candidate_prefix_tokens=(
+            extraction.candidate_prefix_tokens + manager.candidate_prefix_tokens
+        ),
+        reused_prefix_tokens=(
+            extraction.reused_prefix_tokens + manager.reused_prefix_tokens
+        ),
+        evaluated_prefill_tokens=(
+            extraction.evaluated_prefill_tokens + manager.evaluated_prefill_tokens
+        ),
+        decode_tokens=extraction.decode_tokens + manager.decode_tokens,
+        tokenization_seconds=(
+            extraction.tokenization_seconds + manager.tokenization_seconds
+        ),
+        cache_management_seconds=(
+            extraction.cache_management_seconds + manager.cache_management_seconds
+        ),
+        prefill_seconds=extraction.prefill_seconds + manager.prefill_seconds,
+        decode_seconds=extraction.decode_seconds + manager.decode_seconds,
+        model_seconds=extraction.model_seconds + manager.model_seconds,
+        ttft_seconds=extraction.ttft_seconds + manager.ttft_seconds,
+        end_to_end_seconds=(
+            extraction.end_to_end_seconds
+            + retrieval_seconds
+            + manager.end_to_end_seconds
+        ),
+        kv_cache_bytes=extraction.kv_cache_bytes + manager.kv_cache_bytes,
+        cache_length=extraction.cache_length + manager.cache_length,
+        peak_cuda_allocated_bytes=max(
+            extraction.peak_cuda_allocated_bytes,
+            manager.peak_cuda_allocated_bytes,
+        ),
+    )
+
+
+def _two_stage_noop_generation(
+    extraction: PrefixGenerationResult,
+) -> PrefixGenerationResult:
+    """Represent an empty extraction as a valid manager-level NO_OP."""
+
+    return PrefixGenerationResult(**{**asdict(extraction), "text": '{"memory":[]}'})
+
+
+def _two_stage_error_generation(
+    extraction: PrefixGenerationResult, error: Exception
+) -> PrefixGenerationResult:
+    """Preserve EXTRACT cost while making its parse failure explicit."""
+
+    return PrefixGenerationResult(
+        **{
+            **asdict(extraction),
+            "text": f"__TWO_STAGE_EXTRACT_ERROR__:{type(error).__name__}: {error}",
+        }
+    )
+
+
+def _two_stage_record_fields(
+    extraction: PrefixGenerationResult | None,
+    manager: PrefixGenerationResult | None,
+) -> dict[str, Any]:
+    if extraction is None:
+        return {
+            "extract_invoked": False,
+            "extract_logical_prompt_tokens": 0,
+            "extract_evaluated_prefill_tokens": 0,
+            "extract_decode_tokens": 0,
+            "extract_model_seconds": 0.0,
+            "extract_output": None,
+            "manager_invoked": False,
+            "manager_logical_prompt_tokens": 0,
+            "manager_evaluated_prefill_tokens": 0,
+            "manager_decode_tokens": 0,
+            "manager_model_seconds": 0.0,
+            "manager_output": None,
+        }
+    return {
+        "extract_invoked": True,
+        "extract_logical_prompt_tokens": extraction.logical_prompt_tokens,
+        "extract_evaluated_prefill_tokens": extraction.evaluated_prefill_tokens,
+        "extract_decode_tokens": extraction.decode_tokens,
+        "extract_model_seconds": extraction.model_seconds,
+        "extract_output": extraction.text,
+        "manager_invoked": manager is not None,
+        "manager_logical_prompt_tokens": (
+            manager.logical_prompt_tokens if manager is not None else 0
+        ),
+        "manager_evaluated_prefill_tokens": (
+            manager.evaluated_prefill_tokens if manager is not None else 0
+        ),
+        "manager_decode_tokens": manager.decode_tokens if manager is not None else 0,
+        "manager_model_seconds": (
+            manager.model_seconds if manager is not None else 0.0
+        ),
+        "manager_output": manager.text if manager is not None else None,
+    }
+
+
+def _mem0_gold_state_after(
+    state: Mapping[str, Mapping[str, str]], canonical: Mapping[str, Any]
+) -> dict[str, dict[str, str]]:
+    """Advance the prepared Mem0 fact store with gold record identities."""
+
+    result = {record_id: dict(fact) for record_id, fact in state.items()}
+    target = canonical.get("target")
+    provenance = canonical.get("provenance")
+    if not isinstance(target, Mapping) or not isinstance(provenance, Mapping):
+        raise TypeError("Controlled Mem0 rows require target and provenance objects")
+    events = target.get("memory")
+    metadata = provenance.get("event_metadata")
+    if not isinstance(events, Sequence) or isinstance(events, (str, bytes)):
+        raise TypeError("Controlled Mem0 target memory must be an array")
+    if not isinstance(metadata, Sequence) or isinstance(metadata, (str, bytes)):
+        raise TypeError("Controlled Mem0 event metadata must be an array")
+    if len(events) != len(metadata):
+        raise ValueError("Controlled Mem0 events and metadata are not aligned")
+    for event, meta in zip(events, metadata, strict=True):
+        if not isinstance(event, Mapping) or not isinstance(meta, Mapping):
+            raise TypeError("Controlled Mem0 events and metadata must be objects")
+        kind = event.get("event")
+        record_id = str(meta.get("gold_record_id", event.get("id", "")))
+        if not record_id:
+            raise ValueError(f"Controlled Mem0 {kind} has no gold record id")
+        if kind == "ADD":
+            if record_id in result:
+                raise ValueError(f"Duplicate controlled Mem0 ADD id: {record_id}")
+            result[record_id] = {
+                "subject": str(event["subject"]),
+                "text": str(event["text"]),
+            }
+        elif kind == "UPDATE":
+            if record_id not in result:
+                raise ValueError(f"Unknown controlled Mem0 UPDATE id: {record_id}")
+            result[record_id] = {
+                "subject": str(event["subject"]),
+                "text": str(event["text"]),
+            }
+        elif kind == "DELETE":
+            if record_id not in result:
+                raise ValueError(f"Unknown controlled Mem0 DELETE id: {record_id}")
+            del result[record_id]
+        else:
+            raise ValueError(f"Unknown controlled Mem0 event: {kind!r}")
+
+    gold_state = canonical.get("gold_state")
+    if isinstance(gold_state, Mapping):
+        active_after = gold_state.get("active_after")
+        if isinstance(active_after, Sequence) and not isinstance(
+            active_after, (str, bytes)
+        ):
+            expected = {
+                str(version_id).rsplit(":v", 1)[0] for version_id in active_after
+            }
+            if set(result) != expected:
+                raise ValueError(
+                    "Controlled Mem0 state does not match gold active_after ids"
+                )
+    return result
 
 
 def _pending_depth(method: Any, state: Any) -> int | None:

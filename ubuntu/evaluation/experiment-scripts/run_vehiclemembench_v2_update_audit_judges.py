@@ -255,6 +255,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         reports,
         consensuses,
         sol_reports,
+        human_decisions=review_queue.submitted_decisions(),
         human_review_count=sum(
             record.request["case"]["case_id"] in case_by_id
             for record in review_queue.list()
@@ -267,6 +268,9 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     _write_json(output_root / "dual-judge-summary.json", summary)
     if failures:
         raise RuntimeError(f"UPDATE Judge failures: {'; '.join(failures)}")
+    for record in review_queue.list(status="SUBMITTED"):
+        if record.request["case"]["case_id"] in case_by_id:
+            review_queue.mark_applied(record.review_id)
     return summary
 
 
@@ -357,6 +361,7 @@ def _aggregate(
     consensuses: list[dict[str, Any]],
     sol_reports: dict[str, dict[str, Any]],
     *,
+    human_decisions: dict[str, dict[str, Any]],
     human_review_count: int,
     failures: list[str],
     models: dict[str, str],
@@ -381,6 +386,10 @@ def _aggregate(
             if item["status"] == "AGREED":
                 final_decisions.append(item["adopted_decision"])
                 continue
+            human_decision = human_decisions.get(item["case_id"])
+            if human_decision is not None:
+                final_decisions.append(human_decision)
+                continue
             sol = sol_reports.get(item["case_id"])
             if sol is not None and sol["resolution"] == "RESOLVE":
                 final_decisions.append(sol["decision"])
@@ -397,8 +406,12 @@ def _aggregate(
             ),
             "human_deferred_count": sum(
                 sol_reports[item["case_id"]]["resolution"] == "DEFER_HUMAN"
+                and item["case_id"] not in human_decisions
                 for item in selected
                 if item["case_id"] in sol_reports
+            ),
+            "human_resolved_count": sum(
+                item["case_id"] in human_decisions for item in selected
             ),
             "final_decision_count": len(final_decisions),
             "final_verdicts": dict(
@@ -452,10 +465,12 @@ def _aggregate(
         "failures": failures,
         "usage": usage,
         "metrics": metrics,
-        "human_review_case_ids": [
+        "human_review_case_ids": sorted(human_decisions),
+        "pending_human_review_case_ids": [
             case_id
             for case_id, report in sol_reports.items()
             if report["resolution"] == "DEFER_HUMAN"
+            and case_id not in human_decisions
         ],
         "no_op_expansions": list(no_op_expansions),
         "dry_run": dry_run,

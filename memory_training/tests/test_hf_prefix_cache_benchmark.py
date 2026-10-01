@@ -8,7 +8,10 @@ import pytest
 import torch
 
 from memory_training.benchmark_hf_prefix_cache import (
+    _combine_two_stage_generations,
     _compare_reference,
+    _mem0_gold_state_after,
+    _two_stage_noop_generation,
     aggregate_records,
 )
 from memory_training.cache_benchmark_manifest import (
@@ -21,9 +24,17 @@ from memory_training.compare_hf_prefix_cache import (
 )
 from memory_training.dataset import DatasetCatalog, build_catalog
 from memory_training.delta_append_runtime import DeltaAppendPromptSession
-from memory_training.hf_prefix_cache import HFPrefixCacheGenerator, PrefixCacheState
+from memory_training.hf_prefix_cache import (
+    HFPrefixCacheGenerator,
+    PrefixCacheState,
+    PrefixGenerationResult,
+)
 from memory_training.methods import DeltaV3AppendMethod, DeltaV3CompactK5Method
-from memory_training.training_data import ChatExampleEncoder, DeltaAppendChatExampleEncoder
+from memory_training.methods.mem0_one_pass import Mem0OnePassMethod
+from memory_training.training_data import (
+    ChatExampleEncoder,
+    DeltaAppendChatExampleEncoder,
+)
 
 
 class FakeCache:
@@ -96,6 +107,134 @@ class FakeLinearAttentionConfig:
 
 class FakeLinearAttentionModel(FakeModel):
     config = FakeLinearAttentionConfig()
+
+
+def _prefix_generation(
+    text: str, *, logical: int, evaluated: int, decode: int
+) -> PrefixGenerationResult:
+    return PrefixGenerationResult(
+        text=text,
+        logical_prompt_tokens=logical,
+        candidate_prefix_tokens=10,
+        reused_prefix_tokens=logical - evaluated,
+        evaluated_prefill_tokens=evaluated,
+        decode_tokens=decode,
+        tokenization_seconds=0.1,
+        cache_management_seconds=0.2,
+        prefill_seconds=0.3,
+        decode_seconds=0.4,
+        model_seconds=0.7,
+        ttft_seconds=0.6,
+        end_to_end_seconds=0.8,
+        kv_cache_bytes=100,
+        cache_length=logical + decode - 1,
+        peak_cuda_allocated_bytes=200,
+    )
+
+
+def test_two_stage_generation_sums_both_model_calls() -> None:
+    extraction = _prefix_generation(
+        '{"facts":[{"subject":"Mara","text":"Temperature is 21 C"}]}',
+        logical=100,
+        evaluated=80,
+        decode=20,
+    )
+    manager = _prefix_generation(
+        '{"memory":[{"event":"ADD","subject":"Mara","text":"Temperature is 21 C"}]}',
+        logical=150,
+        evaluated=120,
+        decode=30,
+    )
+
+    combined = _combine_two_stage_generations(
+        extraction, manager, retrieval_seconds=0.5
+    )
+
+    assert combined.text == manager.text
+    assert combined.logical_prompt_tokens == 250
+    assert combined.evaluated_prefill_tokens == 200
+    assert combined.decode_tokens == 50
+    assert combined.model_seconds == pytest.approx(1.4)
+    assert combined.end_to_end_seconds == pytest.approx(2.1)
+    assert combined.kv_cache_bytes == 200
+
+
+def test_two_stage_empty_extraction_keeps_extract_cost_as_noop() -> None:
+    extraction = _prefix_generation('{"facts":[]}', logical=100, evaluated=80, decode=5)
+
+    combined = _two_stage_noop_generation(extraction)
+
+    assert combined.text == '{"memory":[]}'
+    assert combined.logical_prompt_tokens == 100
+    assert combined.decode_tokens == 5
+
+
+def test_controlled_mem0_gold_state_preserves_gold_record_ids() -> None:
+    added = _mem0_gold_state_after(
+        {},
+        {
+            "target": {
+                "memory": [
+                    {"event": "ADD", "subject": "Mara", "text": "Temperature 21 C"}
+                ]
+            },
+            "provenance": {
+                "event_metadata": [{"event": "ADD", "gold_record_id": "s086:f0001"}]
+            },
+            "gold_state": {"active_after": ["s086:f0001:v01"]},
+        },
+    )
+    updated = _mem0_gold_state_after(
+        added,
+        {
+            "target": {
+                "memory": [
+                    {
+                        "event": "UPDATE",
+                        "id": "s086:f0001",
+                        "subject": "Mara",
+                        "text": "Temperature 20 C",
+                    }
+                ]
+            },
+            "provenance": {
+                "event_metadata": [{"event": "UPDATE", "gold_record_id": "s086:f0001"}]
+            },
+            "gold_state": {"active_after": ["s086:f0001:v02"]},
+        },
+    )
+    deleted = _mem0_gold_state_after(
+        updated,
+        {
+            "target": {"memory": [{"event": "DELETE", "id": "s086:f0001"}]},
+            "provenance": {
+                "event_metadata": [{"event": "DELETE", "gold_record_id": "s086:f0001"}]
+            },
+            "gold_state": {"active_after": []},
+        },
+    )
+
+    assert added == {"s086:f0001": {"subject": "Mara", "text": "Temperature 21 C"}}
+    assert updated == {"s086:f0001": {"subject": "Mara", "text": "Temperature 20 C"}}
+    assert deleted == {}
+
+
+def test_mem0_cache_anchors_reuse_only_immutable_chat_prefix() -> None:
+    encoder = ChatExampleEncoder(CharacterTokenizer(), max_length=512)
+    method = Mem0OnePassMethod()
+    row = {
+        "input": {
+            "source_batch": [{"speaker_name": "Mara", "text": "Set 21 C"}],
+            "retrieved_facts": [],
+        }
+    }
+
+    prompt = encoder.generation_prompt(row, method)
+    anchors = encoder.cache_anchor_prefixes(row, method)
+
+    assert len(anchors) == 1
+    assert prompt.startswith(anchors[0])
+    assert "source_batch" not in anchors[0]
 
 
 def _write_views(root: Path) -> None:
@@ -442,9 +581,7 @@ def test_comparison_reports_three_views_and_cache_savings() -> None:
     }
     cache_on = comparison["views"]["all_turns"][1]
     assert cache_on["prefill_token_reduction_vs_off"] == pytest.approx(0.8)
-    assert cache_on["model_cost_token_reduction_vs_off"] == pytest.approx(
-        1 - 27 / 107
-    )
+    assert cache_on["model_cost_token_reduction_vs_off"] == pytest.approx(1 - 27 / 107)
     assert cache_on["projected_prefill_seconds_mean"] == pytest.approx(20 / 30)
     assert "Predicted" not in render_markdown(comparison)
     assert "predicted_update" in render_markdown(comparison)
